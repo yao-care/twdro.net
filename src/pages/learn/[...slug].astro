@@ -1,0 +1,17 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+export async function getStaticPaths() {
+  const articles = await getCollection('learn');
+  return articles.map((a) => ({ params: { slug: a.id }, props: { article: a } }));
+}
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+<BaseLayout title={`${article.data.title} | twdro.net`} description={article.data.description}>
+  <article>
+    <h1>{article.data.title}</h1>
+    {article.data.updated_at && <p class="fs-sm text-muted">更新：{article.data.updated_at}</p>}
+    <Content />
+  </article>
+</BaseLayout>

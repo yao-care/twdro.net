@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+const articles = (await getCollection('learn')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="認識無人機足球 | twdro.net">
+  <h1>認識無人機足球</h1>
+  <ul>
+    {articles.map((a) => (
+      <li style="margin:.6rem 0">
+        <a href={url(`/learn/${a.id}`)} class="fs-lg">{a.data.title}</a>
+        <p class="fs-sm text-muted" style="margin:.2rem 0">{a.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
