@@ -1,0 +1,16 @@
+---
+import { url } from '../lib/url';
+// 計畫一只放已建成的頁；/teams、/equipment 於計畫二補頁面時再加入
+const nav = [
+  ['/events', '賽事'], ['/rules', '規則'],
+  ['/learn', '認識無人機足球'], ['/about', '關於'],
+];
+---
+<header style="border-bottom:1px solid var(--border-subtle);background:var(--bg-surface)">
+  <div class="container" style="display:flex;gap:1.5rem;align-items:center;padding-top:1rem;padding-bottom:1rem;flex-wrap:wrap">
+    <a href={url('/')} style="font-weight:700;font-size:var(--text-lg);text-decoration:none">twdro.net</a>
+    <nav style="display:flex;gap:1.2rem;flex-wrap:wrap">
+      {nav.map(([href, label]) => <a href={url(href)} class="fs-sm">{label}</a>)}
+    </nav>
+  </div>
+</header>

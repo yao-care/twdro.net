@@ -1,0 +1,15 @@
+---
+import { url } from '../lib/url';
+const links = [
+  ['/about', '平台使命'], ['/about/sources', '資料來源'], ['/about/correction', '回報資料錯誤'],
+  ['/about/privacy', '隱私權政策'], ['/about/terms', '使用條款'], ['/about/disclaimer', '免責聲明'],
+];
+---
+<footer style="border-top:1px solid var(--border-subtle);background:var(--bg-surface);margin-top:3rem">
+  <div class="container fs-sm text-muted" style="padding-top:1.5rem;padding-bottom:1.5rem">
+    <nav style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem">
+      {links.map(([href, label]) => <a href={url(href)}>{label}</a>)}
+    </nav>
+    <p style="margin:0">twdro.net — 台灣無人機足球資料與賽事平台</p>
+  </div>
+</footer>
