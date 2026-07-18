@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import { url } from '../../lib/url';
+const events = (await getCollection('events'))
+  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
+---
+<BaseLayout title="賽事 | twdro.net">
+  <h1>賽事</h1>
+  <ul style="list-style:none;padding:0">
+    {events.map((e) => (
+      <li style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1rem;margin:.8rem 0;background:var(--bg-surface)">
+        <StatusBadge status={e.data.status} />
+        <a href={url(`/events/${e.id}`)} class="fs-lg" style="display:block;margin-top:.4rem">{e.data.title}</a>
+        <p class="fs-sm text-muted" style="margin:.3rem 0">
+          {e.data.schedule.event_start ?? '日期未定'}｜{e.data.schedule.city ?? ''}｜{e.data.schedule.venue_name ?? ''}
+        </p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

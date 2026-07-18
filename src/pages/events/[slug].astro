@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import SourceBlock from '../../components/SourceBlock.astro';
+import { eventJsonLd } from '../../lib/jsonld';
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
+}
+const { event } = Astro.props;
+const d = event.data;
+const jsonld = eventJsonLd({
+  name: d.title,
+  startDate: d.schedule.event_start,
+  endDate: d.schedule.event_end,
+  url: new URL(`/events/${event.id}`, Astro.site).toString(),
+  locationName: d.schedule.venue_name,
+});
+---
+<BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <article>
+    <StatusBadge status={d.status} />
+    <h1>{d.title}</h1>
+    {d.subtitle && <p class="fs-lg text-muted">{d.subtitle}</p>}
+    <h2>基本資訊</h2>
+    <ul>
+      <li>主辦：{d.organizer ?? '—'}</li>
+      <li>規則體系：{d.rule_system}</li>
+      <li>日期：{d.schedule.event_start ?? '未定'}</li>
+      <li>地點：{d.schedule.city ?? ''} {d.schedule.venue_name ?? ''}</li>
+      <li>報名截止：{d.schedule.registration_end ?? '未定'}</li>
+    </ul>
+    <h2>參賽資格</h2>
+    <ul>
+      <li>組別：{(d.eligibility.education_levels ?? []).join('、') || '—'}</li>
+      <li>隊伍人數：{d.eligibility.team_size_min ?? '?'}–{d.eligibility.team_size_max ?? '?'} 人</li>
+    </ul>
+    <h2>球機規格</h2>
+    <ul>
+      <li>級別：{d.competition.drone_class ?? '—'}</li>
+      <li>直徑：{d.competition.drone_diameter ?? '—'}</li>
+      <li>場上球機：{d.competition.active_drones_per_team ?? '—'}</li>
+    </ul>
+    {d.registration_url && <p><a href={d.registration_url} rel="nofollow noopener" target="_blank">前往報名 ↗</a></p>}
+    <SourceBlock sources={d.sources} verification={d.verification} />
+  </article>
+</BaseLayout>
