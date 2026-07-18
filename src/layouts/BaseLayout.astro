@@ -1,0 +1,19 @@
+---
+import '../styles/tokens.css';
+interface Props { title: string; description?: string; lang?: string; }
+const { title, description = '整合台灣無人機足球賽事、規則、隊伍、場地與器材的入口平台。', lang = 'zh-Hant' } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
