@@ -1218,6 +1218,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
+import { url } from '../../lib/url';
 export async function getStaticPaths() {
   const events = await getCollection('events');
   return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
@@ -1228,7 +1229,8 @@ const jsonld = eventJsonLd({
   name: d.title,
   startDate: d.schedule.event_start,
   endDate: d.schedule.event_end,
-  url: new URL(`/events/${event.id}`, Astro.site).toString(),
+  // 站內連結一律經 url() 帶上 base，JSON-LD 的 canonical url 亦同
+  url: new URL(url(`/events/${event.id}`), Astro.site).toString(),
   locationName: d.schedule.venue_name,
 });
 ---
