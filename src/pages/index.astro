@@ -1,7 +1,41 @@
 ---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { url } from '../lib/url';
+const events = (await getCollection('events'))
+  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
+const next = events.find((e) => e.data.status === 'registration_open' || e.data.status === 'announced') ?? events[0];
+const recent = events.slice(0, 4);
 ---
-<!doctype html>
-<html lang="zh-Hant">
-  <head><meta charset="utf-8" /><title>twdro.net</title></head>
-  <body><h1>twdro.net 建置中</h1></body>
-</html>
+<BaseLayout title="台灣無人機足球的一站式入口 | twdro.net">
+  <section style="text-align:center;padding:2rem 0">
+    <h1>台灣無人機足球的一站式入口</h1>
+    <p class="fs-lg text-muted">整合全台無人機足球與無人機飛球的賽事、規則、隊伍、場地、課程、器材及歷史成績。</p>
+    <p style="margin-top:1.5rem">
+      <a href={url('/events')} class="fs-lg" style="margin:0 .8rem">查看近期賽事</a>
+      <a href={url('/learn')} class="fs-lg" style="margin:0 .8rem">認識無人機足球</a>
+    </p>
+  </section>
+
+  {next && (
+    <section style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1.5rem;background:var(--bg-surface)">
+      <h2>下一場比賽</h2>
+      <StatusBadge status={next.data.status} />
+      <a href={url(`/events/${next.id}`)} class="fs-xl" style="display:block;margin:.5rem 0">{next.data.title}</a>
+      <p class="text-muted">{next.data.schedule.event_start ?? '日期未定'}｜{next.data.schedule.city ?? ''}｜報名截止 {next.data.schedule.registration_end ?? '未定'}</p>
+    </section>
+  )}
+
+  <section>
+    <h2>近期賽事</h2>
+    <ul style="list-style:none;padding:0">
+      {recent.map((e) => (
+        <li style="padding:.6rem 0;border-bottom:1px solid var(--border-subtle)">
+          <StatusBadge status={e.data.status} />
+          <a href={url(`/events/${e.id}`)} style="margin-left:.5rem">{e.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
