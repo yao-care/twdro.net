@@ -1,0 +1,14 @@
+name: FAI F9A-B 2026
+organization: FAI
+rule_system: FAI
+version: '2026'
+language: en
+published_at: "2026-01-01"
+source_document_url: https://www.fai.org/
+official_translation: false
+verification: source_confirmed
+sources:
+  - type: fai_official
+    url: https://www.fai.org/
+    trust_level: A
+    retrieved_at: "2026-07-19"

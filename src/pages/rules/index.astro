@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+const books = await getCollection('rulebooks');
+const systems = ['FAI', 'FIDA', 'MOE', 'OTHER'];
+---
+<BaseLayout title="規則總覽 | twdro.net">
+  <h1>規則總覽</h1>
+  <p class="text-muted fs-sm">FAI、FIDA、教育部與各民間賽事規則各自獨立，請勿跨體系混用。</p>
+  {systems.map((sys) => {
+    const list = books.filter((b) => b.data.rule_system === sys);
+    return list.length ? (
+      <section>
+        <h2>{sys}</h2>
+        <ul>{list.map((b) => <li><a href={url(`/rules/${b.id}`)} class="fs-lg">{b.data.name}</a></li>)}</ul>
+      </section>
+    ) : null;
+  })}
+</BaseLayout>

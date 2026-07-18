@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceBlock from '../../components/SourceBlock.astro';
+export async function getStaticPaths() {
+  const books = await getCollection('rulebooks');
+  const rules = await getCollection('rules');
+  return books.map((b) => ({
+    params: { slug: b.id },
+    props: { book: b, rules: rules.filter((r) => r.data.rulebook === b.id) },
+  }));
+}
+const { book, rules } = Astro.props;
+---
+<BaseLayout title={`${book.data.name} | twdro.net`}>
+  <article>
+    <h1>{book.data.name}</h1>
+    <p class="fs-sm text-muted">制定：{book.data.organization}｜版本：{book.data.version}
+      {book.data.official_translation ? '｜官方翻譯' : '｜非官方翻譯（僅供參考）'}</p>
+    {book.data.source_document_url && <p><a href={book.data.source_document_url} rel="nofollow noopener" target="_blank">原始官方文件 ↗</a></p>}
+    {rules.map((r) => (
+      <section style="border-top:1px solid var(--border-subtle);padding-top:1rem">
+        <h3>{r.data.article_number} {r.data.title}</h3>
+        {r.data.summary && <p>{r.data.summary}</p>}
+        {r.data.source_page && <p class="fs-xs text-muted">來源頁：{r.data.source_page}</p>}
+      </section>
+    ))}
+    <SourceBlock sources={book.data.sources} verification={book.data.verification} />
+  </article>
+</BaseLayout>
