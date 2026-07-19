@@ -23,3 +23,6 @@ npm run test     # 單元測試
 push 到 `main` 由 `.github/workflows/deploy.yml` 自動建置並發佈至 GitHub Pages。
 - **現階段（DNS 未設）**：服務於 `https://yao-care.github.io/twdro.net/`（`astro.config.mjs` 的 `base: '/twdro.net'`）。
 - **綁定 `twdro.net` 後**：將 `base` 改為 `/`、`site` 改為 `https://twdro.net`、新增 `public/CNAME`（內容 `twdro.net`），並於 Pages 設定填入自訂網域。
+
+## 資料 Pipeline
+半自動資料取得與個資防護見 [`pipeline/README.md`](pipeline/README.md)。pipeline 產出候選並開 PR，人工審核後才上站。
