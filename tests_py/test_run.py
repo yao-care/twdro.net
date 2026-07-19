@@ -49,6 +49,15 @@ def test_run_flags_person(tmp_path):
     assert "王小明" in cands[0].scrub.persons
 
 
-def test_load_source_skips_without_env(monkeypatch, capsys):
+def test_load_source_uses_default_without_env(monkeypatch):
+    # 未設環境變數時仍載入來源（用教育部統計處內建預設 URL）。
     monkeypatch.delenv("MOE_SCHOOLS_URL", raising=False)
-    assert _load_source("moe_schools") is None
+    src = _load_source("moe_schools")
+    assert src is not None
+    assert "stats.moe.gov.tw" in src.url
+
+
+def test_load_source_honors_env(monkeypatch):
+    monkeypatch.setenv("MOE_SCHOOLS_URL", "https://example.org/custom.json")
+    src = _load_source("moe_schools")
+    assert src.url == "https://example.org/custom.json"

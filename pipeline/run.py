@@ -42,10 +42,8 @@ def run_source(source, manifest_path: str, ner: NER) -> tuple[list[Candidate], b
 def _load_source(name: str):
     if name == "moe_schools":
         from pipeline.sources.moe_schools import MoeSchools
-        url = os.environ.get("MOE_SCHOOLS_URL", "").strip()
-        if not url:
-            print("[moe_schools] 未設定 MOE_SCHOOLS_URL，跳過。")
-            return None
+        # 環境變數優先；未設定時 MoeSchools 會用內建教育部統計處預設 URL。
+        url = os.environ.get("MOE_SCHOOLS_URL", "").strip() or None
         return MoeSchools(url)
     raise SystemExit(f"未知來源：{name}")
 
