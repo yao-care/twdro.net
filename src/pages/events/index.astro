@@ -8,6 +8,7 @@ const events = (await getCollection('events'))
 ---
 <BaseLayout title="賽事 | twdro.net">
   <h1>賽事</h1>
+  <p><a href={url('/events/calendar')} class="fs-lg">→ 日曆檢視（依狀態/月份篩選）</a></p>
   <ul style="list-style:none;padding:0">
     {events.map((e) => (
       <li style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1rem;margin:.8rem 0;background:var(--bg-surface)">

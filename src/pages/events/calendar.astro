@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+import { EVENT_STATUS, eventStatusLabel } from '../../lib/enums';
+const events = (await getCollection('events')).map((e) => ({
+  id: e.id, title: e.data.title, status: e.data.status,
+  start: e.data.schedule.event_start ?? '', city: e.data.schedule.city ?? '',
+}));
+const eventsJson = JSON.stringify(events);
+const statusOptions = EVENT_STATUS.map((s) => ({ value: s, label: eventStatusLabel(s) }));
+---
+<BaseLayout title="賽事日曆 | twdro.net" description="依狀態與月份篩選台灣無人機足球賽事。">
+  <h1>賽事日曆</h1>
+  <p><a href={url('/events')}>← 回賽事列表</a></p>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0">
+    <label>狀態
+      <select id="f-status" style="display:block;font-size:var(--text-base);padding:.3rem">
+        <option value="">全部</option>
+        {statusOptions.map((o) => <option value={o.value}>{o.label}</option>)}
+      </select>
+    </label>
+    <label>月份 <input id="f-month" type="month" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+  </div>
+  <ul id="cal-list" style="list-style:none;padding:0"></ul>
+  <script type="application/json" id="cal-data" set:html={eventsJson} />
+  <script>
+    import { eventStatusLabel } from '../../lib/enums';
+    import { url } from '../../lib/url';
+    const events = JSON.parse(document.getElementById('cal-data')!.textContent!) as { id: string; title: string; status: string; start: string; city: string }[];
+    const list = document.getElementById('cal-list')!;
+    const fStatus = document.getElementById('f-status') as HTMLSelectElement;
+    const fMonth = document.getElementById('f-month') as HTMLInputElement;
+    function render() {
+      const s = fStatus.value, m = fMonth.value;
+      const filtered = events.filter((e) => (!s || e.status === s) && (!m || e.start.startsWith(m)))
+        .sort((a, b) => a.start.localeCompare(b.start));
+      list.innerHTML = filtered.length ? filtered.map((e) =>
+        `<li style="padding:.6rem 0;border-bottom:1px solid var(--border-subtle)"><span class="fs-xs text-muted">${e.start || '日期未定'}</span> · ${eventStatusLabel(e.status)} · <a href="${url('/events/' + e.id)}">${e.title}</a> <span class="fs-xs text-muted">${e.city}</span></li>`
+      ).join('') : '<li class="text-muted">沒有符合條件的賽事。</li>';
+    }
+    fStatus.addEventListener('change', render);
+    fMonth.addEventListener('input', render);
+    render();
+  </script>
+</BaseLayout>
