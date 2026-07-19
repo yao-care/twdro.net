@@ -1,0 +1,27 @@
+name: 教育部 115 年全國無人機足球競賽規則
+organization: 教育部
+rule_system: MOE
+version: '115'
+language: zh-Hant
+published_at: "2026-05-25"
+official_translation: true
+competition_spec:
+  drone_diameter_mm: 200
+  drone_weight_g_max: 500
+  motor_type: brushless
+  battery_cells: 3S
+  active_players_min: 3
+  active_players_max: 3
+  substitutes: 2
+  set_duration_sec: 180
+  sets_to_win: 2
+  striker_identification: LED
+  arena_size: 8x5m
+  goal_size: 60cm
+verification: official
+sources:
+  - type: moe_announcement
+    url: https://www.edu.tw/
+    published_at: "2026-05-25"
+    retrieved_at: "2026-07-19"
+    trust_level: A
