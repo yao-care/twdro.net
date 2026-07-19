@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+const teams = await getCollection('teams');
+const GROUPS: [string, string][] = [
+  ['elementary_school', '國小'], ['junior_high_school', '國中'], ['senior_high_school', '高中'],
+  ['college', '專科'], ['university', '大專校院'], ['club', '俱樂部'],
+  ['company', '企業'], ['community', '社區'], ['national_team', '代表隊'], ['temporary_team', '臨時隊伍'],
+];
+---
+<BaseLayout title="隊伍 | twdro.net" description="全台無人機足球隊伍名錄（學校、俱樂部）。">
+  <h1>隊伍</h1>
+  {GROUPS.map(([key, label]) => {
+    const list = teams.filter((t) => t.data.team_type === key);
+    return list.length ? (
+      <section>
+        <h2>{label}</h2>
+        <ul>{list.map((t) => (
+          <li style="margin:.4rem 0"><a href={url(`/teams/${t.id}`)} class="fs-lg">{t.data.name}</a>
+            {t.data.recruitment_status && <span class="fs-xs text-muted">（{t.data.recruitment_status}）</span>}</li>
+        ))}</ul>
+      </section>
+    ) : null;
+  })}
+</BaseLayout>

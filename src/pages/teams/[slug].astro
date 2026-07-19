@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { verificationLabel } from '../../lib/enums';
+export async function getStaticPaths() {
+  const teams = await getCollection('teams');
+  return teams.map((t) => ({ params: { slug: t.id }, props: { team: t } }));
+}
+const { team } = Astro.props;
+const d = team.data;
+---
+<BaseLayout title={`${d.name} | twdro.net`} description={d.introduction}>
+  <article>
+    <h1>{d.name}</h1>
+    {d.english_name && <p class="fs-sm text-muted">{d.english_name}</p>}
+    <ul>
+      <li>類型：{d.team_type}</li>
+      <li>所在地：{d.city ?? ''} {d.district ?? ''}</li>
+      {d.recruitment_status && <li>招募狀態：{d.recruitment_status}</li>}
+      <li>資料狀態：{verificationLabel(d.verification)}</li>
+    </ul>
+    {d.introduction && <p>{d.introduction}</p>}
+    <p class="fs-xs text-muted">本頁僅呈現隊伍層級公開資訊，不含選手個人資料。</p>
+  </article>
+</BaseLayout>
