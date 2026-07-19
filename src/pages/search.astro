@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
+const bundlePath = url('/pagefind/');
+---
+<BaseLayout title="搜尋 | twdro.net" description="搜尋全站賽事、規則、隊伍、場地與器材。">
+  <h1>搜尋</h1>
+  <link href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" slot="head" />
+  <div id="search"></div>
+  <p class="fs-xs text-muted" style="margin-top:1rem">搜尋索引於部署時產生；本地預覽需先 <code>npm run build</code>。</p>
+  <script type="application/json" id="pf-cfg" set:html={JSON.stringify({ bundlePath })} />
+  <script>
+    const { bundlePath } = JSON.parse(document.getElementById('pf-cfg')!.textContent!) as { bundlePath: string };
+    // 動態載入 Pagefind UI（build 後才存在）
+    const s = document.createElement('script');
+    s.src = bundlePath + 'pagefind-ui.js';
+    s.onload = () => {
+      // @ts-ignore - PagefindUI 由外部腳本掛到全域
+      new (window as any).PagefindUI({ element: '#search', bundlePath, showSubResults: true, translations: { placeholder: '搜尋賽事、規則、隊伍、器材…' } });
+    };
+    document.head.appendChild(s);
+  </script>
+</BaseLayout>
