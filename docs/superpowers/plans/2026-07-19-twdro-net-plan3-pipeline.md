@@ -77,7 +77,9 @@ requests>=2.31
 [pytest]
 testpaths = tests_py
 python_files = test_*.py
+pythonpath = .
 ```
+（`pythonpath = .` 讓 `from pipeline...` 能從 repo root import。）
 
 - [ ] **Step 3：建立 `pipeline/__init__.py`（空檔）**
 
