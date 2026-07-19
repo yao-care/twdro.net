@@ -1,0 +1,37 @@
+name: Pipeline · 政府開放資料
+on:
+  schedule:
+    - cron: '0 20 * * *'   # 每日 04:00 台北時間
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: 快取 CKIP 模型
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ckip-model-v1
+      - run: pip install -r pipeline/requirements.txt
+      - name: 執行 pipeline
+        run: python -m pipeline.run --source moe_schools
+      - name: 開 PR（若有候選變更）
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: pipeline/moe-schools
+          title: '資料 pipeline：政府開放資料學校候選'
+          body-path: pipeline/state/pr-body.md
+          labels: |
+            data-pipeline
+            needs-review
+          add-paths: |
+            src/content/**
+            pipeline/state/manifest.json

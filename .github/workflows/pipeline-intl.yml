@@ -1,0 +1,35 @@
+name: Pipeline · 國際規則監控
+on:
+  schedule:
+    - cron: '0 21 * * 1'   # 每週一 05:00 台北時間
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r pipeline/requirements.txt
+      - name: FAI/FIDA 規則頁變更監控（待補來源實作）
+        run: |
+          echo "國際 adapter（FAI/FIDA 規則頁 hash 監控）待補來源實作。"
+          echo "框架已就緒：新增 pipeline/sources/<name>.py 後改此步為 python -m pipeline.run --source <name>。"
+      - name: 開 PR（若有候選變更）
+        if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: pipeline/intl
+          title: '資料 pipeline：國際規則變更候選'
+          body-path: pipeline/state/pr-body.md
+          labels: |
+            data-pipeline
+            needs-review
+          add-paths: |
+            src/content/**
+            pipeline/state/manifest.json

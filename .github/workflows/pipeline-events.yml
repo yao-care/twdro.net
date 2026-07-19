@@ -1,0 +1,40 @@
+name: Pipeline · 賽事公告
+on:
+  schedule:
+    - cron: '30 20 * * *'   # 每日 04:30 台北時間
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: 快取 CKIP 模型
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ckip-model-v1
+      - run: pip install -r pipeline/requirements.txt
+      - name: 執行 pipeline（賽事來源尚待接入實際 adapter）
+        run: |
+          echo "賽事 adapter（教育部/天穹盃公告、簡章 PDF 變更偵測）待補來源實作。"
+          echo "框架已就緒：新增 pipeline/sources/<name>.py 後改此步為 python -m pipeline.run --source <name>。"
+      - name: 開 PR（若有候選變更）
+        if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: pipeline/events
+          title: '資料 pipeline：賽事公告候選'
+          body-path: pipeline/state/pr-body.md
+          labels: |
+            data-pipeline
+            needs-review
+          add-paths: |
+            src/content/**
+            pipeline/state/manifest.json
