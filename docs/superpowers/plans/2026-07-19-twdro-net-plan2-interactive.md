@@ -365,9 +365,13 @@ export function checkCompliance(input: ComplianceInput, spec: Record<string, any
   const fields: { key: string; label: string; input: any; limit: any; status: Status }[] = [];
 
   const push = (key: string, label: string, inVal: any, limit: any, ok: (i: any, l: any) => boolean) => {
+    const noInput = inVal === undefined || inVal === null || inVal === '';
+    const noLimit = limit === undefined || limit === null;
+    // 該規則未定義此欄、使用者也沒填 → 無可比對，直接略過（不計為 unknown）
+    if (noInput && noLimit) return;
     let status: Status;
-    if (inVal === undefined || inVal === null || inVal === '') status = 'unknown';
-    else if (limit === undefined || limit === null) status = 'unknown';
+    if (noInput) status = 'unknown';
+    else if (noLimit) status = 'unknown';
     else status = ok(inVal, limit) ? 'pass' : 'fail';
     fields.push({ key, label, input: inVal ?? '', limit: limit ?? '', status });
   };
