@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SPEC_FIELDS } from '../../lib/compare';
+const books = (await getCollection('rulebooks')).map((b) => ({
+  id: b.id, name: b.data.name, spec: b.data.competition_spec ?? {},
+}));
+const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
+---
+<BaseLayout title="規則比較器 | twdro.net" description="並排比較 FAI、FIDA、教育部等不同無人機足球規則的賽制規格。">
+  <h1>規則比較器</h1>
+  <p class="text-muted fs-sm">勾選要比較的規則版本。不同體系規則各自獨立，請勿視為可互換。</p>
+  <fieldset id="book-picker" style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1rem;margin:1rem 0">
+    {books.map((b) => (
+      <label style="display:inline-block;margin:.3rem 1rem .3rem 0">
+        <input type="checkbox" value={b.id} checked /> {b.name}
+      </label>
+    ))}
+  </fieldset>
+  <div id="compare-result" style="overflow-x:auto"></div>
+  <script type="application/json" id="compare-data" set:html={dataJson} />
+  <script>
+    import { compareRulebooks } from '../../lib/compare';
+    const raw = document.getElementById('compare-data')!.textContent!;
+    const { books } = JSON.parse(raw) as { books: { id: string; name: string; spec: Record<string, any> }[] };
+    const picker = document.getElementById('book-picker')!;
+    const result = document.getElementById('compare-result')!;
+    function render() {
+      const checked = Array.from(picker.querySelectorAll('input:checked')).map((i) => (i as HTMLInputElement).value);
+      const selected = books.filter((b) => checked.includes(b.id));
+      if (selected.length === 0) { result.innerHTML = '<p class="text-muted">請至少勾選一個規則版本。</p>'; return; }
+      const rows = compareRulebooks(selected);
+      const head = ['<th style="text-align:left;padding:.5rem;border-bottom:2px solid var(--border-subtle)">欄位</th>']
+        .concat(selected.map((b) => `<th style="text-align:left;padding:.5rem;border-bottom:2px solid var(--border-subtle)">${b.name}</th>`)).join('');
+      const body = rows.map((r) => {
+        const cells = r.values.map((v) => `<td style="padding:.5rem;border-bottom:1px solid var(--border-subtle)">${v ?? '—'}</td>`).join('');
+        return `<tr><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border-subtle)">${r.label}</th>${cells}</tr>`;
+      }).join('');
+      result.innerHTML = `<table style="border-collapse:collapse;min-width:100%"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+    picker.addEventListener('change', render);
+    render();
+  </script>
+</BaseLayout>
