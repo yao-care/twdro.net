@@ -38,4 +38,16 @@ const recent = events.slice(0, 4);
       ))}
     </ul>
   </section>
+
+  <section>
+    <h2>工具與資料</h2>
+    <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem">
+      <li><a href={url('/rules/compare')} class="fs-lg">規則比較器</a></li>
+      <li><a href={url('/equipment/compliance-check')} class="fs-lg">球機合規檢查器</a></li>
+      <li><a href={url('/events/calendar')} class="fs-lg">賽事日曆</a></li>
+      <li><a href={url('/teams')} class="fs-lg">隊伍名錄</a></li>
+      <li><a href={url('/venues')} class="fs-lg">場地地圖</a></li>
+      <li><a href={url('/search')} class="fs-lg">全站搜尋</a></li>
+    </ul>
+  </section>
 </BaseLayout>

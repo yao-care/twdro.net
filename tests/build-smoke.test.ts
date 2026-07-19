@@ -10,6 +10,13 @@ describe('build smoke', () => {
     'dist/learn/index.html',
     'dist/about/index.html',
     'dist/about/privacy/index.html',
+    'dist/teams/index.html',
+    'dist/venues/index.html',
+    'dist/equipment/index.html',
+    'dist/rules/compare/index.html',
+    'dist/equipment/compliance-check/index.html',
+    'dist/events/calendar/index.html',
+    'dist/search/index.html',
   ];
   for (const p of pages) {
     it(`產出 ${p}`, () => { expect(existsSync(p)).toBe(true); });
