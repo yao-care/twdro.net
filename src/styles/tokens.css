@@ -155,7 +155,7 @@ a:hover { color: var(--color-brand-hover); }
 .site-logo { display: flex; flex-direction: column; color: var(--color-text-on-dark); text-decoration: none; }
 .site-logo:hover { color: var(--color-text-on-dark); }
 .site-logo__domain { font-size: 1.45rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
-.site-logo__name { margin-top: 6px; color: var(--color-text-muted-on-dark); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; }
+.site-logo__name { margin-top: 6px; color: var(--color-text-muted-on-dark); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
 .site-nav { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
 .site-nav a {
   position: relative;
@@ -215,8 +215,8 @@ a:hover { color: var(--color-brand-hover); }
 /* ── 狀態標籤（小 pill）── */
 .event-status {
   display: inline-flex; align-items: center; align-self: flex-start;
-  padding: 5px 11px; border-radius: 999px;
-  font-size: 0.82rem; font-weight: 750; line-height: 1;
+  padding: 7px 14px; border-radius: 999px;
+  font-size: 1rem; font-weight: 750; line-height: 1;
 }
 .event-status--open { color: var(--color-success); background: var(--color-success-soft); }
 .event-status--done { color: var(--color-text-muted); background: var(--color-surface-muted); }
@@ -254,8 +254,50 @@ a:hover { color: var(--color-brand-hover); }
 .site-footer a { color: var(--color-text-muted-on-dark); font-size: 0.95rem; text-decoration: none; }
 .site-footer a:hover { color: var(--color-text-on-dark); }
 
+/* ── 內容面板 / 資料列表 / 文章 ── */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 2px oklch(25% 0.055 245 / 0.04), 0 10px 28px oklch(25% 0.055 245 / 0.06);
+}
+.panel + .panel { margin-top: 20px; }
+.panel > :first-child { margin-top: 0; }
+.panel > :last-child { margin-bottom: 0; }
+.panel h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin: 0 0 14px; }
+
+.data-list { list-style: none; padding: 0; margin: 0; }
+.data-list li { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 13px 0; border-bottom: 1px solid var(--color-border); }
+.data-list li:last-child { border-bottom: 0; }
+.data-list .k { color: var(--color-text-muted); min-width: 7em; flex: none; font-weight: 600; }
+.data-list .v { color: var(--color-text); }
+
+.prose { max-width: 46rem; }
+.prose h2 { margin-top: 1.6em; }
+.prose p, .prose li { line-height: 1.8; }
+.prose > :first-child { margin-top: 0; }
+
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--color-border); }
+.data-table thead th { border-bottom: 2px solid var(--color-border); color: var(--color-text); }
+.data-table tbody th { color: var(--color-text-muted); font-weight: 600; }
+
+.tool-note { color: var(--color-text-muted); font-size: 1rem; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--color-border); }
+
+/* 實體清單卡片 */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 14px; list-style: none; padding: 0; margin: 0; }
+.card-link { display: block; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; padding: 16px 18px; text-decoration: none; transition: border-color 140ms ease, translate 140ms ease; }
+.card-link:hover { border-color: var(--color-brand); translate: 0 -2px; }
+.card-link .name { display: block; color: var(--color-text); font-weight: 700; font-size: 1.15rem; }
+.card-link:hover .name { color: var(--color-brand); }
+.card-link .meta { display: block; color: var(--color-text-muted); font-size: 1rem; margin-top: 5px; }
+.group-title { font-size: 1.25rem; margin: 28px 0 12px; }
+.group-title:first-of-type { margin-top: 0; }
+
 @media (max-width: 700px) {
   :root { --content-w: min(100% - 2rem, 74rem); }
+  .panel { padding: 20px; }
   .site-header__inner { min-height: auto; padding-block: 14px; gap: var(--space-3); }
   .event-card { grid-template-columns: 1fr; }
   .event-card__date { min-height: auto; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 16px 24px; }

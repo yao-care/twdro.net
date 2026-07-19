@@ -10,16 +10,21 @@ const GROUPS: [string, string][] = [
 ];
 ---
 <BaseLayout title="隊伍 | twdro.net" description="全台無人機足球隊伍名錄（學校、俱樂部）。" heroTitle="隊伍名錄" heroDesc="全台無人機足球隊伍 —— 學校、俱樂部與代表隊。">
-
   {GROUPS.map(([key, label]) => {
     const list = teams.filter((t) => t.data.team_type === key);
     return list.length ? (
       <section>
-        <h2>{label}</h2>
-        <ul>{list.map((t) => (
-          <li style="margin:.4rem 0"><a href={url(`/teams/${t.id}`)} class="fs-lg">{t.data.name}</a>
-            {t.data.recruitment_status && <span class="fs-xs text-muted">（{t.data.recruitment_status}）</span>}</li>
-        ))}</ul>
+        <h2 class="group-title">{label}</h2>
+        <ul class="card-grid">
+          {list.map((t) => (
+            <li>
+              <a class="card-link" href={url(`/teams/${t.id}`)}>
+                <span class="name">{t.data.name}</span>
+                {t.data.recruitment_status && <span class="meta">{t.data.recruitment_status}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
     ) : null;
   })}

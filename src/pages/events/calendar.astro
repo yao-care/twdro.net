@@ -9,20 +9,27 @@ const events = (await getCollection('events')).map((e) => ({
 }));
 const eventsJson = JSON.stringify(events);
 const statusOptions = EVENT_STATUS.map((s) => ({ value: s, label: eventStatusLabel(s) }));
+const field = 'display:block;font-size:1.05rem;padding:10px 12px;margin-top:6px;border:1px solid var(--color-border);border-radius:9px;background:var(--color-surface)';
 ---
-<BaseLayout title="賽事日曆 | twdro.net" description="依狀態與月份篩選台灣無人機足球賽事。">
-  <h1>賽事日曆</h1>
-  <p><a href={url('/events')}>← 回賽事列表</a></p>
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0">
-    <label>狀態
-      <select id="f-status" style="display:block;font-size:var(--text-base);padding:.3rem">
-        <option value="">全部</option>
-        {statusOptions.map((o) => <option value={o.value}>{o.label}</option>)}
-      </select>
-    </label>
-    <label>月份 <input id="f-month" type="month" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+<BaseLayout
+  title="賽事日曆 | twdro.net"
+  description="依狀態與月份篩選台灣無人機足球賽事。"
+  heroTitle="賽事日曆"
+  heroDesc="依狀態與月份篩選台灣無人機足球賽事。"
+>
+  <p style="margin:0 0 20px"><a href={url('/events')} style="font-weight:650">← 回賽事列表</a></p>
+  <div class="panel">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px">
+      <label>狀態
+        <select id="f-status" style={field}>
+          <option value="">全部</option>
+          {statusOptions.map((o) => <option value={o.value}>{o.label}</option>)}
+        </select>
+      </label>
+      <label>月份 <input id="f-month" type="month" style={field} /></label>
+    </div>
+    <ul id="cal-list" style="list-style:none;padding:0;margin:16px 0 0"></ul>
   </div>
-  <ul id="cal-list" style="list-style:none;padding:0"></ul>
   <script type="application/json" id="cal-data" set:html={eventsJson} />
   <script>
     import { eventStatusLabel } from '../../lib/enums';
@@ -36,8 +43,8 @@ const statusOptions = EVENT_STATUS.map((s) => ({ value: s, label: eventStatusLab
       const filtered = events.filter((e) => (!s || e.status === s) && (!m || e.start.startsWith(m)))
         .sort((a, b) => a.start.localeCompare(b.start));
       list.innerHTML = filtered.length ? filtered.map((e) =>
-        `<li style="padding:.6rem 0;border-bottom:1px solid var(--border-subtle)"><span class="fs-xs text-muted">${e.start || '日期未定'}</span> · ${eventStatusLabel(e.status)} · <a href="${url('/events/' + e.id)}">${e.title}</a> <span class="fs-xs text-muted">${e.city}</span></li>`
-      ).join('') : '<li class="text-muted">沒有符合條件的賽事。</li>';
+        `<li style="padding:14px 0;border-top:1px solid var(--color-border);display:flex;gap:10px 16px;flex-wrap:wrap;align-items:baseline"><span class="text-muted" style="font-size:1rem">${e.start || '日期未定'}</span><span style="color:var(--color-brand);font-weight:600;font-size:1rem">${eventStatusLabel(e.status)}</span><a href="${url('/events/' + e.id)}" style="font-weight:650">${e.title}</a><span class="text-muted" style="font-size:1rem">${e.city}</span></li>`
+      ).join('') : '<li class="text-muted" style="padding-top:14px">沒有符合條件的賽事。</li>';
     }
     fStatus.addEventListener('change', render);
     fMonth.addEventListener('input', render);

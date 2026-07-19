@@ -8,10 +8,9 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 ---
-<BaseLayout title={`${article.data.title} | twdro.net`} description={article.data.description}>
-  <article>
-    <h1>{article.data.title}</h1>
-    {article.data.updated_at && <p class="fs-sm text-muted">更新：{article.data.updated_at}</p>}
+<BaseLayout title={`${article.data.title} | twdro.net`} description={article.data.description} heroTitle={article.data.title} heroDesc={article.data.description}>
+  <article class="panel prose">
+    {article.data.updated_at && <p class="text-muted" style="font-size:1rem;margin-top:0">更新：{article.data.updated_at}</p>}
     <Content />
   </article>
 </BaseLayout>

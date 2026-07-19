@@ -5,12 +5,16 @@ import { url } from '../../lib/url';
 const items = await getCollection('equipment');
 ---
 <BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。" heroTitle="器材" heroDesc="無人機足球球機資料庫與合規檢查。">
-  <p style="margin:0 0 24px"><a href={url('/equipment/compliance-check')} style="font-weight:650">球機合規檢查器 →</a></p>
-  <h2>球機資料庫</h2>
-  <ul>
+  <p style="margin:0 0 24px"><a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a></p>
+  <h2 class="group-title">球機資料庫</h2>
+  <ul class="card-grid">
     {items.map((it) => (
-      <li style="margin:.4rem 0"><a href={url(`/equipment/${it.id}`)} class="fs-lg">{it.data.brand} {it.data.model}</a>
-        <span class="fs-xs text-muted">（直徑 {it.data.diameter_mm ?? '—'}mm｜{it.data.weight_g ?? '—'}g）</span></li>
+      <li>
+        <a class="card-link" href={url(`/equipment/${it.id}`)}>
+          <span class="name">{it.data.brand} {it.data.model}</span>
+          <span class="meta">直徑 {it.data.diameter_mm ?? '—'} mm · {it.data.weight_g ?? '—'} g</span>
+        </a>
+      </li>
     ))}
   </ul>
 </BaseLayout>

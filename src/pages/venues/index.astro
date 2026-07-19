@@ -9,11 +9,15 @@ const points = venues
 const pointsJson = JSON.stringify(points);
 ---
 <BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。" heroTitle="場地與活動" heroDesc="全台無人機足球練習與比賽場地。">
-  <div id="map" style="height:420px;border:1px solid var(--color-border);border-radius:14px;margin:0 0 24px"></div>
-  <ul>
+  <div id="map" style="height:420px;border:1px solid var(--color-border);border-radius:14px;margin:0 0 24px;overflow:hidden"></div>
+  <ul class="card-grid">
     {venues.map((v) => (
-      <li style="margin:.4rem 0"><a href={url(`/venues/${v.id}`)} class="fs-lg">{v.data.name}</a>
-        <span class="fs-xs text-muted">（{v.data.venue_type}｜{v.data.city ?? ''}）</span></li>
+      <li>
+        <a class="card-link" href={url(`/venues/${v.id}`)}>
+          <span class="name">{v.data.name}</span>
+          <span class="meta">{v.data.venue_type} · {v.data.city ?? ''}</span>
+        </a>
+      </li>
     ))}
   </ul>
   <script type="application/json" id="venue-points" set:html={pointsJson} />

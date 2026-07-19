@@ -2,12 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 ---
-<BaseLayout title="隱私權政策 | twdro.net">
-  <h1>隱私權政策</h1>
-  <h2>未成年人保護</h2>
-  <ul>
-    <li>本平台不收錄選手個人個資（完整姓名、生日、聯絡方式、住址）。</li>
-    <li>得獎與參賽紀錄僅呈現至隊伍層級。</li>
-    <li>提供監護人申請移除機制（見<a href={url('/about/correction')}>回報頁</a>）。</li>
-  </ul>
+<BaseLayout title="隱私權政策 | twdro.net" heroTitle="隱私權政策" heroDesc="保護未成年選手隱私是平台的底線。">
+  <article class="panel prose">
+    <h2>未成年人保護</h2>
+    <ul>
+      <li>本平台不收錄選手個人個資（完整姓名、生日、聯絡方式、住址）。</li>
+      <li>得獎與參賽紀錄僅呈現至隊伍層級。</li>
+      <li>提供監護人申請移除機制（見<a href={url('/about/correction')}>回報頁</a>）。</li>
+    </ul>
+  </article>
 </BaseLayout>

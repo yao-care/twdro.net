@@ -9,16 +9,17 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const d = item.data;
 ---
-<BaseLayout title={`${d.brand} ${d.model} | twdro.net`}>
-  <article>
-    <h1>{d.brand} {d.model}</h1>
-    <ul>
-      <li>直徑：{d.diameter_mm ?? '—'} mm</li>
-      <li>重量：{d.weight_g ?? '—'} g</li>
-      <li>馬達：{d.motor_type ?? '—'}</li>
-      <li>電池：{d.battery_voltage ?? '—'}</li>
-      <li>參考售價：{d.list_price ?? '—'}</li>
+<BaseLayout title={`${d.brand} ${d.model} | twdro.net`} heroTitle={`${d.brand} ${d.model}`} heroDesc="球機規格">
+  <section class="panel">
+    <ul class="data-list">
+      <li><span class="k">直徑</span><span class="v">{d.diameter_mm ?? '—'} mm</span></li>
+      <li><span class="k">重量</span><span class="v">{d.weight_g ?? '—'} g</span></li>
+      <li><span class="k">馬達</span><span class="v">{d.motor_type ?? '—'}</span></li>
+      <li><span class="k">電池</span><span class="v">{d.battery_voltage ?? '—'}</span></li>
+      <li><span class="k">參考售價</span><span class="v">{d.list_price ?? '—'}</span></li>
     </ul>
-    {d.sources && d.sources.length > 0 && <SourceBlock sources={d.sources} verification="community_submitted" />}
-  </article>
+  </section>
+  {d.sources && d.sources.length > 0 && (
+    <section class="panel"><SourceBlock sources={d.sources} verification="community_submitted" /></section>
+  )}
 </BaseLayout>

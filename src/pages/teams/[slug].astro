@@ -6,20 +6,23 @@ export async function getStaticPaths() {
   const teams = await getCollection('teams');
   return teams.map((t) => ({ params: { slug: t.id }, props: { team: t } }));
 }
+const TYPE_LABEL: Record<string, string> = {
+  elementary_school: '國小', junior_high_school: '國中', senior_high_school: '高中',
+  college: '專科', university: '大專校院', club: '俱樂部', company: '企業',
+  community: '社區', national_team: '代表隊', temporary_team: '臨時隊伍',
+};
 const { team } = Astro.props;
 const d = team.data;
 ---
-<BaseLayout title={`${d.name} | twdro.net`} description={d.introduction}>
-  <article>
-    <h1>{d.name}</h1>
-    {d.english_name && <p class="fs-sm text-muted">{d.english_name}</p>}
-    <ul>
-      <li>類型：{d.team_type}</li>
-      <li>所在地：{d.city ?? ''} {d.district ?? ''}</li>
-      {d.recruitment_status && <li>招募狀態：{d.recruitment_status}</li>}
-      <li>資料狀態：{verificationLabel(d.verification)}</li>
+<BaseLayout title={`${d.name} | twdro.net`} description={d.introduction} heroTitle={d.name} heroDesc={d.english_name}>
+  <section class="panel">
+    <ul class="data-list">
+      <li><span class="k">類型</span><span class="v">{TYPE_LABEL[d.team_type] ?? d.team_type}</span></li>
+      <li><span class="k">所在地</span><span class="v">{[d.city, d.district].filter(Boolean).join(' ') || '—'}</span></li>
+      {d.recruitment_status && <li><span class="k">招募狀態</span><span class="v">{d.recruitment_status}</span></li>}
+      <li><span class="k">資料狀態</span><span class="v">{verificationLabel(d.verification)}</span></li>
     </ul>
-    {d.introduction && <p>{d.introduction}</p>}
-    <p class="fs-xs text-muted">本頁僅呈現隊伍層級公開資訊，不含選手個人資料。</p>
-  </article>
+    {d.introduction && <p style="margin:18px 0 0">{d.introduction}</p>}
+  </section>
+  <p class="text-muted" style="font-size:1rem;margin-top:16px">本頁僅呈現隊伍層級公開資訊，不含選手個人資料。</p>
 </BaseLayout>

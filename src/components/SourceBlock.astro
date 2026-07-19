@@ -3,14 +3,19 @@ import { verificationLabel } from '../lib/enums';
 interface SourceItem { type: string; url: string; published_at?: string; retrieved_at?: string; trust_level: string; }
 interface Props { sources: SourceItem[]; verification: string; }
 const { sources, verification } = Astro.props;
+const SOURCE_LABEL: Record<string, string> = {
+  organizer_announcement: '主辦單位公告', moe_announcement: '教育部公告',
+  fai_official: 'FAI 官方', fida_official: 'FIDA 官方', vendor_listing: '廠商資料',
+};
+const label = (t: string) => SOURCE_LABEL[t] ?? t;
 ---
-<aside class="fs-sm text-muted" style="margin-top:2rem;border-top:1px solid var(--border-subtle);padding-top:1rem">
-  <p style="margin:.2rem 0"><strong>資料狀態：</strong>{verificationLabel(verification)}</p>
-  <p style="margin:.2rem 0"><strong>資料來源：</strong></p>
-  <ul style="margin:.2rem 0">
+<aside style="color:var(--color-text-muted);font-size:1rem">
+  <p style="margin:0 0 8px"><strong style="color:var(--color-text)">資料狀態：</strong>{verificationLabel(verification)}</p>
+  <p style="margin:0 0 6px"><strong style="color:var(--color-text)">資料來源</strong></p>
+  <ul style="margin:0;padding-left:1.2em">
     {sources.map((s) => (
-      <li>
-        <a href={s.url} rel="nofollow noopener" target="_blank">{s.type}</a>
+      <li style="margin:.2rem 0">
+        <a href={s.url} rel="nofollow noopener" target="_blank">{label(s.type)}</a>
         （信度 {s.trust_level}
         {s.published_at ? `｜發布 ${s.published_at}` : ''}
         {s.retrieved_at ? `｜查核 ${s.retrieved_at}` : ''}）

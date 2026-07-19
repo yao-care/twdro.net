@@ -9,8 +9,10 @@ export async function getStaticPaths() {
   const events = await getCollection('events');
   return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
 }
+const RULE_LABEL: Record<string, string> = { FAI: 'FAI', FIDA: 'FIDA', MOE: '教育部', OTHER: '民間賽事' };
 const { event } = Astro.props;
 const d = event.data;
+const isOpen = d.status === 'registration_open';
 const jsonld = eventJsonLd({
   name: d.title,
   startDate: d.schedule.event_start,
@@ -19,32 +21,47 @@ const jsonld = eventJsonLd({
   locationName: d.schedule.venue_name,
 });
 ---
-<BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle}>
+<BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle} heroTitle={d.title} heroDesc={d.subtitle}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
-  <article>
+
+  <section class="panel" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin-bottom:20px">
     <StatusBadge status={d.status} />
-    <h1>{d.title}</h1>
-    {d.subtitle && <p class="fs-lg text-muted">{d.subtitle}</p>}
+    {d.registration_url && (
+      <a class="btn-action" href={d.registration_url} rel="nofollow noopener" target="_blank" style={isOpen ? '' : 'background:var(--color-brand);color:#fff'}>
+        {isOpen ? '立即報名 →' : '前往報名 ↗'}
+      </a>
+    )}
+  </section>
+
+  <section class="panel">
     <h2>基本資訊</h2>
-    <ul>
-      <li>主辦：{d.organizer ?? '—'}</li>
-      <li>規則體系：{d.rule_system}</li>
-      <li>日期：{d.schedule.event_start ?? '未定'}</li>
-      <li>地點：{d.schedule.city ?? ''} {d.schedule.venue_name ?? ''}</li>
-      <li>報名截止：{d.schedule.registration_end ?? '未定'}</li>
+    <ul class="data-list">
+      <li><span class="k">主辦</span><span class="v">{d.organizer ?? '—'}</span></li>
+      <li><span class="k">規則體系</span><span class="v">{RULE_LABEL[d.rule_system] ?? d.rule_system}</span></li>
+      <li><span class="k">日期</span><span class="v">{d.schedule.event_start ?? '未定'}</span></li>
+      <li><span class="k">地點</span><span class="v">{[d.schedule.city, d.schedule.venue_name].filter(Boolean).join(' · ') || '—'}</span></li>
+      <li><span class="k">報名截止</span><span class="v">{d.schedule.registration_end ?? '未定'}</span></li>
     </ul>
+  </section>
+
+  <section class="panel">
     <h2>參賽資格</h2>
-    <ul>
-      <li>組別：{(d.eligibility.education_levels ?? []).join('、') || '—'}</li>
-      <li>隊伍人數：{d.eligibility.team_size_min ?? '?'}–{d.eligibility.team_size_max ?? '?'} 人</li>
+    <ul class="data-list">
+      <li><span class="k">組別</span><span class="v">{(d.eligibility.education_levels ?? []).join('、') || '—'}</span></li>
+      <li><span class="k">隊伍人數</span><span class="v">{d.eligibility.team_size_min ?? '?'}–{d.eligibility.team_size_max ?? '?'} 人</span></li>
     </ul>
+  </section>
+
+  <section class="panel">
     <h2>球機規格</h2>
-    <ul>
-      <li>級別：{d.competition.drone_class ?? '—'}</li>
-      <li>直徑：{d.competition.drone_diameter ?? '—'}</li>
-      <li>場上球機：{d.competition.active_drones_per_team ?? '—'}</li>
+    <ul class="data-list">
+      <li><span class="k">級別</span><span class="v">{d.competition.drone_class ?? '—'}</span></li>
+      <li><span class="k">直徑</span><span class="v">{d.competition.drone_diameter ?? '—'}</span></li>
+      <li><span class="k">場上球機</span><span class="v">{d.competition.active_drones_per_team ?? '—'}</span></li>
     </ul>
-    {d.registration_url && <p><a href={d.registration_url} rel="nofollow noopener" target="_blank">前往報名 ↗</a></p>}
+  </section>
+
+  <section class="panel">
     <SourceBlock sources={d.sources} verification={d.verification} />
-  </article>
+  </section>
 </BaseLayout>

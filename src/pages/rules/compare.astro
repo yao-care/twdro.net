@@ -7,17 +7,20 @@ const books = (await getCollection('rulebooks')).map((b) => ({
 }));
 const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
 ---
-<BaseLayout title="規則比較器 | twdro.net" description="並排比較 FAI、FIDA、教育部等不同無人機足球規則的賽制規格。">
-  <h1>規則比較器</h1>
-  <p class="text-muted fs-sm">勾選要比較的規則版本。不同體系規則各自獨立，請勿視為可互換。</p>
-  <fieldset id="book-picker" style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1rem;margin:1rem 0">
+<BaseLayout
+  title="規則比較器 | twdro.net"
+  description="並排比較 FAI、FIDA、教育部等不同無人機足球規則的賽制規格。"
+  heroTitle="規則比較器"
+  heroDesc="勾選要比較的規則版本。不同體系規則各自獨立，請勿視為可互換。"
+>
+  <fieldset id="book-picker" class="panel" style="border:1px solid var(--color-border);margin:0 0 20px">
     {books.map((b) => (
-      <label style="display:inline-block;margin:.3rem 1rem .3rem 0">
+      <label style="display:inline-block;margin:.3rem 1.5rem .3rem 0">
         <input type="checkbox" value={b.id} checked /> {b.name}
       </label>
     ))}
   </fieldset>
-  <div id="compare-result" style="overflow-x:auto"></div>
+  <div class="panel" style="overflow-x:auto"><div id="compare-result"></div></div>
   <script type="application/json" id="compare-data" set:html={dataJson} />
   <script>
     import { compareRulebooks } from '../../lib/compare';
@@ -30,13 +33,15 @@ const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
       const selected = books.filter((b) => checked.includes(b.id));
       if (selected.length === 0) { result.innerHTML = '<p class="text-muted">請至少勾選一個規則版本。</p>'; return; }
       const rows = compareRulebooks(selected);
-      const head = ['<th style="text-align:left;padding:.5rem;border-bottom:2px solid var(--border-subtle)">欄位</th>']
-        .concat(selected.map((b) => `<th style="text-align:left;padding:.5rem;border-bottom:2px solid var(--border-subtle)">${b.name}</th>`)).join('');
+      const th = 'style="text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--color-border)"';
+      const td = 'style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border)"';
+      const kd = 'style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600"';
+      const head = [`<th ${th}>欄位</th>`].concat(selected.map((b) => `<th ${th}>${b.name}</th>`)).join('');
       const body = rows.map((r) => {
-        const cells = r.values.map((v) => `<td style="padding:.5rem;border-bottom:1px solid var(--border-subtle)">${v ?? '—'}</td>`).join('');
-        return `<tr><th style="text-align:left;padding:.5rem;border-bottom:1px solid var(--border-subtle)">${r.label}</th>${cells}</tr>`;
+        const cells = r.values.map((v) => `<td ${td}>${v ?? '—'}</td>`).join('');
+        return `<tr><th ${kd}>${r.label}</th>${cells}</tr>`;
       }).join('');
-      result.innerHTML = `<table style="border-collapse:collapse;min-width:100%"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+      result.innerHTML = `<table class="data-table" style="min-width:100%"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
     }
     picker.addEventListener('change', render);
     render();

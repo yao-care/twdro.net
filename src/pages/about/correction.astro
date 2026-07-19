@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 const issueUrl = 'https://github.com/yao-care/twdro.net/issues/new?labels=data-correction&title=資料更正：';
 ---
-<BaseLayout title="回報資料錯誤 | twdro.net">
-  <h1>回報資料錯誤</h1>
-  <p>發現資料有誤？請提供：資料頁網址、錯誤欄位、建議內容、來源證明。</p>
-  <p><a href={issueUrl} rel="noopener" target="_blank" class="fs-lg">前往 GitHub 提交更正 ↗</a></p>
-  <p class="fs-sm text-muted">處理流程：收到回報 → 編輯初審 → 查核來源 →（必要時）聯絡主辦單位 → 更新或維持並留下紀錄。</p>
+<BaseLayout title="回報資料錯誤 | twdro.net" heroTitle="回報資料錯誤" heroDesc="發現資料有誤？協助我們一起維護資料品質。">
+  <article class="panel prose">
+    <p>發現資料有誤？請提供：資料頁網址、錯誤欄位、建議內容、來源證明。</p>
+    <p><a class="btn-action" href={issueUrl} rel="noopener" target="_blank">前往 GitHub 提交更正 ↗</a></p>
+    <p class="text-muted" style="font-size:1rem">處理流程：收到回報 → 編輯初審 → 查核來源 →（必要時）聯絡主辦單位 → 更新或維持並留下紀錄。</p>
+  </article>
 </BaseLayout>

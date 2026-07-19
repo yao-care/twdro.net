@@ -3,16 +3,25 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 const books = await getCollection('rulebooks');
-const systems = ['FAI', 'FIDA', 'MOE', 'OTHER'];
+const SYSTEMS: [string, string][] = [['FAI', 'FAI'], ['FIDA', 'FIDA'], ['MOE', '教育部'], ['OTHER', '民間賽事']];
 ---
 <BaseLayout title="規則總覽 | twdro.net" heroTitle="規則總覽" heroDesc="FAI、FIDA、教育部與各民間賽事規則各自獨立，請勿跨體系混用。">
-  <p style="margin:0 0 24px"><a href={url('/rules/compare')} style="font-weight:650">規則比較器（並排比較賽制）→</a></p>
-  {systems.map((sys) => {
+  <p style="margin:0 0 24px"><a class="btn-action" href={url('/rules/compare')}>規則比較器（並排比較賽制）→</a></p>
+  {SYSTEMS.map(([sys, label]) => {
     const list = books.filter((b) => b.data.rule_system === sys);
     return list.length ? (
       <section>
-        <h2>{sys}</h2>
-        <ul>{list.map((b) => <li><a href={url(`/rules/${b.id}`)} class="fs-lg">{b.data.name}</a></li>)}</ul>
+        <h2 class="group-title">{label}</h2>
+        <ul class="card-grid">
+          {list.map((b) => (
+            <li>
+              <a class="card-link" href={url(`/rules/${b.id}`)}>
+                <span class="name">{b.data.name}</span>
+                <span class="meta">{b.data.organization} · 版本 {b.data.version}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
     ) : null;
   })}
