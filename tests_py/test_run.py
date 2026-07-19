@@ -1,5 +1,4 @@
-import json
-from pipeline.run import run_source
+from pipeline.run import _load_source, run_source
 from pipeline.sources.base import Record
 
 
@@ -48,3 +47,8 @@ def test_run_flags_person(tmp_path):
     assert changed is True
     assert cands[0].scrub.has_person is True
     assert "王小明" in cands[0].scrub.persons
+
+
+def test_load_source_skips_without_env(monkeypatch, capsys):
+    monkeypatch.delenv("MOE_SCHOOLS_URL", raising=False)
+    assert _load_source("moe_schools") is None

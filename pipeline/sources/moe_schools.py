@@ -5,14 +5,12 @@
 """
 from __future__ import annotations
 import json
+import os
 import re
 
 import requests
 
 from pipeline.sources.base import Record, Source
-
-# 政府資料開放平臺「高級中等以下學校名錄」類資源（示範用；正式部署可換成明確資源 URL）。
-DATA_URL = "https://data.gov.tw/api/v2/rest/datastore/"  # 佔位；workflow 以環境變數覆寫
 
 
 def _slugify(name: str) -> str:
@@ -25,11 +23,13 @@ class MoeSchools:
     name = "moe_schools"
     out_dir = "src/content/organizations"
 
-    def __init__(self, url: str = DATA_URL) -> None:
-        self.url = url
+    def __init__(self, url: str | None = None) -> None:
+        self.url = url or os.environ.get("MOE_SCHOOLS_URL", "")
 
     def fetch(self) -> bytes:
         """抓取學校清單原始 JSON（bytes）。正式部署由 workflow 設定實際資源 URL。"""
+        if not self.url:
+            raise RuntimeError("未設定 MOE_SCHOOLS_URL，無法抓取。")
         resp = requests.get(self.url, timeout=30, headers={"User-Agent": "twdro-pipeline/1.0"})
         resp.raise_for_status()
         return resp.content

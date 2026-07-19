@@ -24,6 +24,7 @@ jobs:
       - name: 執行 pipeline
         run: python -m pipeline.run --source moe_schools
       - name: 開 PR（若有候選變更）
+        if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
         uses: peter-evans/create-pull-request@v6
         with:
           branch: pipeline/moe-schools
