@@ -1,0 +1,28 @@
+title: 2026 教育部全國無人機足球競賽・準決賽
+subtitle: 積分賽制，各分組前 2 名晉級總統盃決賽；各分組前 3 名各獲獎金 2 萬元
+event_series: 教育部全國無人機足球競賽
+level: 全國
+status: announced
+event_type: 準決賽
+organizer: 教育部
+rule_system: MOE
+rulebook: moe-taiwan-2026
+schedule:
+  event_start: "2026-10-02"
+  event_end: "2026-10-03"
+  venue_name: 國立臺灣大學綜合體育館
+  city: 臺北市
+  latitude: 25.0208
+  longitude: 121.5345
+eligibility:
+  education_levels: [國中小, 高中, 大專校院]
+competition:
+  drone_class: F9A-B
+  drone_diameter: 20cm
+verification: source_confirmed
+sources:
+  - type: moe_announcement
+    url: https://www.nksh.tp.edu.tw/p/16-1000-24429.php
+    publisher: 教育部
+    retrieved_at: "2026-07-19"
+    trust_level: A

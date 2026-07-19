@@ -1,0 +1,24 @@
+title: 2026 教育部全國無人機足球競賽・分區賽
+subtitle: 分組循環賽，各組前 3 名晉級準決賽；冠軍獎金 1 萬元／亞軍 5 千元／季軍 3 千元
+event_series: 教育部全國無人機足球競賽
+level: 全國/分區
+status: ongoing
+event_type: 分區賽
+organizer: 教育部
+rule_system: MOE
+rulebook: moe-taiwan-2026
+schedule:
+  event_start: "2026-07-01"
+  event_end: "2026-08-31"
+eligibility:
+  education_levels: [國中小, 高中, 大專校院]
+competition:
+  drone_class: F9A-B
+  drone_diameter: 20cm
+verification: source_confirmed
+sources:
+  - type: moe_announcement
+    url: https://www.nksh.tp.edu.tw/p/16-1000-24429.php
+    publisher: 教育部
+    retrieved_at: "2026-07-19"
+    trust_level: A

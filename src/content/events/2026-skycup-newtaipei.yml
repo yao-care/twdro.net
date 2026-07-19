@@ -1,0 +1,21 @@
+title: 2026 第二屆天穹盃無人機飛球錦標賽－新北戰
+event_series: 天穹盃
+status: completed
+event_type: 分站賽
+organizer: 台灣無人機競技發展協會
+rule_system: OTHER
+rulebook: skycup-2026
+schedule:
+  event_start: "2026-06-27"
+  venue_name: 亞東科技大學演藝廳
+  city: 新北市
+  district: 板橋區
+  latitude: 24.9975
+  longitude: 121.446
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    url: https://www.cdps.ntpc.edu.tw/p/406-1000-9500,r190.php
+    publisher: 台灣無人機競技發展協會
+    retrieved_at: "2026-07-19"
+    trust_level: A
