@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const books = (await getCollection('rulebooks')).map((b) => ({
+  id: b.id, name: b.data.name, spec: b.data.competition_spec ?? {},
+}));
+const dataJson = JSON.stringify({ books });
+---
+<BaseLayout title="球機合規檢查器 | twdro.net" description="輸入球機規格，初步比對是否符合指定賽事規則。">
+  <h1>球機合規檢查器</h1>
+  <p class="text-muted fs-sm">選擇賽事規則並填入球機規格，系統做初步比對。</p>
+  <form id="cc-form" style="display:grid;gap:.8rem;max-width:36rem">
+    <label>賽事規則
+      <select id="cc-rule" style="display:block;font-size:var(--text-base);padding:.3rem">
+        {books.map((b) => <option value={b.id}>{b.name}</option>)}
+      </select>
+    </label>
+    <label>球機直徑 (mm) <input id="cc-diameter" type="number" inputmode="numeric" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+    <label>球機總重 (g) <input id="cc-weight" type="number" inputmode="numeric" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+    <label>馬達類型 <input id="cc-motor" type="text" placeholder="brushless / brushed" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+    <label>電池 <input id="cc-battery" type="text" placeholder="例如 3S" style="display:block;font-size:var(--text-base);padding:.3rem" /></label>
+    <button type="submit" style="font-size:var(--text-base);padding:.5rem 1rem;width:fit-content">檢查</button>
+  </form>
+  <div id="cc-result" style="margin-top:1.5rem"></div>
+  <p class="fs-xs text-muted" style="margin-top:1.5rem;border-top:1px solid var(--border-subtle);padding-top:1rem">
+    此工具僅提供初步比對，最終資格以主辦單位與現場檢錄結果為準。
+  </p>
+  <script type="application/json" id="cc-data" set:html={dataJson} />
+  <script>
+    import { checkCompliance } from '../../lib/compliance';
+    const { books } = JSON.parse(document.getElementById('cc-data')!.textContent!) as { books: { id: string; name: string; spec: Record<string, any> }[] };
+    const form = document.getElementById('cc-form') as HTMLFormElement;
+    const result = document.getElementById('cc-result')!;
+    const num = (id: string) => { const v = (document.getElementById(id) as HTMLInputElement).value; return v === '' ? undefined : Number(v); };
+    const str = (id: string) => { const v = (document.getElementById(id) as HTMLInputElement).value.trim(); return v === '' ? undefined : v; };
+    const LABEL: Record<string, string> = { compliant: '初步符合', partial: '部分欄位待確認', non_compliant: '不符合', unknown: '無法判定' };
+    const COLOR: Record<string, string> = { pass: 'var(--color-pass)', fail: 'var(--color-critical)', unknown: 'var(--text-muted)' };
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ruleId = (document.getElementById('cc-rule') as HTMLSelectElement).value;
+      const spec = books.find((b) => b.id === ruleId)?.spec ?? {};
+      const r = checkCompliance({ diameter_mm: num('cc-diameter'), weight_g: num('cc-weight'), motor_type: str('cc-motor'), battery_cells: str('cc-battery') }, spec);
+      const rows = r.fields.map((f) => `<tr><th style="text-align:left;padding:.4rem">${f.label}</th><td style="padding:.4rem">${f.input || '—'}</td><td style="padding:.4rem">規格 ${f.limit || '—'}</td><td style="padding:.4rem;color:${COLOR[f.status]};font-weight:600">${f.status === 'pass' ? '符合' : f.status === 'fail' ? '不符' : '待確認'}</td></tr>`).join('');
+      result.innerHTML = `<p class="fs-lg" style="font-weight:700">${LABEL[r.overall]}</p><table style="border-collapse:collapse"><tbody>${rows}</tbody></table>`;
+    });
+  </script>
+</BaseLayout>
