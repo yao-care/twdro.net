@@ -8,9 +8,8 @@ const points = venues
   .map((v) => ({ id: v.id, name: v.data.name, lat: v.data.latitude, lng: v.data.longitude }));
 const pointsJson = JSON.stringify(points);
 ---
-<BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。">
-  <h1>場地與活動</h1>
-  <div id="map" style="height:420px;border:1px solid var(--border-subtle);border-radius:.5em;margin:1rem 0"></div>
+<BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。" heroTitle="場地與活動" heroDesc="全台無人機足球練習與比賽場地。">
+  <div id="map" style="height:420px;border:1px solid var(--color-border);border-radius:14px;margin:0 0 24px"></div>
   <ul>
     {venues.map((v) => (
       <li style="margin:.4rem 0"><a href={url(`/venues/${v.id}`)} class="fs-lg">{v.data.name}</a>

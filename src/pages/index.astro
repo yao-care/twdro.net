@@ -1,53 +1,83 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StatusBadge from '../components/StatusBadge.astro';
+import EventCard from '../components/EventCard.astro';
 import { url } from '../lib/url';
 const events = (await getCollection('events'))
   .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
 const next = events.find((e) => e.data.status === 'registration_open' || e.data.status === 'announced') ?? events[0];
 const recent = events.slice(0, 4);
+const tools = [
+  ['/rules/compare', '規則比較器', '並排比較 FAI／FIDA／教育部賽制'],
+  ['/equipment/compliance-check', '球機合規檢查器', '輸入規格初步比對是否符合'],
+  ['/events/calendar', '賽事日曆', '依狀態與月份篩選賽事'],
+  ['/teams', '隊伍名錄', '學校與俱樂部隊伍'],
+  ['/venues', '場地地圖', '練習與比賽場地'],
+  ['/search', '全站搜尋', '搜尋賽事、規則、器材'],
+];
 ---
-<BaseLayout title="台灣無人機足球的一站式入口 | twdro.net">
-  <section style="text-align:center;padding:2rem 0">
-    <h1>台灣無人機足球的一站式入口</h1>
-    <p class="fs-lg text-muted">整合全台無人機足球與無人機飛球的賽事、規則、隊伍、場地、課程、器材及歷史成績。</p>
-    <p style="margin-top:1.5rem">
-      <a href={url('/events')} class="fs-lg" style="margin:0 .8rem">查看近期賽事</a>
-      <a href={url('/learn')} class="fs-lg" style="margin:0 .8rem">認識無人機足球</a>
-    </p>
+<BaseLayout title="台灣無人機足球的一站式入口 | twdro.net" bare>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="page-hero__inner" style="padding-block:80px 72px">
+      <p style="color:var(--color-tech);font-weight:700;letter-spacing:0.12em;margin:0 0 14px;font-size:0.95rem">TAIWAN DRONE SOCCER · 無人機足球</p>
+      <h1 style="font-size:clamp(2.6rem,6vw,4.2rem);max-width:16ch">台灣無人機足球的一站式入口</h1>
+      <p>找比賽、查規則、組隊伍、選器材 —— 整合全台無人機足球與無人機飛球的賽事、規則、隊伍、場地與器材。</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px">
+        <a class="btn-action" href={url('/events')}>查看近期賽事 →</a>
+        <a class="btn-outline" href={url('/learn')}>認識無人機足球</a>
+      </div>
+    </div>
   </section>
 
-  {next && (
-    <section style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1.5rem;background:var(--bg-surface)">
-      <h2>下一場比賽</h2>
-      <StatusBadge status={next.data.status} />
-      <a href={url(`/events/${next.id}`)} class="fs-xl" style="display:block;margin:.5rem 0">{next.data.title}</a>
-      <p class="text-muted">{next.data.schedule.event_start ?? '日期未定'}｜{next.data.schedule.city ?? ''}｜報名截止 {next.data.schedule.registration_end ?? '未定'}</p>
+  <div class="page-content">
+    {next && (
+      <section style="margin-bottom:56px">
+        <h2 style="margin:0 0 18px">下一場比賽</h2>
+        <EventCard
+          id={next.id}
+          title={next.data.title}
+          status={next.data.status}
+          eventStart={next.data.schedule.event_start}
+          city={next.data.schedule.city}
+          venue={next.data.schedule.venue_name}
+          registrationEnd={next.data.schedule.registration_end}
+          registrationUrl={next.data.registration_url}
+        />
+      </section>
+    )}
+
+    <section style="margin-bottom:56px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:18px">
+        <h2 style="margin:0">近期賽事</h2>
+        <a href={url('/events')} style="font-weight:650">全部賽事 →</a>
+      </div>
+      <div style="display:grid;gap:18px">
+        {recent.map((e) => (
+          <EventCard
+            id={e.id}
+            title={e.data.title}
+            status={e.data.status}
+            eventStart={e.data.schedule.event_start}
+            city={e.data.schedule.city}
+            venue={e.data.schedule.venue_name}
+            registrationEnd={e.data.schedule.registration_end}
+            registrationUrl={e.data.registration_url}
+          />
+        ))}
+      </div>
     </section>
-  )}
 
-  <section>
-    <h2>近期賽事</h2>
-    <ul style="list-style:none;padding:0">
-      {recent.map((e) => (
-        <li style="padding:.6rem 0;border-bottom:1px solid var(--border-subtle)">
-          <StatusBadge status={e.data.status} />
-          <a href={url(`/events/${e.id}`)} style="margin-left:.5rem">{e.data.title}</a>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section>
-    <h2>工具與資料</h2>
-    <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem">
-      <li><a href={url('/rules/compare')} class="fs-lg">規則比較器</a></li>
-      <li><a href={url('/equipment/compliance-check')} class="fs-lg">球機合規檢查器</a></li>
-      <li><a href={url('/events/calendar')} class="fs-lg">賽事日曆</a></li>
-      <li><a href={url('/teams')} class="fs-lg">隊伍名錄</a></li>
-      <li><a href={url('/venues')} class="fs-lg">場地地圖</a></li>
-      <li><a href={url('/search')} class="fs-lg">全站搜尋</a></li>
-    </ul>
-  </section>
+    <section>
+      <h2 style="margin:0 0 18px">工具與資料</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:16px">
+        {tools.map(([href, name, desc]) => (
+          <a href={url(href)} style="display:block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:22px 24px;text-decoration:none">
+            <span style="display:block;font-size:1.2rem;font-weight:750;color:var(--color-text)">{name}</span>
+            <span style="display:block;margin-top:6px;color:var(--color-text-muted);font-size:0.95rem">{desc}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
 </BaseLayout>

@@ -4,9 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 const articles = (await getCollection('learn')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="認識無人機足球 | twdro.net">
-  <h1>認識無人機足球</h1>
-  <ul>
+<BaseLayout title="認識無人機足球 | twdro.net" heroTitle="認識無人機足球" heroDesc="從第一顆飛球開始 —— 規則、器材與入門知識。">
+  <ul style="list-style:none;padding:0">
     {articles.map((a) => (
       <li style="margin:.6rem 0">
         <a href={url(`/learn/${a.id}`)} class="fs-lg">{a.data.title}</a>

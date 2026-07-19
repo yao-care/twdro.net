@@ -1,0 +1,39 @@
+---
+import { url } from '../lib/url';
+import StatusBadge from './StatusBadge.astro';
+interface Props {
+  id: string;
+  title: string;
+  status: string;
+  eventStart?: string;   // YYYY-MM-DD
+  city?: string;
+  venue?: string;
+  registrationEnd?: string;
+  registrationUrl?: string;
+}
+const { id, title, status, eventStart, city, venue, registrationEnd, registrationUrl } = Astro.props;
+const parts = (eventStart ?? '').split('-');
+const monthDay = parts.length === 3 ? `${parts[1]}.${parts[2]}` : '未定';
+const year = parts.length === 3 ? parts[0] : '';
+const place = [city, venue].filter(Boolean).join(' · ');
+const canRegister = status === 'registration_open' && registrationUrl;
+---
+<article class="event-card">
+  <div class="event-card__date">
+    <span class="event-card__month-day">{monthDay}</span>
+    {year && <span class="event-card__year">{year}</span>}
+  </div>
+  <div class="event-card__content">
+    <StatusBadge status={status} />
+    <h3 class="event-card__title"><a href={url(`/events/${id}`)}>{title}</a></h3>
+    <div class="event-card__meta">
+      {place && <span>地點 {place}</span>}
+      {registrationEnd && <span>報名截止 {registrationEnd}</span>}
+    </div>
+    {canRegister ? (
+      <a class="btn-action" href={registrationUrl} rel="nofollow noopener" target="_blank" style="margin-top:20px">立即報名 →</a>
+    ) : (
+      <a class="btn-action" href={url(`/events/${id}`)} style="margin-top:20px;background:var(--color-brand);color:#fff">查看賽事 →</a>
+    )}
+  </div>
+</article>

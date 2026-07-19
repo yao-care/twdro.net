@@ -5,9 +5,8 @@ import { url } from '../../lib/url';
 const books = await getCollection('rulebooks');
 const systems = ['FAI', 'FIDA', 'MOE', 'OTHER'];
 ---
-<BaseLayout title="規則總覽 | twdro.net">
-  <h1>規則總覽</h1>
-  <p class="text-muted fs-sm">FAI、FIDA、教育部與各民間賽事規則各自獨立，請勿跨體系混用。</p>
+<BaseLayout title="規則總覽 | twdro.net" heroTitle="規則總覽" heroDesc="FAI、FIDA、教育部與各民間賽事規則各自獨立，請勿跨體系混用。">
+  <p style="margin:0 0 24px"><a href={url('/rules/compare')} style="font-weight:650">規則比較器（並排比較賽制）→</a></p>
   {systems.map((sys) => {
     const list = books.filter((b) => b.data.rule_system === sys);
     return list.length ? (

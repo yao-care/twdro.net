@@ -1,23 +1,30 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import StatusBadge from '../../components/StatusBadge.astro';
+import EventCard from '../../components/EventCard.astro';
 import { url } from '../../lib/url';
 const events = (await getCollection('events'))
   .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
 ---
-<BaseLayout title="賽事 | twdro.net">
-  <h1>賽事</h1>
-  <p><a href={url('/events/calendar')} class="fs-lg">→ 日曆檢視（依狀態/月份篩選）</a></p>
-  <ul style="list-style:none;padding:0">
+<BaseLayout
+  title="賽事資訊 | twdro.net"
+  description="掌握台灣無人機足球賽事、報名時間與比賽結果。"
+  heroTitle="賽事資訊"
+  heroDesc="掌握台灣無人機足球賽事、報名時間與比賽結果。"
+>
+  <p style="margin:0 0 24px"><a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a></p>
+  <div style="display:grid;gap:18px">
     {events.map((e) => (
-      <li style="border:1px solid var(--border-subtle);border-radius:.5em;padding:1rem;margin:.8rem 0;background:var(--bg-surface)">
-        <StatusBadge status={e.data.status} />
-        <a href={url(`/events/${e.id}`)} class="fs-lg" style="display:block;margin-top:.4rem">{e.data.title}</a>
-        <p class="fs-sm text-muted" style="margin:.3rem 0">
-          {e.data.schedule.event_start ?? '日期未定'}｜{e.data.schedule.city ?? ''}｜{e.data.schedule.venue_name ?? ''}
-        </p>
-      </li>
+      <EventCard
+        id={e.id}
+        title={e.data.title}
+        status={e.data.status}
+        eventStart={e.data.schedule.event_start}
+        city={e.data.schedule.city}
+        venue={e.data.schedule.venue_name}
+        registrationEnd={e.data.schedule.registration_end}
+        registrationUrl={e.data.registration_url}
+      />
     ))}
-  </ul>
+  </div>
 </BaseLayout>

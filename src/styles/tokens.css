@@ -1,55 +1,100 @@
+/* twdro.net 視覺系統 — 深藍品牌骨架 + 白色資訊卡片 + 競技橘行動色。
+   色彩以 OKLCH 定義，附 @supports hex fallback。 */
 :root {
-  /* 字級（最小 18px，無例外）*/
-  --text-xs: 1.125rem;  /* 18px */
-  --text-sm: 1.25rem;   /* 20px */
-  --text-base: 1.5rem;  /* 24px */
-  --text-lg: 1.75rem;   /* 28px */
-  --text-xl: 2rem;      /* 32px */
-  --text-2xl: 3rem;     /* 48px */
-  --text-3xl: 3.5rem;   /* 56px */
+  /* Brand */
+  --color-brand-dark: oklch(25% 0.055 245);
+  --color-brand-dark-hover: oklch(30% 0.065 245);
+  --color-brand: oklch(54% 0.17 248);
+  --color-brand-hover: oklch(48% 0.17 248);
+  --color-tech: oklch(76% 0.145 205);
+  --color-brand-soft: oklch(95% 0.025 235);
 
-  /* 背景 */
-  --bg-base: oklch(0.97 0.005 250);
-  --bg-surface: oklch(0.94 0.005 250);
-  --bg-overlay: oklch(0.90 0.008 250);
-  --bg-hover: oklch(0.92 0.005 250);
+  /* Action */
+  --color-action: oklch(75% 0.17 58);
+  --color-action-hover: oklch(69% 0.18 53);
+  --color-action-ink: oklch(22% 0.03 55);
 
-  /* 文字 */
-  --text-primary: oklch(0.20 0.01 250);
-  --text-secondary: oklch(0.45 0.01 250);
-  --text-muted: oklch(0.60 0.008 250);
+  /* Status */
+  --color-success: oklch(61% 0.145 150);
+  --color-success-soft: oklch(94% 0.035 150);
+  --color-warning: oklch(80% 0.15 85);
+  --color-danger: oklch(61% 0.19 25);
 
-  /* 嚴重度／狀態 */
-  --color-critical: oklch(0.55 0.22 25);
-  --color-high: oklch(0.55 0.16 55);
-  --color-medium: oklch(0.52 0.14 80);
-  --color-low: oklch(0.52 0.13 240);
-  --color-pass: oklch(0.48 0.16 150);
+  /* Background */
+  --color-background: oklch(97% 0.008 240);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-muted: oklch(94% 0.012 240);
 
-  /* 功能 */
-  --color-link: oklch(0.48 0.15 250);
-  --border-subtle: oklch(0.85 0.005 250);
+  /* Text */
+  --color-text: oklch(23% 0.025 245);
+  --color-text-muted: oklch(52% 0.022 245);
+  --color-text-subtle: oklch(68% 0.018 245);
+  --color-text-on-dark: oklch(97% 0.008 230);
+  --color-text-muted-on-dark: oklch(78% 0.025 235);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Interface */
+  --color-border: oklch(88% 0.014 240);
+  --color-focus: oklch(76% 0.145 205);
+
+  /* ── 舊變數重新映射（讓既有各頁 inline 樣式自動換色，不用逐檔改）── */
+  --bg-base: var(--color-background);
+  --bg-surface: var(--color-surface);
+  --bg-overlay: var(--color-surface-muted);
+  --bg-hover: var(--color-surface-muted);
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-muted);
+  --text-muted: var(--color-text-muted);
+  --color-critical: var(--color-danger);
+  --color-high: var(--color-action);
+  --color-medium: var(--color-warning);
+  --color-low: var(--color-brand);
+  --color-pass: var(--color-success);
+  --color-link: var(--color-brand);
+  --border-subtle: var(--color-border);
+
+  /* 字級（內容頁沿用；chrome 元件用各自明確尺寸） */
+  --text-xs: 1.125rem;
+  --text-sm: 1.25rem;
+  --text-base: 1.5rem;
+  --text-lg: 1.75rem;
+  --text-xl: 2rem;
+  --text-2xl: 3rem;
+  --text-3xl: 3.5rem;
+
+  /* 間距系統 */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Noto Sans TC", sans-serif;
   --line-height: 1.6;
+  --content-w: min(100% - 3rem, 74rem);
 }
 
 @supports not (color: oklch(0 0 0)) {
   :root {
-    --bg-base: #f5f6f8;
-    --bg-surface: #ecedf0;
-    --bg-overlay: #dfe0e5;
-    --bg-hover: #e5e6ea;
-    --text-primary: #1e2030;
-    --text-secondary: #5e6070;
-    --text-muted: #8a8c98;
-    --color-critical: #c93135;
-    --color-high: #b86a2a;
-    --color-medium: #8a7020;
-    --color-low: #2a6bb8;
-    --color-pass: #1e8050;
-    --color-link: #1e5ab8;
-    --border-subtle: #d5d6da;
+    --color-brand-dark: #1b2a45;
+    --color-brand-dark-hover: #233452;
+    --color-brand: #2f6ad8;
+    --color-brand-hover: #295fc4;
+    --color-tech: #38c4df;
+    --color-brand-soft: #e6effb;
+    --color-action: #f18a3c;
+    --color-action-hover: #e37a2e;
+    --color-action-ink: #3a2712;
+    --color-success: #23a05f;
+    --color-success-soft: #e2f6ea;
+    --color-warning: #e0a838;
+    --color-danger: #db4a3d;
+    --color-background: #f3f5f8;
+    --color-surface: #ffffff;
+    --color-surface-muted: #e8edf2;
+    --color-text: #232b39;
+    --color-text-muted: #6a7385;
+    --color-text-subtle: #98a1b0;
+    --color-text-on-dark: #f2f5f9;
+    --color-text-muted-on-dark: #b4bdcc;
+    --color-border: #d8dde5;
+    --color-focus: #38c4df;
   }
 }
 
@@ -59,20 +104,161 @@ html {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--line-height);
-  color: var(--text-primary);
-  background: var(--bg-base);
+  color: var(--color-text);
+  background: var(--color-background);
+  -webkit-text-size-adjust: 100%;
 }
 
-body { margin: 0; }
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
 
-h1 { font-size: var(--text-3xl); font-weight: 700; }
-h2 { font-size: var(--text-xl); font-weight: 700; }
+main { flex: 1 0 auto; }
+
+h1 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.02em; }
 h3 { font-size: var(--text-lg); font-weight: 700; }
-a { color: var(--color-link); }
 
-.container { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+/* 連結：預設不加底線、用品牌色；hover 轉深。正文可加 .prose 恢復底線。 */
+a { color: var(--color-brand); text-decoration: none; }
+a:hover { color: var(--color-brand-hover); }
+.prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+
+.container { width: var(--content-w); margin-inline: auto; }
 .fs-xs { font-size: var(--text-xs); }
 .fs-sm { font-size: var(--text-sm); }
 .fs-lg { font-size: var(--text-lg); }
 .fs-xl { font-size: var(--text-xl); }
-.text-muted { color: var(--text-muted); }
+.text-muted { color: var(--color-text-muted); }
+
+/* ── 頁首 ── */
+.site-header {
+  background: var(--color-brand-dark);
+  color: var(--color-text-on-dark);
+  border-bottom: 2px solid var(--color-tech);
+}
+.site-header__inner {
+  width: var(--content-w);
+  min-height: 76px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.site-logo { display: flex; flex-direction: column; color: var(--color-text-on-dark); text-decoration: none; }
+.site-logo:hover { color: var(--color-text-on-dark); }
+.site-logo__domain { font-size: 1.45rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+.site-logo__name { margin-top: 6px; color: var(--color-text-muted-on-dark); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; }
+.site-nav { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
+.site-nav a {
+  position: relative;
+  padding-block: 8px;
+  color: var(--color-text-muted-on-dark);
+  font-size: 1rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.site-nav a:hover { color: var(--color-text-on-dark); }
+.site-nav a[aria-current="page"] { color: var(--color-text-on-dark); }
+.site-nav a[aria-current="page"]::after {
+  position: absolute; right: 0; bottom: 0; left: 0;
+  height: 3px; border-radius: 999px; background: var(--color-tech); content: "";
+}
+
+/* ── 頁面標題區（深藍漸層 hero）── */
+.page-hero {
+  color: var(--color-text-on-dark);
+  background:
+    radial-gradient(circle at 84% 20%, oklch(76% 0.145 205 / 0.18), transparent 32%),
+    linear-gradient(135deg, oklch(30% 0.07 245), var(--color-brand-dark));
+}
+.page-hero__inner { width: var(--content-w); margin-inline: auto; padding-block: 56px 48px; }
+.page-hero h1 { margin: 0; }
+.page-hero p { max-width: 640px; margin: 14px 0 0; color: var(--color-text-muted-on-dark); font-size: 1.05rem; line-height: 1.7; }
+
+/* ── 主內容 ── */
+.page-content { width: var(--content-w); margin-inline: auto; padding-block: 48px 88px; }
+
+/* ── 賽事卡片 ── */
+.event-card {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px oklch(25% 0.055 245 / 0.04), 0 14px 36px oklch(25% 0.055 245 / 0.08);
+  transition: translate 160ms ease, box-shadow 160ms ease;
+}
+.event-card:hover { translate: 0 -3px; box-shadow: 0 2px 4px oklch(25% 0.055 245 / 0.05), 0 20px 48px oklch(25% 0.055 245 / 0.12); }
+.event-card__date {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 200px; padding: 24px;
+  color: var(--color-text-on-dark);
+  background: linear-gradient(160deg, var(--color-brand), oklch(41% 0.135 248));
+}
+.event-card__month-day { font-size: 2rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+.event-card__year { margin-top: 10px; color: oklch(91% 0.025 235); font-size: 0.95rem; font-weight: 650; letter-spacing: 0.08em; }
+.event-card__content { display: flex; flex-direction: column; justify-content: center; padding: 28px 32px; }
+.event-card__title { margin: 12px 0 0; font-size: clamp(1.3rem, 3vw, 1.65rem); line-height: 1.35; letter-spacing: -0.025em; font-weight: 750; }
+.event-card__title a { color: var(--color-text); }
+.event-card__title a:hover { color: var(--color-brand); }
+.event-card__meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; }
+
+/* ── 狀態標籤（小 pill）── */
+.event-status {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  padding: 5px 11px; border-radius: 999px;
+  font-size: 0.82rem; font-weight: 750; line-height: 1;
+}
+.event-status--open { color: var(--color-success); background: var(--color-success-soft); }
+.event-status--done { color: var(--color-text-muted); background: var(--color-surface-muted); }
+.event-status--info { color: var(--color-brand); background: var(--color-brand-soft); }
+
+/* ── 按鈕 ── */
+.btn-action {
+  display: inline-flex; align-items: center; justify-content: center; align-self: flex-start; gap: 6px;
+  padding: 11px 18px; border-radius: 10px;
+  color: var(--color-action-ink); background: var(--color-action);
+  font-size: 1rem; font-weight: 750; text-decoration: none;
+  transition: background-color 150ms ease, translate 150ms ease;
+}
+.btn-action:hover { translate: 0 -1px; background: var(--color-action-hover); color: var(--color-action-ink); }
+.btn-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 18px; border-radius: 10px;
+  color: var(--color-text-on-dark); background: transparent;
+  border: 1.5px solid oklch(100% 0 0 / 0.4);
+  font-size: 1rem; font-weight: 700; text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.btn-outline:hover { color: var(--color-text-on-dark); background: oklch(100% 0 0 / 0.1); border-color: var(--color-tech); }
+
+/* ── 頁尾 ── */
+.site-footer {
+  color: var(--color-text-muted-on-dark);
+  background: var(--color-brand-dark);
+  border-top: 1px solid oklch(100% 0 0 / 0.08);
+}
+.site-footer__inner { width: var(--content-w); margin-inline: auto; padding-block: 40px; }
+.site-footer__brand { color: var(--color-text-on-dark); font-size: 1.05rem; font-weight: 750; }
+.site-footer__tag { color: var(--color-text-muted-on-dark); font-size: 0.9rem; margin-top: 4px; }
+.site-footer__links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 18px; }
+.site-footer a { color: var(--color-text-muted-on-dark); font-size: 0.95rem; text-decoration: none; }
+.site-footer a:hover { color: var(--color-text-on-dark); }
+
+@media (max-width: 700px) {
+  :root { --content-w: min(100% - 2rem, 74rem); }
+  .site-header__inner { min-height: auto; padding-block: 14px; gap: var(--space-3); }
+  .event-card { grid-template-columns: 1fr; }
+  .event-card__date { min-height: auto; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 16px 24px; }
+  .event-card__year { margin-top: 0; }
+  .event-card__content { padding: 22px 24px; }
+}

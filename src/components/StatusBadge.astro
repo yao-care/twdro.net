@@ -4,8 +4,6 @@ interface Props { status: string; }
 const { status } = Astro.props;
 const openish = status === 'registration_open' || status === 'ongoing';
 const done = status === 'completed' || status === 'archived';
-const color = openish ? 'var(--color-pass)' : done ? 'var(--text-muted)' : 'var(--color-low)';
+const mod = openish ? 'event-status--open' : done ? 'event-status--done' : 'event-status--info';
 ---
-<span class="fs-xs" style={`display:inline-block;padding:.15em .6em;border-radius:.4em;font-weight:600;color:#fff;background:${color}`}>
-  {eventStatusLabel(status)}
-</span>
+<span class={`event-status ${mod}`}>{eventStatusLabel(status)}</span>

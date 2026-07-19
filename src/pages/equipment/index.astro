@@ -4,9 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 const items = await getCollection('equipment');
 ---
-<BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。">
-  <h1>器材</h1>
-  <p><a href={url('/equipment/compliance-check')} class="fs-lg">→ 球機合規檢查器</a></p>
+<BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。" heroTitle="器材" heroDesc="無人機足球球機資料庫與合規檢查。">
+  <p style="margin:0 0 24px"><a href={url('/equipment/compliance-check')} style="font-weight:650">球機合規檢查器 →</a></p>
   <h2>球機資料庫</h2>
   <ul>
     {items.map((it) => (

@@ -5,11 +5,12 @@ const links = [
   ['/about/privacy', '隱私權政策'], ['/about/terms', '使用條款'], ['/about/disclaimer', '免責聲明'],
 ];
 ---
-<footer style="border-top:1px solid var(--border-subtle);background:var(--bg-surface);margin-top:3rem">
-  <div class="container fs-sm text-muted" style="padding-top:1.5rem;padding-bottom:1.5rem">
-    <nav style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem">
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p class="site-footer__brand">twdro.net</p>
+    <p class="site-footer__tag">台灣無人機足球資料與賽事平台</p>
+    <nav class="site-footer__links">
       {links.map(([href, label]) => <a href={url(href)}>{label}</a>)}
     </nav>
-    <p style="margin:0">twdro.net — 台灣無人機足球資料與賽事平台</p>
   </div>
 </footer>
