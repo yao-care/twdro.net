@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceBlock from '../../components/SourceBlock.astro';
+export async function getStaticPaths() {
+  const items = await getCollection('equipment');
+  return items.map((it) => ({ params: { slug: it.id }, props: { item: it } }));
+}
+const { item } = Astro.props;
+const d = item.data;
+---
+<BaseLayout title={`${d.brand} ${d.model} | twdro.net`}>
+  <article>
+    <h1>{d.brand} {d.model}</h1>
+    <ul>
+      <li>直徑：{d.diameter_mm ?? '—'} mm</li>
+      <li>重量：{d.weight_g ?? '—'} g</li>
+      <li>馬達：{d.motor_type ?? '—'}</li>
+      <li>電池：{d.battery_voltage ?? '—'}</li>
+      <li>參考售價：{d.list_price ?? '—'}</li>
+    </ul>
+    {d.sources && d.sources.length > 0 && <SourceBlock sources={d.sources} verification="community_submitted" />}
+  </article>
+</BaseLayout>

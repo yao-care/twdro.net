@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+const items = await getCollection('equipment');
+---
+<BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。">
+  <h1>器材</h1>
+  <p><a href={url('/equipment/compliance-check')} class="fs-lg">→ 球機合規檢查器</a></p>
+  <h2>球機資料庫</h2>
+  <ul>
+    {items.map((it) => (
+      <li style="margin:.4rem 0"><a href={url(`/equipment/${it.id}`)} class="fs-lg">{it.data.brand} {it.data.model}</a>
+        <span class="fs-xs text-muted">（直徑 {it.data.diameter_mm ?? '—'}mm｜{it.data.weight_g ?? '—'}g）</span></li>
+    ))}
+  </ul>
+</BaseLayout>
