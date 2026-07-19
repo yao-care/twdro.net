@@ -1,27 +1,29 @@
 name: FAI F9A-B 2026
-organization: FAI
+organization: FAI (Fédération Aéronautique Internationale)
 rule_system: FAI
 version: '2026'
 language: en
-published_at: "2026-01-01"
-source_document_url: https://www.fai.org/
+source_document_url: https://www.fai.org/sites/default/files/document/file/SC4_volume_CIAM_F9_Drone_sports_2026.pdf
 official_translation: false
 competition_spec:
   drone_diameter_mm: 200
-  drone_weight_g_max: 500
   motor_type: brushless
-  battery_cells: 3S
   active_players_min: 3
   active_players_max: 5
-  substitutes: 2
   set_duration_sec: 180
   sets_to_win: 2
   striker_identification: LED
-  arena_size: 8x5m
-  goal_size: 60cm
 verification: source_confirmed
 sources:
   - type: fai_official
-    url: https://www.fai.org/
+    title: FAI Drone Soccer Rules
+    url: https://www.fai.org/dronesoccer-rules
+    publisher: FAI
+    trust_level: A
+    retrieved_at: "2026-07-19"
+  - type: fai_official
+    title: 'Sporting Code Section 4 Volume CIAM F9: Drone Sports 2026'
+    url: https://www.fai.org/sites/default/files/document/file/SC4_volume_CIAM_F9_Drone_sports_2026.pdf
+    publisher: FAI CIAM
     trust_level: A
     retrieved_at: "2026-07-19"

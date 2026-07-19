@@ -1,9 +1,8 @@
 rulebook: fai-f9a-b-2026
-chapter: 隊伍
-article_number: '3.1'
-title: 場上人數
-summary: FAI 規則允許主辦單位在公告中決定每隊 3 至 5 名場上選手。
-source_page: '12'
+chapter: 隊伍與得分
+title: 場上人數與指定前鋒
+summary: 每隊場上選手為 3 至 5 名，其中須指定一名「前鋒（Striker）」，僅前鋒能穿越對方球門環得分，其餘隊員不得得分。
 tags:
   - 場上人數
-  - 隊伍
+  - 前鋒
+  - 得分規則

@@ -3,25 +3,20 @@ organization: 教育部
 rule_system: MOE
 version: '115'
 language: zh-Hant
-published_at: "2026-05-25"
+published_at: "2026-04-22"
 official_translation: true
 competition_spec:
   drone_diameter_mm: 200
-  drone_weight_g_max: 500
   motor_type: brushless
-  battery_cells: 3S
-  active_players_min: 3
-  active_players_max: 3
-  substitutes: 2
   set_duration_sec: 180
   sets_to_win: 2
   striker_identification: LED
-  arena_size: 8x5m
-  goal_size: 60cm
 verification: official
 sources:
   - type: moe_announcement
-    url: https://www.edu.tw/
-    published_at: "2026-05-25"
+    title: 教育部臺教技(三)字第1152300942號函（115年全國無人機足球競賽）
+    url: https://www.nksh.tp.edu.tw/p/16-1000-24429.php
+    publisher: 教育部
+    published_at: "2026-04-22"
     retrieved_at: "2026-07-19"
     trust_level: A
