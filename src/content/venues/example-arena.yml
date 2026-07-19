@@ -1,0 +1,10 @@
+name: 示範無人機足球競賽場館
+venue_type: 正式比賽場館
+address: 臺北市中正區示範路 1 號
+city: 臺北市
+district: 中正區
+latitude: 25.0330
+longitude: 121.5654
+indoor: true
+booking_method: 電話預約
+verification: community_submitted

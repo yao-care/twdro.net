@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { verificationLabel } from '../../lib/enums';
+export async function getStaticPaths() {
+  const venues = await getCollection('venues');
+  return venues.map((v) => ({ params: { slug: v.id }, props: { venue: v } }));
+}
+const { venue } = Astro.props;
+const d = venue.data;
+---
+<BaseLayout title={`${d.name} | twdro.net`}>
+  <article>
+    <h1>{d.name}</h1>
+    <ul>
+      <li>類型：{d.venue_type}</li>
+      <li>地址：{d.address ?? '—'}</li>
+      <li>室內：{d.indoor ? '是' : '否'}</li>
+      {d.booking_method && <li>預約方式：{d.booking_method}</li>}
+      <li>資料狀態：{verificationLabel(d.verification)}</li>
+    </ul>
+  </article>
+</BaseLayout>

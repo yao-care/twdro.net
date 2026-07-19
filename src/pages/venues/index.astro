@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+const venues = await getCollection('venues');
+const points = venues
+  .filter((v) => typeof v.data.latitude === 'number' && typeof v.data.longitude === 'number')
+  .map((v) => ({ id: v.id, name: v.data.name, lat: v.data.latitude, lng: v.data.longitude }));
+const pointsJson = JSON.stringify(points);
+---
+<BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。">
+  <h1>場地與活動</h1>
+  <div id="map" style="height:420px;border:1px solid var(--border-subtle);border-radius:.5em;margin:1rem 0"></div>
+  <ul>
+    {venues.map((v) => (
+      <li style="margin:.4rem 0"><a href={url(`/venues/${v.id}`)} class="fs-lg">{v.data.name}</a>
+        <span class="fs-xs text-muted">（{v.data.venue_type}｜{v.data.city ?? ''}）</span></li>
+    ))}
+  </ul>
+  <script type="application/json" id="venue-points" set:html={pointsJson} />
+  <script>
+    import maplibregl from 'maplibre-gl';
+    import 'maplibre-gl/dist/maplibre-gl.css';
+    const points = JSON.parse(document.getElementById('venue-points')!.textContent!) as { id: string; name: string; lat: number; lng: number }[];
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256, attribution: '© OpenStreetMap contributors' } },
+        layers: [{ id: 'osm', type: 'raster', source: 'osm' }],
+      },
+      center: [121.0, 24.5],
+      zoom: 6.5,
+    });
+    map.addControl(new maplibregl.NavigationControl());
+    for (const p of points) {
+      new maplibregl.Marker().setLngLat([p.lng, p.lat]).setPopup(new maplibregl.Popup().setText(p.name)).addTo(map);
+    }
+  </script>
+</BaseLayout>

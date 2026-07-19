@@ -1,0 +1,9 @@
+name: 示範學校體育館
+venue_type: 學校體育館
+address: 新竹市示範街 2 號
+city: 新竹市
+latitude: 24.8138
+longitude: 120.9675
+indoor: true
+booking_method: 洽學校體育組
+verification: community_submitted
