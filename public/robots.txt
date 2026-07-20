@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://twdro.net/sitemap-index.xml
