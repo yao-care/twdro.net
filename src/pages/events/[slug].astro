@@ -20,6 +20,18 @@ const jsonld = eventJsonLd({
   url: new URL(url(`/events/${event.id}`), Astro.site).toString(),
   locationName: d.schedule.venue_name,
 });
+
+const levels = d.eligibility.education_levels ?? [];
+const hasTeamSize = d.eligibility.team_size_min != null || d.eligibility.team_size_max != null;
+const teamSizeText = [d.eligibility.team_size_min, d.eligibility.team_size_max].every((n) => n != null)
+  ? `${d.eligibility.team_size_min}–${d.eligibility.team_size_max} 人`
+  : `${d.eligibility.team_size_min ?? d.eligibility.team_size_max} 人`;
+const showEligibility = levels.length > 0 || hasTeamSize;
+const showCompetition = d.competition.drone_class != null
+  || d.competition.drone_diameter != null
+  || d.competition.active_drones_per_team != null;
+const r = d.results;
+const showResults = !!r && (r.champion_team || r.runner_up_team || r.third_place_team);
 ---
 <BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle} heroTitle={d.title} heroDesc={d.subtitle}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
@@ -36,30 +48,49 @@ const jsonld = eventJsonLd({
   <section class="panel">
     <h2>基本資訊</h2>
     <ul class="data-list">
+      {d.event_series && <li><span class="k">賽事系列</span><span class="v">{d.event_series}</span></li>}
+      {d.event_type && <li><span class="k">賽事類型</span><span class="v">{d.event_type}</span></li>}
+      {d.level && <li><span class="k">層級</span><span class="v">{d.level}</span></li>}
       <li><span class="k">主辦</span><span class="v">{d.organizer ?? '—'}</span></li>
       <li><span class="k">規則體系</span><span class="v">{RULE_LABEL[d.rule_system] ?? d.rule_system}</span></li>
+      {d.rulebook && <li><span class="k">規則書</span><span class="v"><a href={url(`/rules/${d.rulebook}`)} style="font-weight:650">查看規則書 →</a></span></li>}
       <li><span class="k">日期</span><span class="v">{d.schedule.event_start ?? '未定'}</span></li>
       <li><span class="k">地點</span><span class="v">{[d.schedule.city, d.schedule.venue_name].filter(Boolean).join(' · ') || '—'}</span></li>
-      <li><span class="k">報名截止</span><span class="v">{d.schedule.registration_end ?? '未定'}</span></li>
+      {d.schedule.registration_end && <li><span class="k">報名截止</span><span class="v">{d.schedule.registration_end}</span></li>}
     </ul>
   </section>
 
-  <section class="panel">
-    <h2>參賽資格</h2>
-    <ul class="data-list">
-      <li><span class="k">組別</span><span class="v">{(d.eligibility.education_levels ?? []).join('、') || '—'}</span></li>
-      <li><span class="k">隊伍人數</span><span class="v">{d.eligibility.team_size_min ?? '?'}–{d.eligibility.team_size_max ?? '?'} 人</span></li>
-    </ul>
-  </section>
+  {showEligibility && (
+    <section class="panel">
+      <h2>參賽資格</h2>
+      <ul class="data-list">
+        {levels.length > 0 && <li><span class="k">組別</span><span class="v">{levels.join('、')}</span></li>}
+        {hasTeamSize && <li><span class="k">隊伍人數</span><span class="v">{teamSizeText}</span></li>}
+      </ul>
+    </section>
+  )}
 
-  <section class="panel">
-    <h2>球機規格</h2>
-    <ul class="data-list">
-      <li><span class="k">級別</span><span class="v">{d.competition.drone_class ?? '—'}</span></li>
-      <li><span class="k">直徑</span><span class="v">{d.competition.drone_diameter ?? '—'}</span></li>
-      <li><span class="k">場上球機</span><span class="v">{d.competition.active_drones_per_team ?? '—'}</span></li>
-    </ul>
-  </section>
+  {showCompetition && (
+    <section class="panel">
+      <h2>球機規格</h2>
+      <ul class="data-list">
+        {d.competition.drone_class != null && <li><span class="k">級別</span><span class="v">{d.competition.drone_class}</span></li>}
+        {d.competition.drone_diameter != null && <li><span class="k">直徑</span><span class="v">{d.competition.drone_diameter}</span></li>}
+        {d.competition.active_drones_per_team != null && <li><span class="k">場上球機</span><span class="v">{d.competition.active_drones_per_team}</span></li>}
+      </ul>
+    </section>
+  )}
+
+  {showResults && (
+    <section class="panel">
+      <h2>成績</h2>
+      <ul class="data-list">
+        {r?.champion_team && <li><span class="k">冠軍</span><span class="v">{r.champion_team}</span></li>}
+        {r?.runner_up_team && <li><span class="k">亞軍</span><span class="v">{r.runner_up_team}</span></li>}
+        {r?.third_place_team && <li><span class="k">季軍</span><span class="v">{r.third_place_team}</span></li>}
+      </ul>
+    </section>
+  )}
 
   <section class="panel">
     <SourceBlock sources={d.sources} verification={d.verification} />

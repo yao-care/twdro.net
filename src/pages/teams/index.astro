@@ -9,23 +9,27 @@ const GROUPS: [string, string][] = [
   ['company', '企業'], ['community', '社區'], ['national_team', '代表隊'], ['temporary_team', '臨時隊伍'],
 ];
 ---
-<BaseLayout title="隊伍 | twdro.net" description="全台無人機足球隊伍名錄（學校、俱樂部）。" heroTitle="隊伍名錄" heroDesc="全台無人機足球的學校、俱樂部與代表隊。">
-  {GROUPS.map(([key, label]) => {
-    const list = teams.filter((t) => t.data.team_type === key);
-    return list.length ? (
-      <section>
-        <h2 class="group-title">{label}</h2>
-        <ul class="card-grid">
-          {list.map((t) => (
-            <li>
-              <a class="card-link" href={url(`/teams/${t.id}`)}>
-                <span class="name">{t.data.name}</span>
-                {t.data.recruitment_status && <span class="meta">{t.data.recruitment_status}</span>}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ) : null;
-  })}
+<BaseLayout title="隊伍 | twdro.net" description="全臺無人機足球隊伍名錄（學校、俱樂部）。" heroTitle="隊伍名錄" heroDesc="全臺無人機足球的學校、俱樂部與代表隊。">
+  {teams.length === 0 ? (
+    <p class="panel text-muted">目前尚無登錄隊伍，歡迎各校與俱樂部提供資料。</p>
+  ) : (
+    GROUPS.map(([key, label]) => {
+      const list = teams.filter((t) => t.data.team_type === key);
+      return list.length ? (
+        <section>
+          <h2 class="group-title">{label}</h2>
+          <ul class="card-grid">
+            {list.map((t) => (
+              <li>
+                <a class="card-link" href={url(`/teams/${t.id}`)}>
+                  <span class="name">{t.data.name}</span>
+                  {t.data.recruitment_status && <span class="meta">{t.data.recruitment_status}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null;
+    })
+  )}
 </BaseLayout>

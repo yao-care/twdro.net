@@ -8,7 +8,7 @@ const points = venues
   .map((v) => ({ id: v.id, name: v.data.name, lat: v.data.latitude, lng: v.data.longitude }));
 const pointsJson = JSON.stringify(points);
 ---
-<BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。" heroTitle="場地與活動" heroDesc="全台無人機足球練習與比賽場地。">
+<BaseLayout title="場地 | twdro.net" description="無人機足球練習與比賽場地地圖。" heroTitle="場地與活動" heroDesc="全臺無人機足球練習與比賽場地。">
   <div id="map" style="height:420px;border:1px solid var(--color-border);border-radius:14px;margin:0 0 24px;overflow:hidden"></div>
   <ul class="card-grid">
     {venues.map((v) => (

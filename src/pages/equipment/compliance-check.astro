@@ -19,14 +19,18 @@ const field = 'display:block;width:100%;font-size:1.05rem;padding:10px 12px;marg
         {books.map((b) => <option value={b.id}>{b.name}</option>)}
       </select>
     </label>
-    <label>球機直徑 (mm) <input id="cc-diameter" type="number" inputmode="numeric" style={field} /></label>
-    <label>球機總重 (g) <input id="cc-weight" type="number" inputmode="numeric" style={field} /></label>
-    <label>馬達類型 <input id="cc-motor" type="text" placeholder="brushless / brushed" style={field} /></label>
-    <label>電池 <input id="cc-battery" type="text" placeholder="例如 3S" style={field} /></label>
+    <label data-spec="drone_diameter_mm">球機直徑 (mm)<span class="cc-na" hidden> · 此規則不檢查</span> <input id="cc-diameter" type="number" inputmode="numeric" style={field} /></label>
+    <label data-spec="drone_weight_g_max">球機總重 (g)<span class="cc-na" hidden> · 此規則不檢查</span> <input id="cc-weight" type="number" inputmode="numeric" style={field} /></label>
+    <label data-spec="motor_type">馬達類型<span class="cc-na" hidden> · 此規則不檢查</span> <input id="cc-motor" type="text" placeholder="brushless / brushed" style={field} /></label>
+    <label data-spec="battery_cells">電池<span class="cc-na" hidden> · 此規則不檢查</span> <input id="cc-battery" type="text" placeholder="例如 3S" style={field} /></label>
     <button type="submit" class="btn-action" style="margin-top:4px">檢查合規 →</button>
   </form>
   <div id="cc-result"></div>
   <p class="tool-note">此工具僅提供初步比對，最終資格以主辦單位與現場檢錄結果為準。</p>
+  <style>
+    .cc-na { color: var(--color-text-muted); font-size: 0.9rem; font-weight: 600; }
+    label[data-not-checked] input { opacity: 0.55; }
+  </style>
   <script type="application/json" id="cc-data" set:html={dataJson} />
   <script>
     import { checkCompliance } from '../../lib/compliance';
@@ -37,15 +41,32 @@ const field = 'display:block;width:100%;font-size:1.05rem;padding:10px 12px;marg
     const str = (id: string) => { const v = (document.getElementById(id) as HTMLInputElement).value.trim(); return v === '' ? undefined : v; };
     const LABEL: Record<string, string> = { compliant: '初步符合', partial: '部分欄位待確認', non_compliant: '不符合', unknown: '無法判定' };
     const OVERALL_COLOR: Record<string, string> = { compliant: 'var(--color-success)', partial: 'var(--color-warning)', non_compliant: 'var(--color-danger)', unknown: 'var(--color-text-muted)' };
-    const COLOR: Record<string, string> = { pass: 'var(--color-success)', fail: 'var(--color-danger)', unknown: 'var(--color-text-muted)' };
+    const COLOR: Record<string, string> = { pass: 'var(--color-success)', fail: 'var(--color-danger)', unknown: 'var(--color-text-muted)', not_applicable: 'var(--color-text-muted)' };
+    const STATUS_TEXT: Record<string, string> = { pass: '符合', fail: '不符', unknown: '待確認', not_applicable: '此規則不檢查' };
+    const ruleSelect = document.getElementById('cc-rule') as HTMLSelectElement;
+    // 依所選規則，標示／淡化該規則未定義的輸入欄位
+    const syncFields = () => {
+      const spec = books.find((b) => b.id === ruleSelect.value)?.spec ?? {};
+      document.querySelectorAll<HTMLLabelElement>('label[data-spec]').forEach((lab) => {
+        const key = lab.dataset.spec!;
+        const checked = spec[key] !== undefined && spec[key] !== null;
+        lab.toggleAttribute('data-not-checked', !checked);
+        const na = lab.querySelector('.cc-na') as HTMLElement | null;
+        if (na) na.hidden = checked;
+      });
+    };
+    ruleSelect.addEventListener('change', syncFields);
+    syncFields();
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const ruleId = (document.getElementById('cc-rule') as HTMLSelectElement).value;
-      const spec = books.find((b) => b.id === ruleId)?.spec ?? {};
+      const ruleId = ruleSelect.value;
+      const book = books.find((b) => b.id === ruleId);
+      const spec = book?.spec ?? {};
       const r = checkCompliance({ diameter_mm: num('cc-diameter'), weight_g: num('cc-weight'), motor_type: str('cc-motor'), battery_cells: str('cc-battery') }, spec);
       const td = 'style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border)"';
-      const rows = r.fields.map((f) => `<tr><th style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600">${f.label}</th><td ${td}>${f.input === '' ? '—' : f.input}</td><td ${td}>規格 ${f.limit === '' ? '—' : f.limit}</td><td style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:${COLOR[f.status]};font-weight:700">${f.status === 'pass' ? '符合' : f.status === 'fail' ? '不符' : '待確認'}</td></tr>`).join('');
-      result.innerHTML = `<div class="panel"><p style="font-size:1.4rem;font-weight:800;margin:0 0 12px;color:${OVERALL_COLOR[r.overall]}">${LABEL[r.overall]}</p><table class="data-table"><tbody>${rows}</tbody></table></div>`;
+      const rows = r.fields.map((f) => `<tr><th style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600">${f.label}</th><td ${td}>${f.input === '' ? '—' : f.input}</td><td ${td}>${f.status === 'not_applicable' ? '規則未定義' : `規格 ${f.limit === '' ? '—' : f.limit}`}</td><td style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:${COLOR[f.status]};font-weight:700">${STATUS_TEXT[f.status]}</td></tr>`).join('');
+      const note = `<p style="margin:12px 0 0;color:var(--color-text-muted);font-size:0.95rem">本規則僅提供 ${r.comparableCount} 項可比對欄位，其餘項目此規則未定義、不列入判定；結論僅供初步參考。</p>`;
+      result.innerHTML = `<div class="panel"><p style="font-size:1.4rem;font-weight:800;margin:0 0 12px;color:${OVERALL_COLOR[r.overall]}">${LABEL[r.overall]}</p><table class="data-table"><tbody>${rows}</tbody></table>${note}</div>`;
     });
   </script>
 </BaseLayout>

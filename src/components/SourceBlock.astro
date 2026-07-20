@@ -1,16 +1,25 @@
 ---
 import { verificationLabel } from '../lib/enums';
 interface SourceItem { type: string; url: string; published_at?: string; retrieved_at?: string; trust_level: string; }
-interface Props { sources: SourceItem[]; verification: string; }
+interface Props { sources: SourceItem[]; verification?: string; }
 const { sources, verification } = Astro.props;
 const SOURCE_LABEL: Record<string, string> = {
   organizer_announcement: '主辦單位公告', moe_announcement: '教育部公告',
   fai_official: 'FAI 官方', fida_official: 'FIDA 官方', vendor_listing: '廠商資料',
+  news: '新聞報導',
 };
 const label = (t: string) => SOURCE_LABEL[t] ?? t;
+// 未指定 verification 時，依實際來源類型與信度給出誠實的資料狀態，不謊稱使用者投稿
+const statusText = verification
+  ? verificationLabel(verification)
+  : (() => {
+      const types = [...new Set(sources.map((s) => label(s.type)))].join('、');
+      const trusts = [...new Set(sources.map((s) => s.trust_level))].sort().join('／');
+      return `引用自${types}（信度 ${trusts}，未經第三方查核）`;
+    })();
 ---
 <aside style="color:var(--color-text-muted);font-size:1rem">
-  <p style="margin:0 0 8px"><strong style="color:var(--color-text)">資料狀態：</strong>{verificationLabel(verification)}</p>
+  <p style="margin:0 0 8px"><strong style="color:var(--color-text)">資料狀態：</strong>{statusText}</p>
   <p style="margin:0 0 6px"><strong style="color:var(--color-text)">資料來源</strong></p>
   <ul style="margin:0;padding-left:1.2em">
     {sources.map((s) => (

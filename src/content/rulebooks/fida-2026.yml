@@ -9,7 +9,7 @@ official_translation: false
 competition_spec:
   drone_diameter_mm: 400
   drone_weight_g_max: 1100
-  active_players_min: 3
+  active_players_min: 5
   active_players_max: 5
   set_duration_sec: 180
   sets_to_win: 2

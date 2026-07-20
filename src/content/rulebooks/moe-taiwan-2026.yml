@@ -7,9 +7,14 @@ published_at: "2026-04-22"
 official_translation: true
 competition_spec:
   drone_diameter_mm: 200
+  drone_weight_g_max: 300
+  active_players_min: 3
+  active_players_max: 5
   set_duration_sec: 180
   sets_to_win: 2
   striker_identification: 指定前鋒
+  arena_size: 6×3m（護籠高 3m）
+  goal_size: 內徑 40／外徑 70cm
 verification: official
 sources:
   - type: moe_announcement

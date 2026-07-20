@@ -3,6 +3,12 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 const items = await getCollection('equipment');
+const specMeta = (d: { diameter_mm?: number; weight_g?: number }) => {
+  const parts: string[] = [];
+  if (d.diameter_mm != null) parts.push(`直徑 ${d.diameter_mm} mm`);
+  if (d.weight_g != null) parts.push(`${d.weight_g} g`);
+  return parts.length ? parts.join(' · ') : '規格待補';
+};
 ---
 <BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。" heroTitle="器材" heroDesc="無人機足球球機資料庫與合規檢查。">
   <p style="margin:0 0 24px"><a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a></p>
@@ -12,7 +18,7 @@ const items = await getCollection('equipment');
       <li>
         <a class="card-link" href={url(`/equipment/${it.id}`)}>
           <span class="name">{it.data.brand} {it.data.model}</span>
-          <span class="meta">直徑 {it.data.diameter_mm ?? '—'} mm · {it.data.weight_g ?? '—'} g</span>
+          <span class="meta">{specMeta(it.data)}</span>
         </a>
       </li>
     ))}

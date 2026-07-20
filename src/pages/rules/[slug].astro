@@ -12,20 +12,83 @@ export async function getStaticPaths() {
 }
 const { book, rules } = Astro.props;
 const d = book.data;
-const heroDesc = `制定：${d.organization}｜版本：${d.version}｜${d.official_translation ? '官方翻譯' : '非官方翻譯（僅供參考）'}`;
+
+// 賽制規格：只列有值的欄位，標籤用臺灣用語
+const spec = d.competition_spec ?? {};
+type SpecRow = { label: string; value: string };
+const specRows: SpecRow[] = [];
+const push = (label: string, value: unknown) => {
+  if (value !== undefined && value !== null && value !== '') specRows.push({ label, value: String(value) });
+};
+push('球徑', spec.drone_diameter_mm != null ? `${spec.drone_diameter_mm} mm` : undefined);
+push('重量上限', spec.drone_weight_g_max != null ? `${spec.drone_weight_g_max} g` : undefined);
+push('馬達', spec.motor_type);
+push('電池', spec.battery_cells);
+if (spec.active_players_min != null || spec.active_players_max != null) {
+  const lo = spec.active_players_min, hi = spec.active_players_max;
+  push('上場人數', lo != null && hi != null ? (lo === hi ? `${lo} 人` : `${lo}–${hi} 人`) : `${lo ?? hi} 人`);
+}
+push('替補', spec.substitutes != null ? `${spec.substitutes} 人` : undefined);
+push('局時', spec.set_duration_sec != null ? `${spec.set_duration_sec} 秒` : undefined);
+push('勝局', spec.sets_to_win != null ? `${spec.sets_to_win} 局（先取者勝）` : undefined);
+push('指定前鋒', spec.striker_identification);
+push('場地', spec.arena_size);
+push('球門', spec.goal_size);
+
+// 條文：依 article_number 自然排序（無編號置底），再依 chapter 分組（維持首次出現順序）
+const sorted = [...rules].sort((a, b) => {
+  const an = a.data.article_number, bn = b.data.article_number;
+  if (an && bn) return an.localeCompare(bn, undefined, { numeric: true, sensitivity: 'base' });
+  if (an) return -1;
+  if (bn) return 1;
+  return 0;
+});
+const chapters: { name: string; items: typeof sorted }[] = [];
+for (const r of sorted) {
+  const name = r.data.chapter ?? '';
+  let g = chapters.find((c) => c.name === name);
+  if (!g) { g = { name, items: [] }; chapters.push(g); }
+  g.items.push(r);
+}
+
+const effectiveDate = d.effective_from ?? d.published_at;
+const dateLabel = d.effective_from ? '生效' : '發布';
+const heroDesc = `制定：${d.organization}｜版本：${d.version}${effectiveDate ? `｜${dateLabel}：${effectiveDate}` : ''}｜${d.official_translation ? '官方翻譯' : '非官方翻譯（僅供參考）'}`;
 ---
 <BaseLayout title={`${d.name} | twdro.net`} heroTitle={d.name} heroDesc={heroDesc}>
   {d.source_document_url && (
     <p style="margin:0 0 20px"><a href={d.source_document_url} rel="nofollow noopener" target="_blank" style="font-weight:650">原始官方文件 ↗</a></p>
   )}
+  {specRows.length > 0 && (
+    <section class="panel">
+      <h2>賽制規格</h2>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="min-width:100%">
+          <tbody>
+            {specRows.map((row) => (
+              <tr>
+                <th scope="row" style="text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600;white-space:nowrap">{row.label}</th>
+                <td style="padding:.55rem .7rem;border-bottom:1px solid var(--color-border)">{row.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
   {rules.length > 0 ? (
     <section class="panel">
       <h2>條文</h2>
-      {rules.map((r) => (
-        <div style="padding:16px 0;border-top:1px solid var(--color-border)">
-          <h3 style="margin:0 0 6px">{r.data.article_number} {r.data.title}</h3>
-          {r.data.summary && <p style="margin:0">{r.data.summary}</p>}
-          {r.data.source_page && <p class="text-muted" style="margin:8px 0 0;font-size:1rem">來源頁：{r.data.source_page}</p>}
+      {chapters.map((chapter) => (
+        <div>
+          {chapter.name && <h3 style="margin:24px 0 4px;font-size:1.15rem">{chapter.name}</h3>}
+          {chapter.items.map((r) => (
+            <div style="padding:16px 0;border-top:1px solid var(--color-border)">
+              <h4 style="margin:0 0 6px;font-size:1.05rem">{r.data.article_number ? `${r.data.article_number} ${r.data.title}` : r.data.title}</h4>
+              {r.data.summary && <p style="margin:0">{r.data.summary}</p>}
+              {r.data.source_page && <p class="text-muted" style="margin:8px 0 0;font-size:1rem">來源頁：{r.data.source_page}</p>}
+            </div>
+          ))}
         </div>
       ))}
     </section>

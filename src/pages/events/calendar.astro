@@ -8,14 +8,15 @@ const events = (await getCollection('events')).map((e) => ({
   start: e.data.schedule.event_start ?? '', city: e.data.schedule.city ?? '',
 }));
 const eventsJson = JSON.stringify(events);
-const statusOptions = EVENT_STATUS.map((s) => ({ value: s, label: eventStatusLabel(s) }));
+const present = new Set(events.map((e) => e.status));
+const statusOptions = EVENT_STATUS.filter((s) => present.has(s)).map((s) => ({ value: s, label: eventStatusLabel(s) }));
 const field = 'display:block;font-size:1.05rem;padding:10px 12px;margin-top:6px;border:1px solid var(--color-border);border-radius:9px;background:var(--color-surface)';
 ---
 <BaseLayout
   title="賽事日曆 | twdro.net"
-  description="依狀態與月份篩選台灣無人機足球賽事。"
+  description="依狀態與月份篩選臺灣無人機足球賽事。"
   heroTitle="賽事日曆"
-  heroDesc="依狀態與月份篩選台灣無人機足球賽事。"
+  heroDesc="依狀態與月份篩選臺灣無人機足球賽事。"
 >
   <p style="margin:0 0 20px"><a href={url('/events')} style="font-weight:650">← 回賽事列表</a></p>
   <div class="panel">

@@ -1,9 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SPEC_FIELDS } from '../../lib/compare';
+import { SPEC_FIELDS, SYSTEM_LABELS } from '../../lib/compare';
 const books = (await getCollection('rulebooks')).map((b) => ({
-  id: b.id, name: b.data.name, spec: b.data.competition_spec ?? {},
+  id: b.id,
+  name: b.data.name,
+  system: SYSTEM_LABELS[b.data.rule_system] ?? b.data.rule_system,
+  spec: b.data.competition_spec ?? {},
 }));
 const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
 ---
@@ -25,23 +28,65 @@ const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
   <script>
     import { compareRulebooks } from '../../lib/compare';
     const raw = document.getElementById('compare-data')!.textContent!;
-    const { books } = JSON.parse(raw) as { books: { id: string; name: string; spec: Record<string, any> }[] };
+    const { books } = JSON.parse(raw) as { books: { id: string; name: string; system?: string; spec: Record<string, any> }[] };
     const picker = document.getElementById('book-picker')!;
     const result = document.getElementById('compare-result')!;
+
+    const thStyle = 'text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--color-border)';
+    const tdStyle = 'padding:.6rem .7rem;border-bottom:1px solid var(--color-border)';
+    const kdStyle = 'text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600';
+
+    function el(tag: string, style: string, text?: string) {
+      const node = document.createElement(tag);
+      node.setAttribute('style', style);
+      if (text !== undefined) node.textContent = text; // 安全：不用 innerHTML 插入 spec 值
+      return node;
+    }
+
     function render() {
       const checked = Array.from(picker.querySelectorAll('input:checked')).map((i) => (i as HTMLInputElement).value);
       const selected = books.filter((b) => checked.includes(b.id));
-      if (selected.length === 0) { result.innerHTML = '<p class="text-muted">請至少勾選一個規則版本。</p>'; return; }
+      result.replaceChildren();
+      if (selected.length === 0) {
+        result.appendChild(el('p', 'color:var(--color-text-muted)', '請至少勾選一個規則版本。'));
+        result.firstElementChild!.className = 'text-muted';
+        return;
+      }
       const rows = compareRulebooks(selected);
-      const th = 'style="text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--color-border)"';
-      const td = 'style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border)"';
-      const kd = 'style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600"';
-      const head = [`<th ${th}>欄位</th>`].concat(selected.map((b) => `<th ${th}>${b.name}</th>`)).join('');
-      const body = rows.map((r) => {
-        const cells = r.values.map((v) => `<td ${td}>${v ?? '—'}</td>`).join('');
-        return `<tr><th ${kd}>${r.label}</th>${cells}</tr>`;
-      }).join('');
-      result.innerHTML = `<table class="data-table" style="min-width:100%"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+
+      const table = document.createElement('table');
+      table.className = 'data-table';
+      table.setAttribute('style', 'min-width:100%');
+
+      // 表頭：欄位 + 各規則書（標明體系）
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      hr.appendChild(el('th', thStyle, '欄位'));
+      for (const b of selected) {
+        const th = el('th', thStyle);
+        const name = document.createElement('div');
+        name.textContent = b.name;
+        th.appendChild(name);
+        if (b.system) {
+          const sys = el('div', 'font-size:.85rem;font-weight:600;color:var(--color-text-muted)', `體系：${b.system}`);
+          th.appendChild(sys);
+        }
+        hr.appendChild(th);
+      }
+      thead.appendChild(hr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      for (const r of rows) {
+        const tr = document.createElement('tr');
+        tr.appendChild(el('th', kdStyle, r.label));
+        for (const v of r.values) {
+          tr.appendChild(el('td', tdStyle, v === undefined || v === null || v === '' ? '—' : String(v)));
+        }
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      result.appendChild(table);
     }
     picker.addEventListener('change', render);
     render();

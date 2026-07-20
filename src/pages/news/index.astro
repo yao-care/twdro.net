@@ -5,9 +5,9 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.localeComp
 ---
 <BaseLayout
   title="最新消息 | twdro.net"
-  description="台灣無人機足球最新賽事動態與消息。"
+  description="臺灣無人機足球最新賽事動態與消息。"
   heroTitle="最新消息"
-  heroDesc="台灣無人機足球最新賽事動態與消息。"
+  heroDesc="臺灣無人機足球最新賽事動態與消息。"
 >
   <div style="display:grid;gap:16px">
     {news.map((n) => (

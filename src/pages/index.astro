@@ -31,11 +31,11 @@ const tools = [
   ['/search', '全站搜尋', '搜尋賽事、規則、器材'],
 ];
 ---
-<BaseLayout title="台灣無人機足球的賽事、規則與器材 | twdro.net" bare>
+<BaseLayout title="臺灣無人機足球的賽事、規則與器材 | twdro.net" bare>
   <section class="page-hero">
     <div class="page-hero__inner" style="padding-block:80px 72px">
       <p style="color:var(--color-tech);font-weight:700;letter-spacing:0.12em;margin:0 0 14px;font-size:0.95rem">TAIWAN DRONE SOCCER · 無人機足球</p>
-      <h1 style="font-size:clamp(2.6rem,6vw,4.2rem);max-width:18ch">台灣無人機足球的賽事、規則與器材</h1>
+      <h1 style="font-size:clamp(2.6rem,6vw,4.2rem);max-width:18ch">臺灣無人機足球的賽事、規則與器材</h1>
       <p>整理各地賽事、FAI／FIDA／教育部規則、隊伍、場地與器材規格，每筆標明來源與查核日期。</p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px">
         <a class="btn-action" href={url('/events')}>查看近期賽事 →</a>
@@ -90,10 +90,18 @@ const tools = [
         </div>
         <div style="display:grid;gap:14px">
           {news.map((n) => (
-            <a class="card-link" href={url('/news')}>
-              <span class="meta" style="margin-top:0">{n.data.date}</span>
-              <span class="name" style="margin-top:4px">{n.data.title}</span>
-            </a>
+            n.data.source_url ? (
+              <a class="card-link" href={n.data.source_url} rel="nofollow noopener" target="_blank">
+                <span class="meta" style="margin-top:0">{n.data.date}</span>
+                <span class="name" style="margin-top:4px">{n.data.title} ↗</span>
+                {n.data.source_publisher && <span class="meta" style="margin-top:4px">來源：{n.data.source_publisher}</span>}
+              </a>
+            ) : (
+              <div class="card-link" style="cursor:default">
+                <span class="meta" style="margin-top:0">{n.data.date}</span>
+                <span class="name" style="margin-top:4px">{n.data.title}</span>
+              </div>
+            )
           ))}
         </div>
       </section>
