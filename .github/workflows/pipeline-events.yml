@@ -21,10 +21,11 @@ jobs:
           path: ~/.cache/huggingface
           key: ckip-model-v1
       - run: pip install -r pipeline/requirements.txt
-      - name: 執行 pipeline（賽事來源尚待接入實際 adapter）
-        run: |
-          echo "賽事 adapter（教育部/天穹盃公告、簡章 PDF 變更偵測）待補來源實作。"
-          echo "框架已就緒：新增 pipeline/sources/<name>.py 後改此步為 python -m pipeline.run --source <name>。"
+      - name: 執行賽事公告 adapter（監看官方公告頁，擷取 draft 候選賽事）
+        # 可用 repo 變數 EVENT_ANNOUNCEMENT_URLS（逗號分隔）覆寫監看清單。
+        env:
+          EVENT_ANNOUNCEMENT_URLS: ${{ vars.EVENT_ANNOUNCEMENT_URLS }}
+        run: python -m pipeline.run --source event_announcements
       - name: 開 PR（若有候選變更）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
         uses: peter-evans/create-pull-request@v6

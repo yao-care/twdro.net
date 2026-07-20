@@ -45,6 +45,12 @@ def _load_source(name: str):
         # 環境變數優先；未設定時 MoeSchools 會用內建教育部統計處預設 URL。
         url = os.environ.get("MOE_SCHOOLS_URL", "").strip() or None
         return MoeSchools(url)
+    if name == "event_announcements":
+        from pipeline.sources.announcements import EventAnnouncements
+        # 逗號分隔的環境變數 EVENT_ANNOUNCEMENT_URLS 可覆寫監看清單。
+        env = os.environ.get("EVENT_ANNOUNCEMENT_URLS", "").strip()
+        urls = [u.strip() for u in env.split(",") if u.strip()] or None
+        return EventAnnouncements(urls)
     raise SystemExit(f"未知來源：{name}")
 
 

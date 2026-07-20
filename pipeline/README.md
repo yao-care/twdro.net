@@ -18,11 +18,16 @@ python3 -m pytest -q                                      # 離線，scrub 用 m
 `pipeline/requirements.txt` 含 `ckip-transformers` + `torch`（僅 CI 安裝）。
 workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipeline-intl`（每週）。
 
+## 已接的來源
+- **`moe_schools`**（`pipeline-gov`）：教育部統計處學校名錄 JSON → `organizations`。內建預設 URL（`stats.moe.gov.tw/j1_new.json`），可用 repo 變數 `MOE_SCHOOLS_URL` 覆寫。
+- **`event_announcements`**（`pipeline-events`）：監看官方 HTML 公告頁，用「」括號＋競賽關鍵字（無人機/飛球＋錦標賽/公開賽/盃…）擷取賽事名稱與日期線索 → **draft 候選賽事**進 PR 給人審。監看清單見 `pipeline/sources/announcements.py` 的 `DEFAULT_URLS`，可用 repo 變數 `EVENT_ANNOUNCEMENT_URLS`（逗號分隔）覆寫。
+  - 現實限制：FB/社群與 JS 渲染站不爬；學校公告頁易下架（404）。擷取為 best-effort，會有組別片段等雜訊，皆由人工在 PR 篩掉。擴充覆蓋＝加入新的穩定 HTML 頁。
+
 ## 新增來源
 在 `pipeline/sources/` 新增實作 `Source` 協定的 adapter（`fetch()`/`parse()`），
 於 `pipeline/run.py` 的 `_load_source` 註冊，並在對應 workflow 呼叫。
 
 ## 邊界
 - 不 rehost 官方 PDF（只存 URL + hash + retrieved_at）。
-- 不爬社群/學校公告牆；遵守來源 ToS，不高頻爬取。
-- 賽事/國際 adapter 為框架就緒、實際來源待接入（見各 workflow 註記）。
+- 不爬社群/學校公告牆列表；遵守來源 ToS，不高頻爬取。
+- 國際（`pipeline-intl`）adapter 仍為框架就緒、實際來源待接入。
