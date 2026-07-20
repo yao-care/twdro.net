@@ -1,0 +1,12 @@
+brand: 首羿國際（So-Easy）
+model: SOEASY 空中足球無人機 20CM（BALKIN V2.0）
+diameter_mm: 200
+weight_g: 105
+battery_voltage: 2S 450mAh
+sources:
+  - type: vendor_listing
+    title: 首羿國際 創意足球無人機
+    url: https://www.so-easy.com.tw/droneball.html
+    publisher: 首羿國際股份有限公司
+    retrieved_at: "2026-07-19"
+    trust_level: C

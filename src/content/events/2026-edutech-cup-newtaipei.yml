@@ -1,0 +1,21 @@
+title: 第三屆臺灣教育科技盃無人機足球－新北地區公開賽
+subtitle: 新增無刷馬達組，採 FAI F9A-B 與 FIDA CL20
+event_series: 臺灣教育科技盃無人機足球
+status: announced
+event_type: 地區公開賽
+level: 地方
+organizer: 新北市教育局／台北市電腦商業同業公會／奧斯丁國際
+rule_system: OTHER
+schedule:
+  event_start: "2026-08-08"
+  venue_name: 新北市立三民高中 逸仙堂
+  city: 新北市
+  district: 蘆洲區
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 第三屆臺灣教育科技盃無人機足球－新北地區公開賽
+    url: https://www.jges.ntpc.edu.tw/p/406-1000-9043,r43.php
+    publisher: 新北市教育局
+    retrieved_at: "2026-07-19"
+    trust_level: B

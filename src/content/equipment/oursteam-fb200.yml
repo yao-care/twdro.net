@@ -1,0 +1,11 @@
+brand: 奧斯丁國際（OURSTEAM）
+model: FB200 無刷足球無人機
+motor_type: brushless
+list_price: NT$15,000（教育單位／課程用，售況以官網為準）
+sources:
+  - type: vendor_listing
+    title: 奧斯丁國際 FB200 無刷足球無人機
+    url: https://www.oursteam.com.tw/view-product.php?id=1117
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-19"
+    trust_level: C

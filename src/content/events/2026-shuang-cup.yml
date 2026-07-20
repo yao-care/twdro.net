@@ -1,0 +1,21 @@
+title: 2026 秀傳盃無人機足球友誼賽
+subtitle: 全台首屆由醫院主辦，結合醫療無人機論壇與代表隊示範賽
+event_series: 秀傳夏季無人機嘉年華會
+status: announced
+event_type: 友誼賽
+level: 地方
+organizer: 秀傳醫療體系／奧斯丁國際
+rule_system: OTHER
+schedule:
+  event_start: "2026-08-01"
+  event_end: "2026-08-02"
+  venue_name: 彰化秀傳紀念醫院 南平大樓
+  city: 彰化縣
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2026 秀傳夏季無人機嘉年華會・秀傳盃無人機足球友誼賽
+    url: https://www.facebook.com/oursteamtw/
+    publisher: 奧斯丁國際
+    retrieved_at: "2026-07-19"
+    trust_level: C

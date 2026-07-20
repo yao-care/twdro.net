@@ -1,0 +1,11 @@
+brand: 宇宙機器人（kodorobot）
+model: 天穹飛球 200I（有刷）
+motor_type: brushed
+list_price: NT$5,858
+sources:
+  - type: vendor_listing
+    title: 宇宙機器人 天穹飛球 200I
+    url: https://www.kodorobot.com/product/%E5%A4%A9%E7%A9%B9%E9%A3%9B%E7%90%83200i/
+    publisher: 宇宙機器人
+    retrieved_at: "2026-07-19"
+    trust_level: C

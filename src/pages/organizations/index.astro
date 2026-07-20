@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const orgs = await getCollection('organizations');
+const GROUPS: [string, string][] = [
+  ['association', '協會'], ['university', '大學'], ['school', '學校'],
+  ['vendor', '器材／課程廠商'], ['government', '政府單位'],
+];
+---
+<BaseLayout
+  title="推廣單位 | twdro.net"
+  description="台灣公開推動無人機足球的協會、學校、大學、廠商與政府單位。"
+  heroTitle="推廣單位"
+  heroDesc="台灣公開推動無人機足球的協會、學校、大學、廠商與政府單位。"
+>
+  {GROUPS.map(([key, label]) => {
+    const list = orgs.filter((o) => o.data.org_type === key);
+    return list.length ? (
+      <section>
+        <h2 class="group-title">{label}</h2>
+        <ul class="card-grid">
+          {list.map((o) => (
+            <li>
+              {o.data.website ? (
+                <a class="card-link" href={o.data.website} rel="nofollow noopener" target="_blank">
+                  <span class="name">{o.data.name} ↗</span>
+                  {o.data.city && <span class="meta">{o.data.city}</span>}
+                </a>
+              ) : (
+                <div class="card-link" style="cursor:default">
+                  <span class="name">{o.data.name}</span>
+                  {o.data.city && <span class="meta">{o.data.city}</span>}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : null;
+  })}
+  <p class="text-muted" style="font-size:1rem;margin-top:24px">收錄以公開資料佐證有推動無人機足球之單位；不含個別選手資訊。</p>
+</BaseLayout>

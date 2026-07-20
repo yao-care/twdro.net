@@ -1,0 +1,21 @@
+title: 2026 第二屆天穹盃無人機飛球錦標賽－南投戰
+subtitle: 今年報名 29 隊，較去年成長約 3 倍
+event_series: 天穹盃
+status: completed
+event_type: 分站賽
+level: 地方
+organizer: 台灣無人機競技發展協會
+rule_system: OTHER
+rulebook: skycup-2026
+schedule:
+  event_start: "2026-07-18"
+  venue_name: 南投縣立南崗國民中學活動中心
+  city: 南投縣
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2026 第二屆天穹盃無人機飛球錦標賽－南投戰
+    url: https://slnps.ntct.edu.tw/p/406-1079-496742,r357.php
+    publisher: 台灣無人機競技發展協會（南投縣政府指導）
+    retrieved_at: "2026-07-19"
+    trust_level: B

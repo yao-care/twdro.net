@@ -1,0 +1,21 @@
+title: 2026 第二屆天穹盃無人機飛球錦標賽－臺北戰
+subtitle: 天穹盃 2026 巡迴分站
+event_series: 天穹盃
+status: completed
+event_type: 分站賽
+level: 地方
+organizer: 台灣無人機競技發展協會
+rule_system: OTHER
+rulebook: skycup-2026
+schedule:
+  event_start: "2026-05-30"
+  venue_name: 實踐大學國際會議廳（臺北大直校區）
+  city: 臺北市
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2026 第二屆天穹盃無人機飛球錦標賽－臺北戰
+    url: https://www.dcsh.tp.edu.tw/news/
+    publisher: 台灣無人機競技發展協會
+    retrieved_at: "2026-07-19"
+    trust_level: B
