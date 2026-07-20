@@ -7,7 +7,7 @@ const specMeta = (d: { diameter_mm?: number; weight_g?: number }) => {
   const parts: string[] = [];
   if (d.diameter_mm != null) parts.push(`直徑 ${d.diameter_mm} mm`);
   if (d.weight_g != null) parts.push(`${d.weight_g} g`);
-  return parts.length ? parts.join(' · ') : '規格待補';
+  return parts.join(' · ');
 };
 ---
 <BaseLayout title="器材 | twdro.net" description="無人機足球球機資料庫與合規檢查。" heroTitle="器材" heroDesc="無人機足球球機資料庫與合規檢查。">
@@ -18,7 +18,7 @@ const specMeta = (d: { diameter_mm?: number; weight_g?: number }) => {
       <li>
         <a class="card-link" href={url(`/equipment/${it.id}`)}>
           <span class="name">{it.data.brand} {it.data.model}</span>
-          <span class="meta">{specMeta(it.data)}</span>
+          {specMeta(it.data) && <span class="meta">{specMeta(it.data)}</span>}
         </a>
       </li>
     ))}

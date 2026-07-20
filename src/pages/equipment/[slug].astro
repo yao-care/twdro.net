@@ -8,17 +8,23 @@ export async function getStaticPaths() {
 }
 const { item } = Astro.props;
 const d = item.data;
+// 只列有值的規格，缺的安靜省略（不顯示佔位）
+const rows: [string, string][] = [
+  d.diameter_mm != null ? ['直徑', `${d.diameter_mm} mm`] : null,
+  d.weight_g != null ? ['重量', `${d.weight_g} g`] : null,
+  d.motor_type ? ['馬達', d.motor_type] : null,
+  d.battery_voltage ? ['電池', d.battery_voltage] : null,
+  d.list_price ? ['參考售價', d.list_price] : null,
+].filter((r): r is [string, string] => r !== null);
 ---
 <BaseLayout title={`${d.brand} ${d.model} | twdro.net`} heroTitle={`${d.brand} ${d.model}`} heroDesc="球機規格">
-  <section class="panel">
-    <ul class="data-list">
-      <li><span class="k">直徑</span><span class="v">{d.diameter_mm != null ? `${d.diameter_mm} mm` : '規格待補'}</span></li>
-      <li><span class="k">重量</span><span class="v">{d.weight_g != null ? `${d.weight_g} g` : '規格待補'}</span></li>
-      <li><span class="k">馬達</span><span class="v">{d.motor_type ?? '規格待補'}</span></li>
-      <li><span class="k">電池</span><span class="v">{d.battery_voltage ?? '規格待補'}</span></li>
-      <li><span class="k">參考售價</span><span class="v">{d.list_price ?? '規格待補'}</span></li>
-    </ul>
-  </section>
+  {rows.length > 0 && (
+    <section class="panel">
+      <ul class="data-list">
+        {rows.map(([k, v]) => <li><span class="k">{k}</span><span class="v">{v}</span></li>)}
+      </ul>
+    </section>
+  )}
   {d.sources && d.sources.length > 0 && (
     <section class="panel"><SourceBlock sources={d.sources} /></section>
   )}
