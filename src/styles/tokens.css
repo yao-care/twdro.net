@@ -15,6 +15,9 @@
   --color-action-hover: oklch(74% 0.17 128);
   --color-action-ink: oklch(26% 0.07 140);
 
+  /* logo 飛球專用色（刻意保留競技橘，獨立於綠招牌色） */
+  --color-ball: oklch(72% 0.19 50);
+
   /* Status */
   --color-success: oklch(62% 0.14 150);
   --color-success-soft: oklch(94% 0.04 150);
@@ -83,6 +86,7 @@
     --color-action: #74d94f;
     --color-action-hover: #64c23f;
     --color-action-ink: #223a29;
+    --color-ball: #f2843a;
     --color-success: #2ea36a;
     --color-success-soft: #e2f6ea;
     --color-warning: #e0a838;
@@ -160,18 +164,28 @@ a:hover { color: var(--color-brand-hover); }
 .site-logo__domain { display: inline-flex; align-items: baseline; font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
 .site-logo__domain .dim { color: oklch(62% 0.03 152); }
 .site-logo__domain .word { color: var(--color-text-on-dark); }
-/* 「net」區：左側預留 . 的位置。飛球平常停在這當句點，動畫時繞 net 飛一圈再回原位。 */
+/* 「net」區：左側預留 . 的位置。飛球平常停在這當句點，動畫時繞 net 飛一圈再回原位。
+   net 字身 z-index:1，讓球能繞到字的「後面」(z-index 0，被擋住) 與「前面」(z-index 2，蓋住字)。 */
 .site-logo__net { position: relative; padding-left: 0.46em; }
+.site-logo__net .word, .site-logo__net .dim { position: relative; z-index: 1; }
 .site-logo__ball {
-  position: absolute; left: 0.06em; bottom: 0.09em;
+  position: absolute; left: 0.06em; bottom: 0.09em; z-index: 2;
   width: 0.32em; height: 0.32em; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, oklch(95% 0.07 125), var(--color-action) 60%);
-  box-shadow: 0 0 0.34em oklch(80% 0.18 128 / 0.5);
-  transform-origin: 1.3em -0.34em;
+  background: radial-gradient(circle at 34% 30%, oklch(93% 0.08 66), var(--color-ball) 60%);
+  box-shadow: 0 0 0.34em oklch(72% 0.19 50 / 0.5);
   animation: logo-ball-orbit 5.5s ease-in-out infinite;
 }
-/* 60% 時間停著當句點，其餘時間繞 net 飛一圈回原位 */
-@keyframes logo-ball-orbit { 0%, 60% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+/* 約六成時間停著當句點；起飛後在 x-z 平面繞 net 一圈：
+   左側 → 後方(縮小變暗、被 net 擋住) → 右側 → 前方(放大、蓋住 net) → 回到句點。 */
+@keyframes logo-ball-orbit {
+  0%, 60% { transform: translate(0, 0) scale(1);            opacity: 1;    z-index: 2; }
+  63%     { transform: translate(-0.05em, -0.36em) scale(1); opacity: 1;   z-index: 0; }
+  71%     { transform: translate(1.2em, -0.36em) scale(0.72); opacity: .68; z-index: 0; }
+  78%     { transform: translate(2.45em, -0.36em) scale(1);  opacity: 1;   z-index: 2; }
+  86%     { transform: translate(1.2em, -0.36em) scale(1.28); opacity: 1;  z-index: 2; }
+  93%     { transform: translate(-0.05em, -0.36em) scale(1); opacity: 1;   z-index: 2; }
+  100%    { transform: translate(0, 0) scale(1);            opacity: 1;    z-index: 2; }
+}
 @media (prefers-reduced-motion: reduce) { .site-logo__ball { animation: none; } }
 .site-logo__name { margin-top: 7px; color: var(--color-text-muted-on-dark); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
 .site-nav { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
