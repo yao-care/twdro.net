@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>twdro.net</title>
+  <circle cx="16" cy="16" r="10.5" fill="#f18a3c"/>
+  <g fill="none" stroke="#6b3410" stroke-width="2.4">
+    <ellipse cx="16" cy="16" rx="10.5" ry="4.2"/>
+    <ellipse cx="16" cy="16" rx="4.2" ry="10.5"/>
+  </g>
+</svg>
