@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const news = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+---
+<BaseLayout
+  title="最新消息 | twdro.net"
+  description="台灣無人機足球最新賽事動態與消息。"
+  heroTitle="最新消息"
+  heroDesc="台灣無人機足球最新賽事動態與消息。"
+>
+  <div style="display:grid;gap:16px">
+    {news.map((n) => (
+      <article class="panel">
+        <p class="text-muted" style="font-size:1rem;margin:0 0 6px">{n.data.date}</p>
+        <h2 style="margin:0 0 10px;font-size:clamp(1.25rem,2.4vw,1.6rem)">{n.data.title}</h2>
+        {n.data.summary && <p style="margin:0 0 10px">{n.data.summary}</p>}
+        {n.data.source_url && (
+          <p style="margin:0;font-size:1rem">
+            <a href={n.data.source_url} rel="nofollow noopener" target="_blank">來源{n.data.source_publisher ? `：${n.data.source_publisher}` : ''} ↗</a>
+          </p>
+        )}
+      </article>
+    ))}
+  </div>
+</BaseLayout>

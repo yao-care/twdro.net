@@ -3,8 +3,12 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
 import { url } from '../../lib/url';
-const events = (await getCollection('events'))
-  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
+const events = (await getCollection('events')).sort((a, b) => {
+  const da = a.data.schedule.event_start ?? '';
+  const db = b.data.schedule.event_start ?? '';
+  if (!da) return 1; if (!db) return -1;   // 無日期排最後
+  return db.localeCompare(da);              // 新到舊
+});
 ---
 <BaseLayout
   title="賽事資訊 | twdro.net"

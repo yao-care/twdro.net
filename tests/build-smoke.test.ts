@@ -18,6 +18,7 @@ describe('build smoke', () => {
     'dist/events/calendar/index.html',
     'dist/search/index.html',
     'dist/organizations/index.html',
+    'dist/news/index.html',
   ];
   for (const p of pages) {
     it(`產出 ${p}`, () => { expect(existsSync(p)).toBe(true); });

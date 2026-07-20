@@ -171,4 +171,15 @@ const learn = defineCollection({
   }),
 });
 
-export const collections = { events, rulebooks, rules, teams, venues, equipment, organizations, learn };
+const news = defineCollection({
+  loader: yml('news'),
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    summary: z.string().optional(),
+    source_url: z.string().url().optional(),
+    source_publisher: z.string().optional(),
+  }),
+});
+
+export const collections = { events, rulebooks, rules, teams, venues, equipment, organizations, learn, news };

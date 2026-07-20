@@ -3,10 +3,24 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
 import { url } from '../lib/url';
-const events = (await getCollection('events'))
-  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
-const next = events.find((e) => e.data.status === 'registration_open' || e.data.status === 'announced') ?? events[0];
-const recent = events.slice(0, 4);
+
+const today = new Date().toISOString().slice(0, 10);
+const ACTIVE = ['registration_open', 'announced', 'ongoing'];
+const events = await getCollection('events');
+// 有日期者排前（升冪），無日期者排後
+const byDate = [...events].sort((a, b) => {
+  const da = a.data.schedule.event_start ?? '';
+  const db = b.data.schedule.event_start ?? '';
+  if (!da) return 1; if (!db) return -1;
+  return da.localeCompare(db);
+});
+const upcoming = byDate.filter((e) => (e.data.schedule.event_start ?? '') >= today && ACTIVE.includes(e.data.status));
+const next = upcoming[0] ?? events.find((e) => ACTIVE.includes(e.data.status)) ?? byDate[0];
+// 近期：即將到來的優先，補上最近的其他賽事
+const recent = [...upcoming, ...byDate.filter((e) => !upcoming.includes(e))].slice(0, 4);
+
+const news = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date)).slice(0, 3);
+
 const tools = [
   ['/rules/compare', '規則比較器', '並排比較 FAI／FIDA／教育部賽制'],
   ['/equipment/compliance-check', '球機合規檢查器', '輸入規格初步比對是否符合'],
@@ -18,7 +32,6 @@ const tools = [
 ];
 ---
 <BaseLayout title="台灣無人機足球的一站式入口 | twdro.net" bare>
-  <!-- Hero -->
   <section class="page-hero">
     <div class="page-hero__inner" style="padding-block:80px 72px">
       <p style="color:var(--color-tech);font-weight:700;letter-spacing:0.12em;margin:0 0 14px;font-size:0.95rem">TAIWAN DRONE SOCCER · 無人機足球</p>
@@ -68,6 +81,23 @@ const tools = [
         ))}
       </div>
     </section>
+
+    {news.length > 0 && (
+      <section style="margin-bottom:56px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:18px">
+          <h2 style="margin:0">最新消息</h2>
+          <a href={url('/news')} style="font-weight:650">全部消息 →</a>
+        </div>
+        <div style="display:grid;gap:14px">
+          {news.map((n) => (
+            <a class="card-link" href={url('/news')}>
+              <span class="meta" style="margin-top:0">{n.data.date}</span>
+              <span class="name" style="margin-top:4px">{n.data.title}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <section>
       <h2 style="margin:0 0 18px">工具與資料</h2>
