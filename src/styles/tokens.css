@@ -173,18 +173,26 @@ a:hover { color: var(--color-brand-hover); }
   width: 0.32em; height: 0.32em; border-radius: 50%;
   background: radial-gradient(circle at 34% 30%, oklch(93% 0.08 66), var(--color-ball) 60%);
   box-shadow: 0 0 0.34em oklch(72% 0.19 50 / 0.5);
-  animation: logo-ball-orbit 5.5s ease-in-out infinite;
+  animation: logo-ball-orbit 5.5s linear infinite;
 }
-/* 約六成時間停著當句點；起飛後在 x-z 平面繞 net 一圈：
-   左側 → 後方(縮小變暗、被 net 擋住) → 右側 → 前方(放大、蓋住 net) → 回到句點。 */
+/* 約六成時間停著當句點；起飛後沿一個「斜看的橢圓環」等速繞 net 一圈（x-z 深度平面）。
+   參數：中心在 dot 右 1.25em、水平半徑 Rx=1.25em（左端剛好＝句點）、垂直半徑 Ry=0.42em（給環傾斜感）；
+   深度以 scale（前大後小）＋opacity（後方變暗）＋z-index（後 0 被 net 擋、前 2 蓋住 net）呈現。
+   每 30° 一格、linear 等速 → 連續平滑，不再一段一段。 */
 @keyframes logo-ball-orbit {
-  0%, 60% { transform: translate(0, 0) scale(1);            opacity: 1;    z-index: 2; }
-  63%     { transform: translate(-0.05em, -0.36em) scale(1); opacity: 1;   z-index: 0; }
-  71%     { transform: translate(1.2em, -0.36em) scale(0.72); opacity: .68; z-index: 0; }
-  78%     { transform: translate(2.45em, -0.36em) scale(1);  opacity: 1;   z-index: 2; }
-  86%     { transform: translate(1.2em, -0.36em) scale(1.28); opacity: 1;  z-index: 2; }
-  93%     { transform: translate(-0.05em, -0.36em) scale(1); opacity: 1;   z-index: 2; }
-  100%    { transform: translate(0, 0) scale(1);            opacity: 1;    z-index: 2; }
+  0%,    60%    { transform: translate(0, 0) scale(1);            opacity: 1;   z-index: 2; } /* 句點/左端 θ180 */
+  63.33%        { transform: translate(0.17em, -0.21em) scale(0.87); opacity: .8; z-index: 0; } /* θ210 後方 */
+  66.67%        { transform: translate(0.63em, -0.36em) scale(0.77); opacity: .65; z-index: 0; } /* θ240 */
+  70%           { transform: translate(1.25em, -0.42em) scale(0.74); opacity: .6; z-index: 0; } /* θ270 最後方 */
+  73.33%        { transform: translate(1.88em, -0.36em) scale(0.77); opacity: .65; z-index: 0; } /* θ300 */
+  76.67%        { transform: translate(2.33em, -0.21em) scale(0.87); opacity: .8; z-index: 0; } /* θ330 */
+  80%           { transform: translate(2.5em, 0) scale(1);          opacity: 1;   z-index: 2; } /* θ360 右端 */
+  83.33%        { transform: translate(2.33em, 0.21em) scale(1.13); opacity: 1;   z-index: 2; } /* θ30 前方 */
+  86.67%        { transform: translate(1.88em, 0.36em) scale(1.23); opacity: 1;   z-index: 2; } /* θ60 */
+  90%           { transform: translate(1.25em, 0.42em) scale(1.26); opacity: 1;   z-index: 2; } /* θ90 最前方 */
+  93.33%        { transform: translate(0.63em, 0.36em) scale(1.23); opacity: 1;   z-index: 2; } /* θ120 */
+  96.67%        { transform: translate(0.17em, 0.21em) scale(1.13); opacity: 1;   z-index: 2; } /* θ150 */
+  100%          { transform: translate(0, 0) scale(1);            opacity: 1;   z-index: 2; } /* 回句點 θ180 */
 }
 @media (prefers-reduced-motion: reduce) { .site-logo__ball { animation: none; } }
 .site-logo__name { margin-top: 7px; color: var(--color-text-muted-on-dark); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
