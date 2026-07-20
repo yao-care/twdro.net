@@ -157,17 +157,18 @@ a:hover { color: var(--color-brand-hover); }
 .site-logo:hover { color: var(--color-text-on-dark); }
 /* 網域字身用等寬體，讀起來更像「網域」；tw 與尾 t 壓暗，dro…ne 提亮拼成 drone。 */
 .site-logo__domain { display: inline-flex; align-items: baseline; font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
-.site-logo__domain .dim { color: var(--color-text-muted-on-dark); }
+.site-logo__domain .dim { color: oklch(64% 0.035 240); }
 .site-logo__domain .drone { position: relative; color: var(--color-text-on-dark); }
 .site-logo__domain .drone::after {
   content: ""; position: absolute; left: 2px; right: 2px; bottom: -5px;
-  height: 2px; border-radius: 999px; background: var(--color-tech); opacity: 0.85;
+  height: 2px; border-radius: 999px; background: var(--color-tech); opacity: 0.7;
 }
-/* 那個 . → 一顆帶護籠的飛行球（同一顆也是 favicon） */
-.site-logo__ball { width: 0.92em; height: 0.92em; margin: 0 1px; align-self: center; transform: translateY(0.06em); overflow: visible; }
-.site-logo__ball .halo { fill: var(--color-action); opacity: 0.16; }
+/* 那個 . → 一顆帶護籠的飛行球（同一顆也是 favicon）。護籠＝細白線框、加光暈與高光，維持明亮。 */
+.site-logo__ball { width: 0.98em; height: 0.98em; margin: 0 1px; align-self: center; transform: translateY(0.06em); overflow: visible; }
+.site-logo__ball .halo { fill: var(--color-action); opacity: 0.22; }
 .site-logo__ball .core { fill: var(--color-action); }
-.site-logo__ball .cage { fill: none; stroke: oklch(30% 0.05 55); stroke-width: 5; }
+.site-logo__ball .cage { fill: none; stroke: oklch(100% 0 0 / 0.5); stroke-width: 1.6; }
+.site-logo__ball .shine { fill: #fff; opacity: 0.5; }
 .site-logo__ball-inner { transform-box: fill-box; transform-origin: center; animation: logo-ball-float 3.4s ease-in-out infinite; }
 @keyframes logo-ball-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
 @media (prefers-reduced-motion: reduce) { .site-logo__ball-inner { animation: none; } }
