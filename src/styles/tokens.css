@@ -1,40 +1,41 @@
-/* twdro.net 視覺系統 — 深藍品牌骨架 + 白色資訊卡片 + 競技橘行動色。
+/* twdro.net 視覺系統 — 深松綠骨架 + 白色資訊卡片 + 電光萊姆綠招牌色（呼應無人機 LED），暖琥珀當結構輔助。
+   兩角色制：招牌色（--color-action，球／按鈕／重點）＋結構輔助色（--color-tech，頁首線／日期塊／目前頁／focus）。
    色彩以 OKLCH 定義，附 @supports hex fallback。 */
 :root {
-  /* Brand */
-  --color-brand-dark: oklch(25% 0.055 245);
-  --color-brand-dark-hover: oklch(30% 0.065 245);
-  --color-brand: oklch(54% 0.17 248);
-  --color-brand-hover: oklch(48% 0.17 248);
-  --color-tech: oklch(76% 0.145 205);
-  --color-brand-soft: oklch(95% 0.025 235);
+  /* Brand（深松綠骨架 + 可讀連結綠） */
+  --color-brand-dark: oklch(26% 0.055 158);
+  --color-brand-dark-hover: oklch(31% 0.06 156);
+  --color-brand: oklch(48% 0.11 158);
+  --color-brand-hover: oklch(42% 0.11 158);
+  --color-tech: oklch(70% 0.14 72);        /* 結構輔助 = 暖琥珀 */
+  --color-brand-soft: oklch(95% 0.03 150);
 
-  /* Action */
-  --color-action: oklch(75% 0.17 58);
-  --color-action-hover: oklch(69% 0.18 53);
-  --color-action-ink: oklch(22% 0.03 55);
+  /* Action（招牌 = 電光萊姆綠） */
+  --color-action: oklch(80% 0.18 128);
+  --color-action-hover: oklch(74% 0.17 128);
+  --color-action-ink: oklch(26% 0.07 140);
 
   /* Status */
-  --color-success: oklch(61% 0.145 150);
-  --color-success-soft: oklch(94% 0.035 150);
+  --color-success: oklch(62% 0.14 150);
+  --color-success-soft: oklch(94% 0.04 150);
   --color-warning: oklch(80% 0.15 85);
-  --color-danger: oklch(61% 0.19 25);
+  --color-danger: oklch(60% 0.19 25);
 
-  /* Background */
-  --color-background: oklch(97% 0.008 240);
+  /* Background（暖綠白） */
+  --color-background: oklch(97% 0.008 150);
   --color-surface: oklch(100% 0 0);
-  --color-surface-muted: oklch(94% 0.012 240);
+  --color-surface-muted: oklch(94% 0.014 150);
 
-  /* Text */
-  --color-text: oklch(23% 0.025 245);
-  --color-text-muted: oklch(52% 0.022 245);
-  --color-text-subtle: oklch(68% 0.018 245);
-  --color-text-on-dark: oklch(97% 0.008 230);
-  --color-text-muted-on-dark: oklch(78% 0.025 235);
+  /* Text（綠偏中性墨） */
+  --color-text: oklch(24% 0.025 158);
+  --color-text-muted: oklch(52% 0.022 155);
+  --color-text-subtle: oklch(68% 0.018 155);
+  --color-text-on-dark: oklch(97% 0.01 150);
+  --color-text-muted-on-dark: oklch(78% 0.03 150);
 
   /* Interface */
-  --color-border: oklch(88% 0.014 240);
-  --color-focus: oklch(76% 0.145 205);
+  --color-border: oklch(88% 0.014 150);
+  --color-focus: oklch(70% 0.14 72);
 
   /* ── 舊變數重新映射（讓既有各頁 inline 樣式自動換色，不用逐檔改）── */
   --bg-base: var(--color-background);
@@ -73,29 +74,29 @@
 
 @supports not (color: oklch(0 0 0)) {
   :root {
-    --color-brand-dark: #1b2a45;
-    --color-brand-dark-hover: #233452;
-    --color-brand: #2f6ad8;
-    --color-brand-hover: #295fc4;
-    --color-tech: #38c4df;
-    --color-brand-soft: #e6effb;
-    --color-action: #f18a3c;
-    --color-action-hover: #e37a2e;
-    --color-action-ink: #3a2712;
-    --color-success: #23a05f;
+    --color-brand-dark: #213c30;
+    --color-brand-dark-hover: #29483a;
+    --color-brand: #2e7d5c;
+    --color-brand-hover: #286d50;
+    --color-tech: #d29a3e;
+    --color-brand-soft: #e6f5ec;
+    --color-action: #74d94f;
+    --color-action-hover: #64c23f;
+    --color-action-ink: #223a29;
+    --color-success: #2ea36a;
     --color-success-soft: #e2f6ea;
     --color-warning: #e0a838;
-    --color-danger: #db4a3d;
-    --color-background: #f3f5f8;
+    --color-danger: #d5432f;
+    --color-background: #f2f7f3;
     --color-surface: #ffffff;
-    --color-surface-muted: #e8edf2;
-    --color-text: #232b39;
-    --color-text-muted: #6a7385;
-    --color-text-subtle: #98a1b0;
-    --color-text-on-dark: #f2f5f9;
-    --color-text-muted-on-dark: #b4bdcc;
-    --color-border: #d8dde5;
-    --color-focus: #38c4df;
+    --color-surface-muted: #e7efe9;
+    --color-text: #24352d;
+    --color-text-muted: #6a7a71;
+    --color-text-subtle: #98a69e;
+    --color-text-on-dark: #f2f7f3;
+    --color-text-muted-on-dark: #b3c6bb;
+    --color-border: #d5ded8;
+    --color-focus: #d29a3e;
   }
 }
 
@@ -157,15 +158,15 @@ a:hover { color: var(--color-brand-hover); }
 .site-logo:hover { color: var(--color-text-on-dark); }
 /* 網域字身用等寬體，讀起來更像「網域」；tw 與尾 t 壓暗，dro…ne 提亮拼成 drone。 */
 .site-logo__domain { display: inline-flex; align-items: baseline; font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
-.site-logo__domain .dim { color: oklch(64% 0.035 240); }
+.site-logo__domain .dim { color: oklch(62% 0.03 152); }
 .site-logo__domain .word { color: var(--color-text-on-dark); }
 /* 「net」區：左側預留 . 的位置。飛球平常停在這當句點，動畫時繞 net 飛一圈再回原位。 */
 .site-logo__net { position: relative; padding-left: 0.46em; }
 .site-logo__ball {
   position: absolute; left: 0.06em; bottom: 0.09em;
   width: 0.32em; height: 0.32em; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, oklch(92% 0.08 72), var(--color-action) 60%);
-  box-shadow: 0 0 0.34em oklch(75% 0.17 58 / 0.5);
+  background: radial-gradient(circle at 34% 30%, oklch(95% 0.07 125), var(--color-action) 60%);
+  box-shadow: 0 0 0.34em oklch(80% 0.18 128 / 0.5);
   transform-origin: 1.3em -0.34em;
   animation: logo-ball-orbit 5.5s ease-in-out infinite;
 }
@@ -189,12 +190,12 @@ a:hover { color: var(--color-brand-hover); }
   height: 3px; border-radius: 999px; background: var(--color-tech); content: "";
 }
 
-/* ── 頁面標題區（深藍漸層 hero）── */
+/* ── 頁面標題區（深松綠漸層 hero）── */
 .page-hero {
   color: var(--color-text-on-dark);
   background:
-    radial-gradient(circle at 84% 20%, oklch(76% 0.145 205 / 0.18), transparent 32%),
-    linear-gradient(135deg, oklch(30% 0.07 245), var(--color-brand-dark));
+    radial-gradient(circle at 84% 20%, oklch(80% 0.18 128 / 0.20), transparent 34%),
+    linear-gradient(135deg, var(--color-brand-dark-hover), var(--color-brand-dark));
 }
 .page-hero__inner { width: var(--content-w); margin-inline: auto; padding-block: 56px 48px; }
 .page-hero h1 { margin: 0; }
@@ -211,18 +212,18 @@ a:hover { color: var(--color-brand-hover); }
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 18px;
-  box-shadow: 0 1px 2px oklch(25% 0.055 245 / 0.04), 0 14px 36px oklch(25% 0.055 245 / 0.08);
+  box-shadow: 0 1px 2px oklch(26% 0.055 158 / 0.05), 0 14px 36px oklch(26% 0.055 158 / 0.09);
   transition: translate 160ms ease, box-shadow 160ms ease;
 }
-.event-card:hover { translate: 0 -3px; box-shadow: 0 2px 4px oklch(25% 0.055 245 / 0.05), 0 20px 48px oklch(25% 0.055 245 / 0.12); }
+.event-card:hover { translate: 0 -3px; box-shadow: 0 2px 4px oklch(26% 0.055 158 / 0.06), 0 20px 48px oklch(26% 0.055 158 / 0.13); }
 .event-card__date {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   min-height: 200px; padding: 24px;
   color: var(--color-text-on-dark);
-  background: linear-gradient(160deg, var(--color-brand), oklch(41% 0.135 248));
+  background: linear-gradient(160deg, oklch(66% 0.14 70), oklch(50% 0.11 66));
 }
 .event-card__month-day { font-size: 2rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
-.event-card__year { margin-top: 10px; color: oklch(91% 0.025 235); font-size: 0.95rem; font-weight: 650; letter-spacing: 0.08em; }
+.event-card__year { margin-top: 10px; color: oklch(93% 0.03 78); font-size: 0.95rem; font-weight: 650; letter-spacing: 0.08em; }
 .event-card__content { display: flex; flex-direction: column; justify-content: center; padding: 28px 32px; }
 .event-card__title { margin: 12px 0 0; font-size: clamp(1.3rem, 3vw, 1.65rem); line-height: 1.35; letter-spacing: -0.025em; font-weight: 750; }
 .event-card__title a { color: var(--color-text); }
@@ -277,7 +278,7 @@ a:hover { color: var(--color-brand-hover); }
   border: 1px solid var(--color-border);
   border-radius: 16px;
   padding: 24px 28px;
-  box-shadow: 0 1px 2px oklch(25% 0.055 245 / 0.04), 0 10px 28px oklch(25% 0.055 245 / 0.06);
+  box-shadow: 0 1px 2px oklch(26% 0.055 158 / 0.05), 0 10px 28px oklch(26% 0.055 158 / 0.07);
 }
 .panel + .panel { margin-top: 20px; }
 .panel > :first-child { margin-top: 0; }

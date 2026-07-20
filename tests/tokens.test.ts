@@ -9,9 +9,9 @@ describe('design tokens', () => {
     expect(css).toContain('--text-base: 1.5rem'); // 24px
   });
   it('品牌色系以 oklch 定義', () => {
-    expect(css).toContain('--color-brand-dark: oklch(25% 0.055 245)'); // 深藍品牌骨架
-    expect(css).toContain('--color-action: oklch(75% 0.17 58)');       // 競技橘行動色
-    expect(css).toContain('--color-tech: oklch(76% 0.145 205)');       // 電光青
+    expect(css).toContain('--color-brand-dark: oklch(26% 0.055 158)'); // 深松綠品牌骨架
+    expect(css).toContain('--color-action: oklch(80% 0.18 128)');      // 電光萊姆綠招牌色
+    expect(css).toContain('--color-tech: oklch(70% 0.14 72)');         // 暖琥珀結構輔助
   });
   it('舊變數重新映射到新色盤（相容既有頁面）', () => {
     expect(css).toContain('--color-link: var(--color-brand)');
