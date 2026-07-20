@@ -1,0 +1,26 @@
+name: 華興中學無人機足球社
+english_name: Hwa Hsing Drone Soccer Club
+team_type: senior_high_school
+organization: hwahsing-school
+city: 臺北市
+district: 士林區
+introduction: >-
+  華興中學與中華無人機競技運動協會（CDSA）合作，串聯國小、國中、高中學程發展無人機足球，
+  引進韓國訓練體系，並邀請韓籍教練來臺授課、安排學生赴韓國全州移地訓練。
+  2026 年 4 月與 CDSA 簽署合作備忘錄，於校內啟用全國首座 FIDA 40 Class 標準賽制場地。
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 無人機足球接軌國際 台灣首座FIDA標準場地啟用
+    url: https://www.cna.com.tw/news/aspt/202604110110.aspx
+    publisher: 中央社
+    published_at: "2026-04-11"
+    retrieved_at: "2026-07-20"
+    trust_level: B
+  - type: news_article
+    title: 無人機足球接軌國際 台灣首座FIDA標準場地啟用
+    url: https://newtalk.tw/news/view/2026-04-11/1029274
+    publisher: Newtalk新聞
+    published_at: "2026-04-11"
+    retrieved_at: "2026-07-20"
+    trust_level: B

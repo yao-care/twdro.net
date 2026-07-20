@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceBlock from '../../components/SourceBlock.astro';
 import { verificationLabel } from '../../lib/enums';
 export async function getStaticPaths() {
   const teams = await getCollection('teams');
@@ -24,5 +25,10 @@ const d = team.data;
     </ul>
     {d.introduction && <p style="margin:18px 0 0">{d.introduction}</p>}
   </section>
+  {d.sources && d.sources.length > 0 && (
+    <section class="panel">
+      <SourceBlock sources={d.sources} verification={d.verification} />
+    </section>
+  )}
   <p class="text-muted" style="font-size:1rem;margin-top:16px">本頁僅呈現隊伍層級公開資訊，不含選手個人資料。</p>
 </BaseLayout>

@@ -6,7 +6,7 @@ const { sources, verification } = Astro.props;
 const SOURCE_LABEL: Record<string, string> = {
   organizer_announcement: '主辦單位公告', moe_announcement: '教育部公告',
   fai_official: 'FAI 官方', fida_official: 'FIDA 官方', vendor_listing: '廠商資料',
-  news: '新聞報導',
+  news: '新聞報導', news_article: '新聞報導', press_release: '官方新聞稿',
 };
 const label = (t: string) => SOURCE_LABEL[t] ?? t;
 // 未指定 verification 時，依實際來源類型與信度給出誠實的資料狀態，不謊稱使用者投稿

@@ -118,6 +118,7 @@ const teams = defineCollection({
     introduction: z.string().optional(),
     recruitment_status: z.string().optional(),
     verification: z.enum(VERIFICATION),
+    sources: z.array(sourceSchema).optional(),  // 隊伍層級溯源，不含選手個資
   }),
 });
 

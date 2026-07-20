@@ -8,8 +8,10 @@ official_translation: true
 competition_spec:
   drone_diameter_mm: 200
   drone_weight_g_max: 300
+  battery_cells: 4S（最高 17V）
   active_players_min: 3
   active_players_max: 5
+  substitutes: 2
   set_duration_sec: 180
   sets_to_win: 2
   striker_identification: 指定前鋒
@@ -23,4 +25,10 @@ sources:
     publisher: 教育部
     published_at: "2026-04-22"
     retrieved_at: "2026-07-19"
+    trust_level: A
+  - type: rulebook
+    title: FAI Sporting Code Section 4 Volume F9 Drone Sport（Drone Soccer，F9A-B 電池與球員名單規則）
+    url: https://www.fai.org/sites/default/files/sc4_vol_f9_dronesport_24.pdf
+    publisher: Fédération Aéronautique Internationale（FAI）
+    retrieved_at: "2026-07-20"
     trust_level: A

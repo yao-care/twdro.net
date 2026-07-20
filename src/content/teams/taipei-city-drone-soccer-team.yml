@@ -1,0 +1,18 @@
+name: 臺北市無人機足球代表隊
+english_name: Taipei City Drone Soccer Team
+team_type: national_team
+organization: taipei-doe
+city: 臺北市
+introduction: >-
+  由臺北市政府教育局籌組，木柵高工、松山工農、華興高中等 7 所學校的學生跨校組成，
+  成員涵蓋國小至技術型高中不同學齡。2025 年 9 月赴韓國全州參加首屆 FIDA 無人機足球世界盃，
+  獲 Cracing 項目冠軍、無人機足球競賽 Class20 殿軍，並獲頒未來之星獎項。
+verification: official
+sources:
+  - type: press_release
+    title: 臺北市足球無人機代表隊榮獲首屆FIDA無人機足球世界盃Cracing項目冠軍
+    url: https://www.gov.taipei/News_Content.aspx?n=F0DDAF49B89E9413&s=1926761FAA617044
+    publisher: 臺北市政府教育局
+    published_at: "2025-09-28"
+    retrieved_at: "2026-07-20"
+    trust_level: A

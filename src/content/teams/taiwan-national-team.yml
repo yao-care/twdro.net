@@ -1,0 +1,16 @@
+name: 臺灣無人機足球國家代表隊
+english_name: Chinese Taipei Drone Soccer National Team
+team_type: national_team
+introduction: >-
+  經國家隊選拔賽組成，分 40 公分級（F9A-A）1 隊與 20 公分級（F9A-B）2 隊，共三支隊伍，
+  成員為臺中高工、中科實中、明道中學等校跨校、跨學齡（高中、國中、國小）學生。
+  2025 年 11 月赴上海參加國際航空總會（FAI）主辦的世界無人機足球錦標賽（WDSC）。
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 台灣無人機足球國家隊出征 跨齡菁英展現科技運動實力
+    url: https://udn.com/news/story/6885/9114940
+    publisher: 聯合報
+    published_at: "2025-11-03"
+    retrieved_at: "2026-07-20"
+    trust_level: B
