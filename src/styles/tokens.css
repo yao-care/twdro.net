@@ -158,20 +158,20 @@ a:hover { color: var(--color-brand-hover); }
 /* 網域字身用等寬體，讀起來更像「網域」；tw 與尾 t 壓暗，dro…ne 提亮拼成 drone。 */
 .site-logo__domain { display: inline-flex; align-items: baseline; font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
 .site-logo__domain .dim { color: oklch(64% 0.035 240); }
-.site-logo__domain .drone { position: relative; color: var(--color-text-on-dark); }
-.site-logo__domain .drone::after {
-  content: ""; position: absolute; left: 2px; right: 2px; bottom: -5px;
-  height: 2px; border-radius: 999px; background: var(--color-tech); opacity: 0.7;
+.site-logo__domain .word { color: var(--color-text-on-dark); }
+/* 「net」區：左側預留 . 的位置。飛球平常停在這當句點，動畫時繞 net 飛一圈再回原位。 */
+.site-logo__net { position: relative; padding-left: 0.46em; }
+.site-logo__ball {
+  position: absolute; left: 0.06em; bottom: 0.09em;
+  width: 0.32em; height: 0.32em; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, oklch(92% 0.08 72), var(--color-action) 60%);
+  box-shadow: 0 0 0.34em oklch(75% 0.17 58 / 0.5);
+  transform-origin: 1.3em -0.34em;
+  animation: logo-ball-orbit 5.5s ease-in-out infinite;
 }
-/* 那個 . → 一顆帶護籠的飛行球（同一顆也是 favicon）。護籠＝細白線框、加光暈與高光，維持明亮。 */
-.site-logo__ball { width: 0.98em; height: 0.98em; margin: 0 1px; align-self: center; transform: translateY(0.06em); overflow: visible; }
-.site-logo__ball .halo { fill: var(--color-action); opacity: 0.22; }
-.site-logo__ball .core { fill: var(--color-action); }
-.site-logo__ball .cage { fill: none; stroke: oklch(100% 0 0 / 0.5); stroke-width: 1.6; }
-.site-logo__ball .shine { fill: #fff; opacity: 0.5; }
-.site-logo__ball-inner { transform-box: fill-box; transform-origin: center; animation: logo-ball-float 3.4s ease-in-out infinite; }
-@keyframes logo-ball-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
-@media (prefers-reduced-motion: reduce) { .site-logo__ball-inner { animation: none; } }
+/* 60% 時間停著當句點，其餘時間繞 net 飛一圈回原位 */
+@keyframes logo-ball-orbit { 0%, 60% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .site-logo__ball { animation: none; } }
 .site-logo__name { margin-top: 7px; color: var(--color-text-muted-on-dark); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
 .site-nav { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
 .site-nav a {
