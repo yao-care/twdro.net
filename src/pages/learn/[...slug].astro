@@ -14,3 +14,97 @@ const { Content } = await render(article);
     <Content />
   </article>
 </BaseLayout>
+
+<script>
+  // 場地示意動畫：僅在含 #drone-arena 的教育文（什麼是無人機足球）載入 d3
+  type P = { x: number; y: number };
+  const mount = document.getElementById('drone-arena');
+  if (mount) {
+    const d3 = await import('d3');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    mount.innerHTML = '';
+
+    const W = 640, H = 300;
+    const svg = d3.select(mount).append('svg')
+      .attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%')
+      .style('height', 'auto').style('font-family', 'inherit').attr('role', 'img');
+
+    const defs = svg.append('defs');
+    defs.append('marker').attr('id', 'wds-arrow').attr('viewBox', '0 0 10 10')
+      .attr('refX', 8).attr('refY', 5).attr('markerWidth', 6).attr('markerHeight', 6)
+      .attr('orient', 'auto-start-reverse')
+      .append('path').attr('d', 'M0 0 L10 5 L0 10 z').attr('fill', 'var(--color-text-muted)');
+
+    svg.append('rect').attr('x', 4).attr('y', 4).attr('width', W - 8).attr('height', H - 8)
+      .attr('rx', 12).attr('fill', 'var(--color-surface-muted)').attr('stroke', 'var(--color-border)');
+    svg.append('text').attr('x', W / 2).attr('y', 28).attr('text-anchor', 'middle')
+      .attr('font-size', 15).attr('font-weight', 700).attr('fill', 'var(--color-text)')
+      .text('FAI F9A-B（20 公分級）場地・側視示意');
+
+    const cage = { x: 70, y: 72, w: 500, h: 170 };
+    svg.append('rect').attr('x', cage.x).attr('y', cage.y).attr('width', cage.w).attr('height', cage.h)
+      .attr('rx', 4).attr('fill', 'none').attr('stroke', 'var(--color-text-muted)').attr('stroke-width', 2.5);
+    svg.append('line').attr('x1', 320).attr('y1', cage.y).attr('x2', 320).attr('y2', cage.y + cage.h)
+      .attr('stroke', 'var(--color-text-muted)').attr('stroke-dasharray', '6 6').attr('opacity', 0.7);
+    svg.append('text').attr('x', 320).attr('y', 88).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', 'var(--color-text-muted)').text('中線');
+    svg.append('text').attr('x', 185).attr('y', 234).attr('text-anchor', 'middle').attr('font-size', 12).attr('fill', 'var(--color-text-muted)').text('A 隊半場');
+    svg.append('text').attr('x', 455).attr('y', 234).attr('text-anchor', 'middle').attr('font-size', 12).attr('fill', 'var(--color-text-muted)').text('B 隊半場');
+
+    const rightRing: P = { x: 545, y: 140 };
+    const ring = (cx: number) => svg.append('ellipse').attr('cx', cx).attr('cy', 140).attr('rx', 9).attr('ry', 30)
+      .attr('fill', 'none').attr('stroke', 'var(--color-tech)').attr('stroke-width', 6);
+    ring(95);
+    const rRing = ring(rightRing.x);
+    [95, 545].forEach((cx) => svg.append('text').attr('x', cx).attr('y', 120).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', 'var(--color-tech)').text('球門環'));
+
+    [98, 542].forEach((cx) => {
+      svg.append('rect').attr('x', cx - 20).attr('y', 226).attr('width', 40).attr('height', 14).attr('rx', 2).attr('fill', 'var(--color-surface)').attr('stroke', 'var(--color-border)');
+      svg.append('text').attr('x', cx).attr('y', 237).attr('text-anchor', 'middle').attr('font-size', 9).attr('fill', 'var(--color-text-muted)').text('起飛區');
+    });
+
+    svg.append('text').attr('x', 320).attr('y', 262).attr('text-anchor', 'middle').attr('font-size', 12).attr('fill', 'var(--color-text-muted)').text('◄──────── 長 6 公尺 ────────►');
+    svg.append('text').attr('x', 52).attr('y', 157).attr('text-anchor', 'middle').attr('font-size', 12).attr('fill', 'var(--color-text-muted)').attr('transform', 'rotate(-90 52 157)').text('高 3 公尺');
+
+    const mates = [
+      { x: 150, y: 175, team: 'a' }, { x: 200, y: 128, team: 'a' },
+      { x: 490, y: 175, team: 'b' }, { x: 440, y: 128, team: 'b' }, { x: 395, y: 160, team: 'b' },
+    ];
+    const mateSel = svg.selectAll('circle.mate').data(mates).enter().append('circle')
+      .attr('class', 'mate').attr('r', 9).attr('cx', (d) => d.x).attr('cy', (d) => d.y)
+      .attr('fill', (d) => d.team === 'a' ? 'var(--color-tech)' : 'var(--color-action)');
+
+    const halo = svg.append('circle').attr('r', 14).attr('fill', 'none').attr('stroke', 'var(--color-text)').attr('stroke-width', 1.5).attr('stroke-dasharray', '3 2');
+    const striker = svg.append('circle').attr('r', 9).attr('fill', 'var(--color-tech)');
+    const strikerLabel = svg.append('text').attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700).attr('fill', 'var(--color-text)').text('前鋒');
+    const scoreText = svg.append('text').attr('x', rightRing.x).attr('y', rightRing.y - 42).attr('text-anchor', 'middle').attr('font-size', 18).attr('font-weight', 800).attr('fill', 'var(--color-action)').attr('opacity', 0).text('+1 得分');
+
+    const start: P = { x: 200, y: 150 }, goal: P = { x: 532, y: 138 }, back: P = { x: 185, y: 158 }, ctrl: P = { x: 370, y: 92 };
+    const bez = (a: P, c: P, b: P, u: number): P => {
+      const m = 1 - u;
+      return { x: m * m * a.x + 2 * m * u * c.x + u * u * b.x, y: m * m * a.y + 2 * m * u * c.y + u * u * b.y };
+    };
+    const lerp = (a: P, b: P, u: number): P => ({ x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u });
+    const place = (p: P) => { striker.attr('cx', p.x).attr('cy', p.y); halo.attr('cx', p.x).attr('cy', p.y); strikerLabel.attr('x', p.x).attr('y', p.y - 20); };
+
+    if (reduce) {
+      place(bez(start, ctrl, goal, 0.5));
+      svg.append('path').attr('d', `M${start.x} ${start.y} Q${ctrl.x} ${ctrl.y} ${goal.x} ${goal.y}`)
+        .attr('fill', 'none').attr('stroke', 'var(--color-text-muted)').attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4').attr('marker-end', 'url(#wds-arrow)');
+      svg.append('text').attr('x', 405).attr('y', 108).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', 'var(--color-text-muted)').text('前鋒穿越對方球門環得分');
+    } else {
+      const T = 7000, ease = d3.easeCubicInOut;
+      d3.timer((elapsed) => {
+        const t = (elapsed % T) / T;
+        mateSel.attr('cy', (d) => d.y + 4 * Math.sin(elapsed / 700 + d.x));
+        let p: P, ringScale = 1, scoring = false;
+        if (t < 0.45) { p = bez(start, ctrl, goal, ease(t / 0.45)); }
+        else if (t < 0.58) { p = goal; ringScale = 1 + 0.28 * Math.sin((t - 0.45) / 0.13 * Math.PI); scoring = true; }
+        else if (t < 0.8) { p = lerp(goal, back, ease((t - 0.58) / 0.22)); }
+        else { p = back; }
+        place(p);
+        rRing.attr('transform', `translate(${rightRing.x} ${rightRing.y}) scale(1 ${ringScale}) translate(${-rightRing.x} ${-rightRing.y})`);
+        scoreText.attr('opacity', scoring ? 0.5 + 0.5 * Math.sin((t - 0.45) / 0.13 * Math.PI) : 0);
+      });
+    }
+  }
+</script>
