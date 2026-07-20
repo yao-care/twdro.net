@@ -1,22 +1,25 @@
 name: FIDA Drone Soccer Rule Book (Class 40, 5th Revision)
-organization: FIDA (Federation International Drone Soccer Association)
+organization: FIDA (Federation of International Dronesoccer Association)
 rule_system: FIDA
 version: '2026'
 language: en
+published_at: "2025-05-18"
 source_document_url: https://www.dronesoccer.org/static/files/Rule-book-1.pdf
 official_translation: false
 competition_spec:
   drone_diameter_mm: 400
-  motor_type: brushless
-  active_players_min: 5
+  drone_weight_g_max: 1100
+  active_players_min: 3
   active_players_max: 5
   set_duration_sec: 180
   sets_to_win: 2
-  striker_identification: 前鋒環
+  striker_identification: 紅／藍 LED 環（直徑 20–40cm）
+  arena_size: 5–10 × 10–20m（高 4–5m）
+  goal_size: 內徑 60／外徑 100cm
 verification: source_confirmed
 sources:
   - type: fida_official
-    title: FIDA — Federation International Drone Soccer Association
+    title: FIDA — Federation of International Dronesoccer Association
     url: https://www.dronesoccer.org/
     publisher: FIDA
     trust_level: A

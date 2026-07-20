@@ -5,12 +5,13 @@ version: '2026'
 language: zh-Hant
 official_translation: false
 competition_spec:
-  active_players_min: 3
-  active_players_max: 3
-  striker_identification: 得分手
+  drone_diameter_mm: 200
+  striker_identification: 得分手（指定前鋒）
+  sets_to_win: 2
 verification: source_confirmed
 sources:
   - type: organizer_announcement
+    title: 2026 第二屆天穹盃無人機飛球錦標賽（新北戰）活動簡章
     url: https://www.tsjh.ntpc.edu.tw/p/404-1000-9416.php
     publisher: 台灣無人機競技發展協會
     retrieved_at: "2026-07-19"

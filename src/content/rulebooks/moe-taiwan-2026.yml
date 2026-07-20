@@ -7,10 +7,9 @@ published_at: "2026-04-22"
 official_translation: true
 competition_spec:
   drone_diameter_mm: 200
-  motor_type: brushless
   set_duration_sec: 180
   sets_to_win: 2
-  striker_identification: LED
+  striker_identification: 指定前鋒
 verification: official
 sources:
   - type: moe_announcement

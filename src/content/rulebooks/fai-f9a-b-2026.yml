@@ -3,16 +3,21 @@ organization: FAI (Fédération Aéronautique Internationale)
 rule_system: FAI
 version: '2026'
 language: en
+effective_from: "2026-01-01"
 source_document_url: https://www.fai.org/sites/default/files/document/file/SC4_volume_CIAM_F9_Drone_sports_2026.pdf
 official_translation: false
 competition_spec:
   drone_diameter_mm: 200
-  motor_type: brushless
+  drone_weight_g_max: 300
+  battery_cells: 4S
   active_players_min: 3
   active_players_max: 5
+  substitutes: 2
   set_duration_sec: 180
   sets_to_win: 2
-  striker_identification: LED
+  striker_identification: 指定前鋒
+  arena_size: 6×3m（護籠高 3m）
+  goal_size: 內徑 40／外徑 70cm
 verification: source_confirmed
 sources:
   - type: fai_official
