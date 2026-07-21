@@ -24,3 +24,7 @@ export const RULE_SYSTEM = ['FAI', 'FIDA', 'MOE', 'OTHER'] as const;
 
 export const eventStatusLabel = (s: string): string => EVENT_STATUS_LABEL[s] ?? s;
 export const verificationLabel = (v: string): string => VERIFICATION_LABEL[v] ?? v;
+
+// 公開頁面只顯示非草稿賽事。資料 pipeline 每天自動把擷取到的賽事以 status:draft 抓入 repo，
+// 但草稿可能含擷取雜訊/未確認日期，須人工把 status 升級成 announced 等才對外公開。
+export const isPublicEvent = (s: string): boolean => s !== 'draft';

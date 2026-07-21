@@ -2,8 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
-import { EVENT_STATUS, eventStatusLabel } from '../../lib/enums';
-const events = (await getCollection('events')).map((e) => ({
+import { EVENT_STATUS, eventStatusLabel, isPublicEvent } from '../../lib/enums';
+const events = (await getCollection('events'))
+  .filter((e) => isPublicEvent(e.data.status))   // 草稿不上日曆
+  .map((e) => ({
   id: e.id, title: e.data.title, status: e.data.status,
   start: e.data.schedule.event_start ?? '', city: e.data.schedule.city ?? '',
 }));

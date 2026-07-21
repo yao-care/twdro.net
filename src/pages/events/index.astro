@@ -3,7 +3,10 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
 import { url } from '../../lib/url';
-const events = (await getCollection('events')).sort((a, b) => {
+import { isPublicEvent } from '../../lib/enums';
+const events = (await getCollection('events'))
+  .filter((e) => isPublicEvent(e.data.status))   // 草稿不公開，待人工升級 status 後才顯示
+  .sort((a, b) => {
   const da = a.data.schedule.event_start ?? '';
   const db = b.data.schedule.event_start ?? '';
   if (!da) return 1; if (!db) return -1;   // 無日期排最後

@@ -5,9 +5,12 @@ import StatusBadge from '../../components/StatusBadge.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
 import { url } from '../../lib/url';
+import { isPublicEvent } from '../../lib/enums';
 export async function getStaticPaths() {
   const events = await getCollection('events');
-  return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
+  // 草稿賽事不產生公開頁（無公開 URL）；人工把 status 升級後才會有頁面。
+  return events.filter((e) => isPublicEvent(e.data.status))
+    .map((e) => ({ params: { slug: e.id }, props: { event: e } }));
 }
 const RULE_LABEL: Record<string, string> = { FAI: 'FAI', FIDA: 'FIDA', MOE: '教育部', OTHER: '民間賽事' };
 const { event } = Astro.props;
