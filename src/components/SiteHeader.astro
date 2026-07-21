@@ -19,10 +19,24 @@ const isCurrent = (href: string) => {
           ><i class="site-logo__ball"></i></span></span>
       <span class="site-logo__name">臺灣無人機足球</span>
     </a>
-    <nav class="site-nav">
+    <button class="site-nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="開啟選單">
+      <span class="site-nav-toggle__bar"></span>
+      <span class="site-nav-toggle__bar"></span>
+      <span class="site-nav-toggle__bar"></span>
+    </button>
+    <nav class="site-nav" id="site-nav">
       {nav.map(([href, label]) => (
         <a href={url(href)} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
       ))}
     </nav>
   </div>
 </header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.site-nav-toggle');
+  const inner = toggle?.closest('.site-header__inner');
+  toggle?.addEventListener('click', () => {
+    const open = inner?.classList.toggle('nav-open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+  });
+</script>
