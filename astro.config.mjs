@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://twdro.net',
   base: '/',
-  trailingSlash: 'never',
+  trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [sitemap()],
 });
