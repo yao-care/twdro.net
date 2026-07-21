@@ -7,6 +7,13 @@ updated_at: "2026-07-19"
 
 臺灣的無人機足球賽事，大致分成官方推動的教育性競賽，以及民間組織主辦的公開賽事兩類。想看實際場次與時間，可直接查 [賽事頁](/events)。
 
+<figure class="arena-figure">
+<div class="d3-figure" data-figure="taiwan-competitions-overview" role="img" aria-label="臺灣無人機足球賽事分類樹：中心為『臺灣無人機足球賽事』，向下分成兩大分支——藍色的『教育體系相關競賽』（含教育部推動的科技教育競賽、學校社團與學生團隊），與橘色的『民間組織主辦的賽事』（含天穹盃，由台灣無人機競技發展協會主辦）。">
+  <p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">分類示意圖需要啟用 JavaScript。臺灣的無人機足球賽事分兩大類：教育體系相關競賽（教育部推動的科技教育競賽、學校社團與學生團隊參與），以及民間組織主辦的賽事（如台灣無人機競技發展協會主辦的天穹盃）。</p>
+</div>
+<figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">臺灣賽事兩大分支：藍色為教育體系相關競賽，橘色為民間組織主辦的賽事，兩分支各自掛上代表性的賽事與參與團隊類型。</figcaption>
+</figure>
+
 ## 教育體系相關競賽
 
 在教育體系裡，主管機關與相關單位把無人機足球納入科技教育推廣，用競賽帶動學校社團與學生團隊參與，讓學生在累積操控經驗的同時，也接觸團隊合作與工程知識。這類競賽是不少學生第一次碰這項運動的入口，相關規範可參考 [教育部競賽規則](/rules/moe-taiwan-2026)。

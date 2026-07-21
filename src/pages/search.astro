@@ -12,7 +12,6 @@ const bundlePath = url('/pagefind/');
   <link href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" slot="head" />
   <div class="panel">
     <div id="search"></div>
-    <p class="tool-note">搜尋索引於部署時產生；本地預覽需先 <code>npm run build</code>。</p>
   </div>
   <script type="application/json" id="pf-cfg" set:html={JSON.stringify({ bundlePath })} />
   <script>

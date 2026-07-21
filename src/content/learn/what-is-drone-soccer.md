@@ -10,7 +10,7 @@ updated_at: "2026-07-20"
 下面這張動畫，是以教育與民間最常用的 [FAI F9A-B（20 公分級）](/rules/fai-f9a-b-2026) 為例：前鋒從己方半場飛出、穿越對方球門環得分後，再退回己方半場——循環演示核心玩法。
 
 <figure class="arena-figure">
-<div id="drone-arena" role="img" aria-label="無人機足球場地示意動畫：長 6 公尺、高 3 公尺的網籠，中線分兩半場，兩端各有一個球門環；藍、橘兩隊各操控自己的球機，只有被標記的『前鋒』能飛越對方球門環得分，得分後全隊須退回己方半場。">
+<div class="d3-figure" data-figure="what-is-drone-soccer" role="img" aria-label="無人機足球場地示意動畫：長 6 公尺、高 3 公尺的網籠，中線分兩半場，兩端各有一個球門環；藍、橘兩隊各操控自己的球機，只有被標記的『前鋒』能飛越對方球門環得分，得分後全隊須退回己方半場。">
   <p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">場地示意動畫需要啟用 JavaScript。場地為長 6 公尺、寬 3 公尺、高 3 公尺的網籠，中線分兩半場，兩端各有一個球門環（外徑 70／內徑 40 公分）；每隊 3–5 人各操控一台球機，只有指定前鋒穿越對方球門環才得分。</p>
 </div>
 <figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">藍、橘各為一隊，每台是一位選手的球機；虛線圈者為該隊「前鋒」。動畫循環演示：前鋒穿門得分後，全隊退回己方半場再進攻。</figcaption>

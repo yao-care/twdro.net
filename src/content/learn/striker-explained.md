@@ -7,6 +7,13 @@ updated_at: "2026-07-19"
 
 在無人機足球比賽中，「前鋒（Striker）」是每隊指定、也是唯一能夠得分的角色。判定很單純：前鋒操控的球機必須完整穿越對方的球門環，才由得分裁判認定進球；隊上其他球機就算飛過球門，既不計分，也不會被處罰。
 
+<figure class="arena-figure">
+<div class="d3-figure" data-figure="striker-explained" role="img" aria-label="得分權對比示意動畫：同一隊的兩台球機分別穿越對方球門環，被指定為『前鋒』的一台（帶虛線光環）穿門時亮出綠色『+1 得分』，一般隊友穿門則以紅色打叉標示『不得分』，凸顯全隊只有前鋒能得分。">
+<p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">前鋒穿越對方球門環得「+1 分」，非前鋒隊友即使飛過同一個球門環也不計分、不受罰。</p>
+</div>
+<figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">左：被指定的前鋒（虛線光環）穿門得分；右：一般隊友穿越同一種球門環卻不計分——得分權只屬於前鋒。</figcaption>
+</figure>
+
 ## 為什麼把得分權集中在前鋒身上
 
 把得分權限定在一台球機上，是整套戰術分工的起點。前鋒只要專心找空隙、突破防線、抓準穿門的路線；其餘隊員不必追著球門跑，改成替前鋒開路、掩護，並干擾、封鎖對方前鋒。防守方也因此有了清楚的目標：集中人力盯死對方那一台會得分的球機。

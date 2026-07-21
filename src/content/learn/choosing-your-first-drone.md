@@ -7,6 +7,13 @@ updated_at: "2026-07-19"
 
 買第一台球機前，先確認自己或隊伍要參加的賽事採哪一種規格，再照規格挑器材，才不會買到不能上場的機型。
 
+<figure class="arena-figure">
+<div class="d3-figure" data-figure="choosing-your-first-drone" role="img" aria-label="選購第一台球機的檢查關卡流程動畫：一顆球由左往右依序通過五個檢錄門檻——對準賽事規格（20 或 40 公分級）、防護框合規（塑膠或複合材料、禁金屬）、螺旋槳合規（不超過 3 吋、禁金屬）、具備 fail-safe 斷訊即停馬達、售後與預算（通路、問教練）；每通過一關該節點就打勾亮綠，全數通過才安心下手購買。">
+  <p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">選購檢查關卡示意動畫需要啟用 JavaScript。依序確認：① 對準賽事規格（20／40 公分級）→ ② 防護框合規（塑膠/複合、禁金屬）→ ③ 螺旋槳合規（≤3 吋、禁金屬）→ ④ fail-safe 斷訊即停馬達 → ⑤ 售後與預算；每一關都是檢錄門檻，缺一項就可能無法上場，全數通過再下手最安心。</p>
+</div>
+<figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">選購檢查關卡：球依序通過五道門檻並逐一打勾亮綠，全數通過才安心下手購買。</figcaption>
+</figure>
+
 ## 先對準賽事規格
 
 無人機足球依球體直徑分成兩種常見規格。臺灣的教育與民間賽事多用 20 公分的 [FAI F9A-B](/rules/fai-f9a-b-2026)：球機含電池總重不超過 300 公克，電池上限 4S。40 公分級這邊，本站收錄的是 [FIDA Class 40](/rules/fida-2026)，比賽中重量上限 1,100 公克，機體與碰撞力道都更大，多用於進階賽事。兩種規格差在哪，另見 [20 公分與 40 公分球機差在哪](/learn/drone-size-20cm-vs-40cm)。

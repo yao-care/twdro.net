@@ -7,6 +7,13 @@ updated_at: "2026-07-19"
 
 無人機足球把飛行操控和團隊合作放在一起，還能順帶接觸器材維護與基本工程觀念，近年成了學校推科技教育與課外社團的熱門選項。要在校內開一個社團或隊伍，可以從這幾步著手。
 
+<figure class="arena-figure">
+<div class="d3-figure" data-figure="starting-a-school-club" role="img" aria-label="成立學校社團的四步流程動畫：一顆球沿路徑前進，依序點亮四個步驟——找到指導資源、安全教育先行、器材循序擴充、交流累積經驗。">
+  <p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">流程示意動畫需要啟用 JavaScript。成立社團的四個步驟依序為：找到指導資源 → 安全教育先行 → 器材循序擴充 → 交流累積經驗。</p>
+</div>
+<figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">成立社團的四步流程：找到指導資源、把安全教育放前面、器材循序擴充，再靠交流累積經驗。球每前進一步，就點亮一個步驟。</figcaption>
+</figure>
+
 ## 找到指導資源
 
 先看校內有沒有懂無人機或科技教育的教師，或找校外教練、地方推廣組織幫忙，把教學與安全指導的底子建起來，再逐步招募學生。

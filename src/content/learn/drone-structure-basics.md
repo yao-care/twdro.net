@@ -7,6 +7,15 @@ updated_at: "2026-07-19"
 
 無人機足球用的「球機」，是專為對抗型飛行運動設計的小型無人機。除了飛行動力，它還得符合一整套安全結構規範，才准上場。以下三項是各賽事最看重、檢錄時一定會查的重點；本頁也是本站介紹器材三規範的主篇，其他文章多半只濃縮帶過並連回這裡。
 
+下面這張標註圖，把一台球機拆開來看：外層的球形防護框、中央飛控、對稱四角的馬達＋螺旋槳、電池，以及斷訊立即停馬達的 Fail-safe。
+
+<figure class="arena-figure">
+<div class="d3-figure" data-figure="drone-structure-basics" role="img" aria-label="球機結構標註圖（正視）：外層為球形防護框（限塑膠或複合材料、禁金屬），中央為飛控與電池（最高 4S、滿電不超過 17V），對稱四角各有一組馬達與螺旋槳（最多 4 顆、槳徑不超過 3 吋、禁金屬槳），並標示 Fail-safe 失效保護——斷訊或系統異常時立即停轉馬達。">
+  <p class="arena-fallback" style="color:var(--color-text-muted);font-size:0.9rem;padding:1rem;margin:0">結構標註圖需要啟用 JavaScript。球機外層是球形防護框（限塑膠或複合材料、禁金屬），中央有飛控與電池（最高 4S、滿電不超過 17V），四角各一組馬達與螺旋槳（最多 4 顆、槳徑不超過 3 吋、禁金屬槳），並配備 Fail-safe：斷訊時立即停馬達。</p>
+</div>
+<figcaption style="font-size:0.9rem;color:var(--color-text-muted);margin-top:6px">球機各部件與其規則重點：球形防護框吸收衝擊、螺旋槳限徑禁金屬、Fail-safe 斷訊即停馬達，都是檢錄必查項目。</figcaption>
+</figure>
+
 ## 防護框：只能塑膠或複合材料
 
 球機最明顯的特徵，是包在機身外的球形防護框。材質限塑膠或複合材料，規則明文禁止金屬，這樣在互相攻防、機身碰撞時，才能靠外框吸收、分散衝擊，保護其他球機、選手與周邊人員。
