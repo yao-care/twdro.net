@@ -194,8 +194,18 @@ a:hover { color: var(--color-brand-hover); }
   96.67%        { transform: translate(0.17em, 0.21em) scale(1.13); opacity: 1;   z-index: 2; } /* θ150 */
   100%          { transform: translate(0, 0) scale(1);            opacity: 1;   z-index: 2; } /* 回句點 θ180 */
 }
-@media (prefers-reduced-motion: reduce) { .site-logo__ball { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .site-logo__ball, .site-logo__swap { animation: none; } }
 .site-logo__name { margin-top: 7px; color: var(--color-text-muted-on-dark); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; }
+/* 副標「足↔飛」翻牌：飛球每繞一圈（5.5s）翻一次；整個循環 11s（足一圈、飛一圈），
+   翻牌時機（50%＝5.5s、100%＝11s）對齊飛球回到句點的瞬間。只翻這一個字，「球」不動。 */
+.site-logo__swap { position: relative; display: inline-block; transform-style: preserve-3d; animation: logo-word-flip 11s ease-in-out infinite; }
+.site-logo__swap-face { display: inline-block; backface-visibility: hidden; }
+.site-logo__swap-face--b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform: rotateX(180deg); }
+@keyframes logo-word-flip {
+  0%, 45%  { transform: rotateX(0deg); }
+  50%, 95% { transform: rotateX(180deg); }
+  100%     { transform: rotateX(360deg); }
+}
 .site-nav { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; }
 .site-nav a {
   position: relative;
