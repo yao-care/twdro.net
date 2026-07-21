@@ -10,8 +10,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
           cache: pip
@@ -22,7 +22,7 @@ jobs:
           echo "框架已就緒：新增 pipeline/sources/<name>.py 後改此步為 python -m pipeline.run --source <name>。"
       - name: 開 PR（若有候選變更）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: pipeline/intl
           title: '資料 pipeline：國際規則變更候選'

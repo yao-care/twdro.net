@@ -10,13 +10,13 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
           cache: pip
       - name: 快取 CKIP 模型
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/huggingface
           key: ckip-model-v1
@@ -28,7 +28,7 @@ jobs:
         run: python -m pipeline.run --source event_announcements
       - name: 開 PR（若有候選變更）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: pipeline/events
           title: '資料 pipeline：賽事公告候選'
