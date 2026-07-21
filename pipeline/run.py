@@ -1,6 +1,11 @@
-"""Orchestrator：抓取 → 變更偵測 → parse → CKIP scrub → 產出候選 → PR body。
+"""Orchestrator：抓取 → 變更偵測 → parse → CKIP scrub → 分流（自動併 / 開 PR）。
 
-pipeline 只到「產出候選 + PR body」，不 merge、不上站。發佈永遠由人工在 PR 完成。
+2026-07-21 改為「能自動就自動、踩到個資才停」：
+- 候選經 CKIP 人名偵測。**未偵測到人名** → 寫入 auto-paths.txt，由 workflow 直接
+  commit 進 main 自動上站（moe_schools 補校地址、events 乾淨草稿皆走此路）。
+- **偵測到人名** → 寫入 pr-paths.txt + pr-body.md，由 workflow 開 PR 給人審，
+  不自動上站（保護未成年選手個資、收斂成隊伍層級後才 merge）。
+manifest（變更偵測狀態）一律隨自動併路徑進 main。
 """
 from __future__ import annotations
 import argparse
@@ -13,7 +18,10 @@ from pipeline.report import Candidate, build_pr_body
 from pipeline.scrub import NER, scrub_record
 
 DEFAULT_MANIFEST = "pipeline/state/manifest.json"
-PR_BODY_PATH = "pipeline/state/pr-body.md"
+STATE_DIR = "pipeline/state"
+AUTO_PATHS_PATH = "pipeline/state/auto-paths.txt"   # 乾淨候選 → 直接併 main
+PR_PATHS_PATH = "pipeline/state/pr-paths.txt"       # 人名警示候選 → 只列於 PR
+PR_BODY_PATH = "pipeline/state/pr-body.md"          # 人名警示候選的 PR 內文
 
 
 def run_source(source, manifest_path: str, ner: NER) -> tuple[list[Candidate], bool]:
@@ -54,6 +62,47 @@ def _load_source(name: str):
     raise SystemExit(f"未知來源：{name}")
 
 
+def _clear_state_files() -> None:
+    """清掉上一輪殘留的分流 state 檔（workflow 以檔案存在與否作為步驟 gate）。"""
+    for p in (AUTO_PATHS_PATH, PR_PATHS_PATH, PR_BODY_PATH):
+        if os.path.exists(p):
+            os.remove(p)
+
+
+def _write_lines(path: str, lines: list[str]) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
+def route_candidates(source_name: str, candidates: list[Candidate],
+                     manifest_path: str) -> tuple[list[Candidate], list[Candidate]]:
+    """把候選分流成（乾淨→自動併 main、人名警示→開 PR），並寫出對應 state 檔。
+
+    回傳 (clean, flagged)。呼叫前的殘留 state 檔會先清掉，確保 workflow 的
+    檔案存在性 gate 只反映本輪結果。
+    """
+    _clear_state_files()
+
+    clean = [c for c in candidates if not c.scrub.has_person]
+    flagged = [c for c in candidates if c.scrub.has_person]
+
+    # 乾淨候選 → 自動併 main（連同 manifest 一起）。即使 clean 為空，也要把 manifest
+    # 帶進 main，讓變更偵測狀態前進。
+    auto = [c.path for c in clean] + [manifest_path]
+    _write_lines(AUTO_PATHS_PATH, auto)
+
+    # 人名警示候選 → 只開 PR 給人審，不自動上站。
+    if flagged:
+        body = build_pr_body(source_name, flagged)
+        os.makedirs(STATE_DIR, exist_ok=True)
+        with open(PR_BODY_PATH, "w", encoding="utf-8") as f:
+            f.write(body)
+        _write_lines(PR_PATHS_PATH, [c.path for c in flagged])
+
+    return clean, flagged
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="twdro 資料 pipeline")
     parser.add_argument("--source", required=True, help="來源名稱，如 moe_schools")
@@ -67,16 +116,13 @@ def main(argv: list[str]) -> int:
     candidates, changed = run_source(source, args.manifest, ckip_ner())
 
     if not changed:
+        _clear_state_files()
         print(f"[{args.source}] 無變更，結束。")
         return 0
 
-    body = build_pr_body(args.source, candidates)
-    import os
-    os.makedirs(os.path.dirname(PR_BODY_PATH), exist_ok=True)
-    with open(PR_BODY_PATH, "w", encoding="utf-8") as f:
-        f.write(body)
-    flagged = sum(1 for c in candidates if c.scrub.has_person)
-    print(f"[{args.source}] 候選 {len(candidates)} 筆，人名警示 {flagged} 筆。PR body → {PR_BODY_PATH}")
+    clean, flagged = route_candidates(args.source, candidates, args.manifest)
+    print(f"[{args.source}] 候選 {len(candidates)} 筆"
+          f"（自動併 main {len(clean)}／人名待審開 PR {len(flagged)}）")
     return 0
 
 

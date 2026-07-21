@@ -10,3 +10,8 @@ __pycache__/
 
 # seo-ops 每日數據（本機、不入版控）
 /seo-data/
+
+# pipeline 分流用的暫時 state 檔（CI 內產生、不入版控；manifest.json 仍追蹤）
+pipeline/state/auto-paths.txt
+pipeline/state/pr-paths.txt
+pipeline/state/pr-body.md

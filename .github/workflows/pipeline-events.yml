@@ -26,16 +26,22 @@ jobs:
         env:
           EVENT_ANNOUNCEMENT_URLS: ${{ vars.EVENT_ANNOUNCEMENT_URLS }}
         run: python -m pipeline.run --source event_announcements
-      - name: 開 PR（若有候選變更）
+
+      # 未偵測到人名的賽事草稿 → 直接併 main 自動上站（站上以「草稿／未驗證」誠實標示）
+      - name: 自動併乾淨草稿到 main
+        run: bash pipeline/ci/auto-merge.sh "賽事草稿自動更新"
+
+      # 偵測到疑似選手姓名的草稿 → 開 PR 給人審，收斂成隊伍層級後才 merge（護未成年個資）
+      - name: 開 PR（僅人名警示候選，需人審）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
         uses: peter-evans/create-pull-request@v8
         with:
-          branch: pipeline/events
-          title: '資料 pipeline：賽事公告候選'
+          branch: pipeline/events-review
+          title: '資料 pipeline：賽事公告候選（⚠️ 疑含選手姓名，需人審）'
           body-path: pipeline/state/pr-body.md
           labels: |
             data-pipeline
             needs-review
+            personal-data
           add-paths: |
             src/content/**
-            pipeline/state/manifest.json

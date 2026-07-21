@@ -21,18 +21,23 @@ jobs:
           path: ~/.cache/huggingface
           key: ckip-model-v1
       - run: pip install -r pipeline/requirements.txt
-      - name: 執行 pipeline
+      - name: 執行 pipeline（只 enrich 有隊伍的學校）
         run: python -m pipeline.run --source moe_schools
-      - name: 開 PR（若有候選變更）
+
+      # 學校資料無個資 → 乾淨候選直接併 main 自動上站（enrich 既有校地址／官網）
+      - name: 自動併乾淨候選到 main
+        run: bash pipeline/ci/auto-merge.sh "政府開放資料學校 enrich"
+
+      # 極少數情況才會有人名警示（學校資料理論上不會）→ 保底走人審 PR
+      - name: 開 PR（僅人名警示候選，需人審）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
         uses: peter-evans/create-pull-request@v8
         with:
-          branch: pipeline/moe-schools
-          title: '資料 pipeline：政府開放資料學校候選'
+          branch: pipeline/moe-schools-review
+          title: '資料 pipeline：政府開放資料學校候選（人名警示，需人審）'
           body-path: pipeline/state/pr-body.md
           labels: |
             data-pipeline
             needs-review
           add-paths: |
             src/content/**
-            pipeline/state/manifest.json
