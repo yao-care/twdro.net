@@ -2,10 +2,10 @@
 title: FAI與FIDA規則有什麼不同？
 description: 釐清兩大無人機足球規則體系，避免混用造成誤解。
 order: 7
-updated_at: "2026-07-19"
+updated_at: "2026-07-22"
 ---
 
-無人機足球目前並存兩套主要規則體系：FAI（國際航空運動總會）與 FIDA。兩者各自獨立，在分類、人數編制與器材規範上都有出入，不能互相套用。想直接對照條文差異，可參考本站的 [規則比較](/rules/compare/)。
+無人機足球目前並存兩套主要規則體系：FAI（國際航空運動總會）與 FIDA。兩者各自獨立，在分類、人數編制與器材規範上都有出入，不能互相套用。想直接對照條文差異，可參考本站的 [規則比較](/rules/compare/)；還沒摸過基本玩法的，建議先讀 [什麼是無人機足球](/learn/what-is-drone-soccer/) 打底。
 
 <figure class="arena-figure">
 <div class="d3-figure" data-figure="fai-vs-fida-rules" role="img" aria-label="FAI 與 FIDA 兩套規則體系差異對照：FAI 分類代號 F9A（分 40／20 公分級），每隊上場 3 至 5 名、只指定 1 名前鋒，2019 年起由 FAI 列為航空運動項目；FIDA 為 Class 40 賽制，每隊固定上場 5 名、設引導手／前鋒／自由人／清道夫／守門員五個固定位置，是獨立的另一套體系。兩套的共通點是只有前鋒（Striker）能穿越對方球門環得分。">
