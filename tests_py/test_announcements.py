@@ -1,4 +1,5 @@
 import json
+import os
 from pipeline.sources.announcements import EventAnnouncements, _strip_html, _slug
 
 
@@ -57,3 +58,38 @@ def test_strip_html_removes_tags():
 def test_slug_is_ascii_stable():
     assert _slug("天穹盃") == _slug("天穹盃")
     assert _slug("天穹盃") != _slug("教科盃")
+
+
+def test_filters_document_boilerplate_noise(tmp_path):
+    # 公文句型片段（含關鍵字但非賽事名）不應產生候選草稿。
+    html = '<p>旨揭競賽為推廣無人機飛球運動，請學校踴躍組隊參加錦標賽。</p>'
+    recs = EventAnnouncements(content_root=str(tmp_path)).parse(
+        _raw({"https://x.edu.tw": html}))
+    assert recs == []
+
+
+def test_filters_motor_class_fragment_noise(tmp_path):
+    # 規格／組別片段（有刷馬達…組）不是賽事名，應被擋下。
+    html = '<p>CL20有刷馬達無人機表演賽及小飛球有刷馬達無人機組</p>'
+    recs = EventAnnouncements(content_root=str(tmp_path)).parse(
+        _raw({"https://x.edu.tw": html}))
+    assert recs == []
+
+
+def test_skips_url_already_cited_by_confirmed_event(tmp_path):
+    # 該頁賽事已人工建檔（非 draft），對其擷取一律跳過，避免重複草稿。
+    events = tmp_path / "src" / "content" / "events"
+    events.mkdir(parents=True)
+    (events / "real.yml").write_text(
+        "title: 已建檔賽事\nstatus: announced\nverification: source_confirmed\n"
+        "sources:\n  - url: https://known.edu.tw/a.php\n",
+        encoding="utf-8",
+    )
+    html = '「2026天穹盃無人機飛球錦標賽－新北戰」公告'
+    recs = EventAnnouncements(content_root=str(tmp_path)).parse(
+        _raw({"https://known.edu.tw/a.php": html}))
+    assert recs == []
+    # 未建檔的新頁仍正常擷取。
+    recs2 = EventAnnouncements(content_root=str(tmp_path)).parse(
+        _raw({"https://new.edu.tw/b.php": html}))
+    assert len(recs2) == 1

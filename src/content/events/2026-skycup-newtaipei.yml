@@ -19,3 +19,9 @@ sources:
     publisher: 台灣無人機競技發展協會
     retrieved_at: "2026-07-19"
     trust_level: A
+  - type: organizer_announcement
+    title: 天穹盃無人機飛球錦標賽－新北戰 簡章（土城國中轉知）
+    url: https://www.tsjh.ntpc.edu.tw/p/404-1000-9416.php
+    publisher: 新北市立土城國民中學
+    retrieved_at: "2026-07-23"
+    trust_level: B

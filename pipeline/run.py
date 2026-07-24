@@ -59,6 +59,12 @@ def _load_source(name: str):
         env = os.environ.get("EVENT_ANNOUNCEMENT_URLS", "").strip()
         urls = [u.strip() for u in env.split(",") if u.strip()] or None
         return EventAnnouncements(urls)
+    if name == "fai_fida_rules":
+        from pipeline.sources.intl_rules import IntlRules
+        # 逗號分隔的環境變數 INTL_RULE_URLS 可覆寫監看清單。
+        env = os.environ.get("INTL_RULE_URLS", "").strip()
+        urls = [u.strip() for u in env.split(",") if u.strip()] or None
+        return IntlRules(urls)
     raise SystemExit(f"未知來源：{name}")
 
 
@@ -103,6 +109,40 @@ def route_candidates(source_name: str, candidates: list[Candidate],
     return clean, flagged
 
 
+def route_intl_alerts(candidates: list[Candidate], manifest_path: str) -> None:
+    """國際規則變更一律走 PR 人審（官方規則不自動改寫），寫出 PR body 與待審路徑。
+
+    PR 內含 alert 檔（各頁指紋，diff 即顯示哪頁變了）與 manifest bump（merge 後
+    變更偵測收斂、不重複告警）。不寫 auto-paths：絕不自動併 main。
+    """
+    _clear_state_files()
+    if not candidates:
+        return
+    lines = [
+        "## 國際規則變更告警：`fai_fida_rules`",
+        "",
+        "> FAI／FIDA 官方規則頁**指紋變更**。本 PR 由 pipeline 自動產生，**不改動站上規則**。",
+        "",
+        "### 人工處理步驟",
+        "1. 開啟下列 alert 檔，對照 diff 找出指紋變更的頁面 URL。",
+        "2. 逐一比對官方頁的實際變動（版本、條文、規格）。",
+        "3. 必要時**手動**更新 `src/content/rulebooks/`、`src/content/rules/`——**切勿自動改寫官方規則**。",
+        "4. merge 本 PR 以收斂變更偵測基準（manifest），避免重複告警。",
+        "",
+        "### 變更快照",
+        "",
+    ]
+    for c in candidates:
+        lines.append(f"- `{c.path}`")
+    lines.append("")
+    lines.append("---")
+    lines.append("**審核清單**：官方版本號？條文/規格差異已反映到站上規則？規則體系未混用？")
+    os.makedirs(STATE_DIR, exist_ok=True)
+    with open(PR_BODY_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    _write_lines(PR_PATHS_PATH, [c.path for c in candidates] + [manifest_path])
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="twdro 資料 pipeline")
     parser.add_argument("--source", required=True, help="來源名稱，如 moe_schools")
@@ -112,12 +152,25 @@ def main(argv: list[str]) -> int:
     source = _load_source(args.source)
     if source is None:
         return 0
-    from pipeline.scrub import ckip_ner
-    candidates, changed = run_source(source, args.manifest, ckip_ner())
+
+    # 國際規則監控不涉個資、且一律走 PR 人審 → 用 no-op NER，免載 CKIP/torch。
+    is_intl = args.source == "fai_fida_rules"
+    if is_intl:
+        ner = lambda _text: []  # noqa: E731
+    else:
+        from pipeline.scrub import ckip_ner
+        ner = ckip_ner()
+
+    candidates, changed = run_source(source, args.manifest, ner)
 
     if not changed:
         _clear_state_files()
         print(f"[{args.source}] 無變更，結束。")
+        return 0
+
+    if is_intl:
+        route_intl_alerts(candidates, args.manifest)
+        print(f"[{args.source}] 偵測到規則頁指紋變更，已產生 PR 告警（{len(candidates)} 份 alert）。")
         return 0
 
     clean, flagged = route_candidates(args.source, candidates, args.manifest)

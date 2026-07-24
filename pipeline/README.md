@@ -39,6 +39,8 @@ workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipelin
   - 為何不整批列校：名錄一抓就是整份（國中 700+ 所），全數落地會灌爆 `organizations` 且與無人機足球無關。真正有值的是替既有隊伍所屬學校補官方 city/官網。
 - **`event_announcements`**（`pipeline-events`）：監看官方 HTML 公告頁，用「」括號＋競賽關鍵字（無人機/飛球＋錦標賽/公開賽/盃…）擷取賽事名稱與日期線索 → **draft 候選賽事**。乾淨者自動上站（草稿標示）、疑含人名者才開 PR。監看清單見 `pipeline/sources/announcements.py` 的 `DEFAULT_URLS`，可用 repo 變數 `EVENT_ANNOUNCEMENT_URLS`（逗號分隔）覆寫。
   - 現實限制：FB/社群與 JS 渲染站不爬；學校公告頁易下架（404）。擷取為 best-effort，會有組別片段等雜訊——上站後以「草稿／未驗證」標示，人工再升級 status 或修正。擴充覆蓋＝加入新的穩定 HTML 頁。
+  - **2026-07-23 起兩層降噪**：(1) **來源 URL 去重**——候選來源頁若已被任何非 draft 賽事引用（那頁的賽事已人工建檔），一律跳過，避免重複草稿；(2) **雜訊過濾**——公文句型（旨揭/檢送/為推廣…）與規格/組別片段（有刷/無刷馬達…組）不產候選。故監看頁的賽事一旦人工建檔並在其 `sources` 引用該 URL，adapter 對該頁即成 no-op，只對「尚未建檔的新頁」有值。
+- **`fai_fida_rules`**（`pipeline-intl`）：監看 FAI／FIDA 官方規則頁（HTML 與規則書 PDF 皆可，以位元組 sha256 當**指紋**）。任一頁指紋變更 → 產生一份 `pipeline/state/intl-alerts/rule-change-alert.yml`（含各頁 URL＋指紋）並**開 PR 通知人工比對**，PR 一併帶入 manifest bump（merge 後收斂、不重複告警）。**只偵測、不改寫**：絕不自動併 main、不自動改寫 rulebooks/rules（官方規則權威性）。抓取失敗沿用上次指紋，避免暫時性錯誤誤觸。監看清單見 `pipeline/sources/intl_rules.py` 的 `DEFAULT_URLS`，可用 repo 變數 `INTL_RULE_URLS`（逗號分隔）覆寫。因不涉個資，workflow 用 `requirements-dev.txt`（免裝 torch/CKIP）。
 
 ## 新增來源
 在 `pipeline/sources/` 新增實作 `Source` 協定的 adapter（`fetch()`/`parse()`），
@@ -47,4 +49,4 @@ workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipelin
 ## 邊界
 - 不 rehost 官方 PDF（只存 URL + hash + retrieved_at）。
 - 不爬社群/學校公告牆列表；遵守來源 ToS，不高頻爬取。
-- 國際（`pipeline-intl`）adapter 仍為框架就緒、實際來源待接入。
+- 國際規則（`pipeline-intl` / `fai_fida_rules`）只做**指紋變更偵測＋開 PR**，不 rehost、不自動改寫官方規則；站上 rulebooks/rules 一律人工比對後手動更新。
