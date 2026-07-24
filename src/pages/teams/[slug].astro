@@ -2,23 +2,32 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { url } from '../../lib/url';
 import { verificationLabel } from '../../lib/enums';
 export async function getStaticPaths() {
   const teams = await getCollection('teams');
-  return teams.map((t) => ({ params: { slug: t.id }, props: { team: t } }));
+  const orgs = await getCollection('organizations');
+  const orgById = new Map(orgs.map((o) => [o.id, o.data.name]));
+  return teams.map((t) => ({
+    params: { slug: t.id },
+    props: { team: t, orgName: t.data.organization ? orgById.get(t.data.organization) : undefined },
+  }));
 }
 const TYPE_LABEL: Record<string, string> = {
   elementary_school: '國小', junior_high_school: '國中', senior_high_school: '高中',
   college: '專科', university: '大專校院', club: '俱樂部', company: '企業',
   community: '社區', national_team: '代表隊', temporary_team: '臨時隊伍',
 };
-const { team } = Astro.props;
+const { team, orgName } = Astro.props;
 const d = team.data;
 ---
 <BaseLayout title={`${d.name} | twdro.net`} description={d.introduction} heroTitle={d.name} heroDesc={d.english_name}>
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '隊伍', href: '/teams/' }, { name: d.name, href: `/teams/${team.id}/` }]} />
   <section class="panel">
     <ul class="data-list">
       <li><span class="k">類型</span><span class="v">{TYPE_LABEL[d.team_type] ?? d.team_type}</span></li>
+      {d.organization && orgName && <li><span class="k">所屬單位</span><span class="v"><a href={url(`/organizations/${d.organization}`)} style="font-weight:650">{orgName} →</a></span></li>}
       <li><span class="k">所在地</span><span class="v">{[d.city, d.district].filter(Boolean).join(' ') || '—'}</span></li>
       {d.recruitment_status && <li><span class="k">招募狀態</span><span class="v">{d.recruitment_status}</span></li>}
       <li><span class="k">資料狀態</span><span class="v">{verificationLabel(d.verification)}</span></li>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { verificationLabel } from '../../lib/enums';
 export async function getStaticPaths() {
   const venues = await getCollection('venues');
@@ -10,6 +11,7 @@ const { venue } = Astro.props;
 const d = venue.data;
 ---
 <BaseLayout title={`${d.name} | twdro.net`} heroTitle={d.name} heroDesc={d.venue_type}>
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '場地', href: '/venues/' }, { name: d.name, href: `/venues/${venue.id}/` }]} />
   <section class="panel">
     <ul class="data-list">
       <li><span class="k">類型</span><span class="v">{d.venue_type}</span></li>

@@ -21,6 +21,14 @@ const recent = [...upcoming, ...byDate.filter((e) => !upcoming.includes(e))].sli
 
 const news = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date)).slice(0, 3);
 
+// 新手入門捷徑：把已索引首頁的連結權重導向旗艦教學頁與新教育文。
+const starterLinks = [
+  ['/learn/rules-overview', '規則總整理', 'FAI／FIDA／教育部／天穹盃差在哪'],
+  ['/learn/entry-cost', '入門要花多少錢', '球機、電池到報名費的成本拆解'],
+  ['/learn/age-eligibility', '幾歲可以開始玩', '各賽事的組別與參賽資格'],
+  ['/learn/taiwan-competitions-overview', '臺灣有哪些賽事', '教育部全國賽與民間賽事'],
+];
+
 const tools = [
   ['/rules/compare', '規則比較器', '並排比較 FAI／FIDA／教育部賽制'],
   ['/equipment/compliance-check', '球機合規檢查器', '輸入規格初步比對是否符合'],
@@ -45,6 +53,24 @@ const tools = [
   </section>
 
   <div class="page-content">
+    <section style="margin-bottom:56px">
+      <h2 style="margin:0 0 18px">新手從這裡開始</h2>
+      <a class="card-link" href={url('/learn/what-is-drone-soccer')} style="background:var(--color-brand-soft);border-color:var(--color-brand)">
+        <span class="name">什麼是無人機足球？該怎麼玩？</span>
+        <span class="meta">第一次接觸無人機足球，一次看懂場地、球機、人數與得分規則</span>
+      </a>
+      <ul class="card-grid" style="margin-top:16px">
+        {starterLinks.map(([href, name, desc]) => (
+          <li>
+            <a class="card-link" href={url(href)}>
+              <span class="name">{name}</span>
+              <span class="meta">{desc}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     {next && (
       <section style="margin-bottom:56px">
         <h2 style="margin:0 0 18px">下一場比賽</h2>

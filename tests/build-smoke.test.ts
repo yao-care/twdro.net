@@ -18,7 +18,11 @@ describe('build smoke', () => {
     'dist/events/calendar/index.html',
     'dist/search/index.html',
     'dist/organizations/index.html',
+    'dist/organizations/oursteam/index.html',
     'dist/news/index.html',
+    'dist/faq/index.html',
+    'dist/sitemap/index.html',
+    'dist/learn/rules-overview/index.html',
   ];
   for (const p of pages) {
     it(`產出 ${p}`, () => { expect(existsSync(p)).toBe(true); });

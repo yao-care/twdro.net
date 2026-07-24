@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 export async function getStaticPaths() {
   const books = await getCollection('rulebooks');
   const rules = await getCollection('rules');
@@ -56,6 +57,7 @@ const dateLabel = d.effective_from ? '生效' : '發布';
 const heroDesc = `制定：${d.organization}｜版本：${d.version}${effectiveDate ? `｜${dateLabel}：${effectiveDate}` : ''}｜${d.official_translation ? '官方翻譯' : '非官方翻譯（僅供參考）'}`;
 ---
 <BaseLayout title={`${d.name} | twdro.net`} heroTitle={d.name} heroDesc={heroDesc}>
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '規則', href: '/rules/' }, { name: d.name, href: `/rules/${book.id}/` }]} />
   {d.source_document_url && (
     <p style="margin:0 0 20px"><a href={d.source_document_url} rel="nofollow noopener" target="_blank" style="font-weight:650">原始官方文件 ↗</a></p>
   )}

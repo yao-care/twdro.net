@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
 const orgs = await getCollection('organizations');
 const GROUPS: [string, string][] = [
   ['association', '協會'], ['university', '大學'], ['school', '學校'],
@@ -21,17 +22,10 @@ const GROUPS: [string, string][] = [
         <ul class="card-grid">
           {list.map((o) => (
             <li>
-              {o.data.website ? (
-                <a class="card-link" href={o.data.website} rel="nofollow noopener" target="_blank">
-                  <span class="name">{o.data.name} ↗</span>
-                  {o.data.city && <span class="meta">{o.data.city}</span>}
-                </a>
-              ) : (
-                <div class="card-link" style="cursor:default">
-                  <span class="name">{o.data.name}</span>
-                  {o.data.city && <span class="meta">{o.data.city}</span>}
-                </div>
-              )}
+              <a class="card-link" href={url(`/organizations/${o.id}`)}>
+                <span class="name">{o.data.name}</span>
+                {o.data.city && <span class="meta">{o.data.city}</span>}
+              </a>
             </li>
           ))}
         </ul>

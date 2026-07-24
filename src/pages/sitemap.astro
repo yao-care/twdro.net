@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
+import { SITE_SECTIONS } from '../lib/nav';
+import { isPublicEvent } from '../lib/enums';
+
+const [events, rulebooks, equipment, teams, venues, organizations, learn] = await Promise.all([
+  getCollection('events'), getCollection('rulebooks'), getCollection('equipment'),
+  getCollection('teams'), getCollection('venues'), getCollection('organizations'), getCollection('learn'),
+]);
+
+function entriesFor(collection?: string): { href: string; label: string }[] {
+  switch (collection) {
+    case 'events': return events.filter((e) => isPublicEvent(e.data.status)).map((e) => ({ href: `/events/${e.id}/`, label: e.data.title }));
+    case 'rulebooks': return rulebooks.map((b) => ({ href: `/rules/${b.id}/`, label: b.data.name }));
+    case 'equipment': return equipment.map((i) => ({ href: `/equipment/${i.id}/`, label: `${i.data.brand} ${i.data.model}` }));
+    case 'teams': return teams.map((t) => ({ href: `/teams/${t.id}/`, label: t.data.name }));
+    case 'venues': return venues.map((v) => ({ href: `/venues/${v.id}/`, label: v.data.name }));
+    case 'organizations': return organizations.map((o) => ({ href: `/organizations/${o.id}/`, label: o.data.name }));
+    case 'learn': return [...learn].sort((a, b) => a.data.order - b.data.order).map((a) => ({ href: `/learn/${a.id}/`, label: a.data.title }));
+    default: return [];
+  }
+}
+---
+<BaseLayout title="網站地圖 | twdro.net" description="twdro.net 全站頁面一覽：賽事、規則、器材、隊伍、場地、單位與教育文章。" heroTitle="網站地圖" heroDesc="全站頁面一覽，方便快速找到你要的資料。">
+  {SITE_SECTIONS.map((sec) => {
+    const entries = entriesFor(sec.collection);
+    return (
+      <section class="panel sitemap-section">
+        <h2><a href={url(sec.href)}>{sec.title}</a></h2>
+        {sec.subPages && sec.subPages.length > 0 && (
+          <ul class="sitemap-list">
+            {sec.subPages.map((p) => <li><a href={url(p.href)}>{p.label}</a></li>)}
+          </ul>
+        )}
+        {entries.length > 0 && (
+          <ul class="sitemap-list sitemap-list--cols">
+            {entries.map((e) => <li><a href={url(e.href)}>{e.label}</a></li>)}
+          </ul>
+        )}
+      </section>
+    );
+  })}
+</BaseLayout>
+<style>
+  .sitemap-section { margin-bottom: var(--space-5); }
+  .sitemap-section h2 { margin: 0 0 var(--space-3); }
+  .sitemap-section h2 a { text-decoration: none; }
+  .sitemap-list { list-style: none; margin: 0; padding: 0; }
+  .sitemap-list li { margin: var(--space-1) 0; }
+  .sitemap-list--cols {
+    columns: 2;
+    column-gap: var(--space-6);
+    margin-top: var(--space-2);
+  }
+  @media (min-width: 48rem) {
+    .sitemap-list--cols { columns: 3; }
+  }
+</style>

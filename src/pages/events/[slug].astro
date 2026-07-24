@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 export async function getStaticPaths() {
@@ -38,6 +39,7 @@ const showResults = !!r && (r.champion_team || r.runner_up_team || r.third_place
 ---
 <BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle} heroTitle={d.title} heroDesc={d.subtitle}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: d.title, href: `/events/${event.id}/` }]} />
 
   <section class="panel" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin-bottom:20px">
     <StatusBadge status={d.status} />

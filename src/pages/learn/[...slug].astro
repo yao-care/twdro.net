@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 export async function getStaticPaths() {
   const articles = await getCollection('learn');
   return articles.map((a) => ({ params: { slug: a.id }, props: { article: a } }));
@@ -9,6 +10,7 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 ---
 <BaseLayout title={`${article.data.title} | twdro.net`} description={article.data.description} heroTitle={article.data.title} heroDesc={article.data.description}>
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '認識無人機足球', href: '/learn/' }, { name: article.data.title, href: `/learn/${article.id}/` }]} />
   <article class="panel prose">
     <Content />
   </article>

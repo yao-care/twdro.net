@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { url } from '../../lib/url';
+export async function getStaticPaths() {
+  const orgs = await getCollection('organizations');
+  const teams = await getCollection('teams');
+  return orgs.map((o) => ({
+    params: { slug: o.id },
+    props: { org: o, teams: teams.filter((t) => t.data.organization === o.id) },
+  }));
+}
+const TYPE_LABEL: Record<string, string> = {
+  association: '協會', university: '大學', school: '學校',
+  vendor: '器材／課程廠商', government: '政府單位',
+};
+const { org, teams } = Astro.props;
+const d = org.data;
+---
+<BaseLayout title={`${d.name} | twdro.net`} description={`${d.name}——${TYPE_LABEL[d.org_type] ?? d.org_type}，臺灣推動無人機足球的單位。`} heroTitle={d.name} heroDesc={TYPE_LABEL[d.org_type] ?? d.org_type}>
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '參與單位', href: '/organizations/' }, { name: d.name, href: `/organizations/${org.id}/` }]} />
+  <section class="panel">
+    <ul class="data-list">
+      <li><span class="k">類型</span><span class="v">{TYPE_LABEL[d.org_type] ?? d.org_type}</span></li>
+      {d.city && <li><span class="k">所在地</span><span class="v">{d.city}</span></li>}
+      {d.website && <li><span class="k">官方網站</span><span class="v"><a href={d.website} rel="nofollow noopener" target="_blank" style="font-weight:650">前往官網 ↗</a></span></li>}
+    </ul>
+  </section>
+
+  {teams.length > 0 && (
+    <section class="panel">
+      <h2>相關隊伍</h2>
+      <ul class="card-grid">
+        {teams.map((t) => (
+          <li>
+            <a class="card-link" href={url(`/teams/${t.id}`)}>
+              <span class="name">{t.data.name}</span>
+              {t.data.city && <span class="meta">{[t.data.city, t.data.district].filter(Boolean).join(' ')}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <p class="text-muted" style="font-size:1rem;margin-top:16px">收錄以公開資料佐證有推動無人機足球之單位；不含個別選手資訊。<a href={url('/organizations/')}>← 回參與單位列表</a></p>
+</BaseLayout>

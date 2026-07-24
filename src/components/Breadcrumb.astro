@@ -1,0 +1,41 @@
+---
+import { url } from '../lib/url';
+import { breadcrumbJsonLd } from '../lib/jsonld';
+interface Crumb { name: string; href: string; }
+interface Props { items: Crumb[]; }
+const { items } = Astro.props;
+// JSON-LD 需絕對 URL（含當前頁）。
+const jsonld = breadcrumbJsonLd(
+  items.map((i) => ({ name: i.name, url: new URL(url(i.href), Astro.site).toString() })),
+);
+---
+<nav class="breadcrumb" aria-label="麵包屑">
+  <ol>
+    {items.map((it, idx) => (
+      <li>
+        {idx < items.length - 1
+          ? <a href={url(it.href)}>{it.name}</a>
+          : <span aria-current="page">{it.name}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+<style>
+  .breadcrumb ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0 0 var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .breadcrumb li { display: flex; align-items: center; gap: var(--space-2); }
+  .breadcrumb li + li::before { content: "›"; color: var(--color-text-muted); }
+  .breadcrumb a { color: var(--color-link); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb [aria-current="page"] { color: var(--color-text-muted); }
+</style>
