@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
+import { faqJsonLd } from '../lib/jsonld';
+
+// 問答內容彙整自各教育文；answer 為純文字（供 FAQPage 結構化資料），link 供頁面延伸閱讀。
+const faqs: { q: string; a: string; href?: string; hrefLabel?: string }[] = [
+  { q: '什麼是無人機足球？', a: '無人機足球是團隊操控小型無人機（球機）在四周圍網的護籠場地內比賽的運動。每隊指定一名前鋒，只有前鋒的球機穿越對方球門環才算得分。', href: '/learn/what-is-drone-soccer/', hrefLabel: '什麼是無人機足球' },
+  { q: '無人機足球和無人機飛球是一樣的嗎？', a: '指的是同一項運動，只是不同賽事用語不同；臺灣民間常稱「無人機飛球」。', href: '/learn/naming-drone-soccer-vs-flyball/', hrefLabel: '兩種名稱的差別' },
+  { q: '一場比賽多久？', a: '一場打三局，每局 180 秒（3 分鐘），先贏 2 局的一方獲勝。', href: '/learn/match-format/', hrefLabel: '一場比賽怎麼進行' },
+  { q: '一隊有幾個人？', a: '沒有全球統一數字。常見的 FAI F9A-B 規格每隊場上 3 至 5 人，FIDA Class 40 上場 5 人，各操控一台球機。', href: '/learn/team-size/', hrefLabel: '一隊有幾個人' },
+  { q: '為什麼只有前鋒能得分？', a: '這是規則設計，讓比賽聚焦在掩護己方前鋒進球、同時防守對方前鋒的攻防上。', href: '/learn/striker-explained/', hrefLabel: '前鋒機說明' },
+  { q: '有哪幾套規則？可以混用嗎？', a: '臺灣常見 FAI、FIDA、教育部與天穹盃四套規則，各自獨立、不能跨體系混用。要參加哪場賽事，就照它採用的規則準備。', href: '/learn/rules-overview/', hrefLabel: '規則總整理' },
+  { q: '20 公分和 40 公分球機差在哪？', a: '兩者在直徑、重量與場地大小上不同。臺灣的教育與民間賽事多用 20 公分級，40 公分級機體更大、更重，多用於進階賽事。', href: '/learn/drone-size-20cm-vs-40cm/', hrefLabel: '20 與 40 公分的差別' },
+  { q: '幾歲可以開始玩？', a: '沒有全國統一的最低年齡。學生賽事以學段分組（國中小、高中、大專），民間賽事則以學籍或設籍條件界定，社會人士也能參加。', href: '/learn/age-eligibility/', hrefLabel: '年齡與參賽資格' },
+  { q: '入門大概要準備哪些花費？', a: '主要是球機，另加電池、充電器、遙控器、備品與基本護具。報名費依賽事而定，部分賽事免費。實際售價以器材頁的市售型號為準。', href: '/learn/entry-cost/', hrefLabel: '入門花費拆解' },
+  { q: '臺灣有哪些無人機足球賽事？', a: '有教育部全國無人機足球競賽，以及天穹盃等多項民間賽事。', href: '/learn/taiwan-competitions-overview/', hrefLabel: '臺灣賽事總覽' },
+  { q: '學校要怎麼成立隊伍？', a: '從器材、場地與指導人力著手，通常先用共用器材帶學生練習，確定要長期投入再擴編。', href: '/learn/starting-a-school-club/', hrefLabel: '在學校成立社團' },
+  { q: '無人機足球安全嗎？', a: '比賽在圍網護籠內進行、球機規格受限，並要求球機具備斷訊即停馬達的 fail-safe。遵守安全規範即可安全練習。', href: '/learn/safety-guidelines/', hrefLabel: '安全規範' },
+];
+
+const jsonld = faqJsonLd(faqs.map((f) => ({ q: f.q, a: f.a })));
+---
+<BaseLayout
+  title="常見問題 FAQ | twdro.net"
+  description="無人機足球常見問題：玩法、規則、人數、年齡、花費與安全，一頁問答快速解答。"
+  heroTitle="常見問題"
+  heroDesc="關於無人機足球的玩法、規則、參賽與器材，最常被問到的問題整理在這裡。"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <div class="panel prose">
+    {faqs.map((f) => (
+      <div>
+        <h2>{f.q}</h2>
+        <p>
+          {f.a}
+          {f.href && (
+            <>{' '}<a href={url(f.href)}>詳見「{f.hrefLabel}」→</a></>
+          )}
+        </p>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
