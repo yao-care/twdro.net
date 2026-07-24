@@ -1,9 +1,6 @@
 ---
 import { url } from '../lib/url';
-const nav = [
-  ['/events/', '賽事'], ['/rules/', '規則'], ['/teams/', '隊伍'],
-  ['/equipment/', '器材'], ['/learn/', '認識無人機足球'], ['/about/', '關於'], ['/search/', '搜尋'],
-];
+import { PRIMARY_NAV } from '../lib/nav';
 const path = Astro.url.pathname.replace(/\/$/, '');
 const isCurrent = (href: string) => {
   const full = url(href).replace(/\/$/, '');
@@ -25,7 +22,7 @@ const isCurrent = (href: string) => {
       <span class="site-nav-toggle__bar"></span>
     </button>
     <nav class="site-nav" id="site-nav">
-      {nav.map(([href, label]) => (
+      {PRIMARY_NAV.map(({ href, label }) => (
         <a href={url(href)} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
       ))}
     </nav>

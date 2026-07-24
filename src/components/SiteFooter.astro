@@ -1,16 +1,51 @@
 ---
 import { url } from '../lib/url';
-const links = [
-  ['/about/', '關於本站'], ['/about/sources/', '資料來源'], ['/about/correction/', '回報資料錯誤'],
-  ['/about/privacy/', '隱私權政策'], ['/about/terms/', '使用條款'], ['/about/disclaimer/', '免責聲明'],
+import { CONTENT_NAV, RESOURCE_NAV, LEGAL_NAV } from '../lib/nav';
+const columns = [
+  { title: '主要', items: CONTENT_NAV },
+  { title: '資料與資源', items: RESOURCE_NAV },
+  { title: '關於本站', items: LEGAL_NAV },
 ];
 ---
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p class="site-footer__brand">twdro.net</p>
-    <p class="site-footer__tag">臺灣無人機足球資料與賽事平台</p>
-    <nav class="site-footer__links">
-      {links.map(([href, label]) => <a href={url(href)}>{label}</a>)}
-    </nav>
+    <div class="site-footer__brand-block">
+      <p class="site-footer__brand">twdro.net</p>
+      <p class="site-footer__tag">臺灣無人機足球資料與賽事平台</p>
+    </div>
+    <div class="site-footer__cols">
+      {columns.map((col) => (
+        <nav class="site-footer__col" aria-label={col.title}>
+          <p class="site-footer__col-title">{col.title}</p>
+          <ul class="site-footer__links">
+            {col.items.map(({ href, label }) => (
+              <li><a href={url(href)}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
   </div>
 </footer>
+<style>
+  .site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--space-5) var(--space-6);
+    margin-top: var(--space-6);
+  }
+  .site-footer__col-title {
+    font-size: var(--text-sm);
+    font-weight: 650;
+    color: var(--color-text-on-dark);
+    margin: 0 0 var(--space-2);
+  }
+  .site-footer__col .site-footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+</style>
