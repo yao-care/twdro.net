@@ -1,5 +1,6 @@
 ---
 title: 無人機足球一隊有幾個人？
+category: intro
 description: 說明無人機足球的隊伍人數規範與場上分工。
 order: 4
 updated_at: "2026-07-23"

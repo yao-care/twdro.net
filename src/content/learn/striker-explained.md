@@ -1,5 +1,6 @@
 ---
 title: 前鋒機（Striker）是什麼？為什麼只有它能得分？
+category: intro
 description: 認識無人機足球中唯一能得分的角色：前鋒機。
 order: 5
 updated_at: "2026-07-22"

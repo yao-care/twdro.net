@@ -1,5 +1,6 @@
 ---
 title: 教師如何規劃一學期無人機足球課程？
+category: education
 description: 提供一套由淺入深的無人機足球教學路徑參考。
 order: 14
 updated_at: "2026-07-19"

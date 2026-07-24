@@ -1,6 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { EVENT_STATUS, VERIFICATION, TRUST_LEVEL, RULE_SYSTEM } from './lib/enums';
+import { EVENT_STATUS, VERIFICATION, TRUST_LEVEL, RULE_SYSTEM, LEARN_CATEGORY } from './lib/enums';
 
 const sourceSchema = z.object({
   type: z.string(),
@@ -167,6 +167,7 @@ const learn = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    category: z.enum(LEARN_CATEGORY),
     order: z.number().default(0),
     updated_at: z.string().optional(),
   }),

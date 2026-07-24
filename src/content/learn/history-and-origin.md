@@ -1,5 +1,6 @@
 ---
 title: 無人機足球的歷史與起源
+category: intro
 description: 從 2016 年韓國起步，到 2019 年成為國際航空運動項目的發展歷程。
 order: 3
 updated_at: "2026-07-19"

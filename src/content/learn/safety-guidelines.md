@@ -1,5 +1,6 @@
 ---
 title: 無人機足球的安全規範
+category: competing
 description: 認識無人機足球在器材與場地上的基本安全設計。
 order: 11
 updated_at: "2026-07-21"

@@ -1,5 +1,6 @@
 ---
 title: 什麼是無人機足球？該怎麼玩？
+category: intro
 description: 一次看懂場地、球機、人數與得分規則——看完這篇就知道這遊戲怎麼玩。
 order: 1
 updated_at: "2026-07-20"

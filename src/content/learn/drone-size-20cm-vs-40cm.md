@@ -1,5 +1,6 @@
 ---
 title: 20公分與40公分球機差在哪？
+category: equipment
 description: 認識 20 公分（FAI F9A-B）與 40 公分兩種球機規格的差異。
 order: 6
 updated_at: "2026-07-21"

@@ -1,5 +1,6 @@
 ---
 title: 第一次參加比賽要準備什麼？
+category: competing
 description: 新手隊伍參加無人機足球賽事前的基本準備清單。
 order: 10
 updated_at: "2026-07-21"

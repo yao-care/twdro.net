@@ -1,5 +1,6 @@
 ---
 title: 一場無人機足球比賽怎麼進行？
+category: intro
 description: 認識無人機足球的基本賽制與勝負判定方式。
 order: 8
 updated_at: "2026-07-22"

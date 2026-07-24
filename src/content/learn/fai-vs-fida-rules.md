@@ -1,5 +1,6 @@
 ---
 title: FAI與FIDA規則有什麼不同？
+category: rules
 description: 釐清兩大無人機足球規則體系，避免混用造成誤解。
 order: 7
 updated_at: "2026-07-22"

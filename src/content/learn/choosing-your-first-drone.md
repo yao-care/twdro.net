@@ -1,5 +1,6 @@
 ---
 title: 如何挑選第一台無人機足球球機？
+category: equipment
 description: 新手選購球機前，需要確認的規格與注意事項。
 order: 12
 updated_at: "2026-07-24"

@@ -1,5 +1,6 @@
 ---
 title: 臺灣的無人機足球賽事有哪些？
+category: competing
 description: 概覽臺灣目前推動無人機足球的官方與民間賽事類型。
 order: 15
 updated_at: "2026-07-21"

@@ -1,5 +1,6 @@
 ---
 title: 球機的基本結構
+category: equipment
 description: 認識無人機足球球機的防護框、動力系統與安全機制。
 order: 9
 updated_at: "2026-07-22"

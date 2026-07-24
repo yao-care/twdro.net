@@ -1,5 +1,6 @@
 ---
 title: 無人機足球和無人機飛球有什麼不同？
+category: intro
 description: 釐清「無人機足球」與「無人機飛球」兩個常見稱呼。
 order: 2
 updated_at: "2026-07-19"

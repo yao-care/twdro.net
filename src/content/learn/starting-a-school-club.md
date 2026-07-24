@@ -1,5 +1,6 @@
 ---
 title: 如何在學校成立無人機足球社團／隊伍？
+category: education
 description: 學校推動無人機足球社團的基本步驟與注意事項。
 order: 13
 updated_at: "2026-07-22"
