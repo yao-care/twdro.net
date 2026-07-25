@@ -4,7 +4,9 @@ const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
 // 本站的實體節點：無人機足球運動的資料與推廣平台。
-// 本站為資料彙整平台，無自營社群帳號 → sameAs 僅列官方 canonical 首頁（來源稀疏）。
+// ⚠️ 不設 sameAs：sameAs 的語意是「本實體在**其他**權威平台的身分」（維基百科/Wikidata/官方社群）。
+// 本站目前無自營官方帳號，指向自己的 canonical 網址屬語意錯誤（等於宣告「我＝我」），
+// 不但零價值，日後真有官方帳號時還會混淆實體判定 → 一律留空，取得真實外部身分再補。
 function organizationNode(): Record<string, any> {
   return {
     '@type': ['SportsOrganization', 'Organization'],
@@ -18,7 +20,6 @@ function organizationNode(): Record<string, any> {
       '@type': 'ImageObject',
       url: `${SITE_URL}/favicon.svg`,
     },
-    sameAs: [`${SITE_URL}/`],
   };
 }
 
