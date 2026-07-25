@@ -2,14 +2,25 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { articleJsonLd } from '../../lib/jsonld';
 export async function getStaticPaths() {
   const articles = await getCollection('learn');
   return articles.map((a) => ({ params: { slug: a.id }, props: { article: a } }));
 }
 const { article } = Astro.props;
 const { Content } = await render(article);
+const pageUrl = new URL(`/learn/${article.id}/`, Astro.site).toString();
+// 教育文只有 updated_at；作為 dateModified，並在無更早發布日時同時作為 datePublished。
+const articleJson = articleJsonLd({
+  headline: article.data.title,
+  description: article.data.description,
+  url: pageUrl,
+  datePublished: article.data.updated_at,
+  dateModified: article.data.updated_at,
+});
 ---
 <BaseLayout title={`${article.data.title} | twdro.net`} description={article.data.description} heroTitle={article.data.title} heroDesc={article.data.description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleJson)} />
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '認識無人機足球', href: '/learn/' }, { name: article.data.title, href: `/learn/${article.id}/` }]} />
   <article class="panel prose">
     <Content />

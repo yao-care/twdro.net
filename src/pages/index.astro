@@ -3,6 +3,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
 import { url } from '../lib/url';
+import { siteGraphJsonLd } from '../lib/jsonld';
+
+const siteGraph = siteGraphJsonLd();
 
 const today = new Date().toISOString().slice(0, 10);
 const ACTIVE = ['registration_open', 'announced', 'ongoing'];
@@ -40,6 +43,7 @@ const tools = [
 ];
 ---
 <BaseLayout title="臺灣無人機足球的賽事、規則與器材 | twdro.net" bare>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(siteGraph)} />
   <section class="page-hero">
     <div class="page-hero__inner" style="padding-block:80px 72px">
       <p style="color:var(--color-tech);font-weight:700;letter-spacing:0.12em;margin:0 0 14px;font-size:0.95rem">TAIWAN DRONE SOCCER · 無人機足球</p>
