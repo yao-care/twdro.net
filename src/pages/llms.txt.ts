@@ -70,6 +70,7 @@ export const GET: APIRoute = async () => {
   lines.push(`- [資料來源](${u('/about/sources/')}): 資料溯源與查核原則。`);
   lines.push(`- [回報資料錯誤](${u('/about/correction/')}): 發現錯誤的更正機制。`);
   lines.push(`- Sitemap: ${u('/sitemap-index.xml')}`);
+  lines.push(`- 全文版（教學文章完整內文）: ${u('/llms-full.txt')}`);
   lines.push('');
 
   return new Response(lines.join('\n'), {
