@@ -24,4 +24,5 @@ const articles = (await getCollection('learn')).sort((a, b) => a.data.order - b.
       </section>
     ) : null;
   })}
+  <p class="text-muted" style="margin-top:8px">還有其他疑問？看 <a href={url('/faq/')} style="font-weight:650">常見問題 FAQ</a>，或用 <a href={url('/search/')}>站內搜尋</a>。</p>
 </BaseLayout>
