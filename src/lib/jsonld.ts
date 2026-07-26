@@ -75,7 +75,13 @@ export interface EventInput {
   locationName?: string;
 }
 
-export function eventJsonLd(e: EventInput): Record<string, any> {
+// Google 的 Event 複合式搜尋結果規範：name／startDate／location 皆為**必填**。
+// 缺任一就回傳 null、整段不輸出——寧可沒有結構化資料，也不送出 GSC 會判定為「無效項目」的殘缺 Event。
+// ⚠️ 不以「臺灣」等泛稱填補：分區賽這類賽事本就分散於多縣市，捏造地點既違反本站
+//    「每筆標明來源」的原則，Google 也會判為不精確。缺場地＝資料本身還不到可標記的程度。
+// 病灶記錄：2026-07-26 GSC 回報「location 欄位未填」＝ 2026-moe-regional（分區賽，無 venue_name）。
+export function eventJsonLd(e: EventInput): Record<string, any> | null {
+  if (!e.startDate || !e.locationName) return null;
   return {
     '@context': 'https://schema.org',
     '@type': 'SportsEvent',
