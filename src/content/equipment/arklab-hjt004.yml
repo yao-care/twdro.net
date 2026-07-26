@@ -1,0 +1,11 @@
+brand: 航見科技（Arklab）
+model: 無刷球機 40 級（HJT004）
+motor_type: brushless
+list_price: NT$47,700（含遙控器、電池 10 顆、1 年保固維修方案）
+sources:
+  - type: vendor_listing
+    title: 奧斯丁國際 無刷球機40級 大專無人機競賽推廣計畫
+    url: https://www.oursteam.com.tw/view-product.php?id=1260
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-26"
+    trust_level: C

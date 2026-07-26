@@ -1,0 +1,13 @@
+brand: 奧斯丁國際（OURSTEAM）
+model: 220 無刷 FPV 球機（TDA190，3/4S 氣壓定高初學輔助）
+diameter_mm: 220
+motor_type: brushless
+battery_voltage: 3S／4S
+list_price: NT$10,700（已完售）
+sources:
+  - type: vendor_listing
+    title: 奧斯丁國際 220 無刷 FPV 球機 3/4S氣壓定高初學輔助
+    url: https://www.oursteam.com.tw/view-product.php?id=1264
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-26"
+    trust_level: C

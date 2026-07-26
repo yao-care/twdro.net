@@ -1,0 +1,11 @@
+brand: 航見科技（Arklab）
+model: Arklab 無刷球機 20 級（HJT005）
+motor_type: brushless
+list_price: NT$18,800
+sources:
+  - type: vendor_listing
+    title: 奧斯丁國際 Arklab 無刷球機20級
+    url: https://www.oursteam.com.tw/view-product.php?id=1273
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-26"
+    trust_level: C

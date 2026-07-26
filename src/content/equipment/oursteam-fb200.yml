@@ -1,11 +1,17 @@
 brand: 奧斯丁國際（OURSTEAM）
 model: FB200 無刷足球無人機
 motor_type: brushless
-list_price: NT$15,000（教育單位／課程用，售況以官網為準）
+list_price: NT$13,000–15,000（課程方案價，非單機價：SDM002 組裝實作課程 13,000／SDM001 操控競賽整備 15,000；教育單位／課程用，售況以官網為準）
 sources:
   - type: vendor_listing
-    title: 奧斯丁國際 FB200 無刷足球無人機
+    title: 奧斯丁國際 FB200無刷足球無人機 操控競賽整備（SDM001）
     url: https://www.oursteam.com.tw/view-product.php?id=1117
     publisher: 奧斯丁國際有限公司
-    retrieved_at: "2026-07-19"
+    retrieved_at: "2026-07-26"
+    trust_level: C
+  - type: vendor_listing
+    title: 奧斯丁國際 FB200無刷足球無人機 組裝實作課程（SDM002）
+    url: https://www.oursteam.com.tw/view-product.php?id=1118
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-26"
     trust_level: C

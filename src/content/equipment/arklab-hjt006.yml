@@ -1,0 +1,11 @@
+brand: 航見科技（Arklab）
+model: Arklab 足球無人機 40 級（HJT006）
+motor_type: brushless
+list_price: NT$26,500
+sources:
+  - type: vendor_listing
+    title: 奧斯丁國際 Arklab足球無人機40級 子四計畫推薦產品
+    url: https://www.oursteam.com.tw/view-product.php?id=1274
+    publisher: 奧斯丁國際有限公司
+    retrieved_at: "2026-07-26"
+    trust_level: C
