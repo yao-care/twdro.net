@@ -43,7 +43,11 @@ const tools = [
   ['/search', '全站搜尋', '搜尋賽事、規則、器材'],
 ];
 ---
-<BaseLayout title="臺灣無人機足球的賽事、規則與器材 | twdro.net" bare>
+<BaseLayout
+  title="臺灣無人機足球的賽事、規則與器材 | twdro.net"
+  description="臺灣無人機足球（無人機飛球）的賽事行事曆、FAI／FIDA／教育部等規則對照、球機規格與練習場地，每筆資料標明來源與查核日期。"
+  bare
+>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(siteGraph)} />
   <section class="page-hero">
     <div class="page-hero__inner" style="padding-block:80px 72px">

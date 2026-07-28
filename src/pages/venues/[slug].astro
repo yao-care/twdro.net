@@ -9,8 +9,14 @@ export async function getStaticPaths() {
 }
 const { venue } = Astro.props;
 const d = venue.data;
+
+// heroDesc 只有場館類型（如「大學場館」），四個場館頁共用同樣的字串在搜尋結果上無從分辨，
+// 故 meta description 另外組出地點與場地性質。
+const metaDescription =
+  `${d.name}（${d.venue_type}）位於${d.city}${d.district ?? ''}，` +
+  `${d.indoor ? '室內場地' : '室外場地'}，曾用於無人機足球賽事或練習。地點資料標明來源與查核狀態。`;
 ---
-<BaseLayout title={`${d.name} | twdro.net`} heroTitle={d.name} heroDesc={d.venue_type}>
+<BaseLayout title={`${d.name} | twdro.net`} description={metaDescription} heroTitle={d.name} heroDesc={d.venue_type}>
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '場地', href: '/venues/' }, { name: d.name, href: `/venues/${venue.id}/` }]} />
   <section class="panel">
     <ul class="data-list">

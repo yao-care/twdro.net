@@ -13,12 +13,19 @@ interface Props {
 }
 const {
   title,
-  description = '臺灣無人機足球的賽事、規則、隊伍、場地與器材資料，每筆標明來源與查核日期。',
+  description,
   lang = 'zh-Hant',
   heroTitle,
   heroDesc,
   bare = false,
 } = Astro.props;
+
+// meta description 的取用順序：明確傳入 → 該頁的 heroDesc → 全站預設。
+// 中間這層 heroDesc fallback 是 2026-07-28 補的：在那之前有 30 個頁面（含首頁、/learn/、
+// 全部器材頁與 about 各頁）共用同一句全站預設，等於對搜尋結果放棄了每頁的差異化摘要，
+// 而多數頁其實早就寫好 heroDesc、只是沒接到 <meta> 上。這樣接了以後新頁也自動受惠。
+const metaDescription =
+  description ?? heroDesc ?? '臺灣無人機足球的賽事、規則、隊伍、場地與器材資料，每筆標明來源與查核日期。';
 ---
 <!doctype html>
 <html lang={lang}>
@@ -26,7 +33,7 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <!-- Google tag (gtag.js) — GA4 -->

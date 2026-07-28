@@ -17,8 +17,18 @@ const rows: [string, string][] = [
   d.battery_voltage ? ['電池', d.battery_voltage] : null,
   d.list_price ? ['參考售價', d.list_price] : null,
 ].filter((r): r is [string, string] => r !== null);
+
+// meta description 逐機生成：heroDesc 是固定的「球機規格」四個字，12 個器材頁若共用它
+// 等於在搜尋結果上完全無法區分。售價欄位刻意排除——它常是整段課程方案說明，會把摘要撐爆。
+const specSummary = rows
+  .filter(([k]) => k !== '參考售價')
+  .map(([k, v]) => `${k} ${v}`)
+  .join('、');
+const metaDescription =
+  `${d.brand} ${d.model} 的球機規格${specSummary ? `：${specSummary}` : ''}。` +
+  '規格與售價均標明廠商來源與查核日期。';
 ---
-<BaseLayout title={`${d.brand} ${d.model} | twdro.net`} heroTitle={`${d.brand} ${d.model}`} heroDesc="球機規格">
+<BaseLayout title={`${d.brand} ${d.model} | twdro.net`} description={metaDescription} heroTitle={`${d.brand} ${d.model}`} heroDesc="球機規格">
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '器材', href: '/equipment/' }, { name: `${d.brand} ${d.model}`, href: `/equipment/${item.id}/` }]} />
   {rows.length > 0 && (
     <section class="panel">
