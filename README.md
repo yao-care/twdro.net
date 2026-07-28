@@ -20,9 +20,18 @@ npm run test     # 單元測試
 缺欄位或狀態值錯誤會使 build 失敗。**不得在 `teams` 加入選手個資欄位。**
 
 ## 部署
-push 到 `main` 由 `.github/workflows/deploy.yml` 自動建置並發佈至 GitHub Pages。
-- **現階段（DNS 未設）**：服務於 `https://yao-care.github.io/twdro.net/`（`astro.config.mjs` 的 `base: '/twdro.net'`）。
-- **綁定 `twdro.net` 後**：將 `base` 改為 `/`、`site` 改為 `https://twdro.net`、新增 `public/CNAME`（內容 `twdro.net`），並於 Pages 設定填入自訂網域。
+push 到 `main` 由 `.github/workflows/deploy.yml` 自動建置並發佈至 GitHub Pages，
+線上網址 `https://twdro.net`（`public/CNAME` + `astro.config.mjs` 的 `site`／`base: '/'`）。
+build → test → 上線 → IndexNow，測試不過不會部署。
+
+## 搜尋引擎收錄
+- **sitemap `<lastmod>`**：由 `src/lib/lastmod.mjs` 依內容本身的 `updated_at`／`retrieved_at` 產生，
+  不蓋建置時間（假訊號會被搜尋引擎學會忽略）。沒有可信日期的頁面不輸出 lastmod。
+- **IndexNow**：部署後 `scripts/indexnow-submit.mjs` 讀線上 sitemap，只推 lastmod 3 天內的網址。
+  金鑰檔 `public/be644c81fe9010bea60de485d1544bf2.txt` 必須隨站部署，刪掉推送會全部失效。
+  本機驗證：`node scripts/indexnow-submit.mjs --local --dry-run`。
+- **Google 不參與 IndexNow**：Google 端只有 sitemap lastmod 與 Search Console 手動「要求建立索引」兩個手段。
+- 守門在 `tests/sitemap-lastmod.test.ts` 與 `tests/trailing-slash.test.ts`——這兩組各對應一次真實的收錄事故。
 
 ## 資料 Pipeline
 半自動資料取得與個資防護見 [`pipeline/README.md`](pipeline/README.md)。pipeline 產出候選並開 PR，人工審核後才上站。

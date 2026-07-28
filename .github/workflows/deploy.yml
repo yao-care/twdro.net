@@ -38,3 +38,17 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # 上線後才推 IndexNow：讀的是線上 sitemap，只推 lastmod 在 3 天內的網址。
+  # 失敗不影響部署（deploy 已經完成），所以 continue-on-error。
+  # 注意：Google 不參與 IndexNow，Google 端靠 sitemap lastmod 與 GSC 手動要求索引。
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+      - run: node scripts/indexnow-submit.mjs
