@@ -21,6 +21,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # 測試必須在 build 之後（build-smoke 與 trailing-slash 兩組檢查 dist 產物），
+      # 且必須在 upload 之前——2026-07-28 以前 CI 只有 ci+build，40 個測試從未在 CI 執行過，
+      # 等於 seo-ops reflect/brain 與 pipeline 的自動 commit 一路無守門直接上站。
+      # trailingSlash 設定錯誤（2026-07-19～21）就是這樣無聲送到 Google 面前的。
+      - run: npm test
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

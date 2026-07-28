@@ -223,11 +223,11 @@ async function maybeAlert(history, stuck) {
 /**
  * 推送並回報失敗。回 {ok, failures, quotaHit}。
  *
- * quotaHit 要獨立辨識並告警，因為 Indexing API 的每日 200 配額是 **GCP 專案層級、跨站共用**的
- * （全部站台共用 SA ga4-insights@yaocare / project yaocare）。2026-07-28 實測當日用量：
- * folk.tw 112 筆＋arthurs.tw 31＋twdro ~25＋sutta.io 3 ≈ 171/200，餘裕不到 30 筆。任一站增頁
- * 就會讓別站的推送靜默失敗——seo-collect 對靜態清單的失敗只 `catch { fail++ }` 計數、不告警，
- * 這種失敗過去無人看得見。
+ * quotaHit 要獨立辨識，因為 Indexing API 的每日 200 配額是 **GCP 專案層級、跨站共用**的
+ * （全部站台共用 SA ga4-insights@yaocare / project yaocare，2026-07-28 由實際的 quota 錯誤訊息
+ * 證實）。日常用量 folk.tw 112＋arthurs.tw 31＋twdro ~25＋sutta.io 3 ≈ 171/200 並未超標；
+ * 該日觸頂是人工除錯時額外推了 43 筆造成的，不是常態。保留這個判斷是因為 seo-collect 對失敗
+ * 只 `catch { fail++ }` 計數、不告警——真的觸頂時沒有任何人看得見。
  */
 async function push(targets) {
   const token = await getAccessToken('https://www.googleapis.com/auth/indexing');
@@ -297,9 +297,8 @@ async function main() {
   if (result?.quotaHit) {
     await slackPost(
       `:warning: *twdro.net index-watch 撞到 Indexing API 日配額*（成功 ${result.ok}／失敗 ${result.failures.length}）\n` +
-      `每日 200 筆是 **GCP 專案 yaocare 跨站共用**，非本站專屬。今日其他站已用掉大部分額度，` +
-      `本站有 ${result.failures.length} 筆未送出。\n` +
-      `_處理方向：調降用量最大的站（2026-07-28 實測 folk.tw 每日 112 筆），或為本站另開 GCP 專案與服務帳號。_`,
+      `每日 200 筆是 **GCP 專案 yaocare 跨站共用**，非本站專屬；本站有 ${result.failures.length} 筆未送出。\n` +
+      `_先查當日各站實際用量（日常合計約 171/200）再決定處理方向：調降用量最大的站，或另開 GCP 專案與服務帳號。_`,
     ).catch((e) => console.log(`[index-watch] ⚠️ 配額告警發送失敗：${e.message}`));
   }
 
