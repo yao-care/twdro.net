@@ -13,9 +13,10 @@ function organizationNode(): Record<string, any> {
     '@id': ORG_ID,
     name: 'twdro.net｜臺灣無人機足球',
     url: `${SITE_URL}/`,
-    sport: '無人機足球',
+    // 同一項運動在臺灣有兩個通行譯名，兩個都列出來讓實體判定不會漏掉「飛球」那半邊的查詢。
+    sport: ['無人機足球', '無人機飛球'],
     description:
-      '臺灣無人機足球（Drone Soccer）的賽事、規則、隊伍、場地與器材資料平台，整理政府公告、學校、協會與國際規則，每筆標明來源與查核日期。',
+      '臺灣無人機足球（又稱無人機飛球，Drone Soccer）的賽事、規則、隊伍、場地與器材資料平台，整理政府公告、學校、協會與國際規則，每筆標明來源與查核日期。',
     logo: {
       '@type': 'ImageObject',
       url: `${SITE_URL}/favicon.svg`,
