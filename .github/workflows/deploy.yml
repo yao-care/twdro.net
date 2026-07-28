@@ -14,7 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # fetch-depth: 0 是必要的——sitemap 的 lastmod 對「沒有日期欄位的內容檔與靜態頁」
+      # 退回 git commit 日期（見 src/lib/lastmod.mjs）。淺層 clone 拿不到歷史，
+      # 那些頁就會無聲失去 lastmod，正是 tests/sitemap-lastmod.test.ts 要擋的退化。
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
           node-version: '20'

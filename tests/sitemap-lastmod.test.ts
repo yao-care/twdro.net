@@ -53,8 +53,29 @@ describe('buildLastmodMap', () => {
     for (const date of map.values()) expect(date <= TODAY).toBe(true);
   });
 
-  it('沒有可信日期的頁面不進表（寧可缺 lastmod 也不給假訊號）', () => {
-    expect(map.has('/about/privacy/')).toBe(false);
+  // 2026-07-28 補：第一版只認內容自帶的日期欄位，結果 venues（4 檔）、organizations（8 檔）
+  // 這些沒有日期欄位的集合，以及 src/pages 下的靜態頁，全部拿不到 lastmod——而
+  // /venues/、/organizations/、/organizations/oursteam/、/equipment/compliance-check/
+  // 正好都卡在未收錄清單裡，等於漏掉的剛好就是最需要重抓訊號的那幾頁。現以 git commit
+  // 日期補上退路。
+  it('沒有日期欄位的集合，以 git commit 日期補上', () => {
+    expect(map.get('/venues/')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(map.get('/organizations/oursteam/')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('沒有內容檔的靜態頁也有日期', () => {
+    expect(map.get('/equipment/compliance-check/')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(map.get('/about/privacy/')).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('內容自帶的查核日優先於 git 日期', () => {
+    // taiwan-competitions-overview 的 frontmatter 寫 updated_at: 2026-07-28
+    expect(map.get('/learn/taiwan-competitions-overview/')).toBe('2026-07-28');
+  });
+
+  it('動態路由檔（[slug].astro）不會被當成靜態頁混進來', () => {
+    expect(map.has('/learn/[...slug]/')).toBe(false);
+    expect(map.has('/events/[slug]/')).toBe(false);
   });
 });
 
@@ -67,12 +88,11 @@ describe('sitemap 產物', () => {
     expect(xml.length).toBeGreaterThan(0);
   });
 
-  it('關鍵頁面都帶 lastmod', () => {
-    for (const loc of ['https://twdro.net/', 'https://twdro.net/learn/', 'https://twdro.net/learn/what-is-drone-soccer/']) {
-      const block = xml.match(new RegExp(`<url><loc>${loc.replace(/\//g, '\\/')}<\\/loc>[^]*?<\\/url>`))?.[0];
-      expect(block, `${loc} 不在 sitemap 內`).toBeTruthy();
-      expect(block, `${loc} 缺 lastmod`).toMatch(/<lastmod>/);
-    }
+  it('每一個網址都帶 lastmod（漏掉的往往就是最需要重抓的那幾頁）', () => {
+    const missing = [...xml.matchAll(/<url><loc>([^<]+)<\/loc>(.*?)<\/url>/g)]
+      .filter((m) => !m[2].includes('<lastmod>'))
+      .map((m) => m[1]);
+    expect(missing, `這些網址缺 lastmod：\n${missing.join('\n')}`).toEqual([]);
   });
 
   it('lastmod 不是全站同一個日期（那等於蓋建置時間的假訊號）', () => {

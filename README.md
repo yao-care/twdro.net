@@ -26,7 +26,9 @@ build → test → 上線 → IndexNow，測試不過不會部署。
 
 ## 搜尋引擎收錄
 - **sitemap `<lastmod>`**：由 `src/lib/lastmod.mjs` 依內容本身的 `updated_at`／`retrieved_at` 產生，
-  不蓋建置時間（假訊號會被搜尋引擎學會忽略）。沒有可信日期的頁面不輸出 lastmod。
+  沒有日期欄位的集合（venues／organizations）與靜態 .astro 頁退回該檔的 git commit 日期。
+  不蓋建置時間——假訊號會被搜尋引擎學會忽略。
+  **CI 的 checkout 必須 `fetch-depth: 0`**，淺層 clone 拿不到 git 歷史，那些頁會無聲失去 lastmod。
 - **IndexNow**：部署後 `scripts/indexnow-submit.mjs` 讀線上 sitemap，只推 lastmod 3 天內的網址。
   金鑰檔 `public/be644c81fe9010bea60de485d1544bf2.txt` 必須隨站部署，刪掉推送會全部失效。
   本機驗證：`node scripts/indexnow-submit.mjs --local --dry-run`。

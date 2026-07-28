@@ -12,6 +12,7 @@
 // （如法務頁）就不輸出 lastmod，這在 sitemap 規格裡是合法的。
 
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 // 只認這三個欄位：它們的語意都是「我方最後確認的時間」。
@@ -47,6 +48,41 @@ function maxDate(a, b) {
   return a > b ? a : b;
 }
 
+/**
+ * 檔案路徑 → 最後一次 commit 日期（YYYY-MM-DD）的對照表，一次 git log 掃完。
+ *
+ * 為什麼需要（2026-07-28 補）：venues（4 檔）與 organizations（8 檔）的 YAML 沒有任何
+ * 日期欄位，src/pages 下的靜態頁（/equipment/compliance-check/、/sitemap/、法務頁）
+ * 更是連內容檔都沒有——第一版 lastmod 完全漏掉它們，而 /venues/、/organizations/、
+ * /organizations/oursteam/、/equipment/compliance-check/ 正好都卡在未收錄清單裡。
+ * commit 日期就是「這個檔案最後被改動的時間」，比在 12 個檔案裡補造 retrieved_at 誠實。
+ *
+ * 內容自帶的日期優先（那是「資料查核日」，語意更貼近讀者看到的東西）；git 只當退路。
+ * 淺層 clone（fetch-depth: 1）拿不到完整歷史，故 CI 的 checkout 需設 fetch-depth: 0；
+ * 真的取不到就回空表，退化成「沒有 lastmod」而不是給錯日期。
+ */
+function gitDateMap() {
+  /** @type {Map<string, string>} */
+  const map = new Map();
+  let out;
+  try {
+    out = execFileSync('git', ['log', '--format=%cs', '--name-only', '--', 'src/'], {
+      encoding: 'utf8',
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  } catch {
+    return map;
+  }
+  let current = null;
+  for (const line of out.split('\n')) {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(line)) { current = line; continue; }
+    const file = line.trim();
+    // git log 由新到舊，第一次見到的檔案即最新一次改動；已記錄者不覆蓋。
+    if (file && current && !map.has(file)) map.set(file, current);
+  }
+  return map;
+}
+
 /** 從單一檔案內容抽出最新的我方確認日期（YYYY-MM-DD），沒有則回 null。 */
 export function extractDate(text) {
   let latest = null;
@@ -69,14 +105,17 @@ export function buildLastmodMap(contentDir, today) {
   };
 
   if (!existsSync(contentDir)) return map;
+  const gitDates = gitDateMap();
 
   for (const collection of readdirSync(contentDir, { withFileTypes: true })) {
     if (!collection.isDirectory()) continue;
     const dir = join(contentDir, collection.name);
     for (const file of readdirSync(dir)) {
       if (!/\.(md|ya?ml)$/.test(file)) continue;
-      const text = readFileSync(join(dir, file), 'utf8');
-      const date = extractDate(text);
+      const path = join(dir, file);
+      const text = readFileSync(path, 'utf8');
+      // 內容自帶的查核日優先，沒有才退回 git commit 日期。
+      const date = extractDate(text) ?? gitDates.get(path) ?? null;
       if (!date) continue;
       const slug = file.replace(/\.(md|ya?ml)$/, '');
 
@@ -102,10 +141,34 @@ export function buildLastmodMap(contentDir, today) {
     }
   }
 
+  // 靜態頁（工具頁、法務頁、FAQ…）沒有對應的內容檔，用 .astro 本身的 commit 日期。
+  // 動態路由（檔名含 []）跳過——那些網址的日期已由上面的集合掃描給出。
+  for (const [path, date] of walkPages('src/pages', gitDates)) put(path, date);
+
   // 首頁彙整全站：任何一頁更新，首頁的內容（近期賽事、最新消息）也可能跟著變。
   let overall = null;
   for (const d of map.values()) overall = maxDate(overall, d);
   put('/', overall);
 
   return map;
+}
+
+/** 掃 src/pages 的靜態 .astro，回傳 [pathname, date] 陣列。 */
+function walkPages(dir, gitDates, prefix = '/') {
+  /** @type {[string, string][]} */
+  const out = [];
+  if (!existsSync(dir)) return out;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...walkPages(full, gitDates, `${prefix}${entry.name}/`));
+      continue;
+    }
+    if (!entry.name.endsWith('.astro') || entry.name.includes('[')) continue;
+    const date = gitDates.get(full);
+    if (!date) continue;
+    const base = entry.name.replace(/\.astro$/, '');
+    out.push([base === 'index' ? prefix : `${prefix}${base}/`, date]);
+  }
+  return out;
 }
