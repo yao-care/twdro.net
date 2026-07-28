@@ -1,0 +1,81 @@
+---
+// 球機比價表。器材總覽頁與教育文共用同一份資料來源（src/content/equipment/*.yml），
+// 價格與機型只要 YAML 更新就同步——教育文裡寫死價格數字必然走鐘，站規鐵則 5 禁止。
+import { getCollection } from 'astro:content';
+import { url } from '../lib/url';
+import { parsePrice, motorLabel, shortBrand } from '../lib/price';
+
+interface Props {
+  /** 已完售機型是否一併列出（總覽頁要，文章內視情況） */
+  showDiscontinued?: boolean;
+}
+const { showDiscontinued = true } = Astro.props;
+
+const items = await getCollection('equipment');
+
+// 比較欄位只放資料真的填得起來的：12 筆全有 brand/model、10 筆有 motor_type、11 筆有價格；
+// 直徑只有 4 筆、重量只有 1 筆，開成欄位會是一整片空白（鐵則 5：查無來源就留白、不強調待補），
+// 規格細節留在各機型明細頁。
+const rows = items
+  .map((it) => ({
+    slug: it.id,
+    brand: shortBrand(it.data.brand),
+    model: it.data.model,
+    motor: motorLabel(it.data.motor_type),
+    price: parsePrice(it.data.list_price),
+  }))
+  // 現售在前、已完售在後；各自依價格由低到高（比價的人從便宜的看起）。無公告價者墊底。
+  .sort((a, b) => {
+    if (a.price.soldOut !== b.price.soldOut) return a.price.soldOut ? 1 : -1;
+    return (a.price.amount ?? Infinity) - (b.price.amount ?? Infinity);
+  });
+
+const onSale = rows.filter((r) => !r.price.soldOut);
+const discontinued = rows.filter((r) => r.price.soldOut);
+---
+<h2 class="group-title" id="現售機型">現售機型</h2>
+<div style="overflow-x:auto">
+  <table class="data-table">
+    <thead>
+      <tr><th scope="col">機型</th><th scope="col">品牌</th><th scope="col">馬達</th><th scope="col">參考售價</th></tr>
+    </thead>
+    <tbody>
+      {onSale.map((r) => (
+        <tr>
+          <th scope="row"><a href={url(`/equipment/${r.slug}`)}>{r.model}</a></th>
+          <td>{r.brand}</td>
+          <td>{r.motor ?? '—'}</td>
+          <td>{r.price.text ?? '未公告'}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{showDiscontinued && discontinued.length > 0 && (
+  <>
+    <h2 class="group-title" id="已完售機型">已完售機型</h2>
+    <p class="text-muted" style="margin:0 0 12px">廠商頁面已標示完售，保留供查規格與價格帶參考。</p>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr><th scope="col">機型</th><th scope="col">品牌</th><th scope="col">馬達</th><th scope="col">原參考售價</th></tr>
+        </thead>
+        <tbody>
+          {discontinued.map((r) => (
+            <tr>
+              <th scope="row"><a href={url(`/equipment/${r.slug}`)}>{r.model}</a></th>
+              <td>{r.brand}</td>
+              <td>{r.motor ?? '—'}</td>
+              <td>{r.price.text ?? '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+)}
+
+<p class="text-muted" style="margin-top:20px">
+  售價為查核當日的廠商公告價，僅供估算，實際以各廠商官網為準；點進機型可看完整規格與來源連結。
+</p>

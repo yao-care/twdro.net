@@ -1,102 +1,41 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import EquipmentPriceTable from '../../components/EquipmentPriceTable.astro';
 import { url } from '../../lib/url';
-import { parsePrice, motorLabel, shortBrand } from '../../lib/price';
-
-const items = await getCollection('equipment');
+import { parsePrice, shortBrand } from '../../lib/price';
 
 // 這頁的定位是「跨品牌比價總覽」——廠商官網只講自家機型，跨品牌比較是本站唯一能提供、
-// 而搜尋「無人機飛球／球機」的人真正需要的東西。所以主體排版成表格而非卡片牆。
-//
-// 比較欄位只放資料真的填得起來的：12 筆全有 brand/model/list_price、10 筆有 motor_type；
-// 直徑只有 4 筆、重量只有 1 筆，開成欄位會是一整片空白（站規鐵則 5：查無來源就留白、
-// 不在畫面上強調待補），所以規格細節留在各機型明細頁，總覽頁不假裝有。
-const rows = items
-  .map((it) => {
-    const price = parsePrice(it.data.list_price);
-    return {
-      slug: it.id,
-      brand: shortBrand(it.data.brand),
-      model: it.data.model,
-      motor: motorLabel(it.data.motor_type),
-      price,
-    };
-  })
-  // 現售在前、已完售在後；各自依價格由低到高（比價的人從便宜的看起）。無價格者墊底。
-  .sort((a, b) => {
-    if (a.price.soldOut !== b.price.soldOut) return a.price.soldOut ? 1 : -1;
-    return (a.price.amount ?? Infinity) - (b.price.amount ?? Infinity);
-  });
-
-const onSale = rows.filter((r) => !r.price.soldOut);
-const discontinued = rows.filter((r) => r.price.soldOut);
-const brandCount = new Set(rows.map((r) => r.brand)).size;
-
-const prices = onSale.map((r) => r.price.amount).filter((n): n is number => n != null);
+// 而搜尋「無人機飛球／球機」的人真正需要的東西。表格本身抽成共用元件，與教育文同源。
+const items = await getCollection('equipment');
+const prices = items
+  .map((it) => parsePrice(it.data.list_price))
+  .filter((p) => !p.soldOut && p.amount != null)
+  .map((p) => p.amount!);
+const brandCount = new Set(items.map((it) => shortBrand(it.data.brand))).size;
 const priceRange = prices.length
   ? `${Math.min(...prices).toLocaleString('en-US')}–${Math.max(...prices).toLocaleString('en-US')}`
   : null;
 
 const metaDescription =
-  `臺灣買得到的無人機飛球／無人機足球球機一覽：${brandCount} 個品牌共 ${rows.length} 款機型的參考售價與馬達型式` +
+  `臺灣買得到的無人機飛球／無人機足球球機一覽：${brandCount} 個品牌共 ${items.length} 款機型的參考售價與馬達型式` +
   (priceRange ? `，現售價位帶 NT$${priceRange}` : '') +
   '。每筆標明廠商來源與查核日期，並可用合規檢查器比對是否符合賽事分級。';
 ---
 <BaseLayout
-  title={`無人機飛球球機比較：${brandCount} 品牌 ${rows.length} 款機型的參考售價 | twdro.net`}
+  title={`無人機飛球球機比較：${brandCount} 品牌 ${items.length} 款機型的參考售價 | twdro.net`}
   description={metaDescription}
   heroTitle="球機比較與參考售價"
-  heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${rows.length} 款，價格與規格均標明廠商來源與查核日期。`}
+  heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${items.length} 款，價格與規格均標明廠商來源與查核日期。`}
 >
-  <p style="margin:0 0 24px"><a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a></p>
+  <p style="margin:0 0 24px">
+    <a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a>
+  </p>
 
-  <h2 class="group-title">現售機型</h2>
-  <div style="overflow-x:auto">
-    <table class="data-table">
-      <thead>
-        <tr><th scope="col">機型</th><th scope="col">品牌</th><th scope="col">馬達</th><th scope="col">參考售價</th></tr>
-      </thead>
-      <tbody>
-        {onSale.map((r) => (
-          <tr>
-            <th scope="row"><a href={url(`/equipment/${r.slug}`)}>{r.model}</a></th>
-            <td>{r.brand}</td>
-            <td>{r.motor ?? '—'}</td>
-            <td>{r.price.text ?? '—'}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+  <EquipmentPriceTable />
 
-  {discontinued.length > 0 && (
-    <>
-      <h2 class="group-title">已完售機型</h2>
-      <p class="text-muted" style="margin:0 0 12px">廠商頁面已標示完售，保留供查規格與價格帶參考。</p>
-      <div style="overflow-x:auto">
-        <table class="data-table">
-          <thead>
-            <tr><th scope="col">機型</th><th scope="col">品牌</th><th scope="col">馬達</th><th scope="col">原參考售價</th></tr>
-          </thead>
-          <tbody>
-            {discontinued.map((r) => (
-              <tr>
-                <th scope="row"><a href={url(`/equipment/${r.slug}`)}>{r.model}</a></th>
-                <td>{r.brand}</td>
-                <td>{r.motor ?? '—'}</td>
-                <td>{r.price.text ?? '—'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
-  )}
-
-  <p class="text-muted" style="margin-top:24px">
-    售價為查核當日的廠商公告價，僅供估算，實際以各廠商官網為準；點進機型可看完整規格與來源連結。
-    不確定該挑哪一台，先看 <a href={url('/learn/choosing-your-first-drone')}>如何挑第一台球機</a> 與
-    <a href={url('/learn/drone-size-20cm-vs-40cm')}>20 級與 40 級的差別</a>。
+  <p class="text-muted">
+    不確定該挑哪一台，先看 <a href={url('/learn/choosing-your-first-drone')}>怎麼挑第一台球機</a>：
+    這張表怎麼讀、哪些價差其實是配件差、哪些機型只賣給教育單位。
   </p>
 </BaseLayout>

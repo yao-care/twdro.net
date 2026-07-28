@@ -170,6 +170,10 @@ const learn = defineCollection({
     category: z.enum(LEARN_CATEGORY),
     order: z.number().default(0),
     updated_at: z.string().optional(),
+    // 教育文要引用的即時資料區塊。文章是 .md（無法 import 元件），而把價格／機型寫進
+    // markdown 必然與 src/content/equipment 走鐘——鐵則 5 禁止。宣告在 frontmatter，
+    // 由 pages/learn/[...slug].astro 在正文之後渲染對應元件，資料仍是單一來源。
+    embed: z.enum(['equipment-price-table']).optional(),
   }),
 });
 
