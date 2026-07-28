@@ -9,26 +9,57 @@ export async function getStaticPaths() {
 }
 const { item } = Astro.props;
 const d = item.data;
+
+// motor_type 存的是資料來源的英文原值（brushed／brushless）。表格與摘要給中文讀者看，
+// 直接吐英文等於少了一個能被搜尋與理解的欄位；未知值原樣保留，不猜。
+const MOTOR_ZH: Record<string, string> = { brushed: '有刷', brushless: '無刷' };
+const motorLabel = d.motor_type ? (MOTOR_ZH[d.motor_type] ?? d.motor_type) : null;
+
 // 只列有值的規格，缺的安靜省略（不顯示佔位）
 const rows: [string, string][] = [
   d.diameter_mm != null ? ['直徑', `${d.diameter_mm} mm`] : null,
   d.weight_g != null ? ['重量', `${d.weight_g} g`] : null,
-  d.motor_type ? ['馬達', d.motor_type] : null,
+  motorLabel ? ['馬達', motorLabel] : null,
   d.battery_voltage ? ['電池', d.battery_voltage] : null,
   d.list_price ? ['參考售價', d.list_price] : null,
 ].filter((r): r is [string, string] => r !== null);
 
-// meta description 逐機生成：heroDesc 是固定的「球機規格」四個字，12 個器材頁若共用它
-// 等於在搜尋結果上完全無法區分。售價欄位刻意排除——它常是整段課程方案說明，會把摘要撐爆。
+// list_price 常是整段方案說明（「NT$4,350（TDA002 一機兩電）／NT$5,950（…）」），原樣塞進
+// 標題或摘要會撐爆，所以取開頭那個價格當摘要值：
+//   - 還有第二個 NT$ → 標「起」，避免讓人以為只有一種品項一種價。
+//   - 已完售 → 一定要標出來。只報價不報完售，等於把查價的人騙進一個買不到的頁面。
+const priceLead = d.list_price?.match(/^NT\$[\d,]+(?:\s*[–—-]\s*[\d,]+)?/)?.[0] ?? null;
+const soldOut = /已完售/.test(d.list_price ?? '');
+const priceText = priceLead
+  ? soldOut
+    ? `${priceLead}（已完售）`
+    : (d.list_price!.match(/NT\$/g) ?? []).length > 1
+      ? `${priceLead} 起`
+      : priceLead
+  : null;
+
+// 品牌欄位帶英文全名（「宇宙機器人（kodorobot）」），放在標題開頭會把型號——也就是使用者
+// 實際打進去的字——推出搜尋結果標題的可見範圍。型號優先、品牌收尾。
+const brandShort = d.brand.replace(/（[^）]*）\s*$/, '');
+
+// meta description 逐機生成：heroDesc 原本是固定的「球機規格」四個字，12 個器材頁共用它
+// 等於在搜尋結果上完全無法區分。查機型的人多半在比價，把價格帶進摘要而不是只承諾「有標售價」。
 const specSummary = rows
   .filter(([k]) => k !== '參考售價')
   .map(([k, v]) => `${k} ${v}`)
   .join('、');
 const metaDescription =
-  `${d.brand} ${d.model} 的球機規格${specSummary ? `：${specSummary}` : ''}。` +
-  '規格與售價均標明廠商來源與查核日期。';
+  // 型號本身常以「（…）」結尾，再括一次品牌會變成連續兩組括號；改用破折號分隔。
+  `${d.model}－${brandShort}的球機規格${specSummary ? `：${specSummary}` : ''}。` +
+  (priceText ? `參考售價 ${priceText}。` : '') +
+  '規格與售價標明廠商來源與查核日期。';
+// 標題只在頁面真的列了售價時才寫「與參考售價」，不做內容沒有的承諾。
+const pageTitle = `${d.model}${priceText ? ' 規格與參考售價' : ' 規格'}｜${brandShort} | twdro.net`;
+const heroDesc = [brandShort, specSummary, priceText ? `參考售價 ${priceText}` : null]
+  .filter(Boolean)
+  .join('・');
 ---
-<BaseLayout title={`${d.brand} ${d.model} | twdro.net`} description={metaDescription} heroTitle={`${d.brand} ${d.model}`} heroDesc="球機規格">
+<BaseLayout title={pageTitle} description={metaDescription} heroTitle={`${d.brand} ${d.model}`} heroDesc={heroDesc}>
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '器材', href: '/equipment/' }, { name: `${d.brand} ${d.model}`, href: `/equipment/${item.id}/` }]} />
   {rows.length > 0 && (
     <section class="panel">
