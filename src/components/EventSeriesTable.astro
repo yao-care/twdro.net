@@ -9,20 +9,28 @@ import { eventStatusLabel } from '../lib/enums';
 interface Props {
   /** 對應 events YAML 的 event_series 欄位，如「天穹盃」 */
   series: string;
+  /** 第二欄的欄位名。巡迴賽是「分站」，晉級制賽事是「階段」，預設中性的「賽事」 */
+  itemLabel?: string;
 }
-const { series } = Astro.props;
+const { series, itemLabel = '賽事' } = Astro.props;
 
-// 草稿不對外（見 lib/enums 註解）；同系列依日期由舊到新，讓巡迴分站的順序看得出來。
+// 草稿不對外（見 lib/enums 註解）；同系列依日期由舊到新，讓巡迴分站與晉級階段的順序
+// 看得出來。日期未公告者排最後——空字串比任何日期都「小」，不特別處理會被推到最前面。
 const events = (await getCollection('events'))
   .filter((e) => e.data.event_series === series && e.data.status !== 'draft')
-  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
+  .sort((a, b) => {
+    const da = a.data.schedule.event_start ?? '';
+    const db = b.data.schedule.event_start ?? '';
+    if (!da || !db) return !da && !db ? 0 : da ? -1 : 1;
+    return da.localeCompare(db);
+  });
 ---
 {events.length > 0 && (
   <div style="overflow-x:auto">
     <table class="data-table">
       <thead>
         <tr>
-          <th scope="col">日期</th><th scope="col">分站</th>
+          <th scope="col">日期</th><th scope="col">{itemLabel}</th>
           <th scope="col">地點</th><th scope="col">狀態</th>
         </tr>
       </thead>
@@ -45,5 +53,5 @@ const events = (await getCollection('events'))
   </div>
 )}
 <p class="text-muted" style="margin-top:20px">
-  賽程以主辦單位公告為準，點進分站可看場地、來源連結與查核日期。完整清單見 <a href={url('/events/')}>賽事總覽</a>。
+  賽程以主辦單位公告為準，點進去可看場地、來源連結與查核日期。完整清單見 <a href={url('/events/')}>賽事總覽</a>。
 </p>

@@ -27,7 +27,9 @@ const articleJson = articleJsonLd({
   <article class="panel prose">
     <Content />
     {article.data.embed === 'equipment-price-table' && <EquipmentPriceTable />}
-    {article.data.embed === 'skycup-schedule' && <EventSeriesTable series="天穹盃" />}
+    {article.data.embed === 'event-series' && article.data.embed_series && (
+      <EventSeriesTable series={article.data.embed_series} itemLabel={article.data.embed_item_label} />
+    )}
   </article>
 </BaseLayout>
 

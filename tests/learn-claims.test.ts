@@ -149,3 +149,76 @@ describe('skycup-explained 的資料斷言', () => {
     expect(balkin?.motor).toBeNull(); // 未標馬達型式，文中才會寫「要向廠商確認」
   });
 });
+
+// 對應文章：src/content/learn/moe-national-competition.md
+// 三階段的時間、地點、晉級門檻與獎金全部引自 events/2026-moe-*.yml 與
+// rulebooks/moe-taiwan-2026.yml；賽事延期或獎金調整而文章沒跟著改，這裡會擋下來。
+
+const eventRaw = (slug: string) => readFileSync(`src/content/events/${slug}.yml`, 'utf8');
+
+describe('moe-national-competition 的資料斷言', () => {
+  const moe = rulebookSpec('moe-taiwan-2026');
+
+  it('三階段的獎金級距與賽事資料一致', () => {
+    expect(eventRaw('2026-moe-regional')).toContain('冠軍獎金 1 萬元／亞軍 5 千元／季軍 3 千元');
+    expect(eventRaw('2026-moe-semifinal')).toContain('各分組前 3 名各獲獎金 2 萬元');
+    expect(eventRaw('2026-moe-final-presidential')).toContain('冠軍獎金 5 萬元／亞軍 3 萬元');
+  });
+
+  it('「準決賽每隊 2 萬比分區賽冠軍 1 萬還高」仍成立', () => {
+    const num = (slug: string, re: RegExp) => {
+      const m = eventRaw(slug).match(re);
+      return Number(m?.[1]) * (m?.[2] === '萬' ? 10000 : 1000);
+    };
+    const regionalChampion = num('2026-moe-regional', /冠軍獎金 (\d+) (萬|千)元/);
+    const semifinalTop3 = num('2026-moe-semifinal', /前 3 名各獲獎金 (\d+) (萬|千)元/);
+    expect(semifinalTop3).toBeGreaterThan(regionalChampion);
+  });
+
+  it('三階段的晉級門檻與賽事資料一致', () => {
+    expect(eventRaw('2026-moe-regional')).toContain('各組前 3 名晉級準決賽');
+    expect(eventRaw('2026-moe-semifinal')).toContain('各分組前 2 名晉級總統盃決賽');
+  });
+
+  it('三階段的時間與場館與賽事資料一致', () => {
+    expect(eventRaw('2026-moe-regional')).toMatch(/event_start: "2026-07-01"/);
+    expect(eventRaw('2026-moe-regional')).toMatch(/event_end: "2026-08-31"/);
+    expect(eventRaw('2026-moe-semifinal')).toMatch(/event_start: "2026-10-02"/);
+    expect(eventRaw('2026-moe-semifinal')).toContain('國立臺灣大學綜合體育館');
+    expect(eventRaw('2026-moe-final-presidential')).toContain('大臺南會展中心');
+  });
+
+  it('「上場 3 至 5 人、2 名替補」與規則書一致（且比天穹盃有彈性）', () => {
+    expect([moe.active_players_min, moe.active_players_max, moe.substitutes]).toEqual(['3', '5', '2']);
+    const sky = rulebookSpec('skycup-2026');
+    expect(Number(moe.active_players_max)).toBeGreaterThan(Number(sky.active_players_max));
+  });
+
+  it('「規格採 FAI F9A-B、直徑 20 公分」仍成立', () => {
+    expect(ruleSummary('moe-taiwan-2026-spec')).toContain('FAI F9A-B');
+    expect(ruleSummary('moe-taiwan-2026-spec')).toContain('教育部首次舉辦');
+    expect(moe.drone_diameter_mm).toBe(rulebookSpec('fai-f9a-b-2026').drone_diameter_mm);
+    expect(moe.goal_size).toContain('內徑 40');
+  });
+
+  it('「三個組別」與規則書一致', () => {
+    expect(ruleSummary('moe-taiwan-2026-divisions')).toContain('國中小組、高中組、大專校院組三個組別');
+  });
+});
+
+describe('embed 宣告', () => {
+  it('每篇文章的 embed_series 都對得到實際賽事', () => {
+    const seriesInEvents = new Set(
+      readdirSync('src/content/events')
+        .filter((f) => f.endsWith('.yml'))
+        .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
+        .filter(Boolean),
+    );
+    const declared = readdirSync('src/content/learn')
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => readFileSync(`src/content/learn/${f}`, 'utf8').match(/^embed_series:\s*(.*)$/m)?.[1]?.trim())
+      .filter((v): v is string => Boolean(v));
+    expect(declared.length).toBeGreaterThan(0);
+    expect(declared.filter((s) => !seriesInEvents.has(s))).toEqual([]);
+  });
+});

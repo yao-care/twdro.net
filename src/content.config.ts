@@ -173,7 +173,12 @@ const learn = defineCollection({
     // 教育文要引用的即時資料區塊。文章是 .md（無法 import 元件），而把價格／機型寫進
     // markdown 必然與 src/content/equipment 走鐘——鐵則 5 禁止。宣告在 frontmatter，
     // 由 pages/learn/[...slug].astro 在正文之後渲染對應元件，資料仍是單一來源。
-    embed: z.enum(['equipment-price-table', 'skycup-schedule']).optional(),
+    embed: z.enum(['equipment-price-table', 'event-series']).optional(),
+    // embed: 'event-series' 時指定要列哪個系列（對應 events YAML 的 event_series）。
+    // 值有沒有對應賽事由 tests/learn-claims 守門——打錯字只會渲染出空表，不會 build 失敗。
+    embed_series: z.string().optional(),
+    /** 賽程表第二欄的欄位名（巡迴賽用「分站」、晉級制用「階段」）；省略時為「賽事」 */
+    embed_item_label: z.string().optional(),
   }),
 });
 

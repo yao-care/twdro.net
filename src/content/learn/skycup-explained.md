@@ -4,7 +4,9 @@ category: competing
 description: 天穹盃 2026 只設有刷組，球機重量上限 110 公克、電池 2S，規格自成一格——拿打其他賽事的機來打會卡在查檢。賽制、場地、犯規計點與參賽資格一次看懂。
 order: 21
 updated_at: "2026-07-28"
-embed: skycup-schedule
+embed: event-series
+embed_series: 天穹盃
+embed_item_label: 分站
 ---
 
 天穹盃無人機飛球錦標賽由台灣無人機競技發展協會主辦，2026 年進入第二屆，採巡迴分站制在各縣市舉辦，各分站免費報名。本站收錄的四套規則書裡，只有它的官方名稱用「無人機飛球」而不是「無人機足球」——兩個名字指的是同一項運動，由來見 [無人機飛球是什麼](/learn/naming-drone-soccer-vs-flyball/)。
