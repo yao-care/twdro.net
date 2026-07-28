@@ -5,7 +5,7 @@ import { url } from '../../lib/url';
 import { LEARN_CATEGORY_ORDER, learnCategoryLabel } from '../../lib/enums';
 const articles = (await getCollection('learn')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="認識無人機足球 | twdro.net" heroTitle="認識無人機足球" heroDesc="從入門、規則、器材到參賽與教學，一次讀懂無人機足球。">
+<BaseLayout title="認識無人機足球（無人機飛球）：新手入門、規則與器材 | twdro.net" heroTitle="認識無人機足球" heroDesc="從入門、規則、器材到參賽與教學，一次讀懂無人機足球。">
   {LEARN_CATEGORY_ORDER.map((cat) => {
     const list = articles.filter((a) => a.data.category === cat);
     return list.length ? (

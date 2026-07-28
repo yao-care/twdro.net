@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { parsePrice, motorLabel as toMotorLabel, shortBrand } from '../../lib/price';
 export async function getStaticPaths() {
   const items = await getCollection('equipment');
   return items.map((it) => ({ params: { slug: it.id }, props: { item: it } }));
@@ -10,10 +11,7 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const d = item.data;
 
-// motor_type 存的是資料來源的英文原值（brushed／brushless）。表格與摘要給中文讀者看，
-// 直接吐英文等於少了一個能被搜尋與理解的欄位；未知值原樣保留，不猜。
-const MOTOR_ZH: Record<string, string> = { brushed: '有刷', brushless: '無刷' };
-const motorLabel = d.motor_type ? (MOTOR_ZH[d.motor_type] ?? d.motor_type) : null;
+const motorLabel = toMotorLabel(d.motor_type);
 
 // 只列有值的規格，缺的安靜省略（不顯示佔位）
 const rows: [string, string][] = [
@@ -24,23 +22,9 @@ const rows: [string, string][] = [
   d.list_price ? ['參考售價', d.list_price] : null,
 ].filter((r): r is [string, string] => r !== null);
 
-// list_price 常是整段方案說明（「NT$4,350（TDA002 一機兩電）／NT$5,950（…）」），原樣塞進
-// 標題或摘要會撐爆，所以取開頭那個價格當摘要值：
-//   - 還有第二個 NT$ → 標「起」，避免讓人以為只有一種品項一種價。
-//   - 已完售 → 一定要標出來。只報價不報完售，等於把查價的人騙進一個買不到的頁面。
-const priceLead = d.list_price?.match(/^NT\$[\d,]+(?:\s*[–—-]\s*[\d,]+)?/)?.[0] ?? null;
-const soldOut = /已完售/.test(d.list_price ?? '');
-const priceText = priceLead
-  ? soldOut
-    ? `${priceLead}（已完售）`
-    : (d.list_price!.match(/NT\$/g) ?? []).length > 1
-      ? `${priceLead} 起`
-      : priceLead
-  : null;
-
-// 品牌欄位帶英文全名（「宇宙機器人（kodorobot）」），放在標題開頭會把型號——也就是使用者
-// 實際打進去的字——推出搜尋結果標題的可見範圍。型號優先、品牌收尾。
-const brandShort = d.brand.replace(/（[^）]*）\s*$/, '');
+// 短版價格與品牌的規則集中在 lib/price（比較表、明細頁摘要、標題共用一套）。
+const { text: priceText } = parsePrice(d.list_price);
+const brandShort = shortBrand(d.brand);
 
 // meta description 逐機生成：heroDesc 原本是固定的「球機規格」四個字，12 個器材頁共用它
 // 等於在搜尋結果上完全無法區分。查機型的人多半在比價，把價格帶進摘要而不是只承諾「有標售價」。
