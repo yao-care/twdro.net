@@ -332,3 +332,37 @@ describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
     }
   });
 });
+
+describe('taiwan-competitions-overview 的資料斷言', () => {
+  const overview = readFileSync('src/content/learn/taiwan-competitions-overview.md', 'utf8');
+
+  it('「本站收錄四個賽事系列」仍成立，且表格四列都在', () => {
+    const series = new Set(
+      readdirSync('src/content/events')
+        .filter((f) => f.endsWith('.yml'))
+        .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
+        .filter(Boolean),
+    );
+    expect(series.size).toBe(4);
+    // 表格逐列點名的系列，資料裡都要還在（改名或下架就會擋下來）
+    expect(series).toContain('教育部全國無人機足球競賽');
+    expect(series).toContain('天穹盃');
+    expect(series).toContain('臺灣教育科技盃無人機足球');
+    expect(series).toContain('秀傳夏季無人機嘉年華會');
+  });
+
+  it('秀傳盃「全臺首屆由醫院主辦」與主辦單位仍有來源', () => {
+    const raw = eventRaw('2026-shuang-cup');
+    expect(raw).toContain('全臺首屆由醫院主辦');
+    expect(raw).toContain('秀傳醫療體系／奧斯丁國際');
+  });
+
+  it('樞紐文連出的四篇專篇都存在（避免改檔名後變死連結）', () => {
+    const linked = [...overview.matchAll(/\]\(\/learn\/([a-z0-9-]+)\/\)/g)].map((m) => m[1]);
+    const slugs = new Set(readdirSync('src/content/learn').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, '')));
+    expect(linked.filter((s) => !slugs.has(s))).toEqual([]);
+    for (const must of ['moe-national-competition', 'skycup-explained', 'edutech-cup-explained', 'taiwan-international-results']) {
+      expect(linked).toContain(must);
+    }
+  });
+});
