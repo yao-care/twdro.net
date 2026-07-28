@@ -222,3 +222,113 @@ describe('embed 宣告', () => {
     expect(declared.filter((s) => !seriesInEvents.has(s))).toEqual([]);
   });
 });
+
+// ── 以下對應 2026-07-28 新增／改寫的四篇（entry-cost、edutech-cup-explained、
+//    taiwan-international-results、who-promotes-drone-soccer-taiwan）。
+//    共同原則不變：文章裡凡是「攤開站內資料才成立」的句子，都在這裡釘死。
+
+const teamRaw = (slug: string) => readFileSync(`src/content/teams/${slug}.yml`, 'utf8');
+const newsRaw = (slug: string) => readFileSync(`src/content/news/${slug}.yml`, 'utf8');
+
+describe('entry-cost 的資料斷言', () => {
+  it('「兩千多元的材料包到四萬多元的整套方案」仍成立', () => {
+    const prices = onSale.map((e) => e.price!);
+    expect(Math.min(...prices)).toBeGreaterThanOrEqual(2000);
+    expect(Math.min(...prices)).toBeLessThan(3000);
+    expect(Math.max(...prices)).toBeGreaterThanOrEqual(40000);
+    expect(Math.max(...prices)).toBeLessThan(50000);
+  });
+
+  it('「最貴的是含遙控器與多顆電池的整套方案」仍成立', () => {
+    const top = onSale.reduce((a, b) => (a.price! > b.price! ? a : b));
+    const raw = readFileSync(`src/content/equipment/${top.slug}.yml`, 'utf8');
+    expect(raw).toMatch(/含遙控器/);
+  });
+
+  it('「同款有一機兩電與一機六電兩個價」仍成立（電池成本的參考點）', () => {
+    const raw = readFileSync('src/content/equipment/oursteam-s4a.yml', 'utf8');
+    expect(raw).toContain('一機兩電');
+    expect(raw).toContain('一機六電');
+    expect((raw.match(/NT\$/g) ?? []).length).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('edutech-cup-explained 的資料斷言', () => {
+  it('日期、場地與主辦組合與賽事資料一致', () => {
+    const raw = eventRaw('2026-edutech-cup-newtaipei');
+    expect(raw).toMatch(/event_start: "2026-08-08"/);
+    expect(raw).toContain('新北市立三民高中 逸仙堂');
+    expect(raw).toContain('新北市教育局／台北市電腦商業同業公會／奧斯丁國際');
+    expect(raw).toContain('event_series: 臺灣教育科技盃無人機足球');
+  });
+
+  it('「新增無刷馬達組」「採 FAI F9A-B 與 FIDA CL20」仍有來源', () => {
+    const raw = newsRaw('2026-06-21-edutech-newtaipei-open');
+    expect(raw).toContain('無刷馬達組');
+    expect(raw).toContain('FAI F9A-B 與 FIDA CL20');
+  });
+
+  it('「天穹盃只設有刷組」的對照仍成立', () => {
+    expect(ruleSummary('skycup-2026-eligibility')).toContain('僅設「有刷組」一組');
+  });
+});
+
+describe('taiwan-international-results 的資料斷言', () => {
+  it('臺北市代表隊的成績與隊伍資料一致', () => {
+    const raw = teamRaw('taipei-city-drone-soccer-team');
+    expect(raw).toContain('7 所學校');
+    expect(raw).toContain('Cracing 項目冠軍');
+    expect(raw).toContain('Class20 殿軍');
+    expect(raw).toContain('未來之星');
+    expect(raw).toContain('首屆 FIDA 無人機足球世界盃');
+  });
+
+  it('國家代表隊的編制與賽事與隊伍資料一致', () => {
+    const raw = teamRaw('taiwan-national-team');
+    expect(raw).toContain('40 公分級（F9A-A）1 隊與 20 公分級（F9A-B）2 隊');
+    expect(raw).toMatch(/國際航空總會（FAI）/);
+    expect(raw).toContain('上海');
+  });
+
+  it('「臺灣首座 FIDA 40 Class 標準場地」仍有來源', () => {
+    expect(teamRaw('hwahsing-drone-soccer')).toContain('全國首座 FIDA 40 Class 標準賽制場地');
+    expect(newsRaw('2026-04-11-cdsa-fida-arena')).toContain('臺灣首座 FIDA 40 Class');
+  });
+
+  it('「2028 洛杉磯奧運表演賽、2029 亞運正式項目」仍有來源', () => {
+    expect(newsRaw('2026-07-18-nantou-triple')).toContain('2028 洛杉磯奧運表演賽');
+    expect(newsRaw('2026-07-18-nantou-triple')).toContain('2029 亞運正式項目');
+  });
+});
+
+describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
+  const orgs = readdirSync('src/content/organizations')
+    .filter((f) => f.endsWith('.yml'))
+    .map((f) => ({ slug: f.replace(/\.yml$/, ''), raw: readFileSync(`src/content/organizations/${f}`, 'utf8') }));
+
+  it('文中分的四類單位在資料裡都還有成員', () => {
+    const types = new Set(orgs.map((o) => o.raw.match(/^org_type:\s*(.*)$/m)?.[1]?.trim()));
+    for (const t of ['government', 'association', 'school', 'vendor']) expect(types).toContain(t);
+  });
+
+  it('「兩個協會」仍成立，且分屬 CDSA 與台灣無人機競技發展協會', () => {
+    const assoc = orgs.filter((o) => /^org_type:\s*association$/m.test(o.raw)).map((o) => o.slug).sort();
+    expect(assoc).toEqual(['cdsa', 'tdrupa']);
+  });
+
+  it('文中提到的單位頁連結都指向實際存在的單位', () => {
+    const article = readFileSync('src/content/learn/who-promotes-drone-soccer-taiwan.md', 'utf8');
+    const linked = [...article.matchAll(/\]\(\/organizations\/([a-z0-9-]+)\/\)/g)].map((m) => m[1]);
+    const slugs = new Set(orgs.map((o) => o.slug));
+    expect(linked.filter((s) => !slugs.has(s))).toEqual([]);
+  });
+
+  it('文中提到的隊伍頁連結都指向實際存在的隊伍', () => {
+    const slugs = new Set(readdirSync('src/content/teams').filter((f) => f.endsWith('.yml')).map((f) => f.replace(/\.yml$/, '')));
+    for (const file of ['who-promotes-drone-soccer-taiwan', 'taiwan-international-results']) {
+      const md = readFileSync(`src/content/learn/${file}.md`, 'utf8');
+      const linked = [...md.matchAll(/\]\(\/teams\/([a-z0-9-]+)\/\)/g)].map((m) => m[1]);
+      expect(linked.filter((s) => !slugs.has(s))).toEqual([]);
+    }
+  });
+});
