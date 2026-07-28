@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import EquipmentPriceTable from '../../components/EquipmentPriceTable.astro';
+import EventSeriesTable from '../../components/EventSeriesTable.astro';
 import { articleJsonLd } from '../../lib/jsonld';
 export async function getStaticPaths() {
   const articles = await getCollection('learn');
@@ -26,6 +27,7 @@ const articleJson = articleJsonLd({
   <article class="panel prose">
     <Content />
     {article.data.embed === 'equipment-price-table' && <EquipmentPriceTable />}
+    {article.data.embed === 'skycup-schedule' && <EventSeriesTable series="天穹盃" />}
   </article>
 </BaseLayout>
 

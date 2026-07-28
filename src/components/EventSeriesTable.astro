@@ -1,0 +1,49 @@
+---
+// 賽事系列的分站賽程表。教育文與賽事頁共用 src/content/events/*.yml，
+// 把日期／場地寫進 markdown 必然與資料走鐘（延期、加場、狀態改變都會動），
+// 這裡即時渲染，資料改了文章就跟著改。
+import { getCollection } from 'astro:content';
+import { url } from '../lib/url';
+import { eventStatusLabel } from '../lib/enums';
+
+interface Props {
+  /** 對應 events YAML 的 event_series 欄位，如「天穹盃」 */
+  series: string;
+}
+const { series } = Astro.props;
+
+// 草稿不對外（見 lib/enums 註解）；同系列依日期由舊到新，讓巡迴分站的順序看得出來。
+const events = (await getCollection('events'))
+  .filter((e) => e.data.event_series === series && e.data.status !== 'draft')
+  .sort((a, b) => (a.data.schedule.event_start ?? '').localeCompare(b.data.schedule.event_start ?? ''));
+---
+{events.length > 0 && (
+  <div style="overflow-x:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th scope="col">日期</th><th scope="col">分站</th>
+          <th scope="col">地點</th><th scope="col">狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        {events.map((e) => (
+          <tr>
+            <td>{e.data.schedule.event_start ?? '待公告'}</td>
+            <th scope="row"><a href={url(`/events/${e.id}`)}>{e.data.title}</a></th>
+            {/* 場地名常已含縣市（「南投縣立南崗國中…」），再前綴一次會變「南投縣 南投縣立…」 */}
+            <td>{(() => {
+              const { city, venue_name: venue } = e.data.schedule;
+              if (!venue) return city ?? '待公告';
+              return city && !venue.startsWith(city) ? `${city} ${venue}` : venue;
+            })()}</td>
+            <td>{eventStatusLabel(e.data.status)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+<p class="text-muted" style="margin-top:20px">
+  賽程以主辦單位公告為準，點進分站可看場地、來源連結與查核日期。完整清單見 <a href={url('/events/')}>賽事總覽</a>。
+</p>
