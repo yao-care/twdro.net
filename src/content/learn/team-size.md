@@ -21,7 +21,7 @@ updated_at: "2026-07-23"
 
 ## FIDA 的五人五位置
 
-採 [FIDA Class 40 規則](/rules/fida-2026/) 的賽制，一隊上場 5 人，並細分為引導手、前鋒、自由人、清道夫、守門員五個固定位置。每個位置的職責與清單，整理在 [FAI 與 FIDA 規則差異](/learn/fai-vs-fida-rules/) 一文，這裡不重複展開。
+採 [FIDA Class 40 規則](/rules/fida-2026/) 的賽制，一隊上場 5 人，並細分為引導手、前鋒、自由人、清道夫、守門員五個固定位置。每個位置的職責與清單，整理在 [FAI 與 FIDA 規則差異](/learn/fai-vs-fida-rules/) 一文，這裡不重複展開；固定鎮守球門環的守門員，另有 [專篇說明](/learn/keeper-explained/)。
 
 ## 民間賽事的精簡編制
 
