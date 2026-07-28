@@ -53,6 +53,6 @@ const heroDesc = [brandShort, specSummary, priceText ? `參考售價 ${priceText
     </section>
   )}
   {d.sources && d.sources.length > 0 && (
-    <section class="panel"><SourceBlock sources={d.sources} /></section>
+    <section class="panel"><SourceBlock sources={d.sources} title={`${d.brand} ${d.model}`} /></section>
   )}
 </BaseLayout>

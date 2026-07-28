@@ -36,7 +36,7 @@ const d = team.data;
   </section>
   {d.sources && d.sources.length > 0 && (
     <section class="panel">
-      <SourceBlock sources={d.sources} verification={d.verification} />
+      <SourceBlock sources={d.sources} verification={d.verification} title={d.name} />
     </section>
   )}
   <p class="text-muted" style="font-size:1rem;margin-top:16px">本頁僅呈現隊伍層級公開資訊，不含選手個人資料。</p>
