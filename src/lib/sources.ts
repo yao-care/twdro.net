@@ -17,6 +17,8 @@ export interface SourceItem {
   published_at?: string;
   retrieved_at?: string;
   trust_level: string;
+  /** 原始網址已下架的確認日期；有值時畫面標明「已下架」，見 src/content.config.ts */
+  unavailable_since?: string;
 }
 
 export interface SourceGroup {

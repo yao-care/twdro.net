@@ -11,19 +11,18 @@
 // 這種錯更需要機制擋，因為它從外觀完全看不出來。
 //
 // 用法：
-//   node scripts/check-source-links.mjs            # 全查，有失效則 exit 1
+//   node scripts/check-source-links.mjs            # 全查，有未標註的失效則 exit 1
 //   node scripts/check-source-links.mjs --quiet    # 只印問題
 //
 // CI 設計：這支跑在獨立的 job，**不擋部署**。第三方網站偶發不穩不該讓網站發不出去，
 // 但它會讓該 job 紅掉、workflow 整體標記失敗並寄通知——問題看得見，發布不受制於人。
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(REPO, 'src/content');
-const ALLOWLIST_FILE = join(REPO, 'scripts/known-dead-links.json');
 
 // 學校與政府網站常擋非瀏覽器 UA，不帶會拿到一堆假的 403。
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
@@ -49,20 +48,44 @@ const isUnverifiable = (url) => {
 
 const quiet = process.argv.includes('--quiet');
 
+/**
+ * 掃出所有來源網址，並記下哪些已在資料裡標註 unavailable_since。
+ *
+ * 標註直接讀自內容檔，不另外維護一份清單——清單會與資料脫節，而且「這個來源掛了」
+ * 本來就是資料的一部分（畫面上也要標明「原公告已下架」）。單一真實來源。
+ */
 function collectUrls() {
-  /** @type {Map<string, string[]>} url → 引用它的檔案 */
+  /** @type {Map<string, {files: string[], unavailableSince: string|null}>} */
   const urls = new Map();
+  const add = (u, rel, unavailableSince) => {
+    if (!/^https?:\/\//.test(u)) return;
+    if (!urls.has(u)) urls.set(u, { files: [], unavailableSince: null });
+    const e = urls.get(u);
+    e.files.push(rel);
+    if (unavailableSince) e.unavailableSince = unavailableSince;
+  };
+
   for (const dir of readdirSync(CONTENT, { withFileTypes: true })) {
     if (!dir.isDirectory()) continue;
     const d = join(CONTENT, dir.name);
     for (const file of readdirSync(d)) {
       if (!/\.(ya?ml|md)$/.test(file)) continue;
       const rel = `src/content/${dir.name}/${file}`;
-      for (const m of readFileSync(join(d, file), 'utf8').matchAll(/\n\s+url:\s*(\S+)/g)) {
+      const text = readFileSync(join(d, file), 'utf8');
+
+      // 先按「- type:」切出各筆來源，才能把 url 與同一筆的 unavailable_since 對起來
+      const blocks = text.match(/\n {2}- type:[\s\S]*?(?=\n {2}- type:|\n[a-z_]+:|$)/g) ?? [];
+      const seen = new Set();
+      for (const blk of blocks) {
+        const u = blk.match(/\n\s+url:\s*(\S+)/)?.[1]?.replace(/^["']|["']$/g, '');
+        if (!u) continue;
+        seen.add(u);
+        add(u, rel, blk.match(/\n\s+unavailable_since:\s*"?([\d-]+)"?/)?.[1] ?? null);
+      }
+      // 落在來源區塊外的 url（例如單位官網），一併檢查
+      for (const m of text.matchAll(/\n\s+url:\s*(\S+)/g)) {
         const u = m[1].replace(/^["']|["']$/g, '');
-        if (!/^https?:\/\//.test(u)) continue;
-        if (!urls.has(u)) urls.set(u, []);
-        urls.get(u).push(rel);
+        if (!seen.has(u)) add(u, rel, null);
       }
     }
   }
@@ -98,41 +121,45 @@ async function mapLimit(items, limit, fn) {
   return out;
 }
 
-const allowlist = existsSync(ALLOWLIST_FILE)
-  ? JSON.parse(readFileSync(ALLOWLIST_FILE, 'utf8'))
-  : { known_dead: [] };
-const allowed = new Map(allowlist.known_dead.map((e) => [e.url, e]));
-
 const urls = collectUrls();
 const entries = [...urls.entries()];
 if (!quiet) console.log(`檢查 ${entries.length} 個來源網址…\n`);
 
-const results = await mapLimit(entries, CONCURRENCY, async ([url, files]) => {
+const results = await mapLimit(entries, CONCURRENCY, async ([url, meta]) => {
   const { status, error } = await probe(url);
-  return { url, files, status, error };
+  return { url, files: meta.files, unavailableSince: meta.unavailableSince, status, error };
 });
 
 const dead = [];
 const blocked = [];
 const unverifiable = [];
 const knownDead = [];
+const revived = [];
 
 for (const r of results) {
   const ok = r.status >= 200 && r.status < 400;
-  if (ok) continue;
+  if (ok) {
+    // 標了「已下架」卻又活過來——通常是對方換版後把舊網址接回去了，該把標註拿掉，
+    // 否則畫面會一直對讀者說謊。
+    if (r.unavailableSince) revived.push(r);
+    continue;
+  }
   if (isUnverifiable(r.url)) { unverifiable.push(r); continue; }
   if (BOT_BLOCKED.has(r.status)) { blocked.push(r); continue; }
-  (allowed.has(r.url) ? knownDead : dead).push(r);
+  (r.unavailableSince ? knownDead : dead).push(r);
 }
 
 const show = (r) => `  ${r.status || r.error}  ${r.url}\n      ← ${[...new Set(r.files)].join('、')}`;
 
 if (knownDead.length) {
-  console.log(`⚠️  已知失效、仍待處理（${knownDead.length}）——記在 scripts/known-dead-links.json：`);
-  for (const r of knownDead) {
-    console.log(show(r));
-    console.log(`      原因：${allowed.get(r.url).reason}`);
-  }
+  console.log(`⚠️  已標註「原公告已下架」、仍在找替代來源（${knownDead.length}）：`);
+  for (const r of knownDead) console.log(`${show(r)}\n      unavailable_since: ${r.unavailableSince}`);
+  console.log('');
+}
+
+if (revived.length) {
+  console.log(`♻️  標了 unavailable_since 但網址已恢復（${revived.length}）——請把該欄位刪掉：`);
+  for (const r of revived) console.log(show(r));
   console.log('');
 }
 
@@ -151,8 +178,9 @@ if (unverifiable.length && !quiet) {
 if (dead.length) {
   console.log(`❌ 連結失效（${dead.length}）：`);
   for (const r of dead) console.log(show(r));
-  console.log('\n請找替代網址並更新對應的 src/content 檔案。若確認原始公告已永久下架，');
-  console.log('把該網址加進 scripts/known-dead-links.json 並寫明原因，它會降級成提醒。');
+  console.log('\n請找替代網址並更新對應的 src/content 檔案。若確認原始公告已永久下架、');
+  console.log('又找不到替代來源，在該筆來源加上 unavailable_since: "YYYY-MM-DD"——');
+  console.log('畫面會標明「原公告已下架」，這裡也會降級成提醒。');
   process.exit(1);
 }
 

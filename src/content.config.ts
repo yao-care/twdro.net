@@ -11,6 +11,11 @@ const sourceSchema = z.object({
   retrieved_at: z.string().optional(),
   trust_level: z.enum(TRUST_LEVEL),
   content_hash: z.string().optional(),
+  // 原始網址已下架、且找不到替代來源時填上確認日期（YYYY-MM-DD）。
+  // 學校與政府網站把過期公告下架是常態，硬刪來源等於抹掉這筆資料的出處；
+  // 保留網址並在畫面上標明「已下架」，讀者才知道我們當初依據什麼、何時查核的。
+  // scripts/check-source-links.mjs 讀這個欄位判斷哪些 404 是已知的，不必另外維護清單。
+  unavailable_since: z.string().optional(),
 });
 
 const yml = (dir: string) => glob({ pattern: '**/*.yml', base: `./src/content/${dir}` });

@@ -46,8 +46,8 @@ jobs:
 
   # 來源網址健檢：獨立 job，**刻意不擋部署**（不在 deploy 的 needs 裡）。
   # 學校公告下架、換網址是常態，第三方偶發不穩不該讓網站發不出去；但這個 job 失敗會
-  # 讓整個 workflow 標記失敗並寄通知，問題看得見。已知失效但暫時無替代的網址記在
-  # scripts/known-dead-links.json，降級成提醒。
+  # 讓整個 workflow 標記失敗並寄通知，問題看得見。
+  # 已確認永久下架又暫時找不到替代的，在該筆來源加 unavailable_since 即降級成提醒。
   source-links:
     runs-on: ubuntu-latest
     steps:

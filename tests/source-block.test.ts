@@ -118,4 +118,20 @@ describe('資料來源呈現', () => {
     const t = readFileSync('dist/events/2026-skycup-newtaipei/index.html', 'utf8').replace(/<[^>]+>/g, ' ');
     expect(t).toMatch(/台灣無人機競技發展協會\s*｜\s*主辦單位公告/);
   });
+
+  // 原始公告下架時，硬刪來源等於抹掉出處。保留網址並標明狀態，讀者才知道我們當初
+  // 依據什麼、何時查核——若這個標註消失，畫面就變成指著 404 卻假裝一切正常。
+  it('已下架的來源標明狀態與查核日期，網址仍保留', () => {
+    const html = readFileSync('dist/events/2026-skycup-newtaipei/index.html', 'utf8');
+    const t = html.replace(/<[^>]+>/g, ' ');
+    expect(t).toContain('原公告已下架');
+    expect(t).toContain('2026-07-29 確認');
+    expect(t).toMatch(/依 2026-07-1?9 當時可讀取的版本整理/);
+    expect(html).toContain('https://www.cdps.ntpc.edu.tw/p/406-1000-9500,r190.php');
+  });
+
+  it('還活著的來源不會被誤標成已下架', () => {
+    const t = readFileSync('dist/teams/hwahsing-drone-soccer/index.html', 'utf8').replace(/<[^>]+>/g, ' ');
+    expect(t).not.toContain('原公告已下架');
+  });
 });

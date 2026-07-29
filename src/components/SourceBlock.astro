@@ -43,6 +43,12 @@ const statusText = verification
             ｜信度 {s.trust_level}
             {s.published_at ? `｜發布 ${s.published_at}` : ''}
             {s.retrieved_at ? `｜查核 ${s.retrieved_at}` : ''}
+            {s.unavailable_since && (
+              <span style="display:block">
+                <strong style="color:var(--color-text)">原公告已下架</strong>
+                （{s.unavailable_since} 確認）——本站內容依 {s.retrieved_at ?? '查核'} 當時可讀取的版本整理，連結保留供追溯。
+              </span>
+            )}
           </span>
         ))}
       </li>

@@ -35,8 +35,10 @@ node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
 ```
 - 403／406 等視為「對方擋機器人」，不算失效。
 - Facebook 等社群平台列為「無法自動驗證」，需人工複查。
-- 確認永久下架又暫無替代的，寫進 `scripts/known-dead-links.json` 降級成提醒——
-  那是待辦清單，不是垃圾桶，每次執行都會印出來。
+- 確認永久下架又暫無替代的，在該筆來源加 `unavailable_since: "YYYY-MM-DD"`：
+  頁面會標明「原公告已下架」並保留網址供追溯，健檢降級成提醒但每次執行都印出來。
+  標註寫在資料裡而非另一份清單——清單會與資料脫節，而「這個來源掛了」本來就是
+  資料的一部分。若該網址日後復活，健檢會提醒把欄位刪掉，避免畫面一直對讀者說謊。
 
 ## 搜尋引擎收錄
 - **sitemap `<lastmod>`**：由 `src/lib/lastmod.mjs` 依內容本身的 `updated_at`／`retrieved_at` 產生，
