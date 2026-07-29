@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { correctionUrl } from '../src/lib/correction';
+import { correctionUrl, correctionMailto, CORRECTION_EMAIL } from '../src/lib/correction';
 
 // 為什麼有這組測試（2026-07-28）：
 // 「資料有誤請告訴我們」是本站對主辦單位、協會與學校的主要承諾，也是接觸他們時最實在的
@@ -34,6 +34,35 @@ describe('correctionUrl', () => {
   });
 });
 
+// 2026-07-29：補 email 管道。只有 GitHub 時，對最該回報的協會、學校與主辦單位是真門檻。
+describe('correctionMailto', () => {
+  const link = correctionMailto({ path: '/events/2026-skycup-tainan/', title: '2026 天穹盃臺南站' });
+
+  it('寄到服務信箱並預填主旨與內文', () => {
+    expect(link.startsWith(`mailto:${CORRECTION_EMAIL}?`)).toBe(true);
+    expect(decodeURIComponent(link)).toContain('資料更正：2026 天穹盃臺南站');
+    expect(decodeURIComponent(link)).toContain('https://twdro.net/events/2026-skycup-tainan/');
+  });
+
+  it('空白用百分比編碼，不是 +（mailto 會把 + 原樣顯示成加號）', () => {
+    const spaced = correctionMailto({ path: '/rules/fai-f9a-b-2026/', title: 'FAI F9A-B 2026' });
+    const subject = spaced.match(/subject=([^&]*)/)![1];
+    expect(subject).not.toContain('+');
+    expect(decodeURIComponent(subject)).toBe('資料更正：FAI F9A-B 2026');
+  });
+
+  it('換行編成 %0A，收信端才會分行', () => {
+    expect(link).toContain('%0A');
+  });
+
+  it('兩個管道的欄位範本一致', () => {
+    const viaMail = decodeURIComponent(link.split('body=')[1]);
+    const viaIssue = new URL(correctionUrl({ path: '/events/2026-skycup-tainan/', title: '2026 天穹盃臺南站' }))
+      .searchParams.get('body')!;
+    expect(viaMail).toBe(viaIssue);
+  });
+});
+
 // 前置：需先執行 `npm run build`
 describe('勘誤入口出現在資料明細頁', () => {
   const pages = [
@@ -42,12 +71,27 @@ describe('勘誤入口出現在資料明細頁', () => {
     'dist/equipment/oursteam-s4a/index.html',
   ];
   for (const p of pages) {
-    it(`${p} 有回報入口且帶本頁網址`, () => {
+    it(`${p} 兩個管道都在，且都帶本頁網址`, () => {
       const html = readFileSync(p, 'utf8');
-      expect(html).toContain('回報這一頁的錯誤');
-      // 預填內文裡必須是「這一頁」的網址，不是寫死的首頁或範本頁
-      const own = 'https%3A%2F%2Ftwdro.net%2F' + p.replace(/^dist\//, '').replace(/index\.html$/, '').replace(/\//g, '%2F');
-      expect(html).toContain(own);
+      expect(html).toContain(CORRECTION_EMAIL);
+      expect(html).toContain('在 GitHub 提交');
+      // 兩個管道的預填內文都必須是「這一頁」的網址，不是寫死的首頁或範本頁。
+      // 屬性值裡的 & 被 Astro escape 成 &#38;，先還原成瀏覽器實際解析到的樣子，
+      // 再真的 parse 一次——只用字串比對的話，連結壞掉（參數黏在一起）也驗不出來。
+      const pageUrl = 'https://twdro.net/' + p.replace(/^dist\//, '').replace(/index\.html$/, '');
+      const unescape = (s: string) => s.replace(/&#38;|&amp;/g, '&');
+      const mailto = html.match(/href="(mailto:[^"]*)"/)?.[1];
+      const issue = html.match(/href="(https:\/\/github\.com\/yao-care\/twdro\.net\/issues\/new[^"]*)"/)?.[1];
+      expect(mailto, '找不到 mailto 入口').toBeTruthy();
+      expect(issue, '找不到 GitHub 入口').toBeTruthy();
+
+      const mailParams = new URLSearchParams(unescape(mailto!).split('?')[1]);
+      expect(mailParams.get('body')).toContain(pageUrl);
+      expect(mailParams.get('subject')).toMatch(/^資料更正：./);
+
+      const issueParams = new URL(unescape(issue!)).searchParams;
+      expect(issueParams.get('body')).toContain(pageUrl);
+      expect(issueParams.get('labels')).toBe('data-correction');
     });
   }
 });

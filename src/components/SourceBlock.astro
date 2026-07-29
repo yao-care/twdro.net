@@ -1,12 +1,15 @@
 ---
 import { verificationLabel } from '../lib/enums';
-import { correctionUrl } from '../lib/correction';
+import { correctionUrl, correctionMailto, CORRECTION_EMAIL } from '../lib/correction';
 import { url } from '../lib/url';
 interface SourceItem { type: string; url: string; published_at?: string; retrieved_at?: string; trust_level: string; }
 interface Props { sources: SourceItem[]; verification?: string; title?: string; }
 const { sources, verification, title } = Astro.props;
 // 勘誤入口帶著「你正在看的這一頁」一起送出，見 src/lib/correction.ts。
-const reportUrl = correctionUrl({ path: Astro.url.pathname, title: title ?? Astro.url.pathname });
+// email 放前面：最該回報的協會、學校與主辦單位多半沒有 GitHub 帳號。
+const target = { path: Astro.url.pathname, title: title ?? Astro.url.pathname };
+const reportMailto = correctionMailto(target);
+const reportUrl = correctionUrl(target);
 const SOURCE_LABEL: Record<string, string> = {
   organizer_announcement: '主辦單位公告', moe_announcement: '教育部公告',
   fai_official: 'FAI 官方', fida_official: 'FIDA 官方', vendor_listing: '廠商資料',
@@ -36,9 +39,11 @@ const statusText = verification
     ))}
   </ul>
   <p style="margin:14px 0 0">
-    這頁的資料有誤？<a href={reportUrl} rel="noopener" target="_blank" style="font-weight:650">回報這一頁的錯誤 ↗</a>
+    這頁的資料有誤？<a href={reportMailto} style="font-weight:650">來信 {CORRECTION_EMAIL} 回報</a>
+    ，或<a href={reportUrl} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
     <span style="display:block;margin-top:4px;font-size:0.92rem">
-      主辦單位與當事單位的回報優先處理。<a href={url('/about/correction/')}>更正流程</a>
+      兩種方式都會預先帶入這一頁的網址。主辦單位與當事單位的回報優先處理。
+      <a href={url('/about/correction/')}>更正流程</a>
     </span>
   </p>
 </aside>
