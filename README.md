@@ -23,6 +23,20 @@ npm run test     # 單元測試
 push 到 `main` 由 `.github/workflows/deploy.yml` 自動建置並發佈至 GitHub Pages，
 線上網址 `https://twdro.net`（`public/CNAME` + `astro.config.mjs` 的 `site`／`base: '/'`）。
 build → test → 上線 → IndexNow，測試不過不會部署。
+`source-links` job 平行跑來源網址健檢，**不擋部署**但失敗會讓 workflow 標記失敗。
+
+## 資料來源健檢
+每一筆資料都標了來源網址，但學校公告下架、換網址是常態——2026-07-29 手動抽查就發現
+37 筆來源有 4 筆 404（其中 1 筆是我們自己把網址打錯字）。這種壞法無聲無息：頁面照樣
+渲染、build 照樣過，只有真的去點的人才發現，而會去點的正是我們最想說服的那群人。
+
+```bash
+node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
+```
+- 403／406 等視為「對方擋機器人」，不算失效。
+- Facebook 等社群平台列為「無法自動驗證」，需人工複查。
+- 確認永久下架又暫無替代的，寫進 `scripts/known-dead-links.json` 降級成提醒——
+  那是待辦清單，不是垃圾桶，每次執行都會印出來。
 
 ## 搜尋引擎收錄
 - **sitemap `<lastmod>`**：由 `src/lib/lastmod.mjs` 依內容本身的 `updated_at`／`retrieved_at` 產生，

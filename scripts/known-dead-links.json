@@ -1,0 +1,17 @@
+{
+  "_note": "已確認失效、但目前找不到替代網址的來源。scripts/check-source-links.mjs 會把它們降級成提醒而不是失敗，但每次執行都會印出來——這是待辦清單，不是垃圾桶。找到替代網址就從這裡刪掉並更新對應的 src/content 檔案。",
+  "known_dead": [
+    {
+      "url": "https://www.tsjh.ntpc.edu.tw/p/404-1000-9416.php",
+      "reason": "新北市立土城國中的天穹盃新北戰轉知公告已下架（2026-07-29 確認 404）。同場賽事的其他新北市學校公告（碧華國中 bhjh、cdps）同樣全數 404，主辦方官網 tdrupa.org 為純前端 SPA、無可引用的固定網址。待找到存檔或替代來源。",
+      "recorded_at": "2026-07-29",
+      "used_by": ["src/content/events/2026-skycup-newtaipei.yml", "src/content/rulebooks/skycup-2026.yml"]
+    },
+    {
+      "url": "https://www.cdps.ntpc.edu.tw/p/406-1000-9500,r190.php",
+      "reason": "同上，新北市另一所學校的同一則轉知公告，2026-07-29 確認 404。",
+      "recorded_at": "2026-07-29",
+      "used_by": ["src/content/events/2026-skycup-newtaipei.yml"]
+    }
+  ]
+}

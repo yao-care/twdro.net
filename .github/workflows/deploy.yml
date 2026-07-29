@@ -44,6 +44,19 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v5
 
+  # 來源網址健檢：獨立 job，**刻意不擋部署**（不在 deploy 的 needs 裡）。
+  # 學校公告下架、換網址是常態，第三方偶發不穩不該讓網站發不出去；但這個 job 失敗會
+  # 讓整個 workflow 標記失敗並寄通知，問題看得見。已知失效但暫時無替代的網址記在
+  # scripts/known-dead-links.json，降級成提醒。
+  source-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+      - run: node scripts/check-source-links.mjs
+
   # 上線後才推 IndexNow：讀的是線上 sitemap，只推 lastmod 在 3 天內的網址。
   # 失敗不影響部署（deploy 已經完成），所以 continue-on-error。
   # 注意：Google 不參與 IndexNow，Google 端靠 sitemap lastmod 與 GSC 手動要求索引。
