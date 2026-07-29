@@ -2,7 +2,7 @@
 import { verificationLabel } from '../lib/enums';
 import { correctionUrl, correctionMailto, CORRECTION_EMAIL } from '../lib/correction';
 import { url } from '../lib/url';
-interface SourceItem { type: string; url: string; published_at?: string; retrieved_at?: string; trust_level: string; }
+interface SourceItem { type: string; url: string; title?: string; publisher?: string; published_at?: string; retrieved_at?: string; trust_level: string; }
 interface Props { sources: SourceItem[]; verification?: string; title?: string; }
 const { sources, verification, title } = Astro.props;
 // 勘誤入口帶著「你正在看的這一頁」一起送出，見 src/lib/correction.ts。
@@ -16,6 +16,18 @@ const SOURCE_LABEL: Record<string, string> = {
   news: '新聞報導', news_article: '新聞報導', press_release: '官方新聞稿',
 };
 const label = (t: string) => SOURCE_LABEL[t] ?? t;
+
+// 連結文字用「發布單位〈原標題〉」，不用「新聞報導」這種分類字。
+// 分類字說不出這一筆是誰發的、講了什麼，同一頁引兩篇新聞就會並排出現兩個一模一樣的
+// 「新聞報導」，看起來像重複連結——實際上是中央社與 Newtalk 兩個獨立來源，
+// 那份互相佐證的份量在呈現上整個消失了。資料本來就有 title 與 publisher（schema 有、
+// 37 筆來源全都填了 publisher），只是沒被用上。
+// 兩者都沒有時退回網域名，那仍是從網址推得的事實，比分類字具體。
+const hostOf = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+const linkText = (s: SourceItem) => {
+  const publisher = s.publisher ?? hostOf(s.url);
+  return s.title ? `${publisher}〈${s.title}〉` : publisher;
+};
 // 未指定 verification 時，依實際來源類型與信度給出誠實的資料狀態，不謊稱使用者投稿
 const statusText = verification
   ? verificationLabel(verification)
@@ -30,11 +42,13 @@ const statusText = verification
   <p style="margin:0 0 6px"><strong style="color:var(--color-text)">資料來源</strong></p>
   <ul style="margin:0;padding-left:1.2em">
     {sources.map((s) => (
-      <li style="margin:.2rem 0">
-        <a href={s.url} rel="nofollow noopener" target="_blank">{label(s.type)}</a>
-        （信度 {s.trust_level}
-        {s.published_at ? `｜發布 ${s.published_at}` : ''}
-        {s.retrieved_at ? `｜查核 ${s.retrieved_at}` : ''}）
+      <li style="margin:.45rem 0">
+        <a href={s.url} rel="nofollow noopener" target="_blank">{linkText(s)}</a>
+        <span style="display:block;font-size:0.92rem">
+          {label(s.type)}｜信度 {s.trust_level}
+          {s.published_at ? `｜發布 ${s.published_at}` : ''}
+          {s.retrieved_at ? `｜查核 ${s.retrieved_at}` : ''}
+        </span>
       </li>
     ))}
   </ul>
