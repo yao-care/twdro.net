@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { correctionUrl, correctionMailto, CORRECTION_EMAIL } from '../src/lib/correction';
+import { correctionUrl, correctionMailto, resultsUrl, resultsMailto, CORRECTION_EMAIL } from '../src/lib/correction';
 
 // 為什麼有這組測試（2026-07-28）：
 // 「資料有誤請告訴我們」是本站對主辦單位、協會與學校的主要承諾，也是接觸他們時最實在的
@@ -94,4 +94,69 @@ describe('勘誤入口出現在資料明細頁', () => {
       expect(issueParams.get('labels')).toBe('data-correction');
     });
   }
+});
+
+// 2026-07-30：成績徵稿管道。已結束但查不到成績的賽事，開入口給看得到成績的人
+// （到過現場的隊伍、指導老師、承辦學校）——實查後全臺沒有任何可爬取的網頁在公布
+// 無人機足球成績，連主辦單位官網都沒有。收件走同一個服務信箱，站主核實後手動建檔。
+describe('resultsUrl / resultsMailto', () => {
+  const target = { path: '/events/2026-skycup-taipei/', title: '2026 天穹盃臺北戰' };
+  const issue = new URL(resultsUrl(target));
+  const mail = resultsMailto(target);
+
+  it('issue 帶 data-results 標籤，與勘誤分流', () => {
+    expect(issue.searchParams.get('labels')).toBe('data-results');
+    expect(issue.searchParams.get('title')).toBe('提供成績：2026 天穹盃臺北戰');
+  });
+
+  it('寄到同一個服務信箱，不另開收件管道', () => {
+    expect(mail.startsWith(`mailto:${CORRECTION_EMAIL}?`)).toBe(true);
+    expect(decodeURIComponent(mail)).toContain('提供成績：2026 天穹盃臺北戰');
+  });
+
+  it('範本問三個名次與組別，並要求來源', () => {
+    const body = issue.searchParams.get('body') ?? '';
+    for (const f of ['冠軍隊伍', '亞軍隊伍', '季軍隊伍', '組別', '來源']) {
+      expect(body).toContain(f);
+    }
+    expect(body).toContain('https://twdro.net/events/2026-skycup-taipei/');
+  });
+
+  // 個資紅線：這是我們主動邀稿，必須在範本裡先講清楚只收隊伍名，
+  // 而不是等收到選手姓名再刪。
+  it('範本明確要求只填隊伍名、不收個人資料', () => {
+    const body = issue.searchParams.get('body') ?? '';
+    expect(body).toContain('只填隊伍名稱');
+    expect(body).toContain('不收錄選手姓名');
+  });
+
+  it('兩個管道的範本一致', () => {
+    const viaMail = decodeURIComponent(mail.split('body=')[1]);
+    expect(viaMail).toBe(issue.searchParams.get('body')!);
+  });
+
+  it('mailto 空白用百分比編碼，不是 +', () => {
+    expect(resultsMailto({ path: '/events/x/', title: 'A B C' }).match(/subject=([^&]*)/)![1])
+      .not.toContain('+');
+  });
+});
+
+// 前置：需先執行 `npm run build`
+describe('成績徵稿入口只出現在「已結束且無成績」的賽事頁', () => {
+  it('已結束無成績 → 出現入口，且說明留白理由', () => {
+    const html = readFileSync('dist/events/2026-skycup-taipei/index.html', 'utf8');
+    expect(html).toContain('來信提供成績');
+    expect(html).toContain('查不到公開的成績資料');
+    expect(html).toContain('不放推測的名次');
+  });
+
+  it('尚未舉行的賽事不出現入口（還沒有成績可談）', () => {
+    const html = readFileSync('dist/events/2026-edutech-cup-newtaipei/index.html', 'utf8');
+    expect(html).not.toContain('來信提供成績');
+  });
+
+  it('入口帶本頁網址，收信一眼看得出是哪一場', () => {
+    const html = readFileSync('dist/events/2026-skycup-nantou/index.html', 'utf8');
+    expect(html).toContain(encodeURIComponent('https://twdro.net/events/2026-skycup-nantou/'));
+  });
 });

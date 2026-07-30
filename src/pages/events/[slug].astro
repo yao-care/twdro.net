@@ -8,6 +8,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
+import { resultsMailto, resultsUrl } from '../../lib/correction';
 export async function getStaticPaths() {
   const events = await getCollection('events');
   // 草稿賽事不產生公開頁（無公開 URL）；人工把 status 升級後才會有頁面。
@@ -37,6 +38,11 @@ const showCompetition = d.competition.drone_class != null
   || d.competition.active_drones_per_team != null;
 const r = d.results;
 const showResults = !!r && (r.champion_team || r.runner_up_team || r.third_place_team);
+// 已結束但查不到成績 → 開徵稿入口。這是站上最大的資料缺口（2026-07-30 實查：全臺沒有
+// 任何可爬取的網頁在公布無人機足球成績，連主辦單位官網都沒有），而看得到成績的是到過
+// 現場的隊伍、指導老師與承辦學校。取消／延期的賽事沒有成績可談，不出這一段。
+const FINISHED = ['completed', 'archived', 'results_pending'];
+const wantsResults = !showResults && FINISHED.includes(d.status);
 // title/description 交給 lib/eventSeo 依生命週期組（意圖詞＋年份、事實句），理由見該檔開頭。
 // 畫面上的 hero 仍用正式全名與 subtitle，不受搜尋用的字串影響。
 const seoTitle = eventPageTitle(d);
@@ -99,6 +105,25 @@ const seoDesc = eventPageDescription(d);
         {r?.runner_up_team && <li><span class="k">亞軍</span><span class="v">{r.runner_up_team}</span></li>}
         {r?.third_place_team && <li><span class="k">季軍</span><span class="v">{r.third_place_team}</span></li>}
       </ul>
+    </section>
+  )}
+
+  {wantsResults && (
+    <section class="panel">
+      <h2>成績</h2>
+      <p style="margin:0 0 12px">
+        這場比賽已經結束，但我們查不到公開的成績資料，所以這裡留白——不放推測的名次。
+      </p>
+      <p style="margin:0 0 14px;color:var(--color-text-muted)">
+        如果您知道名次，歡迎提供。我們只收錄<strong>隊伍名稱</strong>，不收選手姓名等個人資料；
+        建檔時會標注來源與查核日期。
+      </p>
+      <p style="margin:0">
+        <a class="btn-action" href={resultsMailto({ path: `/events/${event.id}/`, title: d.title })}>來信提供成績</a>
+        <span style="display:inline-block;margin-left:12px">
+          或<a href={resultsUrl({ path: `/events/${event.id}/`, title: d.title })} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
+        </span>
+      </p>
     </section>
   )}
 
