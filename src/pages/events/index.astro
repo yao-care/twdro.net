@@ -4,34 +4,110 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
-const events = (await getCollection('events'))
-  .filter((e) => isPublicEvent(e.data.status))   // 草稿不公開，待人工升級 status 後才顯示
-  .sort((a, b) => {
+
+const all = (await getCollection('events'))
+  .filter((e) => isPublicEvent(e.data.status));   // 草稿不公開，待人工升級 status 後才顯示
+
+type EventEntry = (typeof all)[number];
+
+const byDateDesc = (a: EventEntry, b: EventEntry): number => {
   const da = a.data.schedule.event_start ?? '';
   const db = b.data.schedule.event_start ?? '';
   if (!da) return 1; if (!db) return -1;   // 無日期排最後
-  return db.localeCompare(da);              // 新到舊
-});
+  return db.localeCompare(da);
+};
+const byDateAsc = (a: EventEntry, b: EventEntry): number => -byDateDesc(a, b);
+
+// 依「使用者當下在找什麼」分三組，而非單一條倒序清單：
+// 找報名的人只看得懂「還能報名的」，找成績的人只要「已結束的」。
+// 分組依 status 而非日期——日期會過，status 是人工／pipeline 維護的事實欄位。
+const OPEN = ['registration_open'];
+const UPCOMING = ['announced', 'registration_closed', 'ongoing', 'postponed'];
+const DONE = ['completed', 'results_pending', 'archived'];
+
+const open = all.filter((e) => OPEN.includes(e.data.status)).sort(byDateAsc);
+const upcoming = all.filter((e) => UPCOMING.includes(e.data.status)).sort(byDateAsc);
+const done = all.filter((e) => DONE.includes(e.data.status)).sort(byDateDesc);
+const other = all.filter((e) =>
+  ![...OPEN, ...UPCOMING, ...DONE].includes(e.data.status)).sort(byDateDesc);   // cancelled 等
+
+// 賽事系列總覽：這是只有樞紐頁才給得出的資訊（單一賽事頁看不到「這個系列有幾站」）。
+// 系列名取自 events YAML 的 event_series，不另外編造分類。
+const seriesMap = new Map<string, { count: number; withResults: number }>();
+for (const e of all) {
+  const name = e.data.event_series;
+  if (!name) continue;
+  const cur = seriesMap.get(name) ?? { count: 0, withResults: 0 };
+  cur.count += 1;
+  const r = e.data.results;
+  if (r && (r.champion_team || r.runner_up_team || r.third_place_team)) cur.withResults += 1;
+  seriesMap.set(name, cur);
+}
+const series = [...seriesMap.entries()].sort((a, b) => b[1].count - a[1].count);
+
+const groups = [
+  { key: 'open', heading: '開放報名中', items: open,
+    note: '報名期間以主辦單位公告為準，點進去可看報名截止日與報名連結。' },
+  { key: 'upcoming', heading: '即將舉行', items: upcoming,
+    note: '已公告日期、尚未舉行的賽事。' },
+  { key: 'done', heading: '已結束', items: done,
+    note: '已結束的賽事。有查到成績的會列出名次，查不到就留白。' },
+  { key: 'other', heading: '取消或延期', items: other, note: '' },
+].filter((g) => g.items.length > 0);
 ---
 <BaseLayout
-  title="臺灣無人機足球賽事總覽與報名時程 | twdro.net"
-  description="掌握臺灣無人機足球賽事、報名時間與比賽結果。"
+  title="臺灣無人機足球賽事總覽｜報名時程與比賽成績 | twdro.net"
+  description={`臺灣無人機足球賽事一覽，目前收錄 ${all.length} 場、涵蓋 ${series.length} 個賽事系列。依開放報名／即將舉行／已結束分組，每場標明日期、地點、報名截止與資料來源。`}
   heroTitle="賽事資訊"
-  heroDesc="掌握臺灣無人機足球賽事、報名時間與比賽結果。"
+  heroDesc="臺灣無人機足球賽事的報名時程、舉辦地點與比賽成績。"
 >
-  <p style="margin:0 0 24px"><a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a></p>
-  <div style="display:grid;gap:18px">
-    {events.map((e) => (
-      <EventCard
-        id={e.id}
-        title={e.data.title}
-        status={e.data.status}
-        eventStart={e.data.schedule.event_start}
-        city={e.data.schedule.city}
-        venue={e.data.schedule.venue_name}
-        registrationEnd={e.data.schedule.registration_end}
-        registrationUrl={e.data.registration_url}
-      />
-    ))}
-  </div>
+  <section class="panel" style="margin-bottom:20px">
+    <p style="margin:0 0 12px">
+      本頁收錄臺灣的無人機足球（無人機飛球）賽事，目前共 <strong>{all.length}</strong> 場，
+      分屬 <strong>{series.length}</strong> 個賽事系列。每一場的日期、地點與報名資訊都標明出處與查核日期；
+      查不到的欄位一律留白，不以推測填補。
+    </p>
+    <p style="margin:0">
+      <a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a>
+    </p>
+  </section>
+
+  {series.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2>賽事系列</h2>
+      <p style="margin:0 0 12px;color:var(--color-text-muted)">
+        同一個系列會在不同城市辦分站，規則與組別多半一致。
+      </p>
+      <ul style="margin:0;padding-left:1.4em">
+        {series.map(([name, info]) => (
+          <li style="margin-bottom:6px">
+            {name} — 收錄 {info.count} 場{info.withResults > 0 ? `，其中 ${info.withResults} 場已有成績` : ''}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {groups.map((g) => (
+    <section style="margin-bottom:32px">
+      <h2 style="margin:0 0 6px">{g.heading}（{g.items.length}）</h2>
+      {g.note && <p style="margin:0 0 16px;color:var(--color-text-muted)">{g.note}</p>}
+      <div style="display:grid;gap:18px">
+        {g.items.map((e) => (
+          <EventCard
+            id={e.id}
+            title={e.data.title}
+            status={e.data.status}
+            eventStart={e.data.schedule.event_start}
+            city={e.data.schedule.city}
+            venue={e.data.schedule.venue_name}
+            registrationEnd={e.data.schedule.registration_end}
+            registrationUrl={e.data.registration_url}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+
+  {all.length === 0 && <p>目前沒有可公開的賽事資料。</p>}
 </BaseLayout>

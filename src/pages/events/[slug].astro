@@ -7,6 +7,7 @@ import { eventJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
+import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
 export async function getStaticPaths() {
   const events = await getCollection('events');
   // 草稿賽事不產生公開頁（無公開 URL）；人工把 status 升級後才會有頁面。
@@ -36,8 +37,12 @@ const showCompetition = d.competition.drone_class != null
   || d.competition.active_drones_per_team != null;
 const r = d.results;
 const showResults = !!r && (r.champion_team || r.runner_up_team || r.third_place_team);
+// title/description 交給 lib/eventSeo 依生命週期組（意圖詞＋年份、事實句），理由見該檔開頭。
+// 畫面上的 hero 仍用正式全名與 subtitle，不受搜尋用的字串影響。
+const seoTitle = eventPageTitle(d);
+const seoDesc = eventPageDescription(d);
 ---
-<BaseLayout title={`${d.title} | twdro.net`} description={d.subtitle} heroTitle={d.title} heroDesc={d.subtitle}>
+<BaseLayout title={`${seoTitle} | twdro.net`} description={seoDesc || undefined} heroTitle={d.title} heroDesc={d.subtitle}>
   {jsonld && <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />}
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: d.title, href: `/events/${event.id}/` }]} />
 

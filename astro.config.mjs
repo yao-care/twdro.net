@@ -15,6 +15,9 @@ export default defineConfig({
   build: { format: 'directory' },
   integrations: [
     sitemap({
+      // 站內搜尋結果頁不進 sitemap，也在 robots.txt 擋爬（理由見 public/robots.txt）：
+      // 爬取預算要留給賽事與規則頁，別花在搜尋介面上。
+      filter: (page) => !new URL(page).pathname.startsWith('/search/'),
       serialize(item) {
         const date = LASTMOD.get(new URL(item.url).pathname);
         // 沒有可信日期就不寫 lastmod（sitemap 規格允許缺省）；寧可少給，不給假訊號。

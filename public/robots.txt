@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# 站內搜尋結果頁不需要進索引（Google 官方建議擋掉 internal search result pages）。
+# 2026-07-30 加：sitemap 共 90 個網址，而本網域 10 天大、零外部連結，爬取預算極省——
+# /events/（曝光最高的內容分區樞紐）自 7/24 起「已發現但從未被爬」。凡不需進索引的網址
+# 都該讓出預算。/search/ 同步從 sitemap 排除（見 astro.config.mjs 的 sitemap filter）。
+Disallow: /search/
+
 Sitemap: https://twdro.net/sitemap-index.xml
