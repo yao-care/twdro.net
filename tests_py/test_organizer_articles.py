@@ -16,14 +16,16 @@ def _raw(articles: list) -> bytes:
     return json.dumps(articles, ensure_ascii=False).encode("utf-8")
 
 
-def test_parse_emits_single_alert_and_marks_new():
+# content_root 一律指向 tmp_path：預設值是 repo 根目錄，會讀到已提交的基準 alert 檔，
+# 測試就跟 repo 實際狀態綁在一起（協會多發一篇文就可能讓測試轉紅）。
+def test_parse_emits_single_alert_and_marks_new(tmp_path):
     raw = _raw([
         {"id": 1, "slug": "kids-drone-benefits", "title": "小朋友玩無人機的好處",
          "publishedAt": "2025-07-12", "category": "教育培訓"},
         {"id": 2, "slug": "skycup-2026-taipei-results", "title": "2026 天穹盃臺北戰成績公告",
          "publishedAt": "2026-06-02", "category": "競技運動"},
     ])
-    recs = OrganizerArticles().parse(raw)
+    recs = OrganizerArticles(content_root=str(tmp_path)).parse(raw)
     assert len(recs) == 1
     r = recs[0]
     assert r.slug == ALERT_SLUG
@@ -34,12 +36,12 @@ def test_parse_emits_single_alert_and_marks_new():
     assert "不改動站上任何資料" in r.data["note"]
 
 
-def test_results_keyword_flags_candidate():
+def test_results_keyword_flags_candidate(tmp_path):
     raw = _raw([
         {"id": 1, "slug": "fpv-guide", "title": "競速無人機新手入門", "category": "教學指南"},
         {"id": 2, "slug": "skycup-nantou", "title": "南投戰冠軍出爐", "category": "競技運動"},
     ])
-    r = OrganizerArticles().parse(raw)[0]
+    r = OrganizerArticles(content_root=str(tmp_path)).parse(raw)[0]
     assert r.data["results_candidates"] == ["skycup-nantou"]
     flags = {a["slug"]: a.get("looks_like_results", False) for a in r.data["articles"]}
     assert flags["skycup-nantou"] is True
