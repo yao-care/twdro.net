@@ -1,0 +1,52 @@
+detected_at: '2026-07-30'
+source_url: https://tdrupa.org/api/articles
+note: 主辦單位官網文章清單有變。**本 alert 不改動站上任何資料。**若有疑似成績公告（looks_like_results），人工核實後手動補進 src/content/events/
+  的 results 欄位——只填隊伍名，不得含選手個資。
+new_count: 0
+results_candidates: []
+articles:
+- slug: drone-basics-to-advanced
+  title: 探索無人機的奧秘：從基礎知識到進階應用
+  published_at: "2024-01-15"
+  category: 基礎知識
+  is_new: false
+- slug: drone-hobby-to-career-development
+  title: 從無人機到未來職業發展，孩子的興趣如何變成專業能力？
+  published_at: "2025-07-15"
+  category: 親子教育
+  is_new: false
+- slug: drone-soccer-for-kids-amazing-experience
+  title: 當孩子遇上無人機足球，精彩超乎你的想像！
+  published_at: "2025-07-13"
+  category: 親子教育
+  is_new: false
+- slug: drone-soccer-sport
+  title: 無人機足球：科技與運動的完美碰撞
+  published_at: "2024-01-20"
+  category: 競技運動
+  is_new: false
+- slug: fpv-drone-safety-guide-5-common-mistakes
+  title: FPV競速無人機安全指南｜新手最常犯的5個錯誤與避免方法
+  published_at: "2025-07-14"
+  category: 教學指南
+  is_new: false
+- slug: fpv-racing-drone-beginner-guide-2025
+  title: 競速型無人機是什麼？新手入門完全攻略（2025更新）
+  published_at: "2025-07-16"
+  category: 教學指南
+  is_new: false
+- slug: kids-drone-benefits
+  title: 讓孩子遠離短影音和電動，小朋友玩無人機的好處大公開！
+  published_at: "2025-07-12"
+  category: 教育培訓
+  is_new: false
+- slug: parent-child-drone-activities
+  title: 如何陪孩子一起玩無人機？增進親子關係的5個小秘訣
+  published_at: "2025-07-12"
+  category: 教育培訓
+  is_new: false
+- slug: tc200i-specifications
+  title: 天穹200I競技無人機詳細規格
+  published_at: "2024-02-05"
+  category: 產品介紹
+  is_new: false

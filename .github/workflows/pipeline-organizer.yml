@@ -1,0 +1,39 @@
+name: Pipeline · 主辦單位官網監控
+# 為什麼有這支（2026-07-30）：站上四場已結束的天穹盃分站沒有 results（冠軍/亞軍/季軍），
+# 而實查後全臺沒有任何可爬取的網頁在公布無人機足球賽事成績——連主辦單位
+# 台灣無人機競技發展協會自己的官網也沒有（FB/IG 需登入態、官網 9 篇全是教學文）。
+# 既然現在拿不到，就別每個月重跑一輪徒勞的搜尋：改成他們一發佈，隔天開 PR 通知。
+# 只偵測不改寫——成績屬事實型資料（站規鐵則 1），一律人工核實後手動上站。
+on:
+  schedule:
+    - cron: '30 21 * * *'   # 每天 05:30 台北時間（避開 pipeline-events / pipeline-gov）
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: pip
+      # 只讀文章清單的中介資料（標題/分類/日期），不涉個資 → 用 dev 依賴（免裝 torch）。
+      - run: pip install -r pipeline/requirements-dev.txt
+      - name: 主辦單位官網文章清單監控
+        run: python -m pipeline.run --source organizer_articles
+      - name: 開 PR（若出現新文章）
+        if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: pipeline/organizer
+          title: '資料 pipeline：主辦單位官網新文章（可能含賽事成績）'
+          body-path: pipeline/state/pr-body.md
+          labels: |
+            data-pipeline
+            needs-review
+          add-paths: |
+            pipeline/state/organizer-alerts/**
+            pipeline/state/manifest.json

@@ -65,6 +65,11 @@ def _load_source(name: str):
         env = os.environ.get("INTL_RULE_URLS", "").strip()
         urls = [u.strip() for u in env.split(",") if u.strip()] or None
         return IntlRules(urls)
+    if name == "organizer_articles":
+        from pipeline.sources.organizer_articles import OrganizerArticles
+        # 環境變數 ORGANIZER_ARTICLES_URL 可覆寫；未設則用內建主辦單位官網 API。
+        url = os.environ.get("ORGANIZER_ARTICLES_URL", "").strip() or None
+        return OrganizerArticles(url)
     raise SystemExit(f"未知來源：{name}")
 
 
@@ -109,38 +114,63 @@ def route_candidates(source_name: str, candidates: list[Candidate],
     return clean, flagged
 
 
-def route_intl_alerts(candidates: list[Candidate], manifest_path: str) -> None:
-    """國際規則變更一律走 PR 人審（官方規則不自動改寫），寫出 PR body 與待審路徑。
+def route_alert_pr(candidates: list[Candidate], manifest_path: str,
+                   heading: str, intro: str, steps: list[str], checklist: str) -> None:
+    """告警型來源的共用路由：一律走 PR 人審，**絕不寫 auto-paths、絕不自動併 main**。
 
-    PR 內含 alert 檔（各頁指紋，diff 即顯示哪頁變了）與 manifest bump（merge 後
-    變更偵測收斂、不重複告警）。不寫 auto-paths：絕不自動併 main。
+    用於「只偵測、不改寫」的來源（官方規則、主辦單位公告）——那些資料具權威性或屬
+    事實型 YAML（站規鐵則 1），必須人工核實後才上站。PR 內含 alert 檔與 manifest
+    bump（merge 後變更偵測收斂、不重複告警）。
     """
     _clear_state_files()
     if not candidates:
         return
-    lines = [
-        "## 國際規則變更告警：`fai_fida_rules`",
-        "",
-        "> FAI／FIDA 官方規則頁**指紋變更**。本 PR 由 pipeline 自動產生，**不改動站上規則**。",
-        "",
-        "### 人工處理步驟",
-        "1. 開啟下列 alert 檔，對照 diff 找出指紋變更的頁面 URL。",
-        "2. 逐一比對官方頁的實際變動（版本、條文、規格）。",
-        "3. 必要時**手動**更新 `src/content/rulebooks/`、`src/content/rules/`——**切勿自動改寫官方規則**。",
-        "4. merge 本 PR 以收斂變更偵測基準（manifest），避免重複告警。",
-        "",
-        "### 變更快照",
-        "",
-    ]
+    lines = [heading, "", intro, "", "### 人工處理步驟"]
+    lines += [f"{i}. {s}" for i, s in enumerate(steps, 1)]
+    lines += ["", "### 變更快照", ""]
     for c in candidates:
         lines.append(f"- `{c.path}`")
-    lines.append("")
-    lines.append("---")
-    lines.append("**審核清單**：官方版本號？條文/規格差異已反映到站上規則？規則體系未混用？")
+    lines += ["", "---", checklist]
     os.makedirs(STATE_DIR, exist_ok=True)
     with open(PR_BODY_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     _write_lines(PR_PATHS_PATH, [c.path for c in candidates] + [manifest_path])
+
+
+def route_intl_alerts(candidates: list[Candidate], manifest_path: str) -> None:
+    """國際規則變更一律走 PR 人審（官方規則不自動改寫）。"""
+    route_alert_pr(
+        candidates, manifest_path,
+        heading="## 國際規則變更告警：`fai_fida_rules`",
+        intro="> FAI／FIDA 官方規則頁**指紋變更**。本 PR 由 pipeline 自動產生，**不改動站上規則**。",
+        steps=[
+            "開啟下列 alert 檔，對照 diff 找出指紋變更的頁面 URL。",
+            "逐一比對官方頁的實際變動（版本、條文、規格）。",
+            "必要時**手動**更新 `src/content/rulebooks/`、`src/content/rules/`——**切勿自動改寫官方規則**。",
+            "merge 本 PR 以收斂變更偵測基準（manifest），避免重複告警。",
+        ],
+        checklist="**審核清單**：官方版本號？條文/規格差異已反映到站上規則？規則體系未混用？",
+    )
+
+
+def route_organizer_alerts(candidates: list[Candidate], manifest_path: str) -> None:
+    """主辦單位官網有新文章＝可能發成績了，一律走 PR 人審（事實型資料不自動改）。"""
+    route_alert_pr(
+        candidates, manifest_path,
+        heading="## 主辦單位官網新文章告警：`organizer_articles`",
+        intro=("> 主辦單位官網文章清單有變（只對**新文章**告警，不對內文編輯告警）。"
+               "本 PR 由 pipeline 自動產生，**不改動站上任何資料**。"),
+        steps=[
+            "開啟下列 alert 檔，看 `results_candidates` 與 `is_new: true` 的項目。",
+            "若是成績公告 → 人工核實後手動補 `src/content/events/<slug>.yml` 的 "
+            "`results`（**只填隊伍名，不得含選手姓名等個資**）並補一筆 `sources`。",
+            "若是新賽事公告 → 依既有流程建檔或交給 `event_announcements`。",
+            "其餘（教學／產品文）→ 直接 merge 收斂即可，不需動站上資料。",
+            "merge 本 PR 以收斂變更偵測基準（manifest），避免重複告警。",
+        ],
+        checklist=("**審核清單**：成績只到隊伍層級？每筆都附得起 `sources`（含 url／"
+                   "retrieved_at／trust_level）？查不到的名次留白而非推測？"),
+    )
 
 
 def main(argv: list[str]) -> int:
@@ -153,9 +183,13 @@ def main(argv: list[str]) -> int:
     if source is None:
         return 0
 
-    # 國際規則監控不涉個資、且一律走 PR 人審 → 用 no-op NER，免載 CKIP/torch。
-    is_intl = args.source == "fai_fida_rules"
-    if is_intl:
+    # 告警型來源（只偵測不改寫）不涉個資、且一律走 PR 人審 → 用 no-op NER，免載 CKIP/torch。
+    ALERT_ROUTES = {
+        "fai_fida_rules": (route_intl_alerts, "規則頁指紋變更"),
+        "organizer_articles": (route_organizer_alerts, "主辦單位官網新文章"),
+    }
+    alert_route = ALERT_ROUTES.get(args.source)
+    if alert_route:
         ner = lambda _text: []  # noqa: E731
     else:
         from pipeline.scrub import ckip_ner
@@ -168,9 +202,10 @@ def main(argv: list[str]) -> int:
         print(f"[{args.source}] 無變更，結束。")
         return 0
 
-    if is_intl:
-        route_intl_alerts(candidates, args.manifest)
-        print(f"[{args.source}] 偵測到規則頁指紋變更，已產生 PR 告警（{len(candidates)} 份 alert）。")
+    if alert_route:
+        route_fn, label = alert_route
+        route_fn(candidates, args.manifest)
+        print(f"[{args.source}] 偵測到{label}，已產生 PR 告警（{len(candidates)} 份 alert）。")
         return 0
 
     clean, flagged = route_candidates(args.source, candidates, args.manifest)

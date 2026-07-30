@@ -42,6 +42,11 @@ workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipelin
   - **2026-07-23 起兩層降噪**：(1) **來源 URL 去重**——候選來源頁若已被任何非 draft 賽事引用（那頁的賽事已人工建檔），一律跳過，避免重複草稿；(2) **雜訊過濾**——公文句型（旨揭/檢送/為推廣…）與規格/組別片段（有刷/無刷馬達…組）不產候選。故監看頁的賽事一旦人工建檔並在其 `sources` 引用該 URL，adapter 對該頁即成 no-op，只對「尚未建檔的新頁」有值。
 - **`fai_fida_rules`**（`pipeline-intl`）：監看 FAI／FIDA 官方規則頁（HTML 與規則書 PDF 皆可，以位元組 sha256 當**指紋**）。任一頁指紋變更 → 產生一份 `pipeline/state/intl-alerts/rule-change-alert.yml`（含各頁 URL＋指紋）並**開 PR 通知人工比對**，PR 一併帶入 manifest bump（merge 後收斂、不重複告警）。**只偵測、不改寫**：絕不自動併 main、不自動改寫 rulebooks/rules（官方規則權威性）。抓取失敗沿用上次指紋，避免暫時性錯誤誤觸。監看清單見 `pipeline/sources/intl_rules.py` 的 `DEFAULT_URLS`，可用 repo 變數 `INTL_RULE_URLS`（逗號分隔）覆寫。因不涉個資，workflow 用 `requirements-dev.txt`（免裝 torch/CKIP）。
 
+- **`organizer_articles`**（`pipeline-organizer`，每日 05:30 台北）：監看主辦單位官網的文章 API（`https://tdrupa.org/api/articles`，SPA 的資料來源，公開免認證；可用 repo 變數 `ORGANIZER_ARTICLES_URL` 覆寫）。**出現新文章 → 開 PR 通知人工**，alert 內把疑似成績公告標成 `results_candidates`。**只偵測、不改寫**：絕不自動併 main、絕不動 `src/content/events/`。
+  - **為什麼需要**（2026-07-30）：站上四場已結束的天穹盃分站沒有 `results`，而實查後**全臺沒有任何可爬取的網頁在公布無人機足球賽事成績**——已排除協會官網（9 篇全是教學／親子／產品文，零成績內容）、Facebook 粉專（`www`/`m`/`mbasic` 三端點皆 HTTP 400，需登入態）、Instagram `@tudrpa`（登入牆）、YouTube 賽事新聞（機器人／同意頁，取不到說明欄）、新聞媒體（TDN 只報參賽隊數）、獎金獵人（只有簡章）、學校榮譽榜（全是報名轉知）。**這是市場級缺口，不是漏找**——所以重點從「再搜一輪」改成「他們一發佈，隔天就知道」。
+  - **指紋刻意排除文章本文**，只取 `(id, title, slug, publishedAt, category)`：否則協會修一個錯字就觸發告警，很快就沒人看了（有回歸測試守門）。抓取失敗沿用上次 slug 清單，避免 5xx 被誤判成「文章全刪」。
+  - **首次執行會把現有 9 篇全報成新文章**（沒有基準檔），merge 那個 PR 即建立基準，之後只報真正的增量。
+
 ## 新增來源
 在 `pipeline/sources/` 新增實作 `Source` 協定的 adapter（`fetch()`/`parse()`），
 於 `pipeline/run.py` 的 `_load_source` 註冊，並在對應 workflow 呼叫。
