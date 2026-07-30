@@ -53,3 +53,7 @@ node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
 
 ## 資料 Pipeline
 半自動資料取得與個資防護見 [`pipeline/README.md`](pipeline/README.md)。pipeline 產出候選並開 PR，人工審核後才上站。
+
+---
+
+Maintained by Light. I build and maintain websites with AI as a service: [arthurs.tw](https://arthurs.tw/?utm_source=github&utm_medium=readme&utm_campaign=oss)
