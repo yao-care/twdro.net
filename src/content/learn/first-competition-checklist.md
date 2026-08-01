@@ -3,7 +3,7 @@ title: 第一次參加比賽要準備什麼？
 category: competing
 description: 新手隊伍參加無人機足球賽事前的基本準備清單。
 order: 10
-updated_at: "2026-07-21"
+updated_at: "2026-08-01"
 ---
 
 第一次帶隊比賽，除了練飛，還有幾件事最好提前備妥，臨場才不會手忙腳亂。還沒摸過基本玩法的，建議先看 [什麼是無人機足球](/learn/what-is-drone-soccer/)。
@@ -17,7 +17,7 @@ updated_at: "2026-07-21"
 
 ## 確認球機合規
 
-先核對球機是否符合該賽事的規格（球體直徑、重量上限、螺旋槳材質與尺寸），並檢查防護框完整、fail-safe 正常。這三項是檢錄必查的重點，細節見 [球機的基本結構](/learn/drone-structure-basics/)；不同賽事採 20 或 40 公分規格，差異見 [20 公分與 40 公分球機差在哪](/learn/drone-size-20cm-vs-40cm/)。
+先核對球機是否符合該賽事的規格（球體直徑、重量上限、螺旋槳材質與尺寸），並檢查防護框完整、fail-safe 正常。這三項是檢錄必查的重點，細節見 [球機的基本結構](/learn/drone-structure-basics/)；不同賽事採 20 或 40 公分規格，差異見 [20 公分與 40 公分球機差在哪](/learn/drone-size-20cm-vs-40cm/)。賽前重新組裝或換零件的，先照 [球機怎麼組裝](/learn/drone-assembly-basics/) 走一次流程再上場。
 
 ## 安排隊伍分工
 
