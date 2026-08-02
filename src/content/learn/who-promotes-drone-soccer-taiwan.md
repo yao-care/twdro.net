@@ -13,8 +13,8 @@ embed: organizations
 
 本站收錄兩個協會，看它們的實際動作就分得出差別：
 
-- **中華無人機競技運動協會（CDSA）**：走 FIDA 路線。2026 年 4 月與 [華興中學](/teams/hwahsing-drone-soccer/) 合作，在校內啟用**臺灣首座 FIDA 40 Class 標準賽制場地**，引進韓國訓練體系、邀請韓籍教練來臺授課、安排學生赴韓國全州移地訓練。
-- **台灣無人機競技發展協會**：主辦 [天穹盃無人機飛球錦標賽](/learn/skycup-explained/)，採自訂規格（有刷組、110 公克、2S），巡迴各縣市辦分站賽。
+- **[中華無人機競技運動協會（CDSA）](/organizations/cdsa/)**：走 FIDA 路線。2026 年 4 月與 [華興中學](/teams/hwahsing-drone-soccer/) 合作，在校內啟用**臺灣首座 FIDA 40 Class 標準賽制場地**，引進韓國訓練體系、邀請韓籍教練來臺授課、安排學生赴韓國全州移地訓練。
+- **[台灣無人機競技發展協會](/organizations/tdrupa/)**：主辦 [天穹盃無人機飛球錦標賽](/learn/skycup-explained/)，採自訂規格（有刷組、110 公克、2S），巡迴各縣市辦分站賽。
 
 也就是說，接觸到哪個協會，多半就決定了你先碰到 40 公分級的 FIDA 體系、還是天穹盃的有刷組。兩套規則的差異見 [FAI 與 FIDA 規則怎麼分](/learn/fai-vs-fida-rules/)、[規則總整理](/learn/rules-overview/)。
 
