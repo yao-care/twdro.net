@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
-// @ts-expect-error — lastmod.mjs 是給 astro.config 直接載入的純 JS，沒有型別宣告
+// lastmod.mjs 是給 astro.config 直接載入的純 JS。tsconfig 繼承 astro/tsconfigs/strict
+// （含 allowJs），TS 會直接從該檔推導型別，**不需要** @ts-expect-error——留著反而讓
+// astro check 報 ts(2578) unused directive（2026-08-02 移除）。
 import { extractDate, buildLastmodMap } from '../src/lib/lastmod.mjs';
 
 // 為什麼有這組測試（2026-07-28）：
