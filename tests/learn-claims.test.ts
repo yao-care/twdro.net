@@ -336,14 +336,14 @@ describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
 describe('taiwan-competitions-overview 的資料斷言', () => {
   const overview = readFileSync('src/content/learn/taiwan-competitions-overview.md', 'utf8');
 
-  it('「本站收錄五個賽事系列」仍成立，且表格五列都在', () => {
+  it('「本站收錄六個賽事系列」仍成立，且表格六列都在', () => {
     const series = new Set(
       readdirSync('src/content/events')
         .filter((f) => f.endsWith('.yml'))
         .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
         .filter(Boolean),
     );
-    expect(series.size).toBe(5);
+    expect(series.size).toBe(6);
     // 表格逐列點名的系列，資料裡都要還在（改名或下架就會擋下來）
     expect(series).toContain('教育部全國無人機足球競賽');
     expect(series).toContain('天穹盃');

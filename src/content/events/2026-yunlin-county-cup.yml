@@ -1,0 +1,34 @@
+title: 第二屆雲林縣科技教育無人機足球競賽
+subtitle: 有刷組與無限組雙賽制，6 縣市近 70 位選手參賽，橫跨國小至高中
+event_series: 雲林縣科技教育無人機足球競賽
+level: 地方
+status: completed
+event_type: 縣級公開賽
+organizer: 社團法人台灣智慧農業科技推廣協會／台灣無人機競技發展協會雲林辦事處
+rule_system: OTHER
+schedule:
+  event_start: "2026-07-25"
+  event_end: "2026-07-25"
+  venue_name: 雲林縣元長國小活動中心
+  city: 雲林縣
+eligibility:
+  education_levels: [國小, 國中, 高中]
+results:
+  divisions:
+    - name: 有刷組
+      champion_team: 恆興疾風（新竹 十興國小）
+      runner_up_team: 元小4隊（雲林 元長國小）
+      third_place_team: 九九峰來的飛行小隊（南投 平林國小）
+    - name: 無限組
+      champion_team: 9453（台中 台中高工）
+      runner_up_team: Miracle Wings（彰化 凱勝文理補習班）
+      third_place_team: 消防栓（南投 社寮國中）
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 第二屆雲林縣無人機足球賽 六縣市近70位選手熱血開戰
+    url: https://www.epochtimes.com/b5/26/7/25/n14817296.htm
+    publisher: 大紀元
+    published_at: "2026-07-25"
+    retrieved_at: "2026-08-03"
+    trust_level: B
