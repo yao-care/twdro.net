@@ -8,6 +8,7 @@ official_translation: true
 competition_spec:
   drone_diameter_mm: 200
   drone_weight_g_max: 300
+  motor_type: 未限定有刷／無刷（採 FAI F9A-B 規格）
   battery_cells: 4S（最高 17V）
   active_players_min: 3
   active_players_max: 5

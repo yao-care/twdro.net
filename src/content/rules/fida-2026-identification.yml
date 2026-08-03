@@ -1,0 +1,31 @@
+rulebook: fida-2026
+chapter: 球機規格
+article_number: 2-4 / 2-5
+title: 燈條與標示怎麼裝：七種顏色、每 10 公分至少 6 顆 LED
+summary: 球機只能使用七種識別顏色——隊伍用紅、藍（全體選手，以 LED 表示）；位置用綠（前鋒）、粉紅（引導手）、天藍（自由人）、黃（清道夫）、白（守門員），其中前鋒與引導手除 LED 外還必須加掛標示牌。LED 燈條須環狀排列、直徑 20 至 40 公分、每 10 公分至少 6 顆 LED，且各水平方向可見的 LED 數量須相同；不符規格者須賽前送檢核可。標示牌不得在比賽中損壞或脫落——若前鋒的標示牌中途脫落、導致對方無法辨識前鋒，脫落後的得分一律不計。禁止使用會干擾隊伍或位置辨識的過多顏色。
+original_text: |-
+  ⓑ The Striker and Guide must attach tags to distinguish them from other players.
+  ⓒ The tags for the Striker and Guide are determined by the competition rules. Tags must not be damaged or become detached during the game.
+  ⓓ If the Striker's tag becomes detached during game and the opposing team is unable to identify the Striker, any scores made after the detachment will not be counted.
+  ❺ Ball Color
+  ⓐ The use of excessive colors (including LED) that interfere with team or position identification is not permitted.
+  ⓑ Only the following seven colors are allowed for use on the drone ball:
+    Team — Red (All players, LED) / Blue (All players, LED)
+    Position — Green (No.1 Striker, LED+Tag) / Pink (No.2 Guide, LED+Tag) / SkyBlue (No.3 Libero, LED) / Yellow (No.4 Sweeper, LED) / White (No.5 Keeper, LED)
+  [2-4 ⓐ] The diameter of the arranged LED strip must be at least 20 cm and no more than 40 cm. The strip must contain at least 6 individual LED elements per 10 cm. LED strips that do not meet these criteria must be inspected and approved prior to the competition.
+translated_text: |-
+  ⓑ 前鋒與引導手必須加掛標示牌，以與其他選手區別。
+  ⓒ 前鋒與引導手的標示牌樣式由競賽規則決定；標示牌不得在比賽中損壞或脫落。
+  ⓓ 若前鋒的標示牌在比賽中脫落，導致對方無法辨識前鋒，則脫落之後的得分一律不計。
+  ❺ 球機顏色
+  ⓐ 不得使用會干擾隊伍或位置辨識的過多顏色（含 LED）。
+  ⓑ 球機僅可使用下列七種顏色：
+    隊伍識別——紅（全體選手，LED）／藍（全體選手，LED）
+    位置識別——綠（1 號前鋒，LED＋標示牌）／粉紅（2 號引導手，LED＋標示牌）／天藍（3 號自由人，LED）／黃（4 號清道夫，LED）／白（5 號守門員，LED）
+  ［2-4 ⓐ］LED 燈條環狀排列後的直徑須介於 20 至 40 公分，每 10 公分至少 6 顆 LED 燈珠，且各水平方向可見的 LED 數量須相同。不符上述規格的燈條，須於賽前送檢並經核可。
+tags:
+  - LED
+  - 識別
+  - 標示牌
+  - 球機
+source_page: FIDA Drone Soccer Rule Book (Class 40, 5th Revision) pp.8-9

@@ -1,0 +1,37 @@
+rulebook: fida-2026
+chapter: 攻守與得分
+article_number: 8-1 / 8-2
+title: 得分後全隊要退回己方半場才能再攻——越位規則
+summary: 前鋒的球機由正面完整穿越對方球門環到背面才算得分；沒完整穿過而彈回、或穿越時處於越位狀態，均不計分。前鋒只要穿越對方球門環（不論方向），全隊即進入越位狀態，在解除前不能再嘗試得分。解除方式是：該隊所有原本位於對方半場的球機，全部退回己方半場的中線之後。若有球機失控卡在對方半場而無法退回，越位狀態會一直持續，直到該名選手宣告放棄該局並放下遙控器為止；若卡住的正是前鋒，則依 3-4 接任的新前鋒也必須退回己方半場，越位才解除。
+original_text: |-
+  8. Offense and Defense
+  ❶ Scoring
+  ⓐ A goal is awarded when the Striker's drone ball completely passes from the front to the back of the opponent's goal.
+  ⓑ A goal shall not be counted if:
+    • the player is in an offside position at the time of scoring.
+    • the drone ball fails to completely pass through the goal and rebounds.
+  ⓒ If the Striker passes through the opponent's goal in the reverse direction (back to front), the goal does not count, and the player is considered offside.
+  ❷ Offside
+  ⓐ If the Striker passes through the opponent's goal in any direction, the team enters an offside state and cannot attempt to score while in that state.
+  ⓑ In order to clear the offside situation, all drone balls from the scoring team that were inside the scoring half (opponent's half) must return to their own side, behind the half line.
+  ⓒ In the offside situation, if a drone ball becomes uncontrollable and cannot be returned from the scoring half (opponent's half), the offside situation remains until the player announces the set abandonment and put down their controller.
+  ⓓ If the drone ball in the situation ⓒ is the Striker, the new Striker substituted by rule 3-❹ must return to home team's area behind the half line to clear the offside situation.
+translated_text: |-
+  八、攻擊與防守
+  ❶ 得分
+  ⓐ 前鋒的球機由正面完整穿越至對方球門環背面時，判定得分。
+  ⓑ 下列情形不計分：
+    • 得分當下該選手處於越位位置。
+    • 球機未完整穿越球門環而彈回。
+  ⓒ 前鋒若由背面往正面反向穿越對方球門環，不計分，且該選手視為越位。
+  ❷ 越位
+  ⓐ 前鋒只要穿越對方球門環（不論方向），該隊即進入越位狀態，在此狀態下不得再嘗試得分。
+  ⓑ 要解除越位，該隊所有原本位於對方半場的球機，都必須退回己方半場、中線之後。
+  ⓒ 越位狀態下，若有球機失控而無法從對方半場返回，越位狀態將持續，直到該名選手宣告放棄該局並放下遙控器為止。
+  ⓓ 若ⓒ的球機正是前鋒，則依規則 3-❹ 接任的新前鋒亦須退回己方半場中線之後，越位才解除。
+tags:
+  - 得分
+  - 越位
+  - 前鋒
+  - 中線
+source_page: FIDA Drone Soccer Rule Book (Class 40, 5th Revision) pp.24-25

@@ -9,6 +9,7 @@ official_translation: false
 competition_spec:
   drone_diameter_mm: 200
   drone_weight_g_max: 300
+  motor_type: 未限定有刷／無刷（僅規定限電動馬達、最多 4 顆）
   battery_cells: 4S
   active_players_min: 3
   active_players_max: 5

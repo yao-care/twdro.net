@@ -1,0 +1,31 @@
+rulebook: fida-2026
+chapter: 隊伍與位置
+article_number: 3-1
+title: 名單上限 10 人、上場 5 人、最少 3 人可開賽
+summary: 參賽名單上限 10 人，其中教練最多 3 人。每場每隊上場 5 名選手、5 顆球機，一人只能操控一顆。若人數不足或球機出狀況，最少 3 人仍可比賽。五個位置不得重複：前鋒、引導手、自由人（前方防守）、清道夫（後方防守）、守門員。開賽前若坐上操控席的選手不足 3 人視為棄權；第二、三局開始前不足 3 人則該局判負，並直接進入下一局的整備時間。
+original_text: |-
+  3. Number of Players
+  ❶ Players
+  ⓐ The number of team members participating in the competition is limited to 10. In this case, the number of coaches included in the player roster is limited to no more than 3.
+  ⓑ Each game is played with 5 players per team and 5 drone balls. Each player must control only one drone ball.
+  ⓒ A game can proceed with a minimum of 3 players if there is a shortage of players or issues with drone balls.
+  ⓓ The composition of a team is as follows, and no player's position may be duplicated during the game.
+  [1. Striker / 2. Guide / 3. Libero (Front Defender) / 4. Sweeper (Rear Defender) / 5. Keeper]
+  ⓔ If the game start time has been clearly announced in advance, and fewer than 3 players—including attackers—are seated at the control stations before the game begins, the game will be considered a forfeit.
+  ⓕ In the second or third set, if fewer than 3 players are seated at the control stations before the start of the set, that set is considered lost, and maintenance time for the next set begins.
+translated_text: |-
+  三、選手人數
+  ❶ 選手
+  ⓐ 參賽隊伍成員上限 10 人，其中列入名單的教練不得超過 3 人。
+  ⓑ 每場比賽每隊 5 名選手、5 顆球機，每名選手只能操控一顆球機。
+  ⓒ 若選手不足或球機出現問題，最少 3 名選手仍可進行比賽。
+  ⓓ 隊伍編制如下，比賽中位置不得重複：
+  ［1. 前鋒 Striker／2. 引導手 Guide／3. 自由人 Libero（前方防守）／4. 清道夫 Sweeper（後方防守）／5. 守門員 Keeper］
+  ⓔ 若已事先明確公告開賽時間，開賽前坐上操控席的選手（含攻擊手）不足 3 人，該場視為棄權。
+  ⓕ 第二或第三局開始前，若坐上操控席的選手不足 3 人，該局判負，並開始下一局的整備時間。
+tags:
+  - 隊伍
+  - 位置
+  - 人數
+  - 教練
+source_page: FIDA Drone Soccer Rule Book (Class 40, 5th Revision) p.10

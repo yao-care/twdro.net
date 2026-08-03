@@ -24,6 +24,28 @@ const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
     ))}
   </fieldset>
   <div class="panel" style="overflow-x:auto"><div id="compare-result"></div></div>
+
+  <section class="panel" style="margin-top:20px">
+    <h2>台灣選手要注意：國內兩套規格不通用</h2>
+    <p>
+      台灣目前並存兩套規格，差別最大的是<strong>球機本身</strong>。
+      <a href="/rules/moe-taiwan-2026/">教育部 115 年全國無人機足球競賽</a> 明文採用
+      <a href="/rules/fai-f9a-b-2026/">FAI F9A-B</a> 國際規格：球徑 20 公分、起飛重量上限 300 公克、電池最高 4S。
+      <a href="/rules/skycup-2026/">天穹盃</a> 則是主辦單位自訂規格：同樣 20 公分，但起飛重量壓到
+      <strong>110 公克以下</strong>、電池只能 2S，且<strong>明文指定 1020 有刷馬達</strong>。
+    </p>
+    <p>
+      重量差近三倍、電壓差一倍，等於是兩台飛行特性完全不同的機器。
+      <strong>在天穹盃練出來的手感不會直接搬到全國賽</strong>，反之亦然——推重比、慣性、撞擊後的姿態恢復都不一樣。
+      要跨賽事參加的隊伍，等於要準備兩套機隊、練兩種手感。兩種馬達的實際差異見
+      <a href="/learn/motor-brushed-vs-brushless/">有刷與無刷馬達怎麼選</a>。
+    </p>
+    <p style="color:var(--color-text-muted);font-size:.92rem;margin-bottom:0">
+      注意「馬達類型」這一列的寫法：只有天穹盃是<em>限定</em>有刷，FAI 與教育部規則<em>沒有限定</em>有刷或無刷，
+      只規定限電動馬達、最多 4 顆。也就是說全國賽並不禁止有刷機，只是 300 公克、4S 的規格下多數隊伍會選無刷。
+      各欄位以官方規則書原文為準，本站不代為解釋規則。
+    </p>
+  </section>
   <script type="application/json" id="compare-data" set:html={dataJson} />
   <script>
     import { compareRulebooks } from '../../lib/compare';

@@ -1,7 +1,7 @@
 rulebook: fida-2026
 chapter: 隊伍與位置
 title: 五人五位置
-summary: FIDA 賽制每隊上場 5 名選手，分別擔任 Guide（引導手）、Striker（前鋒）、Libero（自由人）、Sweeper（清道夫）、Keeper（守門員）五個位置，僅 Striker 前鋒能得分。
+summary: FIDA 賽制每隊上場 5 名選手，分別擔任 Striker（前鋒）、Guide（引導手）、Libero（自由人／前方防守）、Sweeper（清道夫／後方防守）、Keeper（守門員）五個位置，比賽中位置不得重複，僅 Striker 前鋒能得分。規則書的編制圖把 Libero 標為前方防守（Front Defender）、Sweeper 標為後方防守（Rear Defender），兩者的防守縱深不同。
 tags:
   - 位置
   - 前鋒
