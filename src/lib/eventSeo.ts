@@ -12,6 +12,7 @@
  *
  * 鐵則 5（不得杜撰）：一律只用 YAML 裡實際存在的欄位，缺就省略，不補泛稱、不編數字。
  */
+import { hasTeam, teamText, type TeamPlace } from './results';
 
 /** 賽事狀態 → 該頁當下最該承接的搜尋意圖詞。有成績的已結束賽事優先掛「成績」。 */
 export function eventIntent(status: string, hasResults = false): string {
@@ -43,14 +44,16 @@ export interface EventSeoInput {
     district?: string;
   };
   results?: {
-    champion_team?: string;
-    runner_up_team?: string;
-    third_place_team?: string;
+    champion_team?: TeamPlace;
+    runner_up_team?: TeamPlace;
+    third_place_team?: TeamPlace;
+    merit_teams?: string[];
     divisions?: {
       name: string;
-      champion_team?: string;
-      runner_up_team?: string;
-      third_place_team?: string;
+      champion_team?: TeamPlace;
+      runner_up_team?: TeamPlace;
+      third_place_team?: TeamPlace;
+      merit_teams?: string[];
     }[];
   };
 }
@@ -59,8 +62,8 @@ export interface EventSeoInput {
 // 「沒有成績」→ title 掛「賽程資訊」而不是「成績」，並誤開徵稿入口。故一併認列 divisions。
 const hasAnyResult = (r: EventSeoInput['results']): boolean =>
   !!r && !!(
-    r.champion_team || r.runner_up_team || r.third_place_team
-    || r.divisions?.some((d) => d.champion_team || d.runner_up_team || d.third_place_team)
+    hasTeam(r.champion_team) || hasTeam(r.runner_up_team) || hasTeam(r.third_place_team)
+    || r.divisions?.some((d) => hasTeam(d.champion_team) || hasTeam(d.runner_up_team) || hasTeam(d.third_place_team))
   );
 
 /** 賽事頁 <title>：年份＋正式名＋意圖詞。年份已在名稱裡就不重複前綴。 */
@@ -92,12 +95,12 @@ export function eventPageDescription(d: EventSeoInput, maxLen = 155): string {
   if (s.registration_end) parts.push(`報名至 ${s.registration_end}。`);
   // 冠軍是已結束賽事最高強度的查詢字，description 裡要看得到。分組別賽事沒有單一冠軍，
   // 改列各組冠軍（「國中組 X／國小組 Y」），仍受 maxLen 保護不會爆版。
-  if (d.results?.champion_team) {
-    parts.push(`冠軍：${d.results.champion_team}。`);
+  if (hasTeam(d.results?.champion_team)) {
+    parts.push(`冠軍：${teamText(d.results?.champion_team)}。`);
   } else {
     const champs = (d.results?.divisions ?? [])
-      .filter((x) => x.champion_team)
-      .map((x) => `${x.name} ${x.champion_team}`);
+      .filter((x) => hasTeam(x.champion_team))
+      .map((x) => `${x.name} ${teamText(x.champion_team)}`);
     if (champs.length) parts.push(`冠軍：${champs.join('／')}。`);
   }
 

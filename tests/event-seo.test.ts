@@ -123,3 +123,31 @@ describe('eventSeo：賽事頁 title／description', () => {
     expect(d.length).toBeLessThanOrEqual(155);
   });
 });
+
+describe('並列名次與優勝', () => {
+  // 2026-08-03：新竹縣第一屆教育科技盃第二名 2 隊、第三名 3 隊，主辦官網明寫「2組」「3組」。
+  // 名次欄位因此可為陣列；判定「有沒有成績」不能直接看 truthy——空陣列是 truthy。
+  it('陣列名次算有成績，空陣列不算', () => {
+    const withTies = eventPageTitle({
+      title: 'X盃', status: 'completed',
+      results: { runner_up_team: ['甲隊', '乙隊'] },
+    } as any);
+    expect(withTies).toContain('成績');
+
+    const emptyArrays = eventPageTitle({
+      title: 'X盃', status: 'completed',
+      results: { champion_team: [], runner_up_team: [], third_place_team: [] },
+    } as any);
+    expect(emptyArrays).toContain('賽程資訊');
+    expect(emptyArrays).not.toContain('成績');
+  });
+
+  it('description 的冠軍並列以頓號相連，不是逗號或陣列字面值', () => {
+    const d = eventPageDescription({
+      title: 'X盃', status: 'completed',
+      results: { champion_team: ['甲隊', '乙隊'] },
+    } as any);
+    expect(d).toContain('冠軍：甲隊、乙隊');
+    expect(d).not.toContain('甲隊,乙隊');
+  });
+});

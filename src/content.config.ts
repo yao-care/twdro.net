@@ -18,6 +18,10 @@ const sourceSchema = z.object({
   unavailable_since: z.string().optional(),
 });
 
+// 單一名次可能是一隊，也可能並列多隊。讀取端一律用 lib/results.ts 的 teamList()／
+// teamText() 正規化，不要各自 Array.isArray 判斷。
+const teamPlace = z.union([z.string(), z.array(z.string())]).optional();
+
 const yml = (dir: string) => glob({ pattern: '**/*.yml', base: `./src/content/${dir}` });
 
 const events = defineCollection({
@@ -55,18 +59,25 @@ const events = defineCollection({
       active_drones_per_team: z.number().optional(),
     }).default({}),
     results: z.object({
-      champion_team: z.string().optional(),     // 隊伍名，不含個資
-      runner_up_team: z.string().optional(),
-      third_place_team: z.string().optional(),
+      // 名次可以並列（2026-08-03 加）。新竹縣第一屆教育科技盃就是實例：第二名 2 隊、
+      // 第三名 3 隊，主辦官網明寫「2組」「3組」。原本只收單一字串，硬塞會變成
+      // 「A、B」一個假隊名，或者要捨棄一半得獎隊伍——兩種都不誠實。
+      // 既有單隊資料仍是字串，10 筆舊賽事完全不受影響。
+      champion_team: teamPlace,                 // 隊伍名，不含個資
+      runner_up_team: teamPlace,
+      third_place_team: teamPlace,
+      // 優勝／佳作這類「有獎但不排名次」的名單。新竹縣那場前三名之外還有 6 組優勝。
+      merit_teams: z.array(z.string()).optional(),
       // 分組別成績（2026-08-03 加）。台灣的學校賽事幾乎都分組別——教育部全國賽本身就有
       // 國中小／高中／大專三組，縣市選拔賽則多為國中組／國小組——只給單組冠亞季的話，
       // 第一筆真實成績（嘉義縣 115 年度選拔賽，雙組別）就得捨棄一半資料。頂層欄位保留，
       // 未分組的賽事照舊填頂層即可，既有 10 筆賽事完全不受影響。
       divisions: z.array(z.object({
         name: z.string(),                       // 組別名，如「國中組」
-        champion_team: z.string().optional(),
-        runner_up_team: z.string().optional(),
-        third_place_team: z.string().optional(),
+        champion_team: teamPlace,
+        runner_up_team: teamPlace,
+        third_place_team: teamPlace,
+        merit_teams: z.array(z.string()).optional(),
       })).optional(),
     }).optional(),
     sources: z.array(sourceSchema).min(1),

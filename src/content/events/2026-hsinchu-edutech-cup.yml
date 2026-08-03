@@ -1,0 +1,32 @@
+title: 115 年新竹縣教育科技盃無人機足球公開賽
+subtitle: 初賽在敏實科技大學、決賽移師新竹縣體育館，初賽規模擴增至 72 隊
+event_series: 新竹縣教育科技盃無人機足球公開賽
+level: 地方
+status: announced
+event_type: 縣級公開賽
+organizer: 新竹縣政府教育局／台北市電腦商業同業公會（協辦：敏實科技大學）
+rule_system: FAI
+rulebook: fai-f9a-b-2026
+schedule:
+  event_start: "2026-10-03"
+  event_end: "2026-10-18"
+  venue_name: 新竹縣體育館（決賽）／敏實科技大學（初賽）
+  city: 新竹縣
+competition:
+  drone_class: F9A-B
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 竹縣無人機足球賽6/29開放報名 新興賽事廣受親子家庭熱烈響應
+    url: https://hakkanews.tw/2026/05/14/277512/
+    publisher: 客新聞 HakkaNews
+    published_at: "2026-05-14"
+    retrieved_at: "2026-08-03"
+    trust_level: B
+  - type: news_article
+    title: 竹縣科技盃無人機足球公開賽登場 6／29開放報名
+    url: https://n.yam.com/Article/20260514596471
+    publisher: 蕃新聞
+    published_at: "2026-05-14"
+    retrieved_at: "2026-08-03"
+    trust_level: B

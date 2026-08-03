@@ -1,0 +1,54 @@
+title: 114 年新竹縣教育科技盃無人機足球公開賽
+subtitle: 新竹縣首屆，分 F9A-B 有刷馬達球機組與 Mini 小飛球表演組，前三名多隊並列
+event_series: 新竹縣教育科技盃無人機足球公開賽
+level: 地方
+status: completed
+event_type: 縣級公開賽
+organizer: 新竹縣政府教育局／台北市電腦商業同業公會
+rule_system: FAI
+rulebook: fai-f9a-b-2026
+schedule:
+  event_start: "2025-10-18"
+  event_end: "2025-10-19"
+  registration_end: "2025-10-03"
+  venue_name: 新竹縣體育館
+  city: 新竹縣
+eligibility:
+  education_levels: [幼兒園, 國小, 國中, 高中]
+  team_size_max: 5
+competition:
+  drone_class: F9A-B
+  active_drones_per_team: 3
+results:
+  divisions:
+    - name: F9A-B 有刷馬達球機組
+      champion_team: 全村的希望
+      runner_up_team: [最強武花肉, 恆興疾風C]
+      third_place_team: [恆興疾風A, HuaxingSuperKids, 草山遊隼]
+      merit_teams: [恆興疾風B, 榮耀之翼, 草山鷹眼, 彰化村東國小, 飛行日常-陝耀登場, 飛行日常-陝亮登場]
+    - name: Mini 小飛球表演組
+      champion_team: HuaxingSuper mini
+      runner_up_team: 小恆興a隊
+      third_place_team: 無人足球運動員
+      merit_teams: [小恆興b隊, 小恆興c隊, AI飛行者]
+verification: organizer_verified
+sources:
+  - type: organizer_announcement
+    title: 得獎名單公布｜114年新竹縣教育科技盃無人機足球公開賽
+    url: https://sites.google.com/view/hchccsoccer/news/%E5%BE%97%E7%8D%8E%E5%90%8D%E5%96%AE%E5%85%AC%E5%B8%83
+    publisher: 新竹縣教育科技盃無人機足球公開賽官方網站
+    retrieved_at: "2026-08-03"
+    trust_level: A
+  - type: organizer_announcement
+    title: 114年新竹縣教育科技盃無人機足球公開賽 10月熱血開戰！
+    url: https://www.edtech.tw/post/20250829
+    publisher: 台北市電腦商業同業公會
+    published_at: "2025-08-29"
+    retrieved_at: "2026-08-03"
+    trust_level: B
+  - type: gov_announcement
+    title: 114年新竹縣教育科技盃無人機足球公開賽（轉知）
+    url: https://wxes.hcc.edu.tw/p/406-1125-506552,r11.php?Lang=zh-tw
+    publisher: 新竹縣竹北市文興國民小學
+    retrieved_at: "2026-08-03"
+    trust_level: A

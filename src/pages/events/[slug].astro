@@ -6,6 +6,7 @@ import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
+import { hasTeam, teamText } from '../../lib/results';
 import { isPublicEvent } from '../../lib/enums';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
 import { resultsMailto, resultsUrl } from '../../lib/correction';
@@ -47,10 +48,10 @@ const showCompetition = d.competition.drone_class != null
   || d.competition.active_drones_per_team != null;
 const r = d.results;
 const divisionResults = (r?.divisions ?? []).filter(
-  (x) => x.champion_team || x.runner_up_team || x.third_place_team,
+  (x) => hasTeam(x.champion_team) || hasTeam(x.runner_up_team) || hasTeam(x.third_place_team) || (x.merit_teams?.length ?? 0) > 0,
 );
 const showResults = !!r && !!(
-  r.champion_team || r.runner_up_team || r.third_place_team || divisionResults.length
+  hasTeam(r.champion_team) || hasTeam(r.runner_up_team) || hasTeam(r.third_place_team) || (r.merit_teams?.length ?? 0) > 0 || divisionResults.length
 );
 // 已結束但查不到成績 → 開徵稿入口。這是站上最大的資料缺口（2026-07-30 實查：全臺沒有
 // 任何可爬取的網頁在公布無人機足球成績，連主辦單位官網都沒有），而看得到成績的是到過
@@ -128,20 +129,22 @@ const seoDesc = eventPageDescription(d);
   {showResults && (
     <section class="panel">
       <h2>成績</h2>
-      {(r?.champion_team || r?.runner_up_team || r?.third_place_team) && (
+      {(hasTeam(r?.champion_team) || hasTeam(r?.runner_up_team) || hasTeam(r?.third_place_team) || (r?.merit_teams?.length ?? 0) > 0) && (
         <ul class="data-list">
-          {r?.champion_team && <li><span class="k">冠軍</span><span class="v">{r.champion_team}</span></li>}
-          {r?.runner_up_team && <li><span class="k">亞軍</span><span class="v">{r.runner_up_team}</span></li>}
-          {r?.third_place_team && <li><span class="k">季軍</span><span class="v">{r.third_place_team}</span></li>}
+          {hasTeam(r?.champion_team) && <li><span class="k">冠軍</span><span class="v">{teamText(r?.champion_team)}</span></li>}
+          {hasTeam(r?.runner_up_team) && <li><span class="k">亞軍</span><span class="v">{teamText(r?.runner_up_team)}</span></li>}
+          {hasTeam(r?.third_place_team) && <li><span class="k">季軍</span><span class="v">{teamText(r?.third_place_team)}</span></li>}
+            {(r?.merit_teams?.length ?? 0) > 0 && <li><span class="k">優勝</span><span class="v">{r!.merit_teams!.join("、")}</span></li>}
         </ul>
       )}
       {divisionResults.map((g) => (
         <div style="margin-top:12px">
           <h3 style="margin:0 0 6px;font-size:1rem">{g.name}</h3>
           <ul class="data-list">
-            {g.champion_team && <li><span class="k">冠軍</span><span class="v">{g.champion_team}</span></li>}
-            {g.runner_up_team && <li><span class="k">亞軍</span><span class="v">{g.runner_up_team}</span></li>}
-            {g.third_place_team && <li><span class="k">季軍</span><span class="v">{g.third_place_team}</span></li>}
+            {hasTeam(g.champion_team) && <li><span class="k">冠軍</span><span class="v">{teamText(g.champion_team)}</span></li>}
+            {hasTeam(g.runner_up_team) && <li><span class="k">亞軍</span><span class="v">{teamText(g.runner_up_team)}</span></li>}
+            {hasTeam(g.third_place_team) && <li><span class="k">季軍</span><span class="v">{teamText(g.third_place_team)}</span></li>}
+            {(g.merit_teams?.length ?? 0) > 0 && <li><span class="k">優勝</span><span class="v">{g.merit_teams!.join("、")}</span></li>}
           </ul>
         </div>
       ))}

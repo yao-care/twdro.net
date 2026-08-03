@@ -15,11 +15,14 @@ schedule:
   city: 臺北市
 eligibility:
   education_levels: [國小, 國中, 高中]
-  team_size_min: 2
-  team_size_max: 4
+  # 簡章原文：「以團隊方式報名，每隊最多5人，同時入場3人。」
+  # （先前填 2–4 人是誤植——那是同一份簡章裡「程式機器人」各賽事的組隊規則，
+  #  無人機足球公開賽走的是另一段。2026-08-03 對照簡章原文更正。）
+  team_size_max: 5
 competition:
   drone_class: F9A-B
   drone_diameter: 20cm
+  active_drones_per_team: 3
 verification: official
 sources:
   - type: gov_announcement
