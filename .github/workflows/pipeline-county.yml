@@ -1,4 +1,4 @@
-name: Pipeline · 縣市教育網公告監控
+name: Pipeline · 縣市公告監控
 # 為什麼有這支（2026-08-03）：
 # pipeline-organizer 的註解寫著「全臺沒有任何可爬取的網頁在公布無人機足球賽事成績」，
 # 據此把成績當成只能等主辦單位發佈的市場級缺口。**那個結論的範圍下錯了。**
@@ -25,14 +25,14 @@ jobs:
           cache: pip
       # 只讀公告標題與連結，不涉個資 → 用 dev 依賴（免裝 torch／CKIP）。
       - run: pip install -r pipeline/requirements-dev.txt
-      - name: 縣市教育網公告監控
+      - name: 縣市公告監控
         run: python -m pipeline.run --source county_edu_news
       - name: 開 PR（若出現無人機足球相關新公告）
         if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
         uses: peter-evans/create-pull-request@v8
         with:
           branch: pipeline/county-edu
-          title: '資料 pipeline：縣市教育網無人機足球公告（可能含賽事成績）'
+          title: '資料 pipeline：縣市無人機足球公告（可能含賽事成績）'
           body-path: pipeline/state/pr-body.md
           labels: |
             data-pipeline

@@ -1,4 +1,4 @@
-"""縣市教育網／學校公告監控 adapter：出現無人機足球相關公告即開 PR 通知人工。
+"""縣市政府／教育網公告監控 adapter：出現無人機足球相關公告即開 PR 通知人工。
 
 為什麼需要這一支（2026-08-03）：
 `pipeline/sources/organizer_articles.py` 的開頭寫著「全臺沒有任何可爬取的網頁在公布
@@ -44,7 +44,7 @@ DEFAULT_CONFIG = os.path.join(os.path.dirname(__file__), "county_feeds.yml")
 # 單一 alert 檔的 slug（穩定→覆寫；PR diff 即顯示這輪多了哪幾則）。
 ALERT_SLUG = "county-edu-news-alert"
 
-# 第一層：主題篩選。命中才進入 alert（縣市教育網公告量大，不篩會淹沒）。
+# 第一層：主題篩選。命中才進入 alert（縣市公告量大，不篩會淹沒）。
 TOPIC_KEYWORDS = ("無人機足球", "無人機飛球", "無人機競賽", "無人機足球競賽", "飛球錦標賽")
 
 # 第二層：成績標記。與 organizer_articles 同一組詞，判準一致。
@@ -242,7 +242,7 @@ class CountyEduNews:
 
         data = {
             "note": (
-                "縣市教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；"
+                "縣市政府／教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；"
                 "looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進 "
                 "src/content/events/。本 adapter 只偵測不改寫（站規鐵則 1）。"
             ),

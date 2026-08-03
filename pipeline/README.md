@@ -48,10 +48,13 @@ workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipelin
   - **首次執行會把現有 9 篇全報成新文章**（沒有基準檔），merge 那個 PR 即建立基準，之後只報真正的增量。
   - ⚠️ **2026-08-03 更正上一條的適用範圍**：「全臺沒有任何可爬取的網頁在公布成績」對**天穹盃系列**仍成立，但**不適用於縣市層級**——縣市政府教育處一直在公告成績，只是先前沒有人在看。見下一支 `county_edu_news`。
 
-- **`county_edu_news`**（`pipeline-county`，每日 06:00 台北）：監看縣市教育網／學校公告，出現無人機足球相關標題即開 PR。來源清單走設定檔 `pipeline/sources/county_feeds.yml`（可用 `COUNTY_FEEDS_CONFIG` 覆寫），**加縣市不必改程式**。同樣**只偵測、不改寫**。
+- **`county_edu_news`**（`pipeline-county`，每日 06:00 台北）：監看縣市政府／教育網公告，出現無人機足球相關標題即開 PR。來源清單走設定檔 `pipeline/sources/county_feeds.yml`（可用 `COUNTY_FEEDS_CONFIG` 覆寫），**加縣市不必改程式**。同樣**只偵測、不改寫**。
   - **為什麼需要**（2026-08-03）：查 GSC 建議字挖到的具體查詢「無人機足球比賽嘉義縣蒜頭國小」時發現，嘉義縣政府教育處教學發展科 2026-05-29 就公告過成績（trust_level A）。站上第一筆賽事成績 `events/2026-chiayi-county-selection` 即由此補上，同輪還從地方新聞補到第二筆 `events/2026-yunlin-county-cup`。**這件事不該每個月靠人想到才手動搜一次。**
-  - **覆蓋率目前只有嘉義縣**，且這是誠實的現況而非疏漏：各縣市教育網不是同一套 CMS。嘉義走 XOOPS `tadnews`，`/modules/tadnews/rss.php` 直接回 20 筆 RSS（已驗證）；新竹／南投／新北是另一套（`/p/406-1001-<id>.php` 型），實測 `/app/index.php?Action=rss`、`/p/rss-*.php`、`/rss.php` 皆不存在，首頁也找不到可穩定解析的清單頁。adapter 已備好 `html` 模式（可設 `link_re` 濾導覽列），找到清單頁即可直接補進設定檔。未納入的縣市與原因寫在 `county_feeds.yml`。
-  - **主題篩選必須在 `fetch()` 做，不能只在 `parse()` 做**（首次實跑才發現的缺陷）：縣市教育網每天都在發代理教師甄選公告，若把全部公告放進 payload，變更偵測的 hash 天天變 → 每天開一個 `matched: []` 的空 PR，一週內就沒人看。已有回歸測試 `test_unrelated_announcements_do_not_change_the_hash` 守門。
+  - **覆蓋率＝10 個縣市、18 個 feed**（2026-08-03 下午，全部實跑驗證可解析；一輪 fetch 約 83 秒）：基隆／臺北／臺中／彰化／南投／嘉義／臺南（含教育局專屬 feed）／高雄／屏東／宜蘭。挑選原則：有教育局處專屬 feed 優先，否則取「新聞」＋「公告」各一，**不收招標／決標／徵才**（量大又與成績無關，只會稀釋訊號）。
+  - 🔑 **當初卡在 1 個縣市是因為找錯層級**：第一輪只探「縣市教育網」（`*.edu.tw`），那層多掛 TANet——苗栗／宜蘭／金門只有 AAAA 記錄且逾時、雲林兩種協定都不通、新竹／南投／新北是 `/p/406-1001-<id>.php` 型 CMS 且常見 RSS 端點皆 404。改探**縣市政府入口網**（`*.gov.tw`）後當天接上 10 縣市：它們幾乎都備有正規 RSS，而且**一樣會發教育處的競賽消息**——站上第二筆成績本來就是從地方新聞抄到的，不是從教育網。
+  - ⚠️ **剩下沒接上的多半是擋爬蟲或前端渲染，不是「沒有 RSS」**：桃園 428／雲林 403／新竹市 403／新北 RSS 訂閱頁由 JS 產生。**臺北與高雄一開始也回 403／428，補上 `Accept` 與 `Accept-Language` 標頭就通了**（見 adapter 的 `HEADERS` 註解）。要救剩下的從標頭與渲染下手，別再猜網址；已實測失敗的端點全部列在 `county_feeds.yml`。
+  - **RSS 一律餵 `res.content`（bytes），不得餵 `res.text`**：政府 `.aspx` feed 幾乎都帶 UTF-8 BOM，且 Content-Type 常不帶 charset → requests 退回 ISO-8859-1 解碼 → BOM 變 `ï»¿` 卡在 XML 宣告前 → `ParseError` → 該來源解析出 0 筆。而 `fetch()` 失敗會沿用上輪清單，**整個縣市失聯也不會有任何錯誤浮到檯面上**。html 模式同理，改讀 meta charset（`_decode()`）。三個回歸測試守門。
+  - **主題篩選必須在 `fetch()` 做，不能只在 `parse()` 做**（首次實跑才發現的缺陷）：縣市每天都在發代理教師甄選、研習轉知這類公告，若把全部公告放進 payload，變更偵測的 hash 天天變 → 每天開一個 `matched: []` 的空 PR，一週內就沒人看。已有回歸測試 `test_unrelated_announcements_do_not_change_the_hash` 守門。
   - **人工核實時務必看中文原文**：2026-08-03 實例——英文摘要把「景山國小」羅馬拼音成 Jingshan，回推時極易誤寫為「靜山國小」。PR 內文的審核步驟已寫明這一條。
 
 ## 新增來源

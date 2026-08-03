@@ -179,15 +179,15 @@ def route_organizer_alerts(candidates: list[Candidate], manifest_path: str) -> N
 
 
 def route_county_edu_alerts(candidates: list[Candidate], manifest_path: str) -> None:
-    """縣市教育網出現無人機足球公告＝可能有成績可補，一律走 PR 人審（事實型資料不自動改）。
+    """縣市公告出現無人機足球標題＝可能有成績可補，一律走 PR 人審（事實型資料不自動改）。
 
     2026-08-03 建立。緣由見 pipeline/sources/county_edu_news.py 開頭：先前判定「全臺沒有
     任何可爬取的網頁在公布成績」，實際上縣市政府教育處一直在公告，只是沒有人在看。
     """
     route_alert_pr(
         candidates, manifest_path,
-        heading="## 縣市教育網公告告警：`county_edu_news`",
-        intro=("> 縣市教育網／學校公告出現無人機足球相關標題（只對**新公告**告警）。"
+        heading="## 縣市公告告警：`county_edu_news`",
+        intro=("> 縣市政府／教育網公告出現無人機足球相關標題（只對**新公告**告警）。"
                "本 PR 由 pipeline 自動產生，**不改動站上任何資料**。"),
         steps=[
             "開啟下列 alert 檔，先看 `results_candidates`（標題同時含成績字樣者）。",
@@ -220,7 +220,7 @@ def main(argv: list[str]) -> int:
     ALERT_ROUTES = {
         "fai_fida_rules": (route_intl_alerts, "規則頁指紋變更"),
         "organizer_articles": (route_organizer_alerts, "主辦單位官網新文章"),
-        "county_edu_news": (route_county_edu_alerts, "縣市教育網無人機足球公告"),
+        "county_edu_news": (route_county_edu_alerts, "縣市無人機足球公告"),
     }
     alert_route = ALERT_ROUTES.get(args.source)
     if alert_route:
