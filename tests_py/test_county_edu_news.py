@@ -1,0 +1,144 @@
+import json
+
+from pipeline.sources.county_edu_news import (
+    CountyEduNews, ALERT_SLUG, _parse_rss, _parse_html,
+)
+
+# content_root 一律指向 tmp_path：預設值是 repo 根目錄，會讀到已提交的基準 alert 檔，
+# 測試就跟 repo 實際狀態綁在一起（縣市多發一則公告就可能讓測試轉紅）。
+
+
+def _raw(items, errors=None):
+    return json.dumps(
+        {"items": items, "errors": errors or []}, ensure_ascii=False, sort_keys=True
+    ).encode("utf-8")
+
+
+def test_rss_parsed_to_title_and_link():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+    <rss version="2.0"><channel><title>嘉義縣教育資訊網</title>
+      <item><title>「嘉義縣115年度無人機足球競賽」成績公告</title>
+            <link>https://www.cyc.edu.tw/modules/tadnews/index.php?nsn=92139</link></item>
+      <item><title>轉知研習訊息</title><link>https://example.com/2</link></item>
+    </channel></rss>"""
+    got = _parse_rss(xml)
+    assert len(got) == 2
+    assert got[0]["title"] == "「嘉義縣115年度無人機足球競賽」成績公告"
+    assert got[0]["link"].endswith("nsn=92139")
+
+
+def test_rss_parse_error_returns_empty_not_raise():
+    # 對方回 HTML 錯誤頁時不能炸掉整輪；回空清單交由 fetch 沿用上輪。
+    assert _parse_rss("<html>503 Service Unavailable</html>") == []
+
+
+def test_html_mode_filters_nav_links_by_regex_and_length():
+    html = """
+      <a href="/index.php">首頁</a>
+      <a href="/modules/tadnews/index.php?nsn=1">115年度無人機足球競賽成績公告</a>
+      <a href="/about">關於我們</a>
+      <a href="/modules/tadnews/index.php?nsn=2">更多</a>
+    """
+    got = _parse_html(html, link_re=r"tadnews")
+    # 「更多」長度不足被濾掉；非 tadnews 的導覽連結也被濾掉
+    assert [g["title"] for g in got] == ["115年度無人機足球競賽成績公告"]
+
+
+def test_matches_topic_and_flags_results(tmp_path):
+    raw = _raw([
+        {"feed": "嘉義縣教育資訊網", "title": "「嘉義縣115年度無人機足球競賽」成績公告",
+         "link": "https://www.cyc.edu.tw/x?nsn=92139"},
+        {"feed": "嘉義縣教育資訊網", "title": "轉知「教育部辦理115年無人機足球競賽-國中小組簡章」",
+         "link": "https://example.com/2"},
+        {"feed": "嘉義縣教育資訊網", "title": "本縣英語演說比賽得獎名單", "link": "https://example.com/3"},
+    ])
+    recs = CountyEduNews(content_root=str(tmp_path)).parse(raw)
+    assert len(recs) == 1
+    d = recs[0].data
+    assert recs[0].slug == ALERT_SLUG
+    # 第三則含「得獎」但與無人機足球無關 → 主題篩選要先擋掉，否則縣市公告會淹沒 alert
+    assert d["matched_count"] == 2
+    titles = [m["title"] for m in d["matched"]]
+    assert "本縣英語演說比賽得獎名單" not in titles
+    # 只有同時命中成績字樣的那則被標記
+    assert [m["title"] for m in d["results_candidates"]] == [
+        "「嘉義縣115年度無人機足球競賽」成績公告"
+    ]
+
+
+def test_known_list_kept_for_failsoft(tmp_path):
+    raw = _raw([{"feed": "A", "title": "無人機足球競賽成績公告", "link": "u1"}])
+    d = CountyEduNews(content_root=str(tmp_path)).parse(raw)[0].data
+    assert len(d["known"]) == 1
+
+
+def test_fetch_errors_surface_in_alert(tmp_path):
+    raw = _raw([], errors=[{"feed": "南投縣", "error": "Timeout: ..."}])
+    d = CountyEduNews(content_root=str(tmp_path)).parse(raw)[0].data
+    assert d["matched_count"] == 0
+    assert d["fetch_errors"][0]["feed"] == "南投縣"
+
+
+def test_fetch_is_deterministic_for_change_detection(tmp_path, monkeypatch):
+    """fetch 的輸出要能當變更偵測的 hash 依據——同樣的公告不論來源順序都要得到同一份 bytes。
+
+    （抓取順序或 dict 排列造成 hash 每天變動，就會天天開一個沒有新東西的 PR。）
+    """
+    cfg = tmp_path / "feeds.yml"
+    cfg.write_text(
+        "feeds:\n  - label: A\n    url: https://a.example/rss\n    mode: rss\n"
+        "  - label: B\n    url: https://b.example/rss\n    mode: rss\n",
+        encoding="utf-8",
+    )
+
+    xml_a = ('<rss><channel><item><title>無人機足球競賽成績公告</title>'
+             '<link>u1</link></item></channel></rss>')
+    xml_b = '<rss><channel><item><title>研習公告事項</title><link>u2</link></item></channel></rss>'
+
+    class _Res:
+        def __init__(self, text): self.text = text
+        def raise_for_status(self): return None
+
+    def fake_get(url, **_kw):
+        return _Res(xml_a if url.startswith("https://a.") else xml_b)
+
+    monkeypatch.setattr("pipeline.sources.county_edu_news.requests.get", fake_get)
+    src = CountyEduNews(config_path=str(cfg), content_root=str(tmp_path))
+    assert src.fetch() == src.fetch()
+
+
+def test_unrelated_announcements_do_not_change_the_hash(tmp_path, monkeypatch):
+    """縣市教育網天天在發代理教師甄選公告——那些**不得**讓 fetch 的輸出改變。
+
+    2026-08-03 首次實跑才發現的缺陷：主題篩選原本只做在 parse，於是 payload 含全部公告、
+    hash 天天變，每天都會開一個 `matched: []` 的空 PR，一週內就沒人看了。篩選因此移進
+    fetch。這個測試把它釘死。
+    """
+    cfg = tmp_path / "feeds.yml"
+    cfg.write_text("feeds:\n  - label: A\n    url: https://a.example/rss\n    mode: rss\n",
+                   encoding="utf-8")
+
+    def _xml(extra_items: str) -> str:
+        return ('<rss><channel>'
+                '<item><title>115年度無人機足球競賽成績公告</title><link>u1</link></item>'
+                f'{extra_items}</channel></rss>')
+
+    day1 = _xml('<item><title>本縣國小代理教師甄選簡章</title><link>j1</link></item>')
+    day2 = _xml('<item><title>本縣國中代理教師甄選簡章（第2次）</title><link>j2</link></item>'
+                '<item><title>轉知英語研習活動</title><link>j3</link></item>')
+
+    class _Res:
+        def __init__(self, text): self.text = text
+        def raise_for_status(self): return None
+
+    body = {"v": day1}
+    monkeypatch.setattr("pipeline.sources.county_edu_news.requests.get",
+                        lambda url, **_kw: _Res(body["v"]))
+    src = CountyEduNews(config_path=str(cfg), content_root=str(tmp_path))
+    first = src.fetch()
+    body["v"] = day2
+    assert src.fetch() == first, "無關公告變動不該觸發告警"
+
+    # 但真的多了一則無人機足球公告時，就必須偵測得到
+    body["v"] = _xml('<item><title>無人機足球競賽實施計畫</title><link>u2</link></item>')
+    assert src.fetch() != first

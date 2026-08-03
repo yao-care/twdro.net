@@ -65,6 +65,11 @@ def _load_source(name: str):
         env = os.environ.get("INTL_RULE_URLS", "").strip()
         urls = [u.strip() for u in env.split(",") if u.strip()] or None
         return IntlRules(urls)
+    if name == "county_edu_news":
+        from pipeline.sources.county_edu_news import CountyEduNews
+        # 環境變數 COUNTY_FEEDS_CONFIG 可覆寫來源清單檔；未設則用 sources/county_feeds.yml。
+        cfg = os.environ.get("COUNTY_FEEDS_CONFIG", "").strip() or None
+        return CountyEduNews(cfg)
     if name == "organizer_articles":
         from pipeline.sources.organizer_articles import OrganizerArticles
         # 環境變數 ORGANIZER_ARTICLES_URL 可覆寫；未設則用內建主辦單位官網 API。
@@ -173,6 +178,34 @@ def route_organizer_alerts(candidates: list[Candidate], manifest_path: str) -> N
     )
 
 
+def route_county_edu_alerts(candidates: list[Candidate], manifest_path: str) -> None:
+    """縣市教育網出現無人機足球公告＝可能有成績可補，一律走 PR 人審（事實型資料不自動改）。
+
+    2026-08-03 建立。緣由見 pipeline/sources/county_edu_news.py 開頭：先前判定「全臺沒有
+    任何可爬取的網頁在公布成績」，實際上縣市政府教育處一直在公告，只是沒有人在看。
+    """
+    route_alert_pr(
+        candidates, manifest_path,
+        heading="## 縣市教育網公告告警：`county_edu_news`",
+        intro=("> 縣市教育網／學校公告出現無人機足球相關標題（只對**新公告**告警）。"
+               "本 PR 由 pipeline 自動產生，**不改動站上任何資料**。"),
+        steps=[
+            "開啟下列 alert 檔，先看 `results_candidates`（標題同時含成績字樣者）。",
+            "若是成績公告 → 點進原始連結核對**中文原字**再手動補 "
+            "`src/content/events/<slug>.yml` 的 `results`（**只填隊伍名，不得含選手姓名**）"
+            "並補一筆 `sources`。多組別賽事用 `results.divisions`。",
+            "⚠️ 校名務必看中文原文，不要靠英文摘要或羅馬拼音回推"
+            "（2026-08-03 實例：「景山國小」曾被摘要誤讀成「靜山國小」）。",
+            "若是新賽事公告 → 依既有流程建檔或交給 `event_announcements`。",
+            "看 `fetch_errors`：某個來源連續失敗代表對方改版，回頭修 "
+            "`pipeline/sources/county_feeds.yml`。",
+            "merge 本 PR 以收斂變更偵測基準（manifest），避免重複告警。",
+        ],
+        checklist=("**審核清單**：成績只到隊伍層級？校名取自中文原文？每筆都附得起 "
+                   "`sources`（含 url／retrieved_at／trust_level）？查不到的名次留白而非推測？"),
+    )
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="twdro 資料 pipeline")
     parser.add_argument("--source", required=True, help="來源名稱，如 moe_schools")
@@ -187,6 +220,7 @@ def main(argv: list[str]) -> int:
     ALERT_ROUTES = {
         "fai_fida_rules": (route_intl_alerts, "規則頁指紋變更"),
         "organizer_articles": (route_organizer_alerts, "主辦單位官網新文章"),
+        "county_edu_news": (route_county_edu_alerts, "縣市教育網無人機足球公告"),
     }
     alert_route = ALERT_ROUTES.get(args.source)
     if alert_route:

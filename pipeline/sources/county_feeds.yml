@@ -1,0 +1,31 @@
+# 縣市教育網／學校公告來源清單（county_edu_news adapter 讀這一份）
+#
+# 加一個來源＝加一個區塊，不必改程式碼。欄位：
+#   label     顯示名稱（出現在 alert 與 PR 內文）
+#   url       要抓的網址
+#   mode      rss  → 解析 RSS/Atom 的 <item>/<entry>
+#             html → 從頁面抽 <a href>…</a> 的連結與文字
+#   link_re   （html 模式選填）只保留 href 命中此正規式的連結，濾掉導覽列
+#
+# 為什麼只有嘉義（2026-08-03 實測）：
+#   台灣各縣市教育網不是同一套 CMS。嘉義縣教育資訊網走 XOOPS 的 tadnews 模組，
+#   `/modules/tadnews/rss.php` 直接回 20 筆 RSS（已驗證）。新竹縣、南投縣、新北市
+#   則是另一套（網址型如 /p/406-1001-<id>.php），實測 `/app/index.php?Action=rss`、
+#   `/p/rss-*.php`、`/rss.php` 等常見端點全部不存在或 404，首頁也找不到可穩定解析的
+#   公告清單頁。與其塞未經驗證的網址進來讓它每天靜默失敗，不如只放驗證過的，
+#   並把 html 模式留好——找到清單頁就能直接補進來。
+#
+# 這支 adapter 的價值不在覆蓋率，而在把「每次想到才手動搜一輪」變成常態監看：
+# 2026-08-03 就是靠手動搜到嘉義縣教育處的成績公告，才補上站上第一筆賽事成績
+# （events/2026-chiayi-county-selection）。同一件事不該每個月重做一次。
+
+feeds:
+  - label: 嘉義縣教育資訊網
+    url: https://www.cyc.edu.tw/modules/tadnews/rss.php
+    mode: rss
+
+  # 待補（找到可穩定解析的清單頁或 RSS 就填進來）：
+  #   新竹縣教育研究發展暨網路中心  https://www.hcc.edu.tw/
+  #   南投縣政府教育處              https://www.ntct.edu.tw/
+  #   新北市政府教育局              https://www.ntpc.edu.tw/
+  #   彰化縣（新雲端）              https://newboe.chc.edu.tw/

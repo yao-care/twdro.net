@@ -46,6 +46,13 @@ workflow：`pipeline-gov`（每日）、`pipeline-events`（每日）、`pipelin
   - **為什麼需要**（2026-07-30）：站上四場已結束的天穹盃分站沒有 `results`，而實查後**全臺沒有任何可爬取的網頁在公布無人機足球賽事成績**——已排除協會官網（9 篇全是教學／親子／產品文，零成績內容）、Facebook 粉專（`www`/`m`/`mbasic` 三端點皆 HTTP 400，需登入態）、Instagram `@tudrpa`（登入牆）、YouTube 賽事新聞（機器人／同意頁，取不到說明欄）、新聞媒體（TDN 只報參賽隊數）、獎金獵人（只有簡章）、學校榮譽榜（全是報名轉知）。**這是市場級缺口，不是漏找**——所以重點從「再搜一輪」改成「他們一發佈，隔天就知道」。
   - **指紋刻意排除文章本文**，只取 `(id, title, slug, publishedAt, category)`：否則協會修一個錯字就觸發告警，很快就沒人看了（有回歸測試守門）。抓取失敗沿用上次 slug 清單，避免 5xx 被誤判成「文章全刪」。
   - **首次執行會把現有 9 篇全報成新文章**（沒有基準檔），merge 那個 PR 即建立基準，之後只報真正的增量。
+  - ⚠️ **2026-08-03 更正上一條的適用範圍**：「全臺沒有任何可爬取的網頁在公布成績」對**天穹盃系列**仍成立，但**不適用於縣市層級**——縣市政府教育處一直在公告成績，只是先前沒有人在看。見下一支 `county_edu_news`。
+
+- **`county_edu_news`**（`pipeline-county`，每日 06:00 台北）：監看縣市教育網／學校公告，出現無人機足球相關標題即開 PR。來源清單走設定檔 `pipeline/sources/county_feeds.yml`（可用 `COUNTY_FEEDS_CONFIG` 覆寫），**加縣市不必改程式**。同樣**只偵測、不改寫**。
+  - **為什麼需要**（2026-08-03）：查 GSC 建議字挖到的具體查詢「無人機足球比賽嘉義縣蒜頭國小」時發現，嘉義縣政府教育處教學發展科 2026-05-29 就公告過成績（trust_level A）。站上第一筆賽事成績 `events/2026-chiayi-county-selection` 即由此補上，同輪還從地方新聞補到第二筆 `events/2026-yunlin-county-cup`。**這件事不該每個月靠人想到才手動搜一次。**
+  - **覆蓋率目前只有嘉義縣**，且這是誠實的現況而非疏漏：各縣市教育網不是同一套 CMS。嘉義走 XOOPS `tadnews`，`/modules/tadnews/rss.php` 直接回 20 筆 RSS（已驗證）；新竹／南投／新北是另一套（`/p/406-1001-<id>.php` 型），實測 `/app/index.php?Action=rss`、`/p/rss-*.php`、`/rss.php` 皆不存在，首頁也找不到可穩定解析的清單頁。adapter 已備好 `html` 模式（可設 `link_re` 濾導覽列），找到清單頁即可直接補進設定檔。未納入的縣市與原因寫在 `county_feeds.yml`。
+  - **主題篩選必須在 `fetch()` 做，不能只在 `parse()` 做**（首次實跑才發現的缺陷）：縣市教育網每天都在發代理教師甄選公告，若把全部公告放進 payload，變更偵測的 hash 天天變 → 每天開一個 `matched: []` 的空 PR，一週內就沒人看。已有回歸測試 `test_unrelated_announcements_do_not_change_the_hash` 守門。
+  - **人工核實時務必看中文原文**：2026-08-03 實例——英文摘要把「景山國小」羅馬拼音成 Jingshan，回推時極易誤寫為「靜山國小」。PR 內文的審核步驟已寫明這一條。
 
 ## 新增來源
 在 `pipeline/sources/` 新增實作 `Source` 協定的 adapter（`fetch()`/`parse()`），
