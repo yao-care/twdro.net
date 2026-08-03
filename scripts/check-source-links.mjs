@@ -25,6 +25,8 @@ const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(REPO, 'src/content');
 
 // 學校與政府網站常擋非瀏覽器 UA，不帶會拿到一堆假的 403。
+import { promises as dns } from 'node:dns';
+
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const TIMEOUT_MS = 25_000;
 const RETRIES = 2;
@@ -45,6 +47,24 @@ const isUnverifiable = (url) => {
     return false;
   }
 };
+
+// 連線層失敗（status 0：fetch failed／DNS／timeout）**不等於連結失效**。
+// 2026-08-03 實例：新竹縣文興國小等多個學校網站，從本機（臺灣境內出口）IPv4 實測回 200，
+// 但 GitHub Actions runner 一律 fetch failed——TANet 上不少校網會過濾境外／雲端 IP。
+// 先前把這類一概判成「連結失效」，結果 deploy workflow 天天掛紅、內容其實好好的，
+// 久了就沒人看這個檢查了（那才是真正的損失）。
+//
+// 判準：**DNS 還解析得出來，就不算死**。網域還在對方手上，頁面真的被移除時會回 404／410，
+// 那個才是 link rot 的訊號，仍然是硬失敗。只有連網域都消失（NXDOMAIN）才算確定失效。
+async function domainStillExists(url) {
+  try {
+    const { hostname } = new URL(url);
+    await dns.lookup(hostname, { all: true });
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const quiet = process.argv.includes('--quiet');
 
@@ -135,6 +155,7 @@ const blocked = [];
 const unverifiable = [];
 const knownDead = [];
 const revived = [];
+const unreachable = [];
 
 for (const r of results) {
   const ok = r.status >= 200 && r.status < 400;
@@ -146,6 +167,8 @@ for (const r of results) {
   }
   if (isUnverifiable(r.url)) { unverifiable.push(r); continue; }
   if (BOT_BLOCKED.has(r.status)) { blocked.push(r); continue; }
+  // 連不上但網域還在 → 這台機器到不了，不是連結死了（理由見 domainStillExists 註解）。
+  if (r.status === 0 && await domainStillExists(r.url)) { unreachable.push(r); continue; }
   (r.unavailableSince ? knownDead : dead).push(r);
 }
 
@@ -175,6 +198,12 @@ if (unverifiable.length && !quiet) {
   console.log('');
 }
 
+if (unreachable.length) {
+  console.log(`ℹ️  這台機器連不上，網域仍存在（${unreachable.length}）——常見於會過濾境外／雲端 IP 的校網：`);
+  for (const r of unreachable) console.log(show(r));
+  console.log('   （非連結失效。頁面若真被移除會回 404／410，那才會列進下面的失效清單。）\n');
+}
+
 if (dead.length) {
   console.log(`❌ 連結失效（${dead.length}）：`);
   for (const r of dead) console.log(show(r));
@@ -185,10 +214,11 @@ if (dead.length) {
 }
 
 if (!quiet) {
-  const okCount = results.length - dead.length - blocked.length - unverifiable.length - knownDead.length;
+  const okCount = results.length - dead.length - blocked.length - unverifiable.length - knownDead.length - unreachable.length;
   const notes = [
     blocked.length && `${blocked.length} 個被擋（非失效）`,
     unverifiable.length && `${unverifiable.length} 個無法自動驗證`,
+    unreachable.length && `${unreachable.length} 個本機連不上（網域仍在）`,
     knownDead.length && `${knownDead.length} 個已知失效待處理`,
   ].filter(Boolean);
   console.log(`✅ ${okCount} 個網址正常${notes.length ? `，${notes.join('、')}` : ''}`);
