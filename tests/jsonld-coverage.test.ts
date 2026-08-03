@@ -1,6 +1,18 @@
-import { readFileSync, existsSync } from 'node:fs';
-import { globSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, it, expect } from 'vitest';
+
+// 自己走目錄，不用 fs.globSync——那是 Node 22 才有的 API，而 CI 跑 Node 20。
+// （本機 Node 22 測得過、CI 直接 `globSync is not a function` 讓 build 掛掉、
+//  deploy 被 skip，網站沒上線。本機版本比 CI 新的坑，這裡不要再踩。）
+function walk(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) return walk(p);
+    return e.name === 'index.html' ? [p] : [];
+  });
+}
 
 // 前置：需先執行 `npm run build`
 //
@@ -12,7 +24,7 @@ import { describe, it, expect } from 'vitest';
 // 這種缺漏不會讓 build 失敗、不會讓任何既有測試轉紅，只會安靜地讓 Google 少認得幾百個實體。
 // 所以釘死兩件事：每頁至少一個 JSON-LD，且每個區塊都要能 JSON.parse。
 
-const files = globSync('dist/**/index.html');
+const files = walk('dist');
 
 describe('JSON-LD 覆蓋率', () => {
   it('build 產物存在', () => {
@@ -74,9 +86,10 @@ describe('JSON-LD 覆蓋率', () => {
       ['dist/teams', '"SportsTeam"'],
     ];
     for (const [target, needle] of expectations) {
+      // walk 會一併撈到該區的索引頁本身（它帶的是 CollectionPage，不是實體節點），排除掉。
       const candidates = target.endsWith('.html')
         ? [target]
-        : globSync(`${target}/*/index.html`);
+        : walk(target).filter((f) => f !== join(target, 'index.html'));
       expect(candidates.length, `${target} 找不到明細頁`).toBeGreaterThan(0);
       for (const f of candidates) {
         expect(readFileSync(f, 'utf-8'), `${f} 缺 ${needle}`).toContain(needle);
