@@ -53,9 +53,21 @@ RESULT_KEYWORDS = ("成績", "冠軍", "亞軍", "季軍", "名次", "得獎", "
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
 _A_RE = re.compile(r'<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.I | re.S)
+_XMLDECL_RE = re.compile(r'^\s*<\?xml[^>]*\?>')
+_META_CHARSET_RE = re.compile(rb'charset=["\']?\s*([A-Za-z0-9_.\-]+)', re.I)
 
 TIMEOUT = 25
-HEADERS = {"User-Agent": "twdro.net-pipeline/1.0 (+https://twdro.net)"}
+# ⚠️ 這三個標頭缺一不可（2026-08-03 實測）：只送 User-Agent 時，臺北市與高雄市政府的
+# OpenData feed 一律回 403／428；補上瀏覽器慣有的 Accept 與 Accept-Language 才會放行。
+# 換言之「這個縣市沒有 RSS」有時只是標頭不夠像瀏覽器，別急著把來源劃掉。
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0 Safari/537.36 twdro.net-pipeline/1.0 (+https://twdro.net)"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "zh-TW,zh;q=0.9",
+}
 
 
 def _text(s: str) -> str:
@@ -63,13 +75,43 @@ def _text(s: str) -> str:
     return _WS_RE.sub(" ", _TAG_RE.sub(" ", s or "")).strip()
 
 
+def _decode(res) -> str:
+    """把 HTML 回應解成字串。
+
+    不能直接用 `res.text`：requests 在 Content-Type 沒帶 charset 時會退回 ISO-8859-1，
+    中文列表頁整頁變亂碼、關鍵字一則都篩不到，而且**不會拋錯**——會靜默地天天回報
+    「沒有相關公告」。所以 header 沒明講時改讀 HTML 自己的 meta charset。
+    """
+    ct = (getattr(res, "headers", None) or {}).get("Content-Type", "")
+    if "charset=" in ct.lower():
+        return res.text
+    m = _META_CHARSET_RE.search(res.content[:4096])
+    enc = m.group(1).decode("ascii", "ignore") if m else "utf-8"
+    try:
+        return res.content.decode(enc, errors="replace")
+    except LookupError:
+        return res.content.decode("utf-8", errors="replace")
+
+
 def _hit(text: str, words: tuple[str, ...]) -> bool:
     return any(w in text for w in words)
 
 
-def _parse_rss(raw: str) -> list[dict]:
-    """解析 RSS/Atom，回傳 [{title, link}]。解析失敗回空清單（交由呼叫端沿用舊值）。"""
+def _parse_rss(raw: bytes | str) -> list[dict]:
+    """解析 RSS/Atom，回傳 [{title, link}]。解析失敗回空清單（交由呼叫端沿用舊值）。
+
+    **一律餵 bytes**（呼叫端傳 `res.content`）。原本傳 `res.text` 的寫法有兩個坑，
+    2026-08-03 補縣市來源時才踩到：政府 `.aspx` feed 幾乎都帶 UTF-8 BOM，而且
+    Content-Type 常常不帶 charset → requests 用 ISO-8859-1 解碼，開頭的 BOM 變成
+    `ï»¿` 卡在 XML 宣告前面，ET 直接 ParseError，屏東縣整個來源解析出 0 筆。
+    交給 ET 吃原始 bytes，編碼由 XML 宣告自己決定，這兩個問題一起消失。
+
+    仍接受 str 純粹是為了讓測試能直接寫 XML 字面值；此時把宣告拿掉，
+    因為 Python 字串已經解碼完畢，宣告裡的 encoding 只會誤導 ET。
+    """
     out: list[dict] = []
+    if isinstance(raw, str):
+        raw = _XMLDECL_RE.sub("", raw.lstrip("﻿").lstrip())
     try:
         root = ET.fromstring(raw)
     except ET.ParseError:
@@ -160,9 +202,10 @@ class CountyEduNews:
             try:
                 res = requests.get(feed["url"], timeout=TIMEOUT, headers=HEADERS)
                 res.raise_for_status()
-                body = res.text
                 mode = (feed.get("mode") or "rss").lower()
-                items = _parse_rss(body) if mode == "rss" else _parse_html(body, feed.get("link_re"))
+                # rss 走 bytes（編碼由 XML 宣告決定），html 走 _decode（讀 meta charset）。
+                items = (_parse_rss(res.content) if mode == "rss"
+                         else _parse_html(_decode(res), feed.get("link_re")))
                 if not items:
                     raise ValueError("解析後 0 筆（格式可能已改）")
             except Exception as exc:  # noqa: BLE001 — 任何失敗都退回上輪，不讓單點打斷整輪

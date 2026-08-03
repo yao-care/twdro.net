@@ -27,6 +27,48 @@ def test_rss_parsed_to_title_and_link():
     assert got[0]["link"].endswith("nsn=92139")
 
 
+def test_rss_accepts_bytes_with_bom_and_encoding_declaration():
+    """政府 .aspx feed 幾乎都帶 UTF-8 BOM——一個字元就能讓整個縣市靜默失聯。
+
+    2026-08-03 屏東縣的實況：Content-Type 不帶 charset → requests 用 ISO-8859-1
+    解碼 → BOM 變成 `ï»¿` 卡在 XML 宣告前 → ET ParseError → 該來源解析出 0 筆，
+    而且因為 fetch 會沿用上輪清單，**不會有任何錯誤浮到檯面上**。
+    修法是餵原始 bytes 讓 ET 依宣告自行解碼；這個測試把它釘死。
+    """
+    xml = ('<?xml version="1.0" encoding="utf-8"?>'
+           '<rss version="2.0"><channel><title>最新消息</title>'
+           '<item><title>115年度無人機足球競賽成績公告</title>'
+           '<link>https://www.pthg.gov.tw/News_Content.aspx?n=1</link></item>'
+           '</channel></rss>')
+    raw = "﻿".encode("utf-8") + xml.encode("utf-8")
+    got = _parse_rss(raw)
+    assert [g["title"] for g in got] == ["115年度無人機足球競賽成績公告"]
+
+
+def test_rss_str_input_with_encoding_declaration_still_parses():
+    """測試裡直接寫 XML 字面值時，宣告的 encoding 會誤導 ET（字串早已解碼完畢）。"""
+    xml = ('<?xml version="1.0" encoding="Big5"?>'
+           '<rss><channel><item><title>無人機足球競賽</title><link>u</link></item></channel></rss>')
+    assert [g["title"] for g in _parse_rss(xml)] == ["無人機足球競賽"]
+
+
+def test_html_mode_decodes_by_meta_charset_when_header_omits_it():
+    """html 模式不得用 res.text：header 沒 charset 時 requests 退回 ISO-8859-1，
+    中文列表頁整頁亂碼、關鍵字一則都篩不到，而且是**靜默**失敗。"""
+    from pipeline.sources.county_edu_news import _decode
+
+    html = ('<html><head><meta charset="utf-8"></head><body>'
+            '<a href="/news/1">115年度無人機足球競賽成績公告</a></body></html>')
+
+    class _Res:
+        content = html.encode("utf-8")
+        headers = {"Content-Type": "text/html"}  # 刻意不帶 charset
+        text = html.encode("utf-8").decode("iso-8859-1")  # requests 的錯誤退路
+
+    got = _parse_html(_decode(_Res()), link_re=r"/news/")
+    assert [g["title"] for g in got] == ["115年度無人機足球競賽成績公告"]
+
+
 def test_rss_parse_error_returns_empty_not_raise():
     # 對方回 HTML 錯誤頁時不能炸掉整輪；回空清單交由 fetch 沿用上輪。
     assert _parse_rss("<html>503 Service Unavailable</html>") == []
@@ -96,7 +138,10 @@ def test_fetch_is_deterministic_for_change_detection(tmp_path, monkeypatch):
     xml_b = '<rss><channel><item><title>研習公告事項</title><link>u2</link></item></channel></rss>'
 
     class _Res:
-        def __init__(self, text): self.text = text
+        def __init__(self, text):
+            self.text = text
+            self.content = text.encode("utf-8")
+            self.headers = {"Content-Type": "application/xml; charset=utf-8"}
         def raise_for_status(self): return None
 
     def fake_get(url, **_kw):
@@ -128,7 +173,10 @@ def test_unrelated_announcements_do_not_change_the_hash(tmp_path, monkeypatch):
                 '<item><title>轉知英語研習活動</title><link>j3</link></item>')
 
     class _Res:
-        def __init__(self, text): self.text = text
+        def __init__(self, text):
+            self.text = text
+            self.content = text.encode("utf-8")
+            self.headers = {"Content-Type": "application/xml; charset=utf-8"}
         def raise_for_status(self): return None
 
     body = {"v": day1}
