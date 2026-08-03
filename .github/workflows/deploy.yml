@@ -22,7 +22,12 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          # Node 20 已於 2026-04-30 EOL，2026-08-03 升到 24（當期 Active LTS，EOL 2028-04-30）。
+          # 先前 CI 釘 20 而開發機是 22，兩邊版本歪掉的代價是實測過的：
+          # tests/jsonld-coverage.test.ts 用了 fs.globSync（Node 22+），本機全綠、CI 直接
+          # `globSync is not a function` → build 掛 → deploy 被 skip，網站那一版沒上線。
+          # 版本要往前對齊受支援的 LTS，不是把程式碼遷就一個已經沒人維護的 runtime。
+          node-version: '24'
           cache: npm
       - run: npm ci
       - run: npm run build
@@ -54,7 +59,12 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          # Node 20 已於 2026-04-30 EOL，2026-08-03 升到 24（當期 Active LTS，EOL 2028-04-30）。
+          # 先前 CI 釘 20 而開發機是 22，兩邊版本歪掉的代價是實測過的：
+          # tests/jsonld-coverage.test.ts 用了 fs.globSync（Node 22+），本機全綠、CI 直接
+          # `globSync is not a function` → build 掛 → deploy 被 skip，網站那一版沒上線。
+          # 版本要往前對齊受支援的 LTS，不是把程式碼遷就一個已經沒人維護的 runtime。
+          node-version: '24'
       - run: node scripts/check-source-links.mjs
 
   # 上線後才推 IndexNow：讀的是線上 sitemap，只推 lastmod 在 3 天內的網址。
@@ -68,5 +78,10 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          # Node 20 已於 2026-04-30 EOL，2026-08-03 升到 24（當期 Active LTS，EOL 2028-04-30）。
+          # 先前 CI 釘 20 而開發機是 22，兩邊版本歪掉的代價是實測過的：
+          # tests/jsonld-coverage.test.ts 用了 fs.globSync（Node 22+），本機全綠、CI 直接
+          # `globSync is not a function` → build 掛 → deploy 被 skip，網站那一版沒上線。
+          # 版本要往前對齊受支援的 LTS，不是把程式碼遷就一個已經沒人維護的 runtime。
+          node-version: '24'
       - run: node scripts/indexnow-submit.mjs
