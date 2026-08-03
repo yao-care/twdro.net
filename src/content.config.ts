@@ -171,8 +171,12 @@ const organizations = defineCollection({
   loader: yml('organizations'),
   schema: z.object({
     name: z.string(),
-    org_type: z.string(),                 // school / association / vendor ...
+    org_type: z.string(),                 // school / association / vendor / international_body ...
     city: z.string().optional(),
+    // 2026-08-03 加：先前 organizations 全是臺灣單位，連站上到處引用規則書的 FIDA 與 FAI
+    // 都不在收錄裡——讀者看得到規則卻查不到規則是誰訂的。加國際組織就需要區分所在國，
+    // 只有 city 會讓「洛桑」「首爾」看起來像臺灣的縣市。臺灣單位不填此欄，顯示不變。
+    country: z.string().optional(),
     website: z.string().url().optional(),
   }),
 });

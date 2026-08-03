@@ -12,8 +12,9 @@ const TYPE_LABEL: Record<string, string> = {
   school: '學校',
   university: '大學',
   vendor: '器材與課程廠商',
+  international_body: '國際組織',
 };
-const TYPE_ORDER = ['government', 'association', 'school', 'university', 'vendor'];
+const TYPE_ORDER = ['government', 'association', 'school', 'university', 'vendor', 'international_body'];
 
 const orgs = await getCollection('organizations');
 const groups = [...new Set(orgs.map((o) => o.data.org_type))].sort(

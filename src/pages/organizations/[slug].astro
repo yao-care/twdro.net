@@ -14,15 +14,17 @@ export async function getStaticPaths() {
 const TYPE_LABEL: Record<string, string> = {
   association: '協會', university: '大學', school: '學校',
   vendor: '器材／課程廠商', government: '政府單位',
+  international_body: '國際組織',
 };
 const { org, teams } = Astro.props;
 const d = org.data;
 ---
-<BaseLayout title={`${d.name} | twdro.net`} description={`${d.name}——${TYPE_LABEL[d.org_type] ?? d.org_type}，臺灣推動無人機足球的單位。`} heroTitle={d.name} heroDesc={TYPE_LABEL[d.org_type] ?? d.org_type}>
+<BaseLayout title={`${d.name} | twdro.net`} description={`${d.name}——${TYPE_LABEL[d.org_type] ?? d.org_type}${d.country ? `，${d.country}` : '，臺灣'}推動無人機足球的單位。`} heroTitle={d.name} heroDesc={TYPE_LABEL[d.org_type] ?? d.org_type}>
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '參與單位', href: '/organizations/' }, { name: d.name, href: `/organizations/${org.id}/` }]} />
   <section class="panel">
     <ul class="data-list">
       <li><span class="k">類型</span><span class="v">{TYPE_LABEL[d.org_type] ?? d.org_type}</span></li>
+      {d.country && <li><span class="k">國家／地區</span><span class="v">{d.country}</span></li>}
       {d.city && <li><span class="k">所在地</span><span class="v">{d.city}</span></li>}
       {d.website && <li><span class="k">官方網站</span><span class="v"><a href={d.website} rel="nofollow noopener" target="_blank" style="font-weight:650">前往官網 ↗</a></span></li>}
     </ul>
