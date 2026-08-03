@@ -1,11 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { webPageJsonLd } from '../../lib/jsonld';
 const books = (await getCollection('rulebooks')).map((b) => ({
   id: b.id, name: b.data.name, spec: b.data.competition_spec ?? {},
 }));
 const dataJson = JSON.stringify({ books });
 const field = 'display:block;width:100%;font-size:1.05rem;padding:10px 12px;margin-top:6px;border:1px solid var(--color-border);border-radius:9px;background:var(--color-surface)';
+
+const jsonld = webPageJsonLd({ name: '球機規格合規檢查', url: 'https://twdro.net/equipment/compliance-check/' });
+
 ---
 <BaseLayout
   title="球機合規檢查器 | twdro.net"
@@ -13,6 +17,7 @@ const field = 'display:block;width:100%;font-size:1.05rem;padding:10px 12px;marg
   heroTitle="球機合規檢查器"
   heroDesc="選擇賽事規則並填入球機規格，系統做初步比對。"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <form id="cc-form" class="panel" style="display:grid;gap:16px;max-width:40rem;margin:0 0 20px">
     <label>賽事規則
       <select id="cc-rule" style={field}>

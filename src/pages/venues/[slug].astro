@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { placeJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { verificationLabel } from '../../lib/enums';
 export async function getStaticPaths() {
@@ -9,6 +10,11 @@ export async function getStaticPaths() {
 }
 const { venue } = Astro.props;
 const d = venue.data;
+// 沒有街道門牌，只有縣市／行政區與經緯度——照實填，不編地址（鐵則 5）。
+const jsonld = placeJsonLd({
+  name: d.name, url: `https://twdro.net/venues/${venue.id}/`,
+  city: d.city, district: d.district, latitude: d.latitude, longitude: d.longitude,
+});
 
 // heroDesc 只有場館類型（如「大學場館」），四個場館頁共用同樣的字串在搜尋結果上無從分辨，
 // 故 meta description 另外組出地點與場地性質。
@@ -17,6 +23,7 @@ const metaDescription =
   `${d.indoor ? '室內場地' : '室外場地'}，曾用於無人機足球賽事或練習。地點資料標明來源與查核狀態。`;
 ---
 <BaseLayout title={`${d.name} | twdro.net`} description={metaDescription} heroTitle={d.name} heroDesc={d.venue_type}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '場地', href: '/venues/' }, { name: d.name, href: `/venues/${venue.id}/` }]} />
   <section class="panel">
     <ul class="data-list">

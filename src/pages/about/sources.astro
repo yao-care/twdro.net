@@ -1,7 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { webPageJsonLd } from '../../lib/jsonld';
+
+const jsonld = webPageJsonLd({ name: '資料來源與查核方式', url: 'https://twdro.net/about/sources/' });
+
 ---
 <BaseLayout title="資料來源與編輯原則 | twdro.net" heroTitle="資料來源與編輯原則" heroDesc="資料依可信度分級，每筆標示來源與查核日期。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <article class="panel prose">
     <p>本平台資料依可信度分四級：</p>
     <ul>

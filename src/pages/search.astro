@@ -1,7 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../lib/url';
+import { webPageJsonLd } from '../lib/jsonld';
 const bundlePath = url('/pagefind/');
+
+const jsonld = webPageJsonLd({ name: '站內搜尋', url: 'https://twdro.net/search/' });
+
 ---
 <BaseLayout
   title="搜尋 | twdro.net"
@@ -9,6 +13,7 @@ const bundlePath = url('/pagefind/');
   heroTitle="搜尋"
   heroDesc="搜尋全站賽事、規則、隊伍、場地與器材。"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <link href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" slot="head" />
   <div class="panel">
     <div id="search"></div>

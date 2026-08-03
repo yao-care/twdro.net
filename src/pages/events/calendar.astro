@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 import { EVENT_STATUS, eventStatusLabel, isPublicEvent } from '../../lib/enums';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 const events = (await getCollection('events'))
   .filter((e) => isPublicEvent(e.data.status))   // 草稿不上日曆
   .map((e) => ({
@@ -13,6 +14,13 @@ const eventsJson = JSON.stringify(events);
 const present = new Set(events.map((e) => e.status));
 const statusOptions = EVENT_STATUS.filter((s) => present.has(s)).map((s) => ({ value: s, label: eventStatusLabel(s) }));
 const field = 'display:block;font-size:1.05rem;padding:10px 12px;margin-top:6px;border:1px solid var(--color-border);border-radius:9px;background:var(--color-surface)';
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球賽事行事曆',
+  url: 'https://twdro.net/events/calendar/',
+  items: events.map((e) => ({ name: e.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+
 ---
 <BaseLayout
   title="賽事日曆 | twdro.net"
@@ -20,6 +28,7 @@ const field = 'display:block;font-size:1.05rem;padding:10px 12px;margin-top:6px;
   heroTitle="賽事日曆"
   heroDesc="依狀態與月份篩選臺灣無人機足球賽事。"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <p style="margin:0 0 20px"><a href={url('/events')} style="font-weight:650">← 回賽事列表</a></p>
   <div class="panel">
     <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px">

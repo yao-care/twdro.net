@@ -118,3 +118,148 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]): Record
     })),
   };
 }
+
+// ── 索引頁與實體明細頁（2026-08-03 補）──────────────────────────────────
+// 起因：實測 dist 102 頁只有 83 頁帶 JSON-LD，缺的 19 頁**全是索引／樞紐頁**
+// （含旗艦頁 /events 與 /learn），而 organizations／venues／teams 這些實體明細頁
+// 也只輸出 BreadcrumbList，沒有任何實體節點——等於「有資料庫但沒告訴 Google 這是什麼」。
+//
+// ⚠️ 沿用 07-26 的教訓：**寧可不輸出，也不要輸出殘缺項**。因此：
+//   - equipment 刻意不出 Product／Offer：list_price 是自由書寫的中文句子
+//     （「NT$13,000–15,000（課程方案價…）」「NT$9,700（已完售）」、一筆多 SKU），
+//     拆不出乾淨的 price／priceCurrency／availability，硬拆等於對 Google 說謊。
+//   - rules 刻意不出 Article：那是規則書的條文片段，不是獨立作品。
+
+/** 索引頁：CollectionPage + 內嵌 ItemList。items 需為絕對 URL。 */
+export function collectionPageJsonLd(p: {
+  name: string;
+  url: string;
+  description?: string;
+  items: { name: string; url: string }[];
+}): Record<string, any> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: p.name,
+    url: p.url,
+    ...(p.description ? { description: p.description } : {}),
+    isPartOf: { '@id': WEBSITE_ID },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: p.items.length,
+      itemListElement: p.items.map((it, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: it.name,
+        url: it.url,
+      })),
+    },
+  };
+}
+
+/** 純資訊頁（關於／隱私／條款／網站地圖…）：沒有清單可列時用這個，仍宣告 isPartOf。 */
+export function webPageJsonLd(p: {
+  name: string;
+  url: string;
+  description?: string;
+}): Record<string, any> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: p.name,
+    url: p.url,
+    ...(p.description ? { description: p.description } : {}),
+    isPartOf: { '@id': WEBSITE_ID },
+    publisher: { '@id': ORG_ID },
+  };
+}
+
+/**
+ * 第三方單位明細頁。**不設 sameAs**——理由同 organizationNode：sameAs 指的是該實體在
+ * 其他權威平台的身分，而我們手上只有它自己的官網，那是 `url` 不是 sameAs。
+ */
+export function organizationJsonLd(o: {
+  name: string;
+  url: string; // 本站該單位頁的絕對 URL
+  website?: string;
+  city?: string;
+  country?: string;
+}): Record<string, any> {
+  const address = o.city || o.country
+    ? {
+        '@type': 'PostalAddress',
+        ...(o.city ? { addressRegion: o.city } : {}),
+        ...(o.country ? { addressCountry: o.country } : { addressCountry: '臺灣' }),
+      }
+    : undefined;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: o.name,
+    // 有官網就以官網為實體主網址，本站頁面改列 subjectOf；沒有才退回本站頁面。
+    url: o.website ?? o.url,
+    ...(address ? { address } : {}),
+    subjectOf: { '@type': 'WebPage', url: o.url },
+  };
+}
+
+/** 場地明細頁。無街道地址，只有縣市／行政區與經緯度——照實填，不編門牌。 */
+export function placeJsonLd(v: {
+  name: string;
+  url: string;
+  city?: string;
+  district?: string;
+  latitude?: number;
+  longitude?: number;
+}): Record<string, any> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Place',
+    name: v.name,
+    url: v.url,
+    ...(v.city || v.district
+      ? {
+          address: {
+            '@type': 'PostalAddress',
+            ...(v.city ? { addressRegion: v.city } : {}),
+            ...(v.district ? { addressLocality: v.district } : {}),
+            addressCountry: '臺灣',
+          },
+        }
+      : {}),
+    ...(typeof v.latitude === 'number' && typeof v.longitude === 'number'
+      ? { geo: { '@type': 'GeoCoordinates', latitude: v.latitude, longitude: v.longitude } }
+      : {}),
+  };
+}
+
+/** 隊伍明細頁。個資紅線：只放隊伍層級欄位，永遠不含選手。 */
+export function sportsTeamJsonLd(t: {
+  name: string;
+  url: string;
+  alternateName?: string;
+  city?: string;
+  district?: string;
+}): Record<string, any> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SportsTeam',
+    name: t.name,
+    url: t.url,
+    sport: ['無人機足球', '無人機飛球'],
+    ...(t.alternateName ? { alternateName: t.alternateName } : {}),
+    ...(t.city
+      ? {
+          location: {
+            '@type': 'Place',
+            address: {
+              '@type': 'PostalAddress',
+              addressRegion: t.city,
+              ...(t.district ? { addressLocality: t.district } : {}),
+              addressCountry: '臺灣',
+            },
+          },
+        }
+      : {}),
+  };
+}

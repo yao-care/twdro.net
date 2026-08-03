@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import EquipmentPriceTable from '../../components/EquipmentPriceTable.astro';
 import { url } from '../../lib/url';
 import { parsePrice, shortBrand } from '../../lib/price';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 
 // 這頁的定位是「跨品牌比價總覽」——廠商官網只講自家機型，跨品牌比較是本站唯一能提供、
 // 而搜尋「無人機飛球／球機」的人真正需要的東西。表格本身抽成共用元件，與教育文同源。
@@ -21,6 +22,15 @@ const metaDescription =
   `臺灣買得到的無人機飛球／無人機足球球機一覽：${brandCount} 個品牌共 ${items.length} 款機型的參考售價與馬達型式` +
   (priceRange ? `，現售價位帶 NT$${priceRange}` : '') +
   '。每筆標明廠商來源與查核日期，並可用合規檢查器比對是否符合賽事分級。';
+
+// 刻意不出 Product／Offer：list_price 是自由書寫的中文句子（含區間、已完售、一筆多 SKU），
+// 拆不出乾淨的 price／availability，硬拆等於對 Google 說謊（見 lib/jsonld.ts 註解）。
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球球機與器材',
+  url: 'https://twdro.net/equipment/',
+  items: items.map((it) => ({ name: `${it.data.brand} ${it.data.model}`, url: `https://twdro.net/equipment/${it.id}/` })),
+});
+
 ---
 <BaseLayout
   title={`無人機飛球球機比較：${brandCount} 品牌 ${items.length} 款機型的參考售價 | twdro.net`}
@@ -28,6 +38,7 @@ const metaDescription =
   heroTitle="球機比較與參考售價"
   heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${items.length} 款，價格與規格均標明廠商來源與查核日期。`}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <p style="margin:0 0 24px">
     <a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a>
   </p>

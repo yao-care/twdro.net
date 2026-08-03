@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
+import { webPageJsonLd } from '../../lib/jsonld';
+
+const jsonld = webPageJsonLd({ name: '隱私權政策', url: 'https://twdro.net/about/privacy/' });
+
 ---
 <BaseLayout title="隱私權政策 | twdro.net" heroTitle="隱私權政策" heroDesc="保護未成年選手隱私是平台的底線。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <article class="panel prose">
     <h2>未成年人保護</h2>
     <ul>

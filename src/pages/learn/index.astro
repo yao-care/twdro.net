@@ -3,9 +3,19 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 import { LEARN_CATEGORY_ORDER, learnCategoryLabel } from '../../lib/enums';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 const articles = (await getCollection('learn')).sort((a, b) => a.data.order - b.data.order);
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球教學與入門',
+  url: 'https://twdro.net/learn/',
+  description: '無人機足球（無人機飛球）的入門、規則、器材、參賽與教學文章。',
+  items: articles.map((a) => ({ name: a.data.title, url: `https://twdro.net/learn/${a.id}/` })),
+});
+
 ---
 <BaseLayout title="認識無人機足球（無人機飛球）：新手入門、規則與器材 | twdro.net" heroTitle="認識無人機足球" heroDesc="從入門、規則、器材到參賽與教學，一次讀懂無人機足球。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   {LEARN_CATEGORY_ORDER.map((cat) => {
     const list = articles.filter((a) => a.data.category === cat);
     return list.length ? (

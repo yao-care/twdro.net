@@ -22,6 +22,26 @@ const VERIFICATION_LABEL: Record<string, string> = {
 export const TRUST_LEVEL = ['A', 'B', 'C', 'D'] as const;
 export const RULE_SYSTEM = ['FAI', 'FIDA', 'MOE', 'OTHER'] as const;
 
+// organizations 的 org_type 是自由字串（schema 不設 enum，之後冒出新型態不必改 schema）。
+// 中文標籤與顯示順序集中在這裡：先前 /organizations/ 索引、明細頁、learn 的 OrganizationsTable
+// 各自抄了一份 TYPE_LABEL，新增一種型態就得記得改三個地方——2026-08-03 加
+// training_provider 時差點漏掉其中一個。未知值原樣顯示、排到最後，不猜也不吞掉。
+const ORG_TYPE_LABEL: Record<string, string> = {
+  government: '政府單位', association: '協會', school: '學校', university: '大學',
+  vendor: '器材廠商',
+  // 開課／營隊單位：實際對外開無人機足球課程、營隊或團建體驗的單位。與 vendor 分開，
+  // 因為「賣球機」跟「開課教人飛」是兩件事，讀者問的是「哪裡可以學」。
+  training_provider: '開課／營隊單位',
+  international_body: '國際組織',
+};
+
+export const ORG_TYPE_ORDER = [
+  'government', 'association', 'school', 'university',
+  'training_provider', 'vendor', 'international_body',
+] as const;
+
+export const orgTypeLabel = (t: string): string => ORG_TYPE_LABEL[t] ?? t;
+
 // 教育文（learn）分類：供 learn 索引頁分組。新增文章須指定其一。
 export const LEARN_CATEGORY = ['intro', 'rules', 'equipment', 'competing', 'education'] as const;
 

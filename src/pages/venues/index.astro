@@ -2,13 +2,22 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 const venues = await getCollection('venues');
 const points = venues
   .filter((v) => typeof v.data.latitude === 'number' && typeof v.data.longitude === 'number')
   .map((v) => ({ id: v.id, name: v.data.name, lat: v.data.latitude, lng: v.data.longitude }));
 const pointsJson = JSON.stringify(points);
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球場地',
+  url: 'https://twdro.net/venues/',
+  items: venues.map((v) => ({ name: v.data.name, url: `https://twdro.net/venues/${v.id}/` })),
+});
+
 ---
 <BaseLayout title="臺灣無人機足球練習場地與比賽場館 | twdro.net" description="無人機足球練習與比賽場地地圖。" heroTitle="場地與活動" heroDesc="全臺無人機足球練習與比賽場地。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <div id="map" style="height:420px;border:1px solid var(--color-border);border-radius:14px;margin:0 0 24px;overflow:hidden"></div>
   <ul class="card-grid">
     {venues.map((v) => (

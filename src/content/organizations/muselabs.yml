@@ -1,0 +1,16 @@
+name: 誠真創意有限公司（MuseLabs）
+org_type: training_provider
+city: 臺北市
+website: https://www.themuselabs.com
+programs:
+  - 無人機足球競技體驗營：3 小時或 6 小時，兩種時長採同樣六個課程模組（飛行原理／安全法規／機體結構／基礎操作／賽制說明／分組比賽）
+  - 班型分小班制 6–12 人與大班制 12–20 人，接受學校班級、社團活動與企業團隊
+  - 對象為國小、國中、高中，無飛行經驗可參加，亦開放親子共同參與
+  - 課程依國際航空運動總會（FAI）F9A 級規則設計
+sources:
+  - type: vendor_listing
+    title: 無人機足球競技課程規劃
+    url: https://www.themuselabs.com/uavserice/dsclass
+    publisher: 誠真創意有限公司
+    retrieved_at: "2026-08-03"
+    trust_level: C

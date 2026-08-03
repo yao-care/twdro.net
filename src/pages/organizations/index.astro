@@ -2,13 +2,24 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
+import { ORG_TYPE_ORDER, orgTypeLabel } from '../../lib/enums';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 const orgs = await getCollection('organizations');
-const GROUPS: [string, string][] = [
-  ['association', '協會'], ['university', '大學'], ['school', '學校'],
-  ['vendor', '器材／課程廠商'], ['government', '政府單位'],
-  // 2026-08-03 加：站上到處引用 FIDA／FAI 的規則書，讀者卻查不到規則是誰訂的。
-  ['international_body', '國際組織'],
-];
+// 標籤與順序的單一來源在 lib/enums.ts（先前這裡、明細頁、OrganizationsTable 各抄一份）。
+// 收錄了但不在 ORG_TYPE_ORDER 裡的型態排到最後，才不會有單位建了檔卻整組不顯示。
+const known = ORG_TYPE_ORDER.filter((k) => orgs.some((o) => o.data.org_type === k));
+const extra = [...new Set(orgs.map((o) => o.data.org_type))].filter(
+  (k) => !(ORG_TYPE_ORDER as readonly string[]).includes(k),
+);
+const GROUPS: [string, string][] = [...known, ...extra].map((k) => [k, orgTypeLabel(k)]);
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球推廣單位',
+  url: 'https://twdro.net/organizations/',
+  description: '臺灣推動無人機足球的協會、學校、大學、開課單位、廠商與政府單位，以及訂定規則的國際組織。',
+  items: orgs.map((o) => ({ name: o.data.name, url: `https://twdro.net/organizations/${o.id}/` })),
+});
+
 ---
 <BaseLayout
   title="無人機足球推廣單位：臺灣協會學校廠商與國際組織 | twdro.net"
@@ -16,6 +27,7 @@ const GROUPS: [string, string][] = [
   heroTitle="推廣單位"
   heroDesc="臺灣公開推動無人機足球的單位，以及訂定規則的國際組織。"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   {GROUPS.map(([key, label]) => {
     const list = orgs.filter((o) => o.data.org_type === key);
     return list.length ? (

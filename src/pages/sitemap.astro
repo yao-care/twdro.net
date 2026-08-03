@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../lib/url';
 import { SITE_SECTIONS } from '../lib/nav';
 import { isPublicEvent } from '../lib/enums';
+import { webPageJsonLd } from '../lib/jsonld';
 
 const [events, rulebooks, equipment, teams, venues, organizations, learn] = await Promise.all([
   getCollection('events'), getCollection('rulebooks'), getCollection('equipment'),
@@ -22,8 +23,12 @@ function entriesFor(collection?: string): { href: string; label: string }[] {
     default: return [];
   }
 }
+
+const jsonld = webPageJsonLd({ name: '網站地圖', url: 'https://twdro.net/sitemap/' });
+
 ---
 <BaseLayout title="網站地圖 | twdro.net" description="twdro.net 全站頁面一覽：賽事、規則、器材、隊伍、場地、單位與教育文章。" heroTitle="網站地圖" heroDesc="全站頁面一覽，方便快速找到你要的資料。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   {SITE_SECTIONS.map((sec) => {
     const entries = entriesFor(sec.collection);
     return (

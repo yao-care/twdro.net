@@ -2,14 +2,23 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 const teams = await getCollection('teams');
 const GROUPS: [string, string][] = [
   ['elementary_school', '國小'], ['junior_high_school', '國中'], ['senior_high_school', '高中'],
   ['college', '專科'], ['university', '大專校院'], ['club', '俱樂部'],
   ['company', '企業'], ['community', '社區'], ['national_team', '代表隊'], ['temporary_team', '臨時隊伍'],
 ];
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球隊伍',
+  url: 'https://twdro.net/teams/',
+  items: teams.map((t) => ({ name: t.data.name, url: `https://twdro.net/teams/${t.id}/` })),
+});
+
 ---
 <BaseLayout title="無人機足球隊伍名錄：學校、俱樂部與代表隊 | twdro.net" description="全臺無人機足球隊伍名錄，依國小、國中、高中、大專、俱樂部與代表隊分組，可查各隊招生狀態。" heroTitle="隊伍名錄" heroDesc="全臺無人機足球的學校、俱樂部與代表隊。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <p class="text-muted" style="margin:0 0 24px">
     想知道這些隊伍在打哪些比賽，見 <a href={url('/learn/taiwan-competitions-overview/')} style="font-weight:650">臺灣有哪些無人機足球賽事</a>；
     想從零組一隊，見 <a href={url('/learn/starting-a-school-club/')}>怎麼在學校成立社團</a>。

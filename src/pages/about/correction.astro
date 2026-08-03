@@ -1,9 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CORRECTION_EMAIL } from '../../lib/correction';
+import { webPageJsonLd } from '../../lib/jsonld';
 const issueUrl = 'https://github.com/yao-care/twdro.net/issues/new?labels=data-correction&title=資料更正：';
+
+const jsonld = webPageJsonLd({ name: '更正流程', url: 'https://twdro.net/about/correction/' });
+
 ---
 <BaseLayout title="回報資料錯誤 | twdro.net" description={`發現 twdro.net 的資料有誤，可來信 ${CORRECTION_EMAIL} 或在 GitHub 提交更正。主辦單位與當事單位的回報優先處理。`} heroTitle="回報資料錯誤" heroDesc="看到資料有誤，回報給我們更正。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <article class="panel prose">
     <p>發現資料有誤？請提供：資料頁網址、錯誤欄位、建議內容、來源證明。
       從各資料頁的「資料來源」區塊點回報，這幾項會自動帶入。</p>

@@ -4,17 +4,9 @@
 import { getCollection } from 'astro:content';
 import { url } from '../lib/url';
 
-// org_type 是自由字串欄位（school / association / vendor / university / government…），
-// 這裡給已知值中文標籤並定序；未知值歸到最後、原樣顯示，不猜也不吞掉。
-const TYPE_LABEL: Record<string, string> = {
-  government: '政府單位',
-  association: '協會',
-  school: '學校',
-  university: '大學',
-  vendor: '器材與課程廠商',
-  international_body: '國際組織',
-};
-const TYPE_ORDER = ['government', 'association', 'school', 'university', 'vendor', 'international_body'];
+// org_type 的中文標籤與排序集中在 lib/enums.ts（未知值歸到最後、原樣顯示，不猜也不吞掉）。
+import { ORG_TYPE_ORDER, orgTypeLabel } from '../lib/enums';
+const TYPE_ORDER: readonly string[] = ORG_TYPE_ORDER;
 
 const orgs = await getCollection('organizations');
 const groups = [...new Set(orgs.map((o) => o.data.org_type))].sort(
@@ -23,7 +15,7 @@ const groups = [...new Set(orgs.map((o) => o.data.org_type))].sort(
 ---
 {groups.map((type) => (
   <>
-    <h3>{TYPE_LABEL[type] ?? type}</h3>
+    <h3>{orgTypeLabel(type)}</h3>
     <ul>
       {orgs
         .filter((o) => o.data.org_type === type)

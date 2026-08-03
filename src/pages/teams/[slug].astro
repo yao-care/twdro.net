@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sportsTeamJsonLd } from '../../lib/jsonld';
 import SourceBlock from '../../components/SourceBlock.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
@@ -21,8 +22,14 @@ const TYPE_LABEL: Record<string, string> = {
 };
 const { team, orgName } = Astro.props;
 const d = team.data;
+// 個資紅線：只放隊伍層級欄位，永不含選手姓名。
+const jsonld = sportsTeamJsonLd({
+  name: d.name, url: `https://twdro.net/teams/${team.id}/`,
+  alternateName: d.english_name, city: d.city, district: d.district,
+});
 ---
 <BaseLayout title={`${d.name} | twdro.net`} description={d.introduction} heroTitle={d.name} heroDesc={d.english_name}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '隊伍', href: '/teams/' }, { name: d.name, href: `/teams/${team.id}/` }]} />
   <section class="panel">
     <ul class="data-list">

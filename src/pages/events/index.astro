@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
+import { collectionPageJsonLd } from '../../lib/jsonld';
 
 const all = (await getCollection('events'))
   .filter((e) => isPublicEvent(e.data.status));   // 草稿不公開，待人工升級 status 後才顯示
@@ -56,6 +57,16 @@ const groups = [
     note: '已結束的賽事。有查到成績的會列出名次，查不到就留白。' },
   { key: 'other', heading: '取消或延期', items: other, note: '' },
 ].filter((g) => g.items.length > 0);
+
+// 索引頁原本一個 JSON-LD 都沒有（含旗艦頁 /events），等於有整份賽事資料庫卻沒告訴 Google
+// 這頁在列什麼。ItemList 只列公開賽事，與畫面同一份 `all`，不會各說各話。
+const jsonld = collectionPageJsonLd({
+  name: '臺灣無人機足球賽事',
+  url: 'https://twdro.net/events/',
+  description: '臺灣無人機足球（無人機飛球）賽事列表，含報名中、即將舉行與已結束賽事。',
+  items: all.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+
 ---
 <BaseLayout
   title="臺灣無人機足球賽事總覽｜報名時程與比賽成績 | twdro.net"
@@ -63,6 +74,7 @@ const groups = [
   heroTitle="賽事資訊"
   heroDesc="臺灣無人機足球賽事的報名時程、舉辦地點與比賽成績。"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <section class="panel" style="margin-bottom:20px">
     <p style="margin:0 0 12px">
       本頁收錄臺灣的無人機足球（無人機飛球）賽事，目前共 <strong>{all.length}</strong> 場，

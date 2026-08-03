@@ -178,6 +178,15 @@ const organizations = defineCollection({
     // 只有 city 會讓「洛桑」「首爾」看起來像臺灣的縣市。臺灣單位不填此欄，顯示不變。
     country: z.string().optional(),
     website: z.string().url().optional(),
+    // 2026-08-03 加：SERP 實查發現「臺灣哪裡有無人機足球課／營隊」沒有任何人在維護清單
+    // （業者各自為政），而本站已經在收錄這些單位了，只差沒說它們開什麼。
+    // 一行一項，照原文寫（例：「無人機足球競技體驗營：3 或 6 小時，6–20 人」）。
+    // ⚠️ 不寫價格、不做推薦排序（鐵則 5 與編輯中立）；沒查到原文就不填。
+    programs: z.array(z.string()).optional(),
+    // 「這家有開無人機足球課」是可查證的事實主張，因此比照 events 附來源。
+    // 先前 organizations 沒有 sources 欄，是因為收的都是協會／官方單位，名稱本身即公開事實；
+    // 一旦開始寫「它開什麼課」，就必須指得出出處。
+    sources: z.array(sourceSchema).optional(),
   }),
 });
 

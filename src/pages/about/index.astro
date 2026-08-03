@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
+import { webPageJsonLd } from '../../lib/jsonld';
+
+const jsonld = webPageJsonLd({ name: '關於 twdro.net', url: 'https://twdro.net/about/' });
+
 ---
 <BaseLayout title="關於本站 | twdro.net" heroTitle="關於本站" heroDesc="這個站在做什麼、資料怎麼來、發現錯誤怎麼更正。">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <article class="panel prose">
     <p>我們整理分散在政府公告、學校網站、協會社群、賽事簡章與國際規則中的資料，
       讓選手、家長、教師、教練與主辦單位，可以在同一個平台找到需要的資訊。</p>
