@@ -336,14 +336,24 @@ describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
 describe('taiwan-competitions-overview 的資料斷言', () => {
   const overview = readFileSync('src/content/learn/taiwan-competitions-overview.md', 'utf8');
 
-  it('「本站收錄六個賽事系列」仍成立，且表格六列都在', () => {
+  // 2026-08-03 改寫：原本寫死「expect(series.size).toBe(N)」，每新增一個賽事系列就得手動
+  // 把常數 +1（本日一路從 4 撞到 7）。守門的用意是「文章宣稱的系列數要跟實際資料一致」，
+  // 所以改成從文章自己的文字解析出宣稱值再比對——加了系列卻忘了改文章一樣會擋下來，
+  // 但正確更新文章之後不必再回頭動測試。
+  const ZH_NUM: Record<string, number> = { 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
+
+  it('文章宣稱的賽事系列數與實際資料一致，且逐列點名的系列都還在', () => {
     const series = new Set(
       readdirSync('src/content/events')
         .filter((f) => f.endsWith('.yml'))
         .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
         .filter(Boolean),
     );
-    expect(series.size).toBe(6);
+    // 文章標題寫「N 個系列一次看懂」，內文寫「本站目前收錄 N 個系列」，兩處都要對得上資料
+    const claimed = overview.match(/本站目前收錄([一二三四五六七八九十])個系列/)?.[1];
+    expect(claimed).toBeTruthy();
+    expect(ZH_NUM[claimed!]).toBe(series.size);
+    expect(overview).toContain(`${claimed}個系列一次看懂`);
     // 表格逐列點名的系列，資料裡都要還在（改名或下架就會擋下來）
     expect(series).toContain('教育部全國無人機足球競賽');
     expect(series).toContain('天穹盃');

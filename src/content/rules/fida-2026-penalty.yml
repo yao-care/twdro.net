@@ -1,0 +1,45 @@
+rulebook: fida-2026
+chapter: 罰球
+article_number: 9-2 / 9-3 / 9-4
+title: 罰球在每局結束後才踢，而且雙方犯規會先互相抵銷
+summary: 一局之內雙方的犯規次數會先互相抵銷，只有淨值較多的那一方要罰，但官方紀錄仍須記下未抵銷前的原始次數。罰球時機是**每一局結束之後**，形式為前鋒對守門員的一對一，每次限時 5 秒：前鋒從中線起飛，守門員從開賽時的相同位置開始，裁判信號一下才開始計時，得分規則與正規比賽相同。5 秒內可以進多球，但此時越位規則（8-2）同樣適用。若競賽規則另有訂定，罰球可折算成分數直接加進比分而不實際執行，折算的分數須列入官方紀錄。程序上：局末由主裁判指示兩位助理裁判核對犯規次數，核對期間選手不得離開場地；核對後僅各隊一名選手（前鋒與一名防守員）與球機留在場內，其餘球機集中放置於入口附近且任何人不得碰觸，參與罰球的選手可以更換電池準備。
+original_text: |-
+  ❷ Offset of Penalty
+  ⓐ In a set, penalty kicks may be awarded to one team after offsetting the total number of penalties committed by both teams.
+  ⓑ The number of penalties must be recorded in the official competition records, without applying offsets.
+  ❸ Penalty Kick Method
+  ⓐ When: after the completion of each set.
+  ⓑ Format: A one-on-one game between the Striker and the Keeper.
+  ⓒ Duration: 5 seconds per each penalty
+  ⓓ The Striker takes off from the half line. The Keeper starts from the same position as at the beginning of the game.
+  ⓔ The 5-second period begins upon the referee's signal. Scoring rules are the same as regular game.
+  ⓕ Multiple goals may be scored within the time limit. In such cases, Rule 8-❷ also applies.
+  ⓖ If specified in the competition rules, the awarded penalty kicks may be converted into points and added directly to the game score, without conducting actual penalty attempts.
+  ⓗ In such cases, the added point total shall be reflected in the official competition record.
+  ❹ Penalty Kick Procedure
+  ⓐ After a set ends, the head referee instructs both assistant referees to verify the number of penalties. During this process, players are not permitted to exit the Skyfence.
+  ⓑ The head referee will calculate and award penalty kicks to one team by offsetting the total number of penalties committed by both teams.
+  ⓒ ... Assistant Referees: All drones, except for one from each team, are collected and placed near the Skyfence entrance. No one is allowed to touch them. Players: The Striker and one defensive player participate. They may replace their batteries and prepare for the penalty kick. The Striker is positioned at the half line; the Keeper is positioned below the goal.
+translated_text: |-
+  ❷ 犯規抵銷
+  ⓐ 一局之內，雙方犯規總次數先互相抵銷後，才判給其中一隊罰球。
+  ⓑ 官方競賽紀錄須記載未經抵銷的原始犯規次數。
+  ❸ 罰球方式
+  ⓐ 時機：每一局結束之後。
+  ⓑ 形式：前鋒與守門員的一對一。
+  ⓒ 時間：每次罰球限時 5 秒。
+  ⓓ 前鋒從中線起飛；守門員從開賽時的相同位置開始。
+  ⓔ 5 秒自裁判信號起算，得分規則與正規比賽相同。
+  ⓕ 限時內可以進多球，此時規則 8-❷（越位）同樣適用。
+  ⓖ 若競賽規則另有訂定，判給的罰球可折算成分數直接加入比分，不實際執行罰球。
+  ⓗ 此時折算的分數須列入官方競賽紀錄。
+  ❹ 罰球程序
+  ⓐ 一局結束後，主裁判指示兩位助理裁判核對犯規次數；核對期間選手不得離開場地。
+  ⓑ 主裁判抵銷雙方犯規總數後，計算並判給其中一隊罰球。
+  ⓒ 助理裁判將除各隊一台以外的所有球機集中置於場地入口附近，任何人不得碰觸；參與罰球者為前鋒與一名防守選手，兩人可更換電池準備。前鋒位於中線，守門員位於球門下方。
+tags:
+  - 罰球
+  - 犯規
+  - 前鋒
+  - 守門員
+source_page: FIDA Drone Soccer Rule Book (Class 40, 5th Revision) pp.27-28

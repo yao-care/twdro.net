@@ -1,0 +1,30 @@
+title: 2026 年 AI START！程式及無人機競賽・無人機足球公開賽
+subtitle: 科教館首度增設無人機足球公開賽，採 FAI F9A-B 賽制，分新秀組與菁英組
+event_series: AI START！程式及無人機競賽
+level: 全國
+status: completed
+event_type: 全國公開賽
+organizer: 國立臺灣科學教育館（指導：教育部／承辦：國立臺灣師範大學科技應用與人力資源發展學系）
+rule_system: FAI
+rulebook: fai-f9a-b-2026
+schedule:
+  event_start: "2026-07-05"
+  event_end: "2026-07-05"
+  registration_end: "2026-05-31"
+  venue_name: 國立臺灣科學教育館
+  city: 臺北市
+eligibility:
+  education_levels: [國小, 國中, 高中]
+  team_size_min: 2
+  team_size_max: 4
+competition:
+  drone_class: F9A-B
+  drone_diameter: 20cm
+verification: official
+sources:
+  - type: gov_announcement
+    title: 2026年 AI START！程式及無人機競賽
+    url: https://www.ntsec.gov.tw/article/detail.aspx?a=5980
+    publisher: 國立臺灣科學教育館
+    retrieved_at: "2026-08-03"
+    trust_level: A

@@ -1,0 +1,28 @@
+rulebook: fida-2026
+chapter: 攻守與得分
+article_number: 8-3
+title: 防守機可以穿過自家球門，但方向錯了就得繞外側退回去
+summary: 防守指一切阻止對方前鋒得分的行為。防守時球機可以由正面往背面穿過自家球門環，不論有意或無意都允許；但**反向進入（由背面往正面）在任何情況下都不被允許**。判定標準有兩條：球機由正面進入球門環超過一半後又退回來，視為反向進入；防守機從背面進入球門環，即使只有一點點，也視為反向進入。規則書並附圖說明：球機只要沒有凸出球門背面就是有效的防守位置；一旦（不論是否故意）越過球門背面，就不得再往前進，必須繞球門外側退回原本的防守位置。
+original_text: |-
+  ❸ Defense
+  ⓐ Defense includes all actions taken to prevent the opponent from enabling the Striker to score.
+  ⓑ While defending, players may pass through their own goal from front to back, whether intentionally or unintentionally.
+  ⓒ However, reverse entry into the goal (from back to front) is not permitted under any circumstance.
+    • If more than half of the drone ball enters the goal from the front and comes back out, it is considered a reverse entry.
+    • If a defender enters the goal from the back side, even slightly, it is also considered a reverse entry.
+  <Figure 1> As shown in Figure 1, if the drone ball does not protrude the back of the goal, it is considered a valid defensive position.
+  <Figure 2> As shown in Figure 2, if the drone ball passes the back of the goal — even slightly, whether intentional or not — the drone ball should not advance forward. It should retreat and return to its original defensive position around the outer side of the goal.
+translated_text: |-
+  ❸ 防守
+  ⓐ 防守包含一切為阻止對方讓前鋒得分而採取的行為。
+  ⓑ 防守時，球機可以由正面往背面穿過自家球門，不論有意或無意皆可。
+  ⓒ 但反向進入球門（由背面往正面）在任何情況下都不被允許。
+    • 球機由正面進入球門超過一半後又退出，視為反向進入。
+    • 防守機從背面進入球門，即使只有一點點，同樣視為反向進入。
+  ＜圖 1＞ 如圖 1，球機若未凸出球門背面，視為有效的防守位置。
+  ＜圖 2＞ 如圖 2，球機一旦越過球門背面——即使只有一點點、且不論是否故意——就不得再往前進；必須繞球門外側退回原本的防守位置。
+tags:
+  - 防守
+  - 球門
+  - 反向進入
+source_page: FIDA Drone Soccer Rule Book (Class 40, 5th Revision) pp.25-26
