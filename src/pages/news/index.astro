@@ -20,9 +20,10 @@ const jsonld = collectionPageJsonLd({
   heroDesc="臺灣無人機足球最新賽事動態與消息。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  {/* 每則帶 id：news 沒有明細頁，錨點是 /rss.xml 唯一能指到單則的位置。 */}
   <div style="display:grid;gap:16px">
     {news.map((n) => (
-      <article class="panel">
+      <article class="panel" id={n.id}>
         <p class="text-muted" style="font-size:1rem;margin:0 0 6px">{n.data.date}</p>
         <h2 style="margin:0 0 10px;font-size:clamp(1.25rem,2.4vw,1.6rem)">{n.data.title}</h2>
         {n.data.summary && <p style="margin:0 0 10px">{n.data.summary}</p>}

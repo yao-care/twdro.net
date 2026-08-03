@@ -70,6 +70,9 @@ export const GET: APIRoute = async () => {
   lines.push(`- [資料來源](${u('/about/sources/')}): 資料溯源與查核原則。`);
   lines.push(`- [回報資料錯誤](${u('/about/correction/')}): 發現錯誤的更正機制。`);
   lines.push(`- Sitemap: ${u('/sitemap-index.xml')}`);
+  // 機器可讀的更新來源：賽事狀態與成績會變，靜態頁看不出「什麼時候變的」。
+  lines.push(`- 更新來源 RSS（賽事動態與公告）: ${u('/rss.xml')}`);
+  lines.push(`- 賽事行事曆 iCalendar（賽期與報名截止日）: ${u('/events/calendar.ics')}`);
   lines.push(`- 全文版（教學文章完整內文）: ${u('/llms-full.txt')}`);
   lines.push('');
 

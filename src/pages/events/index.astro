@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
+import SubscribeBox from '../../components/SubscribeBox.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { hasTeam } from '../../lib/results';
@@ -86,6 +87,8 @@ const jsonld = collectionPageJsonLd({
       <a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a>
     </p>
   </section>
+
+  <SubscribeBox />
 
   {series.length > 0 && (
     <section class="panel" style="margin-bottom:20px">

@@ -36,6 +36,8 @@ const metaDescription =
     <meta name="description" content={metaDescription} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <!-- 訂閱來源全站宣告：閱讀器與聚合器靠這一行自動發現，讀者不必先找到 /events/ 才知道有。 -->
+    <link rel="alternate" type="application/rss+xml" title="twdro.net 賽事與公告更新" href={url('/rss.xml')} />
     <!-- Google tag (gtag.js) — GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGL1VZWJ2Z"></script>
     <script is:inline>

@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/url';
 import { EVENT_STATUS, eventStatusLabel, isPublicEvent } from '../../lib/enums';
 import { collectionPageJsonLd } from '../../lib/jsonld';
+import SubscribeBox from '../../components/SubscribeBox.astro';
 const events = (await getCollection('events'))
   .filter((e) => isPublicEvent(e.data.status))   // 草稿不上日曆
   .map((e) => ({
@@ -30,6 +31,7 @@ const jsonld = collectionPageJsonLd({
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <p style="margin:0 0 20px"><a href={url('/events')} style="font-weight:650">← 回賽事列表</a></p>
+  <SubscribeBox />
   <div class="panel">
     <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px">
       <label>狀態

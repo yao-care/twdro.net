@@ -1,0 +1,29 @@
+---
+// 訂閱入口（賽事頁與日曆頁共用）。
+//
+// 為什麼放在賽事區而不是頁尾：會想訂閱的人是正在看賽期與報名截止的人，
+// 不是看完整站要離開的人。放在他們正在做決定的位置。
+import { url } from '../lib/url';
+
+const ICS = url('/events/calendar.ics');
+// Apple 行事曆與多數桌面軟體認 webcal:，點下去直接進「訂閱」而不是下載一份靜態副本；
+// 兩個都給，是因為 Google 日曆走的是 https 網址貼進「從網址新增」。
+const WEBCAL = 'webcal://twdro.net/events/calendar.ics';
+---
+<section class="panel" style="margin-bottom:20px">
+  <h2 style="margin:0 0 10px">訂閱賽事更新</h2>
+  <p style="margin:0 0 14px">
+    報名截止日與成績公布不會通知你——除非你訂閱。賽事行事曆含每場賽期與
+    <strong>報名截止日</strong>兩種項目，主辦單位改期或成績上站後，訂閱的日曆會自己更新。
+  </p>
+  <p style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 14px">
+    <a class="btn-action" href={WEBCAL}>訂閱賽事行事曆</a>
+    <a class="btn-action" href={ICS} style="background:transparent;color:var(--color-brand);border:1px solid var(--color-border)">下載 .ics 檔</a>
+  </p>
+  <p class="text-muted" style="margin:0;font-size:1rem">
+    Google 日曆：左側「其他日曆 → 從網址新增」，貼上
+    <code>https://twdro.net/events/calendar.ics</code>。
+    要追公告與新賽事可訂閱 <a href={url('/rss.xml')}>RSS</a>。
+    報名期限一律以主辦單位公告為準。
+  </p>
+</section>

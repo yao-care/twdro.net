@@ -51,6 +51,23 @@ node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
 - **Google 不參與 IndexNow**：Google 端只有 sitemap lastmod 與 Search Console 手動「要求建立索引」兩個手段。
 - 守門在 `tests/sitemap-lastmod.test.ts` 與 `tests/trailing-slash.test.ts`——這兩組各對應一次真實的收錄事故。
 
+## 訂閱來源（RSS／iCalendar）
+
+站上最有時效性的東西是**報名截止日**與**成績公布**，但讀者看過一次之後沒有任何機制把他
+叫回來——只能靠自己記得再搜一次。兩份訂閱檔就是那個機制，隨站部署、無後端。
+
+- `/rss.xml`（`src/pages/rss.xml.ts`）：news 公告 ＋ 全部公開賽事。賽事的 `pubDate` 取各來源
+  `retrieved_at` 的最大值（＝我方最後確認日，與 sitemap lastmod 同一套語意），摘要寫明
+  狀態與「已公布成績／成績尚未公布」。全站 `<head>` 有 `rel="alternate"` 宣告，閱讀器才發現得到。
+- `/events/calendar.ics`（`src/pages/events/calendar.ics.ts`）：每場賽事產出賽期 VEVENT，
+  **有 `registration_end` 的另外產一筆「報名截止」**——那才是訂閱的主要理由。
+  UID 跨次建置穩定（`event-<slug>@twdro.net`），否則訂閱者的日曆會不斷長出重複事件。
+
+編碼規則集中在 `src/lib/feed.ts`：iCalendar 每行上限 75 **位元組**（中文一字 3 bytes，
+按長度切會超標、按 byte 硬切會把字剖成兩半）、行尾一律 CRLF、全天事件 DTEND 排他 +1 天。
+**這些壞掉時檔案照樣產生、build 照樣過、畫面看不出來**，只有真的拿去訂閱的人才知道，
+所以 `tests/feeds.test.ts` 逐條釘在建置產物層。
+
 ## 資料 Pipeline
 半自動資料取得與個資防護見 [`pipeline/README.md`](pipeline/README.md)。pipeline 產出候選並開 PR，人工審核後才上站。
 
