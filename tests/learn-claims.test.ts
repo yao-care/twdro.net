@@ -336,19 +336,21 @@ describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
 describe('taiwan-competitions-overview 的資料斷言', () => {
   const overview = readFileSync('src/content/learn/taiwan-competitions-overview.md', 'utf8');
 
-  it('「本站收錄四個賽事系列」仍成立，且表格四列都在', () => {
+  it('「本站收錄五個賽事系列」仍成立，且表格五列都在', () => {
     const series = new Set(
       readdirSync('src/content/events')
         .filter((f) => f.endsWith('.yml'))
         .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
         .filter(Boolean),
     );
-    expect(series.size).toBe(4);
+    expect(series.size).toBe(5);
     // 表格逐列點名的系列，資料裡都要還在（改名或下架就會擋下來）
     expect(series).toContain('教育部全國無人機足球競賽');
     expect(series).toContain('天穹盃');
     expect(series).toContain('臺灣教育科技盃無人機足球');
     expect(series).toContain('秀傳夏季無人機嘉年華會');
+    // 2026-08-03 加：縣市選拔賽（全國賽之前的那一關，先前整層缺漏）
+    expect(series).toContain('縣市選拔賽');
   });
 
   it('秀傳盃「全臺首屆由醫院主辦」與主辦單位仍有來源', () => {

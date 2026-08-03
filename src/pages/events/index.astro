@@ -40,7 +40,9 @@ for (const e of all) {
   const cur = seriesMap.get(name) ?? { count: 0, withResults: 0 };
   cur.count += 1;
   const r = e.data.results;
-  if (r && (r.champion_team || r.runner_up_team || r.third_place_team)) cur.withResults += 1;
+  // 分組別賽事的成績只在 divisions 裡，漏算會讓「已有成績」的統計低報。
+  if (r && (r.champion_team || r.runner_up_team || r.third_place_team
+    || r.divisions?.some((x) => x.champion_team || x.runner_up_team || x.third_place_team))) cur.withResults += 1;
   seriesMap.set(name, cur);
 }
 const series = [...seriesMap.entries()].sort((a, b) => b[1].count - a[1].count);

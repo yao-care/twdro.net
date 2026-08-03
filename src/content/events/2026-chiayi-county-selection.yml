@@ -1,0 +1,35 @@
+title: 嘉義縣 115 年度無人機足球競賽
+subtitle: 縣市選拔賽，選出國中小各 2 隊代表嘉義縣參加教育部全國賽
+event_series: 縣市選拔賽
+level: 縣市
+status: completed
+event_type: 選拔賽
+organizer: 嘉義縣政府教育處
+rule_system: MOE
+rulebook: moe-taiwan-2026
+schedule:
+  event_start: "2026-05-28"
+  event_end: "2026-05-28"
+  city: 嘉義縣
+eligibility:
+  education_levels: [國中小]
+competition:
+  drone_class: F9A-B
+  drone_diameter: 20cm
+results:
+  divisions:
+    - name: 國中組
+      champion_team: 永慶高中（國中部）
+      runner_up_team: 布袋國中
+    - name: 國小組
+      champion_team: 蒜頭國小
+      runner_up_team: 景山國小
+verification: official
+sources:
+  - type: gov_announcement
+    title: 「嘉義縣115年度無人機足球競賽」成績公告
+    url: https://www.cyc.edu.tw/modules/tadnews/index.php?nsn=92139
+    publisher: 嘉義縣政府教育處教學發展科
+    published_at: "2026-05-29"
+    retrieved_at: "2026-08-03"
+    trust_level: A

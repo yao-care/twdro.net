@@ -71,8 +71,13 @@ describe('buildLastmodMap', () => {
   });
 
   it('內容自帶的查核日優先於 git 日期', () => {
-    // taiwan-competitions-overview 的 frontmatter 寫 updated_at: 2026-07-28
-    expect(map.get('/learn/taiwan-competitions-overview/')).toBe('2026-07-28');
+    // 2026-08-03：原本寫死 '2026-07-28'，導致每次更新該文的 updated_at 都假性失敗
+    // （這次是加入縣市選拔賽那一列時踩到）。斷言的用意是「以 frontmatter 為準」，
+    // 所以改成直接讀 frontmatter 比對——用意不變，但不再綁死在某一天。
+    const fm = readFileSync('src/content/learn/taiwan-competitions-overview.md', 'utf8')
+      .match(/^updated_at:\s*"?(\d{4}-\d{2}-\d{2})"?$/m)?.[1];
+    expect(fm).toBeTruthy();
+    expect(map.get('/learn/taiwan-competitions-overview/')).toBe(fm);
   });
 
   it('動態路由檔（[slug].astro）不會被當成靜態頁混進來', () => {

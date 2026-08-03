@@ -68,6 +68,35 @@ describe('eventSeo：賽事頁 title／description', () => {
   });
 
   // 鐵則 5：缺欄位一律留白，不得補「臺灣」這類泛稱或編造數字。
+  // 2026-08-03 加：縣市選拔賽多為國中組／國小組雙組別，成績只填在 results.divisions，
+  // 頂層 champion_team 是空的。若判定只看頂層，這種賽事會被當成「沒有成績」→ title 掛
+  // 「賽程資訊」而不是「成績」，並誤開成績徵稿入口。首例＝嘉義縣 115 年度選拔賽。
+  it('分組別成績也算有成績，title 要掛「成績」', () => {
+    const d = {
+      title: '嘉義縣 115 年度無人機足球競賽',
+      status: 'completed',
+      schedule: { event_start: '2026-05-28' },
+      results: {
+        divisions: [
+          { name: '國中組', champion_team: '永慶高中（國中部）', runner_up_team: '布袋國中' },
+          { name: '國小組', champion_team: '蒜頭國小', runner_up_team: '景山國小' },
+        ],
+      },
+    };
+    expect(eventPageTitle(d)).toContain('成績與賽程');
+    expect(eventPageDescription(d)).toContain('冠軍：國中組 永慶高中（國中部）／國小組 蒜頭國小。');
+  });
+
+  it('分組別但各組都沒填冠亞季，仍視為沒有成績', () => {
+    const d = {
+      title: '某縣市選拔賽',
+      status: 'completed',
+      schedule: { event_start: '2026-05-28' },
+      results: { divisions: [{ name: '國小組' }] },
+    };
+    expect(eventPageTitle(d)).toContain('賽程資訊');
+  });
+
   it('什麼欄位都沒有時回空字串，交還給 BaseLayout 預設句', () => {
     expect(eventPageDescription({ title: 'x', status: 'announced' })).toBe('');
   });

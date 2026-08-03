@@ -46,11 +46,22 @@ export interface EventSeoInput {
     champion_team?: string;
     runner_up_team?: string;
     third_place_team?: string;
+    divisions?: {
+      name: string;
+      champion_team?: string;
+      runner_up_team?: string;
+      third_place_team?: string;
+    }[];
   };
 }
 
+// 分組別賽事的成績只填在 divisions 裡，頂層三欄是空的。若只看頂層，雙組別賽事會被判成
+// 「沒有成績」→ title 掛「賽程資訊」而不是「成績」，並誤開徵稿入口。故一併認列 divisions。
 const hasAnyResult = (r: EventSeoInput['results']): boolean =>
-  !!r && !!(r.champion_team || r.runner_up_team || r.third_place_team);
+  !!r && !!(
+    r.champion_team || r.runner_up_team || r.third_place_team
+    || r.divisions?.some((d) => d.champion_team || d.runner_up_team || d.third_place_team)
+  );
 
 /** 賽事頁 <title>：年份＋正式名＋意圖詞。年份已在名稱裡就不重複前綴。 */
 export function eventPageTitle(d: EventSeoInput): string {
@@ -79,7 +90,16 @@ export function eventPageDescription(d: EventSeoInput, maxLen = 155): string {
   else if (place) parts.push(`地點：${place}。`);
 
   if (s.registration_end) parts.push(`報名至 ${s.registration_end}。`);
-  if (d.results?.champion_team) parts.push(`冠軍：${d.results.champion_team}。`);
+  // 冠軍是已結束賽事最高強度的查詢字，description 裡要看得到。分組別賽事沒有單一冠軍，
+  // 改列各組冠軍（「國中組 X／國小組 Y」），仍受 maxLen 保護不會爆版。
+  if (d.results?.champion_team) {
+    parts.push(`冠軍：${d.results.champion_team}。`);
+  } else {
+    const champs = (d.results?.divisions ?? [])
+      .filter((x) => x.champion_team)
+      .map((x) => `${x.name} ${x.champion_team}`);
+    if (champs.length) parts.push(`冠軍：${champs.join('／')}。`);
+  }
 
   let out = parts.join('');
   // subtitle 只在還塞得下一整句時附上，避免被截成半句。

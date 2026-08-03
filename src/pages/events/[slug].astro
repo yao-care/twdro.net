@@ -46,7 +46,12 @@ const showCompetition = d.competition.drone_class != null
   || d.competition.drone_diameter != null
   || d.competition.active_drones_per_team != null;
 const r = d.results;
-const showResults = !!r && (r.champion_team || r.runner_up_team || r.third_place_team);
+const divisionResults = (r?.divisions ?? []).filter(
+  (x) => x.champion_team || x.runner_up_team || x.third_place_team,
+);
+const showResults = !!r && !!(
+  r.champion_team || r.runner_up_team || r.third_place_team || divisionResults.length
+);
 // 已結束但查不到成績 → 開徵稿入口。這是站上最大的資料缺口（2026-07-30 實查：全臺沒有
 // 任何可爬取的網頁在公布無人機足球成績，連主辦單位官網都沒有），而看得到成績的是到過
 // 現場的隊伍、指導老師與承辦學校。取消／延期的賽事沒有成績可談，不出這一段。
@@ -123,11 +128,23 @@ const seoDesc = eventPageDescription(d);
   {showResults && (
     <section class="panel">
       <h2>成績</h2>
-      <ul class="data-list">
-        {r?.champion_team && <li><span class="k">冠軍</span><span class="v">{r.champion_team}</span></li>}
-        {r?.runner_up_team && <li><span class="k">亞軍</span><span class="v">{r.runner_up_team}</span></li>}
-        {r?.third_place_team && <li><span class="k">季軍</span><span class="v">{r.third_place_team}</span></li>}
-      </ul>
+      {(r?.champion_team || r?.runner_up_team || r?.third_place_team) && (
+        <ul class="data-list">
+          {r?.champion_team && <li><span class="k">冠軍</span><span class="v">{r.champion_team}</span></li>}
+          {r?.runner_up_team && <li><span class="k">亞軍</span><span class="v">{r.runner_up_team}</span></li>}
+          {r?.third_place_team && <li><span class="k">季軍</span><span class="v">{r.third_place_team}</span></li>}
+        </ul>
+      )}
+      {divisionResults.map((g) => (
+        <div style="margin-top:12px">
+          <h3 style="margin:0 0 6px;font-size:1rem">{g.name}</h3>
+          <ul class="data-list">
+            {g.champion_team && <li><span class="k">冠軍</span><span class="v">{g.champion_team}</span></li>}
+            {g.runner_up_team && <li><span class="k">亞軍</span><span class="v">{g.runner_up_team}</span></li>}
+            {g.third_place_team && <li><span class="k">季軍</span><span class="v">{g.third_place_team}</span></li>}
+          </ul>
+        </div>
+      ))}
     </section>
   )}
 

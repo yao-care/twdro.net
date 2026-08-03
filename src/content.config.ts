@@ -58,6 +58,16 @@ const events = defineCollection({
       champion_team: z.string().optional(),     // 隊伍名，不含個資
       runner_up_team: z.string().optional(),
       third_place_team: z.string().optional(),
+      // 分組別成績（2026-08-03 加）。台灣的學校賽事幾乎都分組別——教育部全國賽本身就有
+      // 國中小／高中／大專三組，縣市選拔賽則多為國中組／國小組——只給單組冠亞季的話，
+      // 第一筆真實成績（嘉義縣 115 年度選拔賽，雙組別）就得捨棄一半資料。頂層欄位保留，
+      // 未分組的賽事照舊填頂層即可，既有 10 筆賽事完全不受影響。
+      divisions: z.array(z.object({
+        name: z.string(),                       // 組別名，如「國中組」
+        champion_team: z.string().optional(),
+        runner_up_team: z.string().optional(),
+        third_place_team: z.string().optional(),
+      })).optional(),
     }).optional(),
     sources: z.array(sourceSchema).min(1),
     verification: z.enum(VERIFICATION),
