@@ -24,12 +24,15 @@ const recent = [...upcoming, ...byDate.filter((e) => !upcoming.includes(e))].sli
 
 const news = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date)).slice(0, 3);
 
+// 賽事系列數算實際資料，不寫死數字（曾經卡在「四個系列」沒跟著新增的系列更新）。
+const seriesCount = new Set(events.map((e) => e.data.event_series).filter(Boolean)).size;
+
 // 新手入門捷徑：把已索引首頁的連結權重導向旗艦教學頁與新教育文。
 const starterLinks = [
   ['/learn/rules-overview', '規則總整理', 'FAI／FIDA／教育部／天穹盃差在哪'],
   ['/learn/entry-cost', '入門要花多少錢', '球機、電池到報名費的成本拆解'],
   ['/learn/age-eligibility', '幾歲可以開始玩', '各賽事的組別與參賽資格'],
-  ['/learn/taiwan-competitions-overview', '臺灣有哪些無人機足球賽事', '教育部全國賽、天穹盃與教育科技盃，四個系列比規格'],
+  ['/learn/taiwan-competitions-overview', '臺灣有哪些無人機足球賽事', `教育部全國賽、天穹盃與教育科技盃，${seriesCount} 個系列比規格`],
 ];
 
 const tools = [
