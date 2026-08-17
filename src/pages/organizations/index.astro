@@ -22,16 +22,25 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title="無人機足球推廣單位：臺灣協會學校廠商與國際組織 | twdro.net"
-  description="臺灣公開推動無人機足球的協會、學校、大學、廠商與政府單位，以及訂定規則的國際組織。"
-  heroTitle="推廣單位"
-  heroDesc="臺灣公開推動無人機足球的單位，以及訂定規則的國際組織。"
+  title="台灣無人機足球協會、學校與推廣單位 | twdro.net"
+  description="台灣（臺灣）無人機足球協會、學校、政府、廠商與開課單位名錄，也整理 FAI／FIDA 等國際規則組織。"
+  heroTitle="台灣無人機足球推廣單位"
+  heroDesc="查台灣（臺灣）推動無人機足球的協會、學校、政府、廠商與課程單位。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
-  <p class="text-muted" style="margin:0 0 24px">
-    想按用途找協會、學校、廠商或開課單位，先看
-    <a href={url('/learn/who-promotes-drone-soccer-taiwan')} style="font-weight:650">臺灣有哪些單位在推無人機足球</a>，再查下方名錄。
-  </p>
+  <section class="panel" style="margin-bottom:20px">
+    <h2>台灣無人機足球要找誰</h2>
+    <p style="margin:0 0 16px">
+      這份名錄整理台灣推動無人機足球的協會、學校、政府、廠商與開課單位，也收錄制定國際規則的組織。
+      如果你的目的是找比賽，先看<a href={url('/events')}>台灣無人機足球賽事</a>；想了解各類單位負責什麼，再讀
+      <a href={url('/learn/who-promotes-drone-soccer-taiwan')} style="font-weight:650">臺灣有哪些單位在推無人機足球</a>。
+    </p>
+    <ul class="card-grid" style="margin:0">
+      <li><a class="card-link" href={url('/events')}><span class="name">找比賽與報名</span><span class="meta">看賽程、地點、報名狀態與成績</span></a></li>
+      <li><a class="card-link" href={url('/equipment')}><span class="name">找器材與課程方案</span><span class="meta">比較球機價格，先對準目標賽事規格</span></a></li>
+      <li><a class="card-link" href={url('/teams')}><span class="name">找隊伍與學校</span><span class="meta">從現有隊伍與所屬單位開始接觸</span></a></li>
+    </ul>
+  </section>
   {GROUPS.map(([key, label]) => {
     const list = orgs.filter((o) => o.data.org_type === key);
     return list.length ? (
