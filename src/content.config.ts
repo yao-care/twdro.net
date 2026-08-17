@@ -209,6 +209,9 @@ const learn = defineCollection({
     category: z.enum(LEARN_CATEGORY),
     order: z.number().default(0),
     updated_at: z.string().optional(),
+    // 趨勢文章的機械溯源鍵。只有 seo-data/trends 產出的 publish 候選才能讓自動層新增 learn，
+    // 文章本身仍須以站內已驗證資料為主，不能把建議字當成事實。
+    trend_id: z.string().optional(),
     // 教育文要引用的即時資料區塊。文章是 .md（無法 import 元件），而把價格／機型寫進
     // markdown 必然與 src/content/equipment 走鐘——鐵則 5 禁止。宣告在 frontmatter，
     // 由 pages/learn/[...slug].astro 在正文之後渲染對應元件，資料仍是單一來源。
