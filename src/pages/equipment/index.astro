@@ -19,7 +19,7 @@ const priceRange = prices.length
   : null;
 
 const metaDescription =
-  `臺灣買得到的無人機飛球／無人機足球球機一覽：${brandCount} 個品牌共 ${items.length} 款機型的參考售價與馬達型式` +
+  `臺灣無人機足球球機價格與購買前比較：${brandCount} 個品牌共 ${items.length} 款無人機飛球機型的參考售價與馬達型式` +
   (priceRange ? `，現售價位帶 NT$${priceRange}` : '') +
   '。每筆標明廠商來源與查核日期，並可用合規檢查器比對是否符合賽事分級。';
 
@@ -33,14 +33,23 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title={`無人機飛球球機比較：${brandCount} 品牌 ${items.length} 款機型的參考售價 | twdro.net`}
+  title={`無人機足球價格與球機比較：${items.length} 款參考售價 | twdro.net`}
   description={metaDescription}
-  heroTitle="球機比較與參考售價"
+  heroTitle="無人機足球價格與球機比較"
   heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${items.length} 款，價格與規格均標明廠商來源與查核日期。`}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <p style="margin:0 0 24px">
     <a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a>
+  </p>
+
+  <p class="text-muted" style="margin:0 0 24px">
+    想先看<strong>無人機足球價格與入門預算</strong>，見
+    <a href={url('/learn/entry-cost')}>玩無人機飛球要花多少錢</a>；
+    想按賽事規格挑機，見
+    <a href={url('/learn/choosing-your-first-drone')}>第一台球機怎麼挑</a>；
+    想自己組裝，見
+    <a href={url('/learn/drone-assembly-basics')}>球機怎麼組裝</a>。
   </p>
 
   <EquipmentPriceTable />

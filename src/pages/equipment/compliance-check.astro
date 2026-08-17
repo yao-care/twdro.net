@@ -39,6 +39,7 @@ const jsonld = webPageJsonLd({ name: '球機規格合規檢查', url: 'https://t
   <script type="application/json" id="cc-data" set:html={dataJson} />
   <script>
     import { checkCompliance } from '../../lib/compliance';
+    import { track } from '../../lib/analytics';
     const { books } = JSON.parse(document.getElementById('cc-data')!.textContent!) as { books: { id: string; name: string; spec: Record<string, any> }[] };
     const form = document.getElementById('cc-form') as HTMLFormElement;
     const result = document.getElementById('cc-result')!;
@@ -68,6 +69,7 @@ const jsonld = webPageJsonLd({ name: '球機規格合規檢查', url: 'https://t
       const book = books.find((b) => b.id === ruleId);
       const spec = book?.spec ?? {};
       const r = checkCompliance({ diameter_mm: num('cc-diameter'), weight_g: num('cc-weight'), motor_type: str('cc-motor'), battery_cells: str('cc-battery') }, spec);
+      track('compliance_check_submit', { rule_id: ruleId, result: r.overall, comparable_fields: r.comparableCount });
       const td = 'style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border)"';
       const rows = r.fields.map((f) => `<tr><th style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600">${f.label}</th><td ${td}>${f.input === '' ? '—' : f.input}</td><td ${td}>${f.status === 'not_applicable' ? '規則未定義' : `規格 ${f.limit === '' ? '—' : f.limit}`}</td><td style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:${COLOR[f.status]};font-weight:700">${STATUS_TEXT[f.status]}</td></tr>`).join('');
       const note = `<p style="margin:12px 0 0;color:var(--color-text-muted);font-size:0.95rem">本規則僅提供 ${r.comparableCount} 項可比對欄位，其餘項目此規則未定義、不列入判定；結論僅供初步參考。</p>`;

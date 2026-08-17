@@ -71,10 +71,10 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title="臺灣無人機足球賽事總覽｜報名時程與比賽成績 | twdro.net"
-  description={`臺灣無人機足球賽事一覽，目前收錄 ${all.length} 場、涵蓋 ${series.length} 個賽事系列。依開放報名／即將舉行／已結束分組，每場標明日期、地點、報名截止與資料來源。`}
-  heroTitle="賽事資訊"
-  heroDesc="臺灣無人機足球賽事的報名時程、舉辦地點與比賽成績。"
+  title="台灣無人機足球賽事：報名時程、比賽日期與成績 | twdro.net"
+  description={`台灣（臺灣）無人機足球賽事一覽，目前收錄 ${all.length} 場、涵蓋 ${series.length} 個賽事系列。依開放報名／即將舉行／已結束分組，每場標明日期、地點、報名截止與資料來源。`}
+  heroTitle="台灣無人機足球賽事"
+  heroDesc="整理台灣（臺灣）無人機足球賽事的報名時程、舉辦地點與比賽成績。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <section class="panel" style="margin-bottom:20px">
@@ -85,6 +85,10 @@ const jsonld = collectionPageJsonLd({
     </p>
     <p style="margin:0">
       <a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a>
+    </p>
+    <p style="margin:10px 0 0">
+      想先比較各賽事系列的規格與差異，見
+      <a href={url('/learn/taiwan-competitions-overview')} style="font-weight:650">臺灣無人機足球賽事總覽</a>。
     </p>
   </section>
 

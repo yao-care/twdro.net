@@ -29,7 +29,15 @@ const jsonld = collectionPageJsonLd({
         {n.data.summary && <p style="margin:0 0 10px">{n.data.summary}</p>}
         {n.data.source_url && (
           <p style="margin:0;font-size:1rem">
-            <a href={n.data.source_url} rel="nofollow noopener" target="_blank">來源{n.data.source_publisher ? `：${n.data.source_publisher}` : ''} ↗</a>
+            <a
+              href={n.data.source_url}
+              rel="nofollow noopener"
+              target="_blank"
+              data-ga-event="source_click"
+              data-ga-source-type="news"
+              data-ga-source-publisher={n.data.source_publisher ?? ''}
+              data-ga-content-title={n.data.title}
+            >來源{n.data.source_publisher ? `：${n.data.source_publisher}` : ''} ↗</a>
           </p>
         )}
       </article>

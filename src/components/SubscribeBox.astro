@@ -17,13 +17,13 @@ const WEBCAL = 'webcal://twdro.net/events/calendar.ics';
     <strong>報名截止日</strong>兩種項目，主辦單位改期或成績上站後，訂閱的日曆會自己更新。
   </p>
   <p style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 14px">
-    <a class="btn-action" href={WEBCAL}>訂閱賽事行事曆</a>
-    <a class="btn-action" href={ICS} style="background:transparent;color:var(--color-brand);border:1px solid var(--color-border)">下載 .ics 檔</a>
+    <a class="btn-action" href={WEBCAL} data-ga-event="calendar_subscribe" data-ga-calendar-format="webcal">訂閱賽事行事曆</a>
+    <a class="btn-action" href={ICS} style="background:transparent;color:var(--color-brand);border:1px solid var(--color-border)" data-ga-event="calendar_download" data-ga-calendar-format="ics">下載 .ics 檔</a>
   </p>
   <p class="text-muted" style="margin:0;font-size:1rem">
     Google 日曆：左側「其他日曆 → 從網址新增」，貼上
     <code>https://twdro.net/events/calendar.ics</code>。
-    要追公告與新賽事可訂閱 <a href={url('/rss.xml')}>RSS</a>。
+    要追公告與新賽事可訂閱 <a href={url('/rss.xml')} data-ga-event="rss_subscribe">RSS</a>。
     報名期限一律以主辦單位公告為準。
   </p>
 </section>

@@ -1,7 +1,7 @@
 ---
-title: 無人機足球球機怎麼組裝？新手常踩的幾個雷
+title: 無人機足球組裝：球機怎麼裝與新手常踩的幾個雷
 category: equipment
-description: 開箱、裝槳、裝電池的基本步驟，以及新手組裝時最常出的錯。
+description: 無人機足球組裝步驟：開箱、裝槳、裝電池與 fail-safe 測試，以及新手組裝球機時最常出的錯。
 order: 12.7
 updated_at: "2026-07-27"
 ---
