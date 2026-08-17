@@ -13,15 +13,17 @@ const prices = items
   .map((it) => parsePrice(it.data.list_price))
   .filter((p) => !p.soldOut && p.amount != null)
   .map((p) => p.amount!);
+const currentItems = items.filter((it) => !parsePrice(it.data.list_price).soldOut);
+const pricedCurrentItems = currentItems.filter((it) => parsePrice(it.data.list_price).amount != null);
 const brandCount = new Set(items.map((it) => shortBrand(it.data.brand))).size;
 const priceRange = prices.length
   ? `${Math.min(...prices).toLocaleString('en-US')}–${Math.max(...prices).toLocaleString('en-US')}`
   : null;
 
 const metaDescription =
-  `臺灣無人機足球球機價格與購買前比較：${brandCount} 個品牌共 ${items.length} 款無人機飛球機型的參考售價與馬達型式` +
+  `臺灣無人機足球價格與購買前比較：${brandCount} 個品牌共 ${items.length} 款無人機飛球機型的參考售價與馬達型式` +
   (priceRange ? `，現售價位帶 NT$${priceRange}` : '') +
-  '。每筆標明廠商來源與查核日期，並可用合規檢查器比對是否符合賽事分級。';
+  '。先確認賽事規格、價格內容與是否需要自行組裝，再用合規檢查器比對。';
 
 // 刻意不出 Product／Offer：list_price 是自由書寫的中文句子（含區間、已完售、一筆多 SKU），
 // 拆不出乾淨的 price／availability，硬拆等於對 Google 說謊（見 lib/jsonld.ts 註解）。
@@ -33,14 +35,64 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title={`無人機足球價格與球機比較：${items.length} 款參考售價 | twdro.net`}
+  title={`無人機足球價格與購買指南：${items.length} 款球機比較 | twdro.net`}
   description={metaDescription}
-  heroTitle="無人機足球價格與球機比較"
-  heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${items.length} 款，價格與規格均標明廠商來源與查核日期。`}
+  heroTitle="無人機足球價格與購買指南"
+  heroDesc={`臺灣買得到的無人機飛球／無人機足球球機，${brandCount} 個品牌共 ${items.length} 款；先看價格內容與賽事規格，再決定買現成機或材料包。`}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <section class="panel" style="margin-bottom:20px">
+    <h2>先回答三個購買問題</h2>
+    <p style="margin:0 0 14px">
+      這頁先把本站收錄的機型與參考售價攤開；真正下單前，還要確認目標賽事規格、價格包含哪些配件，以及是否需要自己組裝。
+    </p>
+    <ul class="card-grid" style="margin:0">
+      <li>
+        <a class="card-link" href={url('/learn/entry-cost')}>
+          <span class="name">只想抓入門預算</span>
+          <span class="meta">球機、電池、備品、場地與報名費怎麼算</span>
+        </a>
+      </li>
+      <li>
+        <a class="card-link" href={url('/learn/choosing-your-first-drone')}>
+          <span class="name">準備買第一台</span>
+          <span class="meta">先對準 20／40 公分級與賽事檢錄條件</span>
+        </a>
+      </li>
+      <li>
+        <a class="card-link" href={url('/learn/drone-assembly-basics')}>
+          <span class="name">打算買材料包</span>
+          <span class="meta">看組裝順序、槳與電池線材的檢查步驟</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2>目前價格資料怎麼讀</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:12px;margin-bottom:16px">
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{currentItems.length}</strong>
+        <span class="text-muted">現售或未標完售</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{pricedCurrentItems.length}</strong>
+        <span class="text-muted">有可排序參考價</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{priceRange ? `NT$${priceRange}` : '—'}</strong>
+        <span class="text-muted">現售價位帶</span>
+      </div>
+    </div>
+    <p style="margin:0">
+      表上的價格可能是材料包、單機、多電池組、課程或整套方案，不能只看數字排序。
+      每筆資料都可點進去看完整規格與來源；價格與售況仍以廠商最新公告為準。
+    </p>
+  </section>
+
   <p style="margin:0 0 24px">
     <a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a>
+    <a class="btn-outline" href={url('/learn/drone-size-20cm-vs-40cm')} style="margin-left:10px">先分清 20／40 公分級</a>
   </p>
 
   <p class="text-muted" style="margin:0 0 24px">
@@ -52,10 +104,20 @@ const jsonld = collectionPageJsonLd({
     <a href={url('/learn/drone-assembly-basics')}>球機怎麼組裝</a>。
   </p>
 
-  <EquipmentPriceTable />
+  <section class="panel" id="price-comparison">
+    <h2>無人機足球球機價格比較</h2>
+    <p class="text-muted" style="margin:0 0 16px">
+      現售機型排在前面，已完售機型另外保留作為歷史價格與規格參考；完整規格請點進機型頁。
+    </p>
+    <EquipmentPriceTable />
+  </section>
 
-  <p class="text-muted">
-    不確定該挑哪一台，先看 <a href={url('/learn/choosing-your-first-drone')}>怎麼挑第一台球機</a>：
-    這張表怎麼讀、哪些價差其實是配件差、哪些機型只賣給教育單位。
-  </p>
+  <section class="panel">
+    <h2>買之前最後檢查</h2>
+    <ul style="margin:0;padding-left:1.4em">
+      <li>先確認目標賽事採用哪一套規則與球機級距。</li>
+      <li>確認參考售價包含幾顆電池、遙控器、保固或課程，不把方案價當成裸機價。</li>
+      <li>材料包或自行換零件後，依<a href={url('/learn/drone-assembly-basics')}>組裝檢查流程</a>測試，再用<a href={url('/equipment/compliance-check')}>合規檢查器</a>做初步比對。</li>
+    </ul>
+  </section>
 </BaseLayout>

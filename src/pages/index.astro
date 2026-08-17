@@ -3,13 +3,14 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
 import { url } from '../lib/url';
+import { isPublicEvent } from '../lib/enums';
 import { siteGraphJsonLd } from '../lib/jsonld';
 
 const siteGraph = siteGraphJsonLd();
 
 const today = new Date().toISOString().slice(0, 10);
 const ACTIVE = ['registration_open', 'announced', 'ongoing'];
-const events = await getCollection('events');
+const events = (await getCollection('events')).filter((e) => isPublicEvent(e.data.status));
 // 有日期者排前（升冪），無日期者排後
 const byDate = [...events].sort((a, b) => {
   const da = a.data.schedule.event_start ?? '';
@@ -26,11 +27,14 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.localeComp
 
 // 賽事系列數算實際資料，不寫死數字（曾經卡在「四個系列」沒跟著新增的系列更新）。
 const seriesCount = new Set(events.map((e) => e.data.event_series).filter(Boolean)).size;
+const eventCityCount = new Set(events.map((e) => e.data.schedule.city).filter(Boolean)).size;
 
 // 新手入門捷徑：把已索引首頁的連結權重導向旗艦教學頁與新教育文。
 const starterLinks = [
   ['/learn/rules-overview', '規則總整理', 'FAI／FIDA／教育部／天穹盃差在哪'],
   ['/learn/entry-cost', '入門要花多少錢', '球機、電池到報名費的成本拆解'],
+  ['/equipment', '球機價格與購買', '現售機型、參考售價與價格內容比較'],
+  ['/learn/drone-assembly-basics', '球機組裝步驟', '防護框、槳、電池走線與 fail-safe 檢查'],
   ['/learn/age-eligibility', '幾歲可以開始玩', '各賽事的組別與參賽資格'],
   ['/learn/taiwan-competitions-overview', '臺灣有哪些無人機足球賽事', `教育部全國賽、天穹盃與教育科技盃，${seriesCount} 個系列比規格`],
 ];
@@ -65,6 +69,21 @@ const tools = [
   </section>
 
   <div class="page-content">
+    <section class="panel" style="margin-bottom:56px">
+      <h2>台灣無人機足球資料入口</h2>
+      <p style="margin:0 0 16px">
+        想找台灣的比賽、球隊、練習場地或推廣單位，從這四個入口開始。本站目前整理
+        <strong>{events.length}</strong> 場公開賽事、<strong>{seriesCount}</strong> 個賽事系列，涵蓋 <strong>{eventCityCount}</strong> 個已標明縣市；
+        各頁再連到規則、器材與主辦資料。
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:12px">
+        <a class="card-link" href={url('/events')}><span class="name">台灣無人機足球比賽</span><span class="meta">報名、賽程、日期與成績</span></a>
+        <a class="card-link" href={url('/organizations')}><span class="name">協會與推廣單位</span><span class="meta">協會、學校、政府、廠商與課程單位</span></a>
+        <a class="card-link" href={url('/teams')}><span class="name">台灣隊伍名錄</span><span class="meta">學校與俱樂部隊伍</span></a>
+        <a class="card-link" href={url('/venues')}><span class="name">練習與比賽場地</span><span class="meta">全台場館與地圖資料</span></a>
+      </div>
+    </section>
+
     <section style="margin-bottom:56px">
       <h2 style="margin:0 0 18px">新手從這裡開始</h2>
       <a class="card-link" href={url('/learn/what-is-drone-soccer')} style="background:var(--color-brand-soft);border-color:var(--color-brand)">

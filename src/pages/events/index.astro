@@ -49,6 +49,12 @@ for (const e of all) {
   seriesMap.set(name, cur);
 }
 const series = [...seriesMap.entries()].sort((a, b) => b[1].count - a[1].count);
+const cityCount = new Set(all.map((e) => e.data.schedule.city).filter(Boolean)).size;
+const resultCount = all.filter((e) => {
+  const r = e.data.results;
+  return !!r && (hasTeam(r.champion_team) || hasTeam(r.runner_up_team) || hasTeam(r.third_place_team)
+    || r.divisions?.some((x) => hasTeam(x.champion_team) || hasTeam(x.runner_up_team) || hasTeam(x.third_place_team)));
+}).length;
 
 const groups = [
   { key: 'open', heading: '開放報名中', items: open,
@@ -71,25 +77,41 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title="台灣無人機足球賽事：報名時程、比賽日期與成績 | twdro.net"
-  description={`台灣（臺灣）無人機足球賽事一覽，目前收錄 ${all.length} 場、涵蓋 ${series.length} 個賽事系列。依開放報名／即將舉行／已結束分組，每場標明日期、地點、報名截止與資料來源。`}
-  heroTitle="台灣無人機足球賽事"
-  heroDesc="整理台灣（臺灣）無人機足球賽事的報名時程、舉辦地點與比賽成績。"
+  title="台灣無人機足球比賽：報名、賽程、日期與成績 | twdro.net"
+  description={`台灣（臺灣）無人機足球比賽與賽事資料：目前收錄 ${all.length} 場、${series.length} 個系列，整理報名狀態、比賽日期、地點與成績。`}
+  heroTitle="台灣無人機足球比賽與賽事"
+  heroDesc="查台灣（臺灣）無人機足球的報名、賽程、比賽日期、地點與成績。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <section class="panel" style="margin-bottom:20px">
-    <p style="margin:0 0 12px">
-      本頁收錄臺灣的無人機足球（無人機飛球）賽事，目前共 <strong>{all.length}</strong> 場，
-      分屬 <strong>{series.length}</strong> 個賽事系列。每一場的日期、地點與報名資訊都標明出處與查核日期；
-      查不到的欄位一律留白，不以推測填補。
+    <h2>在台灣找無人機足球，先從這裡開始</h2>
+    <p style="margin:0 0 16px">
+      本頁是台灣無人機足球的賽事入口：先看目前能報名或即將舉行的比賽，再往下找已結束賽事的成績與歷年系列。
+      日期、地點、報名狀態與成績都以公開資料整理，查不到的欄位留白，不以推測填補。
     </p>
-    <p style="margin:0">
-      <a href={url('/events/calendar')} style="font-weight:650">日曆檢視（依狀態／月份篩選）→</a>
-    </p>
-    <p style="margin:10px 0 0">
-      想先比較各賽事系列的規格與差異，見
-      <a href={url('/learn/taiwan-competitions-overview')} style="font-weight:650">臺灣無人機足球賽事總覽</a>。
-    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:12px;margin-bottom:18px">
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{all.length}</strong>
+        <span class="text-muted">收錄賽事</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{series.length}</strong>
+        <span class="text-muted">賽事系列</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{cityCount}</strong>
+        <span class="text-muted">舉辦縣市</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{resultCount}</strong>
+        <span class="text-muted">已有成績</span>
+      </div>
+    </div>
+    <ul class="card-grid" style="margin:0">
+      <li><a class="card-link" href={url('/events/calendar')}><span class="name">按月份找賽程</span><span class="meta">日曆檢視、狀態篩選與報名截止日</span></a></li>
+      <li><a class="card-link" href={url('/learn/taiwan-competitions-overview')}><span class="name">比較賽事系列</span><span class="meta">教育部、天穹盃、教育科技盃與縣市賽規格差異</span></a></li>
+      <li><a class="card-link" href={url('/organizations')}><span class="name">找主辦與推廣單位</span><span class="meta">協會、學校、政府與器材／課程單位</span></a></li>
+    </ul>
   </section>
 
   <SubscribeBox />
