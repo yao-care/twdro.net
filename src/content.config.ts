@@ -80,7 +80,7 @@ const events = defineCollection({
         merit_teams: z.array(z.string()).optional(),
       })).optional(),
     }).optional(),
-    sources: z.array(sourceSchema).min(1),
+    sources: z.array(sourceSchema).min(1).optional(),
     verification: z.enum(VERIFICATION),
   }),
 });

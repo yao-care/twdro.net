@@ -35,7 +35,7 @@ export const GET: APIRoute = async () => {
   for (const e of await getCollection('events')) {
     if (!isPublicEvent(e.data.status)) continue;   // 草稿不對外，與各頁面一致
     const d = e.data;
-    const retrieved = d.sources
+    const retrieved = (d.sources ?? [])
       .map((s) => s.retrieved_at)
       .filter(isDate)
       .sort()
