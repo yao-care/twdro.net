@@ -31,7 +31,17 @@ const canRegister = status === 'registration_open' && registrationUrl;
       {registrationEnd && <span>報名截止 {registrationEnd}</span>}
     </div>
     {canRegister ? (
-      <a class="btn-action" href={registrationUrl} rel="nofollow noopener" target="_blank" style="margin-top:20px">立即報名 →</a>
+      <a
+        class="btn-action"
+        href={registrationUrl}
+        rel="nofollow noopener"
+        target="_blank"
+        style="margin-top:20px"
+        data-ga-event="registration_click"
+        data-ga-event-id={id}
+        data-ga-event-title={title}
+        data-ga-event-status={status}
+      >立即報名 →</a>
     ) : (
       <a class="btn-action" href={url(`/events/${id}`)} style="margin-top:20px;background:var(--color-brand);color:#fff">查看賽事 →</a>
     )}

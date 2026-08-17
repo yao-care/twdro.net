@@ -129,7 +129,16 @@ const tools = [
         <div style="display:grid;gap:14px">
           {news.map((n) => (
             n.data.source_url ? (
-              <a class="card-link" href={n.data.source_url} rel="nofollow noopener" target="_blank">
+              <a
+                class="card-link"
+                href={n.data.source_url}
+                rel="nofollow noopener"
+                target="_blank"
+                data-ga-event="source_click"
+                data-ga-source-type="news"
+                data-ga-source-publisher={n.data.source_publisher ?? ''}
+                data-ga-content-title={n.data.title}
+              >
                 <span class="meta" style="margin-top:0">{n.data.date}</span>
                 <span class="name" style="margin-top:4px">{n.data.title} ↗</span>
                 {n.data.source_publisher && <span class="meta" style="margin-top:4px">來源：{n.data.source_publisher}</span>}

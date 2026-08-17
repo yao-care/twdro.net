@@ -13,7 +13,10 @@
 
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const REPO_ROOT = fileURLToPath(new URL('../..', import.meta.url));
 
 // 只認這三個欄位：它們的語意都是「我方最後確認的時間」。
 // 刻意排除 event_start／registration_end（未來日期）與 published_at（他方發布日，
@@ -67,18 +70,25 @@ function gitDateMap() {
   let out;
   try {
     out = execFileSync('git', ['log', '--format=%cs', '--name-only', '--', 'src/'], {
+      cwd: REPO_ROOT,
       encoding: 'utf8',
       maxBuffer: 64 * 1024 * 1024,
     });
-  } catch {
-    return map;
+  } catch (error) {
+    // 某些受限的測試／建置執行器會在子程序結束後回報 EPERM，但 stdout 已經完整回來；
+    // 只要有可解析的 git 輸出，仍可安全使用，真正沒有輸出的錯誤才退化成空表。
+    if (typeof error?.stdout !== 'string') return map;
+    out = error.stdout;
   }
   let current = null;
   for (const line of out.split('\n')) {
     if (/^\d{4}-\d{2}-\d{2}$/.test(line)) { current = line; continue; }
     const file = line.trim();
     // git log 由新到舊，第一次見到的檔案即最新一次改動；已記錄者不覆蓋。
-    if (file && current && !map.has(file)) map.set(file, current);
+    if (file && current) {
+      const absolutePath = resolve(REPO_ROOT, file);
+      if (!map.has(absolutePath)) map.set(absolutePath, current);
+    }
   }
   return map;
 }
@@ -104,12 +114,13 @@ export function buildLastmodMap(contentDir, today) {
     map.set(path, maxDate(map.get(path), d));
   };
 
-  if (!existsSync(contentDir)) return map;
+  const contentRoot = resolve(REPO_ROOT, contentDir);
+  if (!existsSync(contentRoot)) return map;
   const gitDates = gitDateMap();
 
-  for (const collection of readdirSync(contentDir, { withFileTypes: true })) {
+  for (const collection of readdirSync(contentRoot, { withFileTypes: true })) {
     if (!collection.isDirectory()) continue;
-    const dir = join(contentDir, collection.name);
+    const dir = join(contentRoot, collection.name);
     for (const file of readdirSync(dir)) {
       if (!/\.(md|ya?ml)$/.test(file)) continue;
       const path = join(dir, file);
@@ -143,7 +154,7 @@ export function buildLastmodMap(contentDir, today) {
 
   // 靜態頁（工具頁、法務頁、FAQ…）沒有對應的內容檔，用 .astro 本身的 commit 日期。
   // 動態路由（檔名含 []）跳過——那些網址的日期已由上面的集合掃描給出。
-  for (const [path, date] of walkPages('src/pages', gitDates)) put(path, date);
+  for (const [path, date] of walkPages(resolve(REPO_ROOT, 'src/pages'), gitDates)) put(path, date);
 
   // 首頁彙整全站：任何一頁更新，首頁的內容（近期賽事、最新消息）也可能跟著變。
   let overall = null;

@@ -28,6 +28,10 @@ const jsonld = collectionPageJsonLd({
   heroDesc="臺灣公開推動無人機足球的單位，以及訂定規則的國際組織。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <p class="text-muted" style="margin:0 0 24px">
+    想按用途找協會、學校、廠商或開課單位，先看
+    <a href={url('/learn/who-promotes-drone-soccer-taiwan')} style="font-weight:650">臺灣有哪些單位在推無人機足球</a>，再查下方名錄。
+  </p>
   {GROUPS.map(([key, label]) => {
     const list = orgs.filter((o) => o.data.org_type === key);
     return list.length ? (

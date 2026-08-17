@@ -37,7 +37,15 @@ const statusText = verification
         {g.title && <span style="display:block;color:var(--color-text)">{g.title}</span>}
         {g.items.map((s) => (
           <span style="display:block;font-size:0.92rem">
-            <a href={s.url} rel="nofollow noopener" target="_blank">{bylineOf(s)}</a>
+            <a
+              href={s.url}
+              rel="nofollow noopener"
+              target="_blank"
+              data-ga-event="source_click"
+              data-ga-source-type={s.type}
+              data-ga-source-publisher={s.publisher ?? ''}
+              data-ga-content-title={title ?? ''}
+            >{bylineOf(s)}</a>
             {/* 沒有標題時，publisher 得單獨挑大樑，補上分類字說明這是什麼性質的來源 */}
             {g.title ? '' : `｜${label(s.type)}`}
             ｜信度 {s.trust_level}

@@ -36,6 +36,13 @@ const metaDescription =
     <meta name="description" content={metaDescription} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="twdro.net｜臺灣無人機足球" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta name="twitter:card" content="summary" />
     <!-- 訂閱來源全站宣告：閱讀器與聚合器靠這一行自動發現，讀者不必先找到 /events/ 才知道有。 -->
     <link rel="alternate" type="application/rss+xml" title="twdro.net 賽事與公告更新" href={url('/rss.xml')} />
     <!-- Google tag (gtag.js) — GA4 -->
@@ -43,8 +50,26 @@ const metaDescription =
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
       gtag('js', new Date());
       gtag('config', 'G-QGL1VZWJ2Z');
+
+      // 共用的宣告式事件入口：元件只要加 data-ga-event，就會送出一次自訂事件。
+      // 參數只讀 data-ga-*，不把整個 href／頁面文字送進 GA，避免把無用內容與個資帶出去。
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest('[data-ga-event]');
+        if (!(link instanceof HTMLElement)) return;
+        const eventName = link.dataset.gaEvent;
+        if (!eventName) return;
+        const params = {};
+        for (const attr of link.attributes) {
+          if (!attr.name.startsWith('data-ga-') || attr.name === 'data-ga-event') continue;
+          params[attr.name.slice('data-ga-'.length).replace(/-/g, '_')] = attr.value;
+        }
+        gtag('event', eventName, params);
+      }, true);
     </script>
     <slot name="head" />
   </head>

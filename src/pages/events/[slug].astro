@@ -70,7 +70,17 @@ const seoDesc = eventPageDescription(d);
   <section class="panel" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin-bottom:20px">
     <StatusBadge status={d.status} />
     {d.registration_url && (
-      <a class="btn-action" href={d.registration_url} rel="nofollow noopener" target="_blank" style={isOpen ? '' : 'background:var(--color-brand);color:#fff'}>
+      <a
+        class="btn-action"
+        href={d.registration_url}
+        rel="nofollow noopener"
+        target="_blank"
+        style={isOpen ? '' : 'background:var(--color-brand);color:#fff'}
+        data-ga-event="registration_click"
+        data-ga-event-id={event.id}
+        data-ga-event-title={d.title}
+        data-ga-event-status={d.status}
+      >
         {isOpen ? '立即報名 →' : '前往報名 ↗'}
       </a>
     )}
