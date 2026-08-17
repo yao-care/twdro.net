@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 
 // 前置：需先執行 `npm run build`
@@ -27,4 +27,15 @@ describe('build smoke', () => {
   for (const p of pages) {
     it(`產出 ${p}`, () => { expect(existsSync(p)).toBe(true); });
   }
+
+  it('產出社群分享預覽圖', () => {
+    expect(existsSync('dist/og-default.png')).toBe(true);
+  });
+
+  it('每頁宣告同一張可抓取的社群分享圖', () => {
+    const html = readFileSync('dist/index.html', 'utf8');
+    expect(html).toContain('property="og:image" content="https://twdro.net/og-default.png"');
+    expect(html).toContain('name="twitter:card" content="summary_large_image"');
+    expect(html).toContain('name="twitter:image" content="https://twdro.net/og-default.png"');
+  });
 });
