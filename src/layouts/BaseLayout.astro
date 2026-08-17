@@ -26,6 +26,8 @@ const {
 // 而多數頁其實早就寫好 heroDesc、只是沒接到 <meta> 上。這樣接了以後新頁也自動受惠。
 const metaDescription =
   description ?? heroDesc ?? '臺灣無人機足球的賽事、規則、隊伍、場地與器材資料，每筆標明來源與查核日期。';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const socialImageUrl = new URL('/og-default.png', Astro.site).toString();
 ---
 <!doctype html>
 <html lang={lang}>
@@ -35,14 +37,21 @@ const metaDescription =
     <title>{title}</title>
     <meta name="description" content={metaDescription} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="twdro.net｜臺灣無人機足球" />
     <meta property="og:locale" content="zh_TW" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="twdro.net｜臺灣無人機足球賽事、規則與器材資料" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImageUrl} />
     <!-- 訂閱來源全站宣告：閱讀器與聚合器靠這一行自動發現，讀者不必先找到 /events/ 才知道有。 -->
     <link rel="alternate" type="application/rss+xml" title="twdro.net 賽事與公告更新" href={url('/rss.xml')} />
     <!-- Google tag (gtag.js) — GA4 -->

@@ -2,6 +2,15 @@
 
 靜態網站（Astro + GitHub Pages），資料由 `src/content/` 內的 YAML/Markdown 驅動。
 
+## 線上資料
+
+正式網站：[twdro.net](https://twdro.net/)
+
+- [臺灣無人機足球賽事：報名、賽程與成績](https://twdro.net/events/)
+- [球機價格與購買指南](https://twdro.net/equipment/)
+- [球機組裝步驟](https://twdro.net/learn/drone-assembly-basics/)
+- [臺灣賽事、隊伍、場地與推廣單位入口](https://twdro.net/learn/taiwan-competitions-overview/)
+
 ## 開發
 ```bash
 npm install

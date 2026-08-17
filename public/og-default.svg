@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">twdro.net｜臺灣無人機足球</title>
+  <desc id="desc">臺灣無人機足球的賽事、規則與器材資料</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213c30"/>
+      <stop offset="1" stop-color="#14271f"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="34%" cy="28%">
+      <stop offset="0" stop-color="#fff7e8"/>
+      <stop offset="0.2" stop-color="#ffca8a"/>
+      <stop offset="0.72" stop-color="#f2843a"/>
+      <stop offset="1" stop-color="#b94d1e"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M0 538H1200" stroke="#d29a3e" stroke-width="4" opacity=".9"/>
+  <path d="M0 542H1200" stroke="#74d94f" stroke-width="2" opacity=".7"/>
+  <g opacity=".1" fill="none" stroke="#f2f7f3" stroke-width="2">
+    <ellipse cx="970" cy="288" rx="208" ry="78" transform="rotate(-22 970 288)"/>
+    <ellipse cx="970" cy="288" rx="208" ry="78" transform="rotate(68 970 288)"/>
+    <circle cx="970" cy="288" r="154"/>
+  </g>
+  <g transform="translate(858 176)" filter="url(#glow)">
+    <circle cx="112" cy="112" r="112" fill="url(#ball)"/>
+    <g fill="none" stroke="#fff" stroke-opacity=".58" stroke-width="9">
+      <ellipse cx="112" cy="112" rx="112" ry="44"/>
+      <ellipse cx="112" cy="112" rx="44" ry="112"/>
+    </g>
+    <circle cx="74" cy="73" r="25" fill="#fff" opacity=".52"/>
+  </g>
+  <text x="84" y="115" fill="#74d94f" font-family="Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="7">TAIWAN DRONE SOCCER</text>
+  <text x="80" y="250" fill="#f2f7f3" font-family="Arial, 'Noto Sans TC', sans-serif" font-size="78" font-weight="800">臺灣無人機足球</text>
+  <text x="84" y="325" fill="#d29a3e" font-family="Arial, 'Noto Sans TC', sans-serif" font-size="42" font-weight="700">賽事・規則・器材資料</text>
+  <text x="84" y="405" fill="#b3c6bb" font-family="Arial, 'Noto Sans TC', sans-serif" font-size="28">twdro.net｜每筆資料標明來源與查核日期</text>
+  <text x="84" y="588" fill="#f2f7f3" font-family="monospace" font-size="25" letter-spacing="2">twdro.net</text>
+</svg>
