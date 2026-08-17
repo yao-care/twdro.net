@@ -180,7 +180,9 @@ const seoDesc = eventPageDescription(d);
     </section>
   )}
 
-  <section class="panel">
-    <SourceBlock sources={d.sources} verification={d.verification} title={d.title} />
-  </section>
+  {d.sources?.length ? (
+    <section class="panel">
+      <SourceBlock sources={d.sources} verification={d.verification} title={d.title} />
+    </section>
+  ) : null}
 </BaseLayout>

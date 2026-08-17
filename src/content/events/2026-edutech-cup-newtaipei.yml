@@ -11,11 +11,4 @@ schedule:
   venue_name: 新北市立三民高中 逸仙堂
   city: 新北市
   district: 蘆洲區
-verification: source_confirmed
-sources:
-  - type: organizer_announcement
-    title: 第三屆臺灣教育科技盃無人機足球－新北地區公開賽
-    url: https://www.jges.ntpc.edu.tw/p/406-1000-9043,r43.php
-    publisher: 新北市教育局
-    retrieved_at: "2026-07-19"
-    trust_level: B
+verification: outdated
