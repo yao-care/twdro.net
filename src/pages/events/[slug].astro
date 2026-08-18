@@ -22,11 +22,18 @@ const d = event.data;
 
 // 主辦單位／場地是事實型自由文字欄位，不是關聯 slug；只在完全同名時才連結到明細頁，
 // 不做模糊比對——寧可漏連，不可連錯（鐵則 5：不杜撰）。
-const [orgs, venuesList] = await Promise.all([getCollection('organizations'), getCollection('venues')]);
+const [orgs, venuesList, learnArticles] = await Promise.all([
+  getCollection('organizations'),
+  getCollection('venues'),
+  getCollection('learn'),
+]);
 const orgIdByName = new Map(orgs.map((o) => [o.data.name, o.id]));
 const venueIdByName = new Map(venuesList.map((v) => [v.data.name, v.id]));
 const organizerOrgId = d.organizer ? orgIdByName.get(d.organizer) : undefined;
 const venueId = d.schedule.venue_name ? venueIdByName.get(d.schedule.venue_name) : undefined;
+// 趨勢文章以 trend-<event id> 命名 trend_id（見 scripts/trend-radar.mjs），配對後在賽事頁反向連回，
+// 否則這類文章只掛在 learn 分類索引，沒有其他頁面連進去。
+const relatedArticles = learnArticles.filter((a) => a.data.trend_id === `trend-${event.id}`);
 const hasLocation = !!(d.schedule.city || d.schedule.venue_name);
 const isOpen = d.status === 'registration_open';
 const jsonld = eventJsonLd({
@@ -177,6 +184,17 @@ const seoDesc = eventPageDescription(d);
           或<a href={resultsUrl({ path: `/events/${event.id}/`, title: d.title })} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
         </span>
       </p>
+    </section>
+  )}
+
+  {relatedArticles.length > 0 && (
+    <section class="panel">
+      <h2>相關文章</h2>
+      <ul class="data-list">
+        {relatedArticles.map((a) => (
+          <li><a href={url(`/learn/${a.id}`)}>{a.data.title}</a></li>
+        ))}
+      </ul>
     </section>
   )}
 
