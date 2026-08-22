@@ -43,11 +43,15 @@ const SITE = 'https://twdro.net';
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const HISTORY_FILE = join(REPO, 'seo-data/coverage/history.json');
 
-const MAX_PER_RUN = 40;        // 🔴 本站分到的每日預算，不是全部配額。
-                               //    每日 200 是 GCP 專案 yaocare 跨站共用的，本站 40／folk.tw 120／
-                               //    其餘幾站走 index-ping-uncovered 各 1–4 筆，合計約 170／200。
-                               //    舊值 150 是「假設本站幾乎獨佔」，實際上本站排在 folk.tw 之後跑，
-                               //    2026-08-20 折在 quota exceeded（成功 4／失敗 24）。要調高先加總全站用量。
+const MAX_PER_RUN = 120;       // 🔴 這是「本站在 GCP 專案 yaocare 裡分到多少」，不是全部配額。
+                               //    Indexing API 的 200/日綁**雲端專案**，不綁站台。
+                               //    別在這裡寫死「有誰共用、各分多少」——那種敘述會過期並害人做錯決定：
+                               //    2026-08-21 有人依一段舊敘述以為 folk.tw 還在跟本站搶 yaocare，
+                               //    把 folk 掐到 120、本站掐到 40，實際上 folk.tw 08-20 就搬去自己的
+                               //    專案 folk-tw 了，兩邊都被過期的文字綁住。
+                               //    要改這個數字，先跑：node /root/seo-ops/bin/gsc-permission-audit.mjs
+                               //    它會列出哪些站真的共用同一個專案、各站當日實際用量怎麼查。
+                               //    （2026-08-22 實測：yaocare 專案 10 站當日合計 39/200，本站 28 是最大宗。）
 const INSPECT_CONCURRENCY = 4;
 const STUCK_DAYS = 7;          // 連續幾天未收錄才算「卡住」值得告警（新頁 2–5 天內收錄屬正常）
 
