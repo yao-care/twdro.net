@@ -5,6 +5,8 @@ status: archived
 event_type: 全國總決賽
 level: 全國
 organizer: 台灣無人機競技發展協會
+organizer_slugs:
+  - tdrupa
 rule_system: OTHER
 schedule:
   event_start: "2025-11-09"

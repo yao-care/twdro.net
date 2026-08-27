@@ -5,6 +5,8 @@ status: announced
 event_type: 分站賽
 level: 地方
 organizer: 台灣無人機競技發展協會
+organizer_slugs:
+  - tdrupa
 rule_system: OTHER
 rulebook: skycup-2026
 schedule:

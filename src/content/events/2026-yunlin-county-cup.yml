@@ -5,6 +5,8 @@ level: 地方
 status: completed
 event_type: 縣級公開賽
 organizer: 社團法人台灣智慧農業科技推廣協會／台灣無人機競技發展協會雲林辦事處
+organizer_slugs:
+  - tdrupa
 rule_system: OTHER
 schedule:
   event_start: "2026-07-25"

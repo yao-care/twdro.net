@@ -34,6 +34,11 @@ const events = defineCollection({
     event_type: z.string().optional(),
     level: z.string().optional(),
     organizer: z.string().optional(),
+    // 主辦單位在 organizations 的 slug。**陣列不是為了通用，是因為這裡的賽事幾乎都是多方合辦**
+    // ——「新北市教育局／台北市電腦商業同業公會／奧斯丁國際」是常態，單一欄位塞不下，
+    // 硬選一個當主辦就是替主辦單位排名次（鐵則：不排名、不推薦）。organizer 那個自由字串
+    // 仍是顯示用的原文，這一欄只放本站有收錄條目的參與方，沒收錄的不硬建（2026-08-27）。
+    organizer_slugs: z.array(z.string()).optional(),
     rule_system: z.enum(RULE_SYSTEM),
     rulebook: z.string().optional(),        // 對應 rulebooks 的 slug
     registration_url: z.string().url().optional(),

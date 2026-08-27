@@ -9,12 +9,33 @@ import SourceBlock from '../../components/SourceBlock.astro';
 export async function getStaticPaths() {
   const orgs = await getCollection('organizations');
   const teams = await getCollection('teams');
+  // 這一頁原本只印類型／所在地／官網三行——一個單位頁卻說不出這個單位在無人機足球裡
+  // 做了什麼。而站上其實到處都有它的痕跡：賽事的主辦、規則書的訂定者、器材的廠商、
+  // 教育文裡被點名。那些關聯本來就在資料裡，只是沒有人從單位這一側查回去（2026-08-27）。
+  // 對照證據：「中華無人機競技運動協會」這個查詢在 GSC 落在首頁 pos 9，
+  // 而該協會自己的頁面拿不到——因為那一頁上幾乎沒有內容可對應。
+  const events = await getCollection('events');
+  const rulebooks = await getCollection('rulebooks');
+  const equipment = await getCollection('equipment');
+  const learn = await getCollection('learn');
   return orgs.map((o) => ({
     params: { slug: o.id },
-    props: { org: o, teams: teams.filter((t) => t.data.organization === o.id) },
+    props: {
+      org: o,
+      teams: teams.filter((t) => t.data.organization === o.id),
+      events: events
+        .filter((e) => e.data.status !== 'draft')
+        .filter((e) => (e.data.organizer_slugs ?? []).includes(o.id))
+        .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? '')),
+      rulebooks: rulebooks.filter((b) => b.data.organization_slug === o.id),
+      equipment: equipment.filter((it) => it.data.brand_slug === o.id),
+      // 教育文用 markdown 連過來，所以從內文找連結而不是另外維護一份對照表——
+      // 對照表會與文章走鐘，而走鐘的樣子是「少列一篇」，沒有人看得出來。
+      articles: learn.filter((a) => a.body?.includes(`/organizations/${o.id}/`)),
+    },
   }));
 }
-const { org, teams } = Astro.props;
+const { org, teams, events, rulebooks, equipment, articles } = Astro.props;
 const d = org.data;
 // 實體明細頁原本只有 BreadcrumbList——頁面在描述一個單位，卻沒有任何 Organization 節點。
 const jsonld = organizationJsonLd({
@@ -47,6 +68,64 @@ const jsonld = organizationJsonLd({
     </section>
   )}
 
+  {events.length > 0 && (
+    <section class="panel">
+      <h2>主辦或合辦的賽事</h2>
+      <p class="text-muted" style="margin:0 0 12px;font-size:1rem">
+        本站收錄的賽事中，主辦或合辦單位包含此單位者。多方合辦時各方並列，不分主次。
+      </p>
+      <ul class="data-list">
+        {events.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '日期未定'}</span>
+            <span class="v">
+              <a href={url(`/events/${e.id}/`)}>{e.data.title}</a>
+              <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:4px">{e.data.organizer}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {rulebooks.length > 0 && (
+    <section class="panel">
+      <h2>訂定的規則</h2>
+      <ul class="data-list">
+        {rulebooks.map((b) => (
+          <li>
+            <span class="k">版本 {b.data.version}</span>
+            <span class="v"><a href={url(`/rules/${b.id}/`)}>{b.data.name}</a></span>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="font-size:1rem;margin:12px 0 0">
+        條文以官方規則書原文為準，本站不代為解釋規則。四套規則的差異見
+        <a href={url('/rules/compare/')}>規則比較器</a>。
+      </p>
+    </section>
+  )}
+
+  {equipment.length > 0 && (
+    <section class="panel">
+      <h2>本站收錄的球機</h2>
+      <ul class="card-grid">
+        {equipment.map((it) => (
+          <li>
+            <a class="card-link" href={url(`/equipment/${it.id}/`)}>
+              <span class="name">{it.data.model}</span>
+              {it.data.list_price && <span class="meta">{it.data.list_price.split('（')[0]}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="font-size:1rem;margin:12px 0 0">
+        售價與售況以廠商最新公告為準，本站不販售器材、不排名亦不推薦。整隊預算見
+        <a href={url('/equipment/budget/')}>預算試算器</a>。
+      </p>
+    </section>
+  )}
+
   {teams.length > 0 && (
     <section class="panel">
       <h2>相關隊伍</h2>
@@ -58,6 +137,17 @@ const jsonld = organizationJsonLd({
               {t.data.city && <span class="meta">{[t.data.city, t.data.district].filter(Boolean).join(' ')}</span>}
             </a>
           </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {articles.length > 0 && (
+    <section class="panel">
+      <h2>站上提到這個單位的文章</h2>
+      <ul class="data-list">
+        {articles.map((a) => (
+          <li><span class="v"><a href={url(`/learn/${a.id}/`)}>{a.data.title}</a></span></li>
         ))}
       </ul>
     </section>

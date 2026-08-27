@@ -5,6 +5,8 @@ status: announced
 event_type: 地區公開賽
 level: 地方
 organizer: 新北市教育局／台北市電腦商業同業公會／奧斯丁國際
+organizer_slugs:
+  - oursteam
 rule_system: OTHER
 schedule:
   event_start: "2026-08-08"

@@ -5,6 +5,8 @@ status: announced
 event_type: 友誼賽
 level: 地方
 organizer: 秀傳醫療體系／奧斯丁國際
+organizer_slugs:
+  - oursteam
 rule_system: OTHER
 schedule:
   event_start: "2026-08-01"
