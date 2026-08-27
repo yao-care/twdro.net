@@ -1,1286 +1,151 @@
 note: 每日新聞與主辦單位公告監看。is_new=true 是這一輪才出現的標題；looks_like_results=true 代表標題含成績字樣，請優先人工核實後補進
   src/content/events/。本 adapter 只偵測不改寫（站規鐵則 1）。
-new_count: 233
+new_count: 25
 new_items:
-- source: UASACT 奧賽特官方網站
-  title: 2026 奧賽特無人機足球競賽獲勝名單
-  link: data/files/2026_1785283240.pdf
-  looks_like_results: false
-  is_new: true
-- source: 新竹縣教育科技盃官網
-  title: 114年新竹縣教育科技盃無人機足球公開賽
-  link: /view/hchccsoccer/home
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 前進上海！「天穹盃」無人機飛球錦標賽總決賽 台東熱血引爆 - Yahoo運動
-  link: https://news.google.com/rss/articles/CBMigANBVV95cUxOVHlYbWNFNi1mOWJ4c2NnUEY0cjZ0R3dNVGRRRm1NR3BtdHBXazVmTWNZaXNMdUhGMmRrNER5ZFY0aE96eVBBci1seXQ1X2NDNEdmMk5WUGRGZ0pRNW1lOGZDT2tVLTVYX0Fnay12WU9uLWU4dFFVRVRyNnM1WjJsLWVVdVNyUUxpY25hOU5ic0kwdHJSQjdzSWhLcWxpcG9xY2NVUkx1NTlpZVp6ODVfcXhLWEtNd1QzOWlTTXB1RWM5bGpXdnBiQjRZc29SbjFSSTh2VkwxWHFkdHJUb2FlZVdUR2Z3ZjZxb1J4UnFFTTJhelJOUVU0RTYzMGtrZkRmNS1pSzltbVRXTU5VNjdVZzZoT1JUamxsOFRvVWFtUENtNlNrcndqMG5ta29iRkc2WWhhNURJWVE1VFJDWFk5WEdfZ3BzU1E2SzJ3LTZBN3IxWmJLTW4yQTM4RXplT1M4OFEtdWFCcDJCb1A5Znk3Qzl6Y1VneFZIdTRhNGh6YkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 天穹盃無人機飛球錦標賽 總決賽池上開戰 - 原住民族文化事業基金會
-  link: https://news.google.com/rss/articles/CBMiRkFVX3lxTFBJUE1fOHJ3RkZpNnlTRUI5bWJvcUg5eFBmUHV4VlZnV0M0U3BIbS1ndzFGdkRCLV9OREYtLTlyNDBaU2J1bUE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 天穹盃無人機飛球錦標賽登場 中部選手齊聚弘光科大爭冠 - taichung.gov.tw
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFBjVUZSdUVEZ2ZLRU9rbnJ1WDFieGVHemM2amVQbndaWmFSYnM2cW5GR1IwU3FlWThXbTczWE1mMXpaX0lmaTVfREYtYkhQTElmcDgtZzdxa19NTzdwako0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 天穹盃無人機飛球錦標賽登場 中部選手齊聚弘光科大爭冠 - 新華報導
-  link: https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9kc1ZWNVlCZ3NCWWhjRTRhU09IRktJN3U2LXRKN3RoMXNtTXlPbnMxOFZnUEQ1MTV4Y2ZpVlJhS0NneTNIU1N3YmpncExnZEdJREVUa0xxQUk0NXNNa04zQXljVlVBYVk?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 無人機飛球南投預賽 全縣29隊選手競技 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9Sb2owZHlva1g0QU5ET0w1UlVuTnRmVWV6QVBPVWc3eWNEaW13YWhDRWRwSGVlVW9tc2doN1RTRDBWejctQVVfUS0yNmNXQlNk?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・天穹盃
-  title: 陸軍三支部補油庫無人機飛球社參與南區天穹盃競賽 - 視傳媒
-  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBqOUs5aW5HVkRRRGE4aUZHQUQ5MEVwbHViOE44TVVrbndUWHQ5NmE1bk4wajVsQXRCS3ZYRGNCXzQ1cWl5aXRYX3ZjMlpzRTRBU211SnJjOUdONC0yV2lzQWFMWnNKWWdDdzBsWm9B?oc=5
-  looks_like_results: false
-  is_new: true
 - source: 新聞・教育科技盃
-  title: 2026首屆草屯鎮長盃無人機足球競賽 虎山國小隆重登場！產官學攜手培育新世代未來人才! - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE5WcEpRbUwtMkZfUWdJTVRXY0VYX3ByTG05ZnVxZG1zaElsV1B2NG0wRGxNNE9jMU12TmlHSkhqR3VkV3IzWU5KWHphT0lOQjNUNmc?oc=5
+  title: 2026首屆草屯鎮長盃無人機足球競賽 虎山國小隆重登場！產官學攜手培育新世代未來人才! - 墨新聞-MORE News
+  link: https://news.google.com/rss/articles/CBMiQkFVX3lxTFBzeXA4ZEFRTk55a1JqWExSUXlUSVlQNk9fSmpaYUhJRGZBbE5BRVJRVVJiWjcxUF90WThFTno0T3lOdw?oc=5
   looks_like_results: false
   is_new: true
-- source: 新聞・教育科技盃
-  title: FIDA國際無人機足球訓練營登場 台韓跨國合作校園接軌國際 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9TbU5IZTd1bUZfS0hQOXcyMXczNUlsNTJJNVFHVnh2VXBUVFgtMFRjZEQxaUliVnFJVVZtNVlndXJCLWxxZm9VTWNZcndDVFBCM2c?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: FIDA賽制引領全球創新運動！無人機足球結合科技、戰略與教育 臺灣正式接軌國際舞台 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMikgFBVV95cUxQUjVScHdLX2dPQWRBcjB2Q2Rlb3FOX2dRMk40Ul94SHdiOWlzYUFGcGthclpnV0Q0QUFtRk1ka1ZzbXVleGRvdFBiY0g3aHBtaGFGUm9CVDVUYW9VTmIwM0wxWkpMSkZmaVVWYWN1V0x3SGRYQkczTS1KRTMxNndoTUtzUXNST3hEUHVsS2hxVDM4dw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 全臺首批無人機足球裁判培訓完成 總統盃競賽蓄勢待發 | 青年日報 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE5EVGJzbVRFM2lEMmQ2Z00xUlJzaDZQUnZub2RCZTlUcEJJaEVDWHhPc042bnhHRHBTTHlZcWNjUVdBdW9PN2lYcWdMVENLdGdobTJWNU93?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 土庫鎮公所舉辦無人機足球賽 教育科技實作新典範 - 台灣好報
-  link: https://news.google.com/rss/articles/CBMiU0FVX3lxTE1MWXZGWTJibDdwSm9SX0prbWU5RjNEWUdCd1ZWRjJTNmdNVTh0ZXZDQ1pjMnlMdW1ZdW5PejlhNUp5RzJtOHp3cThBb0NoQktLVW5V?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 地理中心盃無人機足球賽7／24登場 結合裁判講習推廣新科技運動 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTE11d29ZaWo3b3VsME1mcUxFVjZWQzFzVHJKd0dRN2c3SXZ0YlItQmpST2JFQTBPWHJqZ09YMzFYYWdkTlJmaHNkVzRET0NadnRlQlVPTHFWUkRLRk05YnfSAUtBVV95cUxOWTg0SWIwTUtmWDRXMFJJRUZTSlNLRFk2Xy1kRmJjV1hQZmFPWlNRb2pxN3lwa0JJRTdVSFFDTnZBT1kzYWpqbXlMcVE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 大新竹校園掀起科技運動風潮「無人機足球」親子超愛魅力無法擋– 資訊總分類 - taidaily.com
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE5QNVczbXhOdjBEODZScFBnT2w3Q0lYMlBTQnp1NHVVTHNqSFlNM3ZPNERRblNnSzFmenE5N0g5cjFCUWc1S1RSRFNXMFNhNVox?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 師生共飛！無人機足球進校園 興德國小推科技運動新體驗 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1XMnFfdFZBVHBROHNaMHVwalBjWlJqZEIyVF96MFM5aU5zU2o4WFpUektJU3N2VG9DUDZIeUxTZlNNdU9TZ0xDcUxieXlhc1l3cmc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 彰化教育科技盃公開賽 無人機足球點燃青少年熱情 - 焦點時報
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTFBXNUg0UU1rNlRXRlpyeVpFU1lBcDBsWHhsWTItT2M5MDFrbXRVdmEtTGJNNnhNV29WY3dTTXRSWWtzbTZQamZMdHU2WkQ1eWtPb1VGc01TOA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 教育科技盃無人機足球公開賽開打 青少年操控小飛球熱力競技 - 觀傳媒
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE5QT0s5cGNVNU5DX2JYMzZ5THFQR1gxUDNoQXRQQnhwbUIwZmxUMzNUeHYxLVJzX0FOaG9fMWY2V29iZWdwNk9DV2hweldPNldPUVpoUEZ1RQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 新竹縣無人機足球全國賽6/29開放報名系列活動起跑- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE81bzRwbWMxNTd6eUxKTHBROEREUlExRHdudGw3OVpIQjlkZ21iYnhMLUNQOS1lRWlFbzZHUnU3cUplUmRJSGQ1NUhtc25WQXdiME5zblJZU0tLVGtMS3l0NTlRVW0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 永虹盃全台首創「雙球雙證」培訓制度 建立無人機足球產業鏈 接軌低空經濟新商機 - 商傳媒
-  link: https://news.google.com/rss/articles/CBMimwFBVV95cUxQYlBGVTdaQ0ZzN1JaT3BiUjR6MTNHWTVoLUhrQkZPYzdoQldfZXFFZGxMNGowRWhHTDAwOGVhM0hLclBTZDJxQ3FpRV9HVU5XcmtjZnJPVUR6bmk4YnFib0JSbzBsR25WUXhFQzExYk1Kb3dCTFI2dGJYdzVtQXhacmVXS2xRYUpaN3JPR09id2RGTkJOcjdrU2RDTQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 勁報
-  link: https://news.google.com/rss/articles/CBMib0FVX3lxTE43MWlSZHRQTm5WQUNqUjJMeFg5Y1BhdU5LbGdzbFBoTGlMX0R2OFJGM3EzUzRYOGh2ajktdWNiRFN0WFZUZ0w2ZkUzcWJNYWVxNjlUUmZDRmVnM3B4d0EyaFdnYy0xZjNBWHl3TEh0TQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 無人機足球空戰 新北公開賽開打 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi_AFBVV95cUxOZl8wZ2hwS0ZHaTFKR2UxNnVCVXNtX3h1TDRUXzYxQ0x6dlUta2RTVzJKQVppeFdJVy1TclFZc3FaRXJUZER3Z3RnWWdwaE9NNDZVOVVfdEVDNWN5clA4UkNRZ3dQbXgxOFFhbC1veWpxbS1xam1TUzdYQmtucE5EVVF4bmtqNDlWdkJ2SVFEQmNFeU51Z3dzLV94WDNBRGxTclhrc1hiTlVST1FpOUZLaWtUWmdubXhZMDVyT1FCNEtfazM0TU1BbFFnVXZsa1dEa0FZS3NvUVZaRTNCaHJqcHJwb3kxRVJvV0o3bjBQNzJfYU9FXzE2dnRSMVY?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 無人機足球空戰開打 新北80隊300位學子競技爭全國賽門票 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFB5S2czUEk3QXVZRURJVkQ2N3lZT0VZblJuNmMtYnNGUTBsZXJaZWRSZzkzLXpRUW95RzBZQS1CZ2hjOWIwZVh6Qm5va2hFbkFl0gFWQVVfeXFMT1FNVFh3UGFheVotU2hGZmNnNVJWUDlpRWd4RFpFRHVjN0pWN1c0N2dBd1RlTTZtT0JnMmZ3S0lxZld2VlVXZHotOHBFaTVZSEpSU2hkNWc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 無人機足球空戰開打新北80隊300位學子競技爭全國賽門票| 2026九合一選舉 - UDN
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE8yMXhDVUZRRk5pVHB4cnRrODAtZmdMekpya3BFX3Q1TTNmTDU4Z2dKdUE2WjBvTzRGeFUta1FYWlRJN1lZYjFXQ05QVFdsaEZNcTJVQmhn?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 無人機足球走進花蓮校園 科技公益陪伴孩子成長 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE05aXhxZUoyeEJXd3BYTzZMZTVwbTFraElIMkFkVWIxZ2EtalhNNEE4RS1NaF9ycjlsYW5ESWtsY0o2WmZETllWazZFUmdMVWtESkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 熱血的無人機足球賽酷炫登場 24支隊伍互相較勁 - 台灣好新聞
-  link: https://news.google.com/rss/articles/CBMixAJBVV95cUxQSGl6MjVFdUhWS3F6dDFib0pOdFhjcWMzdGw5eWw1TGF6LTlsaGxvMktHcXQ0XzM3anV5ekE1RmhNN1hvVjNrOWw4QmFIN0U5dGpBdjNCYlFCdlNxZGVYc1Z3RHhsS3FzbThGRVI3bnF3ZlQ4TjNIWUt0R1pORkhtOS1YeWtQQkYwcmhCUzFNQkE1THZFWndKcmxCaW5EN09vQ0VnaGRxMm9uY1dxN0N6Z3BTZVpDM2pITTROaXBTNVB0R0NCalZmVndCMkV0dE5hNk5CaWJLWFkzbUI5VTJULU1peFY2OGxra1VBbndfM1l0VEtROWpOOEg4YjJwcUo5Q0d1MTV2ZnJrZTA5UEZSRV9qVThDQ3pHMUdpVmd3Y3h6cEMtLTYxd2JWSEsyR2R4ZjRVb3pDRFh5dF9TN1BkRnNnU2g?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 狂賀！臺北代表隊勇奪世界盃冠軍 FIDA無人機足球賽大放異彩 - 台灣新聞雲報
-  link: https://news.google.com/rss/articles/CBMiRkFVX3lxTE12TDNrbnVXTjQ4aG9lbk1YUXhlcjVBV0Q2R3N5NC1JejNFbGtlZERnS0I0U2o3R3F5MmJYWnMzaUtJNjRyX1E?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 竹縣無人機足球系列活動開跑 全國賽6月底開放報名 - hsinchu.gov.tw
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE5yRWFkX2M4czR4NHJ3Nktjc2szRFJBM1NTUmtWVjQxQUIwZmNYaEpoU0syZ0Y4dTEzSzFGZEQxU1F2ZmdaLWRHc1JzS1p1Q2wxeVQ2VUtTanAxdkhvcGNMZmZOZUQweFVfTTU0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 竹縣無人機足球賽6/29開放報名 新興賽事廣受親子家庭熱烈響應 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFBoZV9UNy1mT0s4c0FwSXZQUlU0VVNXOG5kTEo1TTA2Vmwxb2trNnotZ2VsT1RuSTNSZk1aQmRfMEtnQncycGhyLWcxRklQU0JT?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 第三屆臺灣教育科技盃無人機足球新北地區公開賽登場 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi8wJBVV95cUxNaHdZLVlpWTFUZFF5ZTVvaGJoODJGZ0xwalRZUEFISUJ3V0ZqVEdWTXhFWFhZZGJEdFRpRGhLeWh0UzJKTTFRRmk4ODUxd2xTNmdfbjl3VVZpcUh6TWVfRk1yN0xmODdYYS1DWVdTYnNXRm9XelpTWS1kSTUxNzhweV9uX3R0S3dSeVRTYTRiUTVBMV9FRGFJbVlFbmhHZmJfRnJTUXRiYmF2eG5GeDFwdXRyWUpLNjNZTzJKNDFSTklxZGxyclVMRXJ0QnptMDU0Q1VVNjFpaFp4UE5PN253OGJWS21leHA4bXdfakVqVnZQX1AzdFdpU2c0QXVndEpWRHA2RlA5bUpybTB5LV8wN1pSdHBWUEdXajVLUkdTUUlHQWVFTDJXMGFZbVhfSDN1eHpDeWNGTlBnUWhrNko2dUhTRnRNejUtaUdVNFdwcjRDR0NiclUyQXJBdWE5QW9EcFcwc2Y0SEpjWW1mYUt6ZlJOSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 臺南首辦無人機足球師培 120教師為科技教育再開新頁 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1zLWUzV0NTWmhkYTJGZTAxZHZLVFFnMF8wVXdXTG9VMkF2M2UzaUM1UDN5YWgxeEFXREtCVkxhU0lWeVM1c0hkbGJHZ2JkclBFM3c?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 草屯鎮長盃無人機足球競賽 產官學攜手培育新世代未來人才 - 台灣好新聞
-  link: https://news.google.com/rss/articles/CBMiigNBVV95cUxQekdyenV3azgwNFBxTXBaMmp6ZVFORVhrd1d1R3I0TDFpQW8zc1pRcFA1dXV2aTNOQmlwVHhTMWs1dHIzMGM3QUwyZWFTX1BfRG8wc19pNFZLcjd3RUpZREtvb3lGQUNHOU8tcUhETlRWMHdiVVZ4dHpNcjVkMzJ6eU5ZbHhPYnRVLVRPcTVUZ1JpNnIyRzJGWTE2cElxWUlhQUFsamZVVEVOamw4QWJhZWFNSFJVSXYwV25telZSbzFPTHVyMDVGNFRsSlo1N05IVmUwSmNMLUJvRWdSck9RZExPQWJmQXVoeGdDNDk0Q3ViTVctN2FjcDd1MUhMZVBBVnVFb1BTRkd5Vk9LSGg2NlFBWFFmbmg5V2tKRnlnQ282cnlIeHlmSzQ4S2RlV2w3ZnNVSzJDdTdiSXlfQ2xfNDQyNERSbHJYbFJtRnB5YTdkVkkzSkt4cG5nR3d1OXNTNzh5dFhLLUlWUnQxVkVnemstWGNVaElNWkZuT0ZtY2tzQ2swQVdONTF3?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMioAFBVV95cUxQMzZVU0E0bHUzUHhVVWpHYnV4Zjl6cFhWeXBkSmppNlRWNG1vaGFDN2xacVpsdHdEN3RBQzQyVU4xRkIxYmpKeV9pX1ZYMUpZbmNWckFnQVEwbkQ5bmthdW9nRm9zSVNEeFdad1Qzd0Z2SDBfOVVCMXViREwtWkpKdm4xMEZaRjU2cHRxNnBoV3M3Znd6UWtLWUVlX3lEZXpY?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 足球飛上天！彰化市無人機足球賽24隊酷炫較勁- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFBEdkU4QS1pNXA4TGgyN0twZmdlLUtuQnkzaUR4S3BTWEdYblZLZUhmenB1QjNXbklacG5RTjQ1UnVwZ01JMzJ4aWN2dVEwS1JtTVZwVllzU1cwNVpHRzdlQXpzTkM?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 銀髮族學無人機足球操作 體驗科技新樂趣 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1DZXNiYnNfQmctNWc5TFBJVWY0QW1UWWV1cEZrTklYeFNvN2V6Q2ZHdFpxQ3JTQ0xLVXhzZHF3V2hWbWFIcENDMmdqUEFQQURDSVE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 開南大學辦無人機足球研習 推動科技教育與團隊學習 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE03SGxGT1htT3c2UlhlbzRvUFNTMHZqamxoTzhZb3AyMjR2ZDVrem9rSTNMSThRbGtsR0l3dzhDcmIxZ2FNWF9XSkpCYlJZV3BkY0piT0Jn?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 香港FIDA代表隊出席全球首屆32國家無人機足球世界盃 - 香港商报
-  link: https://news.google.com/rss/articles/CBMidkFVX3lxTE12RFNkclN6SHA1LTMxTWdvQjNBNGhSMkFNaEx2N3paak0zdkw0UVBadEVJMldvdEVlVFRlalB1TWlfdkZIRWZKcnkwYU44QTNLR0ZNdlBBaUgxZXN4MHN6cUo4Rm03S21LRmN4aUV3V21DZVNHcXc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・教育科技盃
-  title: （有影片）／土庫辦首屆無人機足球賽 科技教育與競技創新融合 - 獨家報導
-  link: https://news.google.com/rss/articles/CBMi3gJBVV95cUxPWWRzYTM4dmI4T1B3QVlwMXY4VGtYeFZzaVVtMlVoQktleEV6SVllcTFCRTBkRjIwSk9rNmZ2elNESTRIcVNKMUs4QnBMYXhTeFpmakdwSC00MzF4dlJ0Q3NEXzZORjE0Y1c0YmMtdEppSWxkZjVRSF94MURhOU1WekJjUkk3ZWNrd25GZ3l6TURlZl9zYjkzYk1kaGRqNEJxOHJna0w3Ni1CcVRwaDZmZ21HU042bU05cTBfWG11Zzh2bUFubDBlaXJheENHVUNyNHh0eHRqRGs2eGhFQnQ4ak91X3dEYjhGeG82bXNWcUxVdXNwVUxnNFd0VnlWdkdDeXNvVWdIVUV5cmt6YUdKVEVFeElKY0RmVzVGamVObUhLeFdiS3lFTUxvV1djSF9VVmZJdVlLSTZmVUljUnVaVHNITlJYZ0pqNmhnWGw0MC1ZeTYyTWFWcER5ejFsUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 2026FAI國際無人機足球賽！中華青少年選手奪冠 替台灣摘下首面金牌 - 三立新聞網SETN.com
-  link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE85MTFSanRVUFhhdW1YM3FPUVhnSHJQWmxYRGE4Ym5jQUZHTC13VGx1WEJGbjBYVlloWU5lTkR0bEFrdmFGMzVTSdIBTEFVX3lxTFBFUUp0VUtMR2ZGdUE5VFZOMXFxZ0poUXE3R3NNTFhubkJxcFgtMDhuRVM0c2t0U19OVXVnN2IyaThVNkY2c1FGbzJ1RUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 三對三無人機足球 操控技術決戰關鍵 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE5kbHVyNmlCNnJaMDBhQV9sUkVTbkgwWjZxa0xXSlY0Ykp0b2F6WVU5bTN1MFNVaGFyUjI4WDRnV2VuNUl2TTVxSWtOOWJfX1Vz?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 中南部唯一！嘉義市精忠社區成立「無人機足球培育基地」 透過科技跨世代共融 - chiayi.gov.tw
-  link: https://news.google.com/rss/articles/CBMiakFVX3lxTE9IODRJOUJfYWhid2hlc1N5d2VHN3BJSVhaME9BaVZicFhUbmY0X0RtNjE5THBwWDhMQWswZlo4eXZqVzBBcmhOSGpXXzBvYW13Tkp2YkdINXNuZDJqMVJTMjJOd0thdVBxOGc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 仁川無人機足球賽傳捷報 - 國語日報社
-  link: https://news.google.com/rss/articles/CBMickFVX3lxTE5JOUUxMjZMSFlUbUdMM0NKN056Um5EeXBtU1hTTkJib201SGtuc052VkNMVEF1bGk3TXdId3p0c1JNQktScFIySmNEUkxLSXVnanN2OVVBd2x0cEI5dHprTk1Bdm5ITi1wRUVmZ3BMY3VDQQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 內湖科技成年禮 “無人機足球”飛向新里程 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE8ySVQzQVZNZHpibWNpekM5OVpCaWdlMGl4ZjJKUjFZcElhXzNFbkFrNU5UdDhHVlVkbkg1UzZoVTVpTmFmSFN2QkFacmUwRFNu?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全台首創！秀傳舉辦無人機足球賽打造醫療科技新應用- 生活 - 工商時報
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE1wWTVVRDhYLVRLWWt5dVYtUXNpZzJHODcybThEWFlHU1piYkNSTEdRYXl4R3FnckoxN002S0JvdVRuOG9uRUdJR2Y3dktrTzNZQkp6S0I5NFVGRTV4ZVdV?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全台﹁第一屆秀傳盃無人機足球賽﹂登場。（照片秀傳提供） - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE9oRUplYi1oS2JudVVIMXU3UTdQMVJ1bjh0ZmwweDRkRDg4MGlSZng5XzhRVjdVQ2t5UUdua0otS3c2Z2JkeXFaTVdLUnRRd1RTUlhvMngtaGx3VGgtRXJVOTJqYjhYY2Jvei1N?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全台﹁第一屆秀傳盃無人機足球賽﹂登場。（照片秀傳提供） - 台灣華報
-  link: https://news.google.com/rss/articles/CBMie0FVX3lxTE1abjVDOVlSdVZRcktCWFdsRkFfbkF1eE5NVzQwUTlHU1JOdTZTWVNIMV9ZMnhjV1hUYllMZ3ZHY0s2cUE2Njd2VDVPYjdqTXBpMjhNeHhmNGxFZG9XRDE0TC1sUEt4RU5lcVNCQU1DTDN2LXJtS09MMjYwSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個FAI無人機足球公開賽圓滿落幕 港隊表現亮眼勇奪亞軍 - 香港商报
-  link: https://news.google.com/rss/articles/CBMieEFVX3lxTE5xNVNWZDRHWlA4V1hOemRtdTVrMnRMa3hQTjFGVVBCR19pZEV6b3REV0lmLXhCc0dGX3dZSG5SMGp1T2w3Um10OHNjczZqa0N6MUdiQnlXMFcweTd6MVlKOUY1ZmJfNFc5cXlPSXA4UGFnUm9vLUlUVA?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個FAI無人機足球公開賽圓滿落幕港隊獲亞軍展現國際水準- 社區動態 - 點新聞
-  link: https://news.google.com/rss/articles/CBMiekFVX3lxTE13NWlmaVhIN1Bmdmw0VElJR21ndTY5R044YlpkQkRtZV8wQTN3RFB5NkpQT0hKMlZSemExa0Rrb25FbWJiclpBeklXZWxFcmEycnR6cjl3RXhUUVNqUVdDazhSbWU5bDZpelBvYkVNS3dIcXlrc0JtUFNn?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個國際級無人機足球賽開鑼 - 香港文匯報
-  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5ub1FOWnVVdFNCY1hhLUtlM2FYV1prZVAtQjhLNTFRUlBhVFlYV0FEd0tfZGtHVGRUU1hwekxTOFJMV2JfcHpJTG1CRjE5eWg2Ri1QMl94T19KMUpfbjVRb3lMdDJ2a0lJZ0lnejU2a0ZBSWprNWFv?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個國際認可無人機足球公開賽正式開幕 - 紫荊雜誌
-  link: https://news.google.com/rss/articles/CBMikAFBVV95cUxOaG1tQzlTc1ZIQ0pIZE1vbEZfMm5lakpWYkRsNjNFRkxneUFWdXpyN1pDUXlUX3RFT29wZVN6eFZJZE1BUWhqeHIza21DeFh1SVBGNlZ3ZFZtZzUwU1pSUlJQREV5TGVZLUl6UmNobmhkS3A0SmdkancxaUJiZnJja29MVGdTUmxTaXNleldUNmo?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個國際認可無人機足球公開賽開幕 - Yahoo體育：新聞
-  link: https://news.google.com/rss/articles/CBMitAJBVV95cUxNbzBQSUd4N0dJWVFOS0xlNWRoVU81SHVvdzl2cjBQWFExSUtRcUdKdnRJbTlUX0NWU0FCZktGSlVHSTBGd0JhMDVYY2QwTTdZaEE4STNQNjVvY1dHa2h4QlNlRTdHVXR0QjRHR2N0WFZQVTVST3NkTjZ4V01TZFJnSVVJcl90cldnaTc5Z3VtbUlMYXpVNnduZXJtb2Q2ZnU5RzYwOER1RThpTEZwbDk3TDRDWXlHU0xHUlVJQ0lFczJOVXdaQU9NNDE2Wm8wVkhBQVFaS0ROTXExMmZTbm8zX2ZUNDZOUGVpR2hIb3k3ZXNnVVA1OHBsMF9wMVB2RFlZYjFwYzJtanVwSVVLbTZOSXV3OFFfd3M2WEpGVUd6Y1NqLXlJbGdubWtMcm1jNHJiWFQwNQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個國際認可無人機足球公開賽開幕 9個國家地區隊伍同場競技 - 體路 Sportsroad
-  link: https://news.google.com/rss/articles/CBMi4AJBVV95cUxPcGZOU1dvTElLSWhjSU1qQ3E1UVVTbFBrYTFsQmoyUlZNN1B4LTNib2p3U2NER2NEUk5oZVQ5OUVDaFRXb3N1dnRYNl81bXlJR0J5Nk81bzZUMkNfdVE1bEFIaTlKVjNhWUR6UzNpN1o5MUJBQVpDWVRwcmJobzNXTzB6ekRKTzF1RUJ6b3c4cGtCemxZQVk1UGdpQW82ekRHeVAyUC05VWhDSlk1Y2NhSFhmam1YZ1ZSSm0yaE8zYjJsclpXTjZidjhDTEl2TVY5RlhnSmY3Y2dyYThDS0x1LTUzd0ZqN0dNTmJHVnhtYzk2RGoyNGVyaXRuNWRCQ19NeFRXZC1vQjF4cThDenliRXdGTDVPclJsQ1lEaks4N3FwQU1DeUNWRVh3ZjRiWlZERThNeF9iRmRwS1ZfZlRLRGdGVW5heFFCYm9LQUF4bzc1ZGhlMU1YaXNQSml4UGlX?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個國際認可的無人機足球公開賽一連三日舉行 - Now 新聞
-  link: https://news.google.com/rss/articles/CBMiYkFVX3lxTE1wc3NrYnJqVElnVDVqdzBwLVg0RjI3STRLY1lOd05sZGs3LW5RQWlPbWN5REtNR2VDZnd5eWFxSE8xN21FRkFOX2E2blloSUJZclYyekZUN3pDMFZ2TWR6TW9n?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 創新科技體驗、講座8/25在板橋登場無人機足球也玩得到- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFB5dlp3b1RwcEFZaEhfVkl5Nzlqa3AtYk83YllIMUNfcmhfZkpUWGJLb2JSTC1NSXAzUnM0aW1hOXFLOTM5VGdzcGlONDhpRE9OaU5GMHhEWWliQzhfdlVjRk15Qjk?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪國際首金！台灣小將橫掃2026 FAI無人機足球賽 寫下歷史新頁 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFA3cUQ0WUk4SmxmSzZPa1BGWkV3d3J3QnJXRmtLLXZtTURSOVBhTmtOWENQeVFVb2JzbGJSR1R3VEc1WGpfS2lRNDFEcy1XMUZU0gFWQVVfeXFMT2N3clF1czZzMlVvRjc4UkRidzhLWmFnSDVocjNqOXI4MEd2a2hLRGxXMFZ4b05hc3Axc3dGZFZ5NURUZVJmenlNZVdjSUVWa0EzX3ZHMkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪第一金！ 台灣橫掃2026 FAI無人機足球賽- 綜合 - 華視新聞網
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTE1tMl85Tld0NkFDUlNOLVJjRFhJTXBEY3JDSngtdHd0MW9HMFBHOEFjNUw5dlRtdF9qZ2Z5S2VPSFJ6blJOTGNNMTZxTDIyQVpMSEp3T1hBcWtReEhxVkVnWmczU2wyOUhiN216SHNVek4?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMiqwRBVV95cUxNbWtiNERYdVRBSDd1Q2drZDJjQWFtakF0ay1KU2x0eWhnZ0x6QXhDdXEtOWY5WEY0Q1FQall3V21vbnhES2N2OU1qblI4QzBoWnBxZjk2MWR1ZEswc3BTZzZhNVBvQ0hpMTlCRC10WmdWZDRyWm4wNXNVZUhiU05qR3V5V1MydnI3RTZaN2ZUaUw0bHR6TGF5U2kyclFIUHNUSm1uUnQyeHpCNFJVZnFLMlg0dnNIb3hYLWZJNDR2OU1ZWUp4LXl1aVNuVDU0TWdNdVk5UkJKeldmR09QeUFBc1FVNElWR3NtWV91M1FRZnZEUm93cVp6RU5uR3VVV3Z1Nllqc1hyLS1vS25PMExORU1YX0x4d24xdVRtMHNfRTlxN3FlYW9yb1gtY2VmVG8zVjFBemdnX1hkNWhzME1ZM1FhWk5TREtnckJUMGoxc095TGkzWWN5WE1pbS01YkFvX2xsZHdSQm5KQ0RxSmtmTDRranZ2NHRNZFpFYnlVZ0F2T0xoMTdSM01xUlRjVlR6cVRYdE1GdDVxZlgtYkpVSHNGbVB6OE9DU1FNa1QxeHc3bHBpazlQRklyaW1NX1dkZ1o4b1REVXQ0dTM5cUh5dXp2YmduOVNEUGZUUzRtX05IT1QzZl9LVDVJUkZaRmw5ZFQ4NXVqUTgyeFR0NURSNHdGdEtBZlAyRTVJX3hueTVBQWR0NjlBeDFyRmdRbDhHZHdEWVVSQ3h2RUk?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMirARBVV95cUxOeE1UQzRMR3FaWlZROUlJMFJJTzBfdXVjeVVZMzVmSjhReHMwM2p4bVF3cUtya3FESXRxN2N6dnctOWZhM0VMaTFoQXhHY3lxbnRwbEY1ZkxSTmpPMmRzM3RKcnNGUjQybTJhdlJCZkIwajRwQk8xTi04cnV5eUVuaTJDZ0Z6Ymg1N0lYOThlMUJJcno1Wk53dkVKajBySF9JWHByZnV2VUtWakNya1JUc1I3cGRyMDZHTUhienQxQUIwczRncTBCOUFXTER2TGxrMVByclBjVmlWTkRBV2xkSWlIbFBJQlRZM3FFMkFSaFo1QVVMamExSlVBc19Mb3ZDZ3M3OEJUS1ZJNnRHcjlrekh5MXRfZFZkQ0ZDTDlEOVdmVkFoMHgtc0h3WF9aZGg3RDNxMWFwTi1McGNFcFpsdjdYeUhQand4eWNsSVYyU21qZVRDd0RhTzlIZHhvaV9VUVRlbS1fSnJsU2hDUE85SlVLbzZYYkxtTGstTkJrZ0p2d0hXZFQ0MHhGeHlSa3RzdWVBeW55ZXNTZ2lHQlM5ZnEwb1dWbnhpWUxlTTJzbUdEUXp3Mjc0ZU03dkxIbWVBb1FwSzlEZ0VfWkNid2NXeVZIamNCVUl1YzdHaE9GTlhtNWloNFhjZmFSdkhBZkV5VEVhSVdQWjVESFB1dHJ0a0tDQ1BaUG9YYllsUW1qVHJLcVpBUFJGcG56Y3RfSlBoYnBtMWpOSXlrU0lo?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 台灣之光！國際大賽激戰29場 國中生抱回無人機足球「首金」 - TVBS新聞網
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBDT2tOX251X1d0QjBIdWgxMVdkZzhzMW90RE5tWGhHajVYRTU5dm9UWHlZbGhhRjd2VGo0S25seXlaSlR0LXYzVVdXNDhXZw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 台灣小將空中踢進金牌 無人機足球隊香港摘冠 - 自由體育
-  link: https://news.google.com/rss/articles/CBMiYEFVX3lxTE9ZQWk1QUFtYzZxZ2FIbXFNazRHX1JRTUVMSjZjRzRJYXZ3aWpxTmFYcTdKdkhweEkzZ3U4TGpXbmI2V3NKSkc0RURoX0hydllkSzBJay1pUlNVZWo0UFptUw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉縣舉辦國中小學生無人機競賽展現學習成果| 2026九合一選舉 - UDN
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE02ZHJWZl94cWY0bjFSR3Q3bThSX1A4Q3MtdndHOC1YdFhzM2pMM0cxU0JxalRmR0FPMklVVU1SR1FJelZnaTNOMF9RTjFsbEJhRGNQSENn?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽熱血登場 73隊首挑戰「空中足球」 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBlcS1CN1AzbDF4eWJzWEJURzNqMy15UldCb2ZNeTc0NEJNMmp3NVAtUW5WY3NxVXNadDBGQ25TR3BybE9tazVIM1Mya1JnQ2xKLTAzWDNHckctUVN5a1HSAUtBVV95cUxOVjliZ0dWWEhkWFpHOXRPeDhWMHhnRExtclZEc2MtcDhWb0VMR1Y5b3YzU1gzR3FrYnBsTzV3VWlPdWRCbU1PaWd6Ync?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場 73隊挑戰無人機足球 - PChome Online 股市
-  link: https://news.google.com/rss/articles/CBMigAFBVV95cUxNZU9JeTRzRmFZN1p3cDUxTENya21QTXFYUENHcTFhTmY0QmxXSFFFanFvdjJxRktxWTJtZGdERHFzV0xVVTkxcGRoS3kyX2YzdjIyM2J6Qng1SVlNb3diTTB1N1NuS3dob3lmLV9tY09YSDF1SFVXM2ItUXcxU0NoaQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場 73隊挑戰無人機足球 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi0wJBVV95cUxQUDNwQmQ0Vzdjekw3SE9VMmFKd1ZsOTBKazZZNk9FZDdDcEhyYWNPbXFKUHhWVTl4enloZGpqUWN3VzVyUkNoY1ZDLW9tbXVDT25NVnItNnBWSkVkd0xWd1kwRzUxM2xPY3NBRFBfVXRhaHFJTXRoRkFXd1BlN1RHTW1JckRJVHFfWkc0c1hqYnNQemVXYXhFbVZ0TmdhTlR4YzlWa05hSThBM2dBWFZNNHlLbzBjeXFQbU8wQ0ZMYXE0eFFqRlF2TnpTa0piZUxndUlCc3RrVy1lT1k0eDFqQUs3M0VsSzJkeHJoN2tMdlJEa0NQZ1BVTEVwUUxWbk9pSDRBWGdSYm1MUEYzRS1aWFNfbFBhNnRhVElqZjhsQ0E4ek4tVEZsQlBFVUlBM3dFTDJ0NExBTGNwTThuVmVsYkJWWkhBbmRIa3Z5anZKdUFzYm8?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 樂聯網
-  link: https://news.google.com/rss/articles/CBMiS0FVX3lxTE4ycVplZmlCTmNZS21IZ05LUERJUU1XTEJhNzdCeEVWRXRQWmZ4MHBQUUk3bE5NVldWcGdURHJNclBMTkNBYjh1V3NuZw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 睿傳媒 Rightmedia
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTFB6T2Vwcnlqck4xdU1qbXFuUkNmd05EVmowc0FJaTJ3TWtTR3BlOW16SGVraHRPQTVWZ045d1V6YUZTd2t0akFxS0s4WnRiUXdwWHVVczFxTQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場73隊挑戰穿越賽與無人機足球- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9lVlF5ZTMtZmdPSnlIYVlidUxxZUpsTUZEYW9aeUYtZWRtQ2tfTjJuM3d4Z0xfRllPa3NNLUVoZnd2WkhVZnJkTlYyYldQZzhwMWpyLXhUUzB4U1o5OE5ELXU4N0w?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義無人機競賽登場73隊挑戰穿越賽與無人機足球讓學生透過競技及團隊合作展現無人機教育學習成果！ - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE1kQzRNTHQ5VW16ZGg3X2dxY0c1YzhleF8wRGlZVGJYaXdDYlFyNnctTXpEUXhzVkFnU19UbVdGdUhpVFVQM1JpeXA3V2xkdVZVYTJCQzVfem5UYmM4MlpBbmlTcU12Zlc5cy13?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - 新頭條
-  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE5fQXlIUHdZZHJ1Q1hFdnc2TGFfM3gweXlqNFQ2U3loMnI0X2hKZUd6VjJ4WV9JbVA2c0xQdGNfdHhkRFRZQmFSNHpTYTRnQjhIRzR4Sg?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijwFBVV95cUxNMDY0UUJSNUFQc3JXWnZVWDFyeGhUb2NVOEcyeEplcUNnRFlGZWNjcWM3WGFkUURhT3NxMHFwUEEtVjlwUWl0Q2Y1cnFMVEp5bUd6eHk0T3FIWjNWUi1PM1hUd2xkZU5HOVJDQUx3a19jUFRnQm8yWGRMeDdJM0hremEtZ1RTSFRPZ2t5ZVBuMA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE5JZzd3SnJpRW5sUWhrdWllU0pnVW8xRkpHZV9zODQzLUVWT2dkd2x2akZBUXJPcVFmOHEzYWFzeWNQQmdxcFZxTDZJd2plQXBZcEE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 嘉義縣無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 臺灣導報
-  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE52V0VzN0lKQlhzWEdPQkVrakVxS1NSX2JXcExBTmZDcVJ6eW1zbGY1cGpMZGhqTHNoSDVJb3lCMmxHSnp0OHpza1ZIdjV1bTJ6NHRvdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 國際級無人機足球公開賽開幕 香港派兩隊出戰 - on.cc東網
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxNZFlXV2ZqaWpCN3pOQlctdjNSRnlDRm9fb0E4VUJ5MXJ6OEVxaS1XRFRfbV9hU282ZmhMVm5YSldLNzBVVlFXdUoybFhLMWt1aE1Lb19KQ2Z4aHJkS0NhaWRoY2thQkY0d1dybWJvT1hwbkZwQUI3SElQQl8xTFM0SUd1NWhlRmQweklkUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 實踐大學包辦無人機足球北區前3名 邁向全國無人機人才培訓基地 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTFBHWE1BYnVwUzFhaXAtZ1B6RlMyQVFZYXlJYjNyYkJSbUhEaEQzRTBab2dIV3VSVjZCT2RNNGdHWjk0aDFJU2pEeDhjLWpTTXNpZmlzY1lR?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 將軍澳官立小學無人機足球隊奪國際賽亞軍 9月再代表港隊赴土耳其作賽 - 星島頭條
-  link: https://news.google.com/rss/articles/CBMizgNBVV95cUxQNkJDd051d1B5NGhfNkd5NWlrLV9tWUJUZlE3WkFIZjNkYTNXX3ZOSTF2MXh0WkV5QTVnQnZjVWNkWkdfeEM1ajc4aWE0bXk4WjcwM0NyQklhMmFnT3RXODJlNjZuMFp3bHBaN3NzYkVSU3lmcDRZX00xX2xKNmZnRFN3em1vYjgxWGg5aWtVTGxRV184dEs3Y1JVOUN6SjdJY3FuWU1WMm9neFhpN3JzajVYX1RKRDVJZkdLdExDUkxkTG5EbzZYempMdS1naEZUeEhDUlFvZEptRVNSLTl0SkZXVnY4cGdqUUhMYVN4azZrZHE4T2JFN3NoeWRWeXBTZlU5U0pIWDllVi1rc3VwM2NfVUpBS3J0Nk5Kam5oUUZTYkdvdFZMOTFrLTFObjJaY2NWLUFYczJ0SktpSmM0aW5rY1MyVWMyRDRjSlVHeTlhTnpKUU04RE9RQkN1R2VrLWpUM2djYkVoeGpickp0WWNST09XQk5VVC1FZjFuei1KWG5IN3ZWdkdWeUtia2M1Y0xwQXRDbXpPQ3hfZi1pcW1fYktoR0ZXWWpCU2NOWWNvZjg1MlphVVQyV0V6Sk4yRkFzc0RHRUd4blBKZGc?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBnUUcyS3JmdUJsTzhRMTFOT2gyVnJlN2VQWHhETjJ4R2REeE1FOGNYS2EtTTdDQVZOSkZmZHNFamdtb1I0eVRydkZfOGx3Nnk0bENHU20tdVZ4RVQ5cEHSAUtBVV95cUxPRzRVOWJ6UUhTbmVhMW1WUTcxMXZtUUgwZDhYWVNsLUF5ZHI2TlZ0QW54a2RVM0xwT1FDV0U1c1ozbzFmMTRYZXhzLW8?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOM1RVejRzVzBJVnlrQ05rNUVfYXd0d2lSUHJ6N2pnaURaMHA3RWNmbVdza1VFZXItX19TaW5LaU52YklXZWx4WVpNVFEwbnR1ZzZpWmlJZEJ1UFdxWlBETjVhcVh1c1hvRFU5SVpieHRxQXNqUFlPeFUwYTJxM1R6aGp1WWFOeHJoaXQwcg?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 暑期無人機足球營隊 認識了解體驗操作 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE11Rlhxc3VrbXphNUxqYTFhWjFPVEFkWmM4REFCUUh5TVNmZTJhaXZ3NkFnNzAtRVJmNXdTenNoUEFRY0gwY3o2NGZiVmdDRU1C?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 林園高中無人機足球奪南區亞軍晉級全國決賽- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9FQnVPc0RaY2hJN0lPaGlKM3p2bG9ZRzdkVDhNZXJqWUUyNlZHTHZXQUcwMEZVeU1UWHZnT2tKZVhOUUxlWUJ1R2N5cUpwME1yMUUyN1FPRGViby1HUF9NM0l2NUs?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國– 資訊總分類 - taidaily.com
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE1KWW5IbDhyN19MU3BBTGl2UHFFQXlRQ3YtRHlMRGNJa2dOSG5CUWtvdmhiVGt0WWFLSTVKQ29fUlRCLTlYVzdfS0pLVl9xV3A2?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球來校展示 屏大將投入相關技術開發 - 【飛揚新聞】
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE14NDFDYWw5a2stZjdjZVI2YUlkRVNxUWUtcS1tbFJyTHpOMFFPb3h2WUUzb0cwNmxIWDhqVDRfS0ktYlhCeGtXem0tNDZtOFpMb0E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球在台灣爆紅！一次看懂玩法與規則 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFB4cWNVbTdYQUhxRFZ5ekwwUUFNSGdqeHV0Z0xPcDlad0VVbGxaUFppaWlZdUFXWTdvV2IyQml6Y05jcWNHSFBVQXNaYVZjcGE1U2JGb2dmaWZuUjJrNFA3SUhPaDjSAWpBVV95cUxNbUF5MEgxeWtQQlFhVjVDd2IxaGNCUG00WUFXblg5ZkFIY253aWxUbHlSQ1Y3TE1LWk5Vb1Y0MHBheVR0cDBJX3RZN3RpNzRxODdDNV9hMWpsRHJYZnRoQlRnZVJiZ051TGhB?oc=5
-  looks_like_results: false
-  is_new: true
 - source: 新聞・無人機足球
-  title: 無人機足球夯進校園 輔英培訓裁判人才 - 中華新聞雲／中華日報
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFA2SjdVLXl5WHV3ZUFpLXpsRWhZUW5iRGl0M19WcWpGMHdxcE1KRmttX0EyNUYwSDhrRzBpRHBXcHZPYzlnZGRQalo4ellfQjJ0R1E?oc=5
+  title: 星期二「生活萬事通」地理中心盃無人機足球賽 - ner.gov.tw
+  link: https://news.google.com/rss/articles/CBMiaEFVX3lxTFBRVEhwaHpwY1BtMHd1cUE4QjRjRGQ2RjVMbGpiaE8xVUJsWHB5MWpvRzdoeERhX1J0RjgtQXhpN3pxN1dfUXcwX3haY09tWUItNXJSN3Zubm5ZRzdtY2gtaXhUTzdFOG13?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球
-  title: 無人機足球夯進校園 輔英科大培訓裁判補足賽事人才缺口 - 焦點時報
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE1lcUFZNXU4Vnk0Wk1VQlNQN3NxcFJkQzFQLURfdERjTXA5TUpkdVZPOF9nNWxSNXF4cG5SUGF3ZXNONkhDYTVpeUVMM3EtRGxGQjJwU2VZSQ?oc=5
+  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - 蕃新聞
+  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1GeEM0SGZHbFAxcU01QkdLMFRPandzWFN2d1RVTGV0SndkaTZ6MjMwRWpBMEs3bm81alNCOURxakR4LTBLZmJpdXJNSW9LbEx0Z3c?oc=5
   looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 勁報
-  link: https://news.google.com/rss/articles/CBMib0FVX3lxTE43MWlSZHRQTm5WQUNqUjJMeFg5Y1BhdU5LbGdzbFBoTGlMX0R2OFJGM3EzUzRYOGh2ajktdWNiRFN0WFZUZ0w2ZkUzcWJNYWVxNjlUUmZDRmVnM3B4d0EyaFdnYy0xZjNBWHl3TEh0TQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 | 勁報 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE5fR3FNZlJVcklfU3dQOVFlV2VSeFBreEV4bjVPLTYxUUl1NEpQZ3RJMU1GLUtERnlhX05WYkRMeXd6V3lsSkJMOVdZWXlSQXNIN25ZbHBR?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球熱進校園！輔英科大培訓裁判人才補足賽事缺口 | 徐炳文 | 地方新聞 - 風傳媒
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOOUFlZ0RFSzc2TzQyck5DVzBtMnE4MnBIQTB6RmV1dERveU9QVHNuMmdlUHowTTVjc2xlUkdna0Y5Q1hnbm9JUFZST2k2QQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球空戰 新北公開賽開打 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi_AFBVV95cUxOZl8wZ2hwS0ZHaTFKR2UxNnVCVXNtX3h1TDRUXzYxQ0x6dlUta2RTVzJKQVppeFdJVy1TclFZc3FaRXJUZER3Z3RnWWdwaE9NNDZVOVVfdEVDNWN5clA4UkNRZ3dQbXgxOFFhbC1veWpxbS1xam1TUzdYQmtucE5EVVF4bmtqNDlWdkJ2SVFEQmNFeU51Z3dzLV94WDNBRGxTclhrc1hiTlVST1FpOUZLaWtUWmdubXhZMDVyT1FCNEtfazM0TU1BbFFnVXZsa1dEa0FZS3NvUVZaRTNCaHJqcHJwb3kxRVJvV0o3bjBQNzJfYU9FXzE2dnRSMVY?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球空戰開打 新北80隊300位學子競技爭全國賽門票 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFB5S2czUEk3QXVZRURJVkQ2N3lZT0VZblJuNmMtYnNGUTBsZXJaZWRSZzkzLXpRUW95RzBZQS1CZ2hjOWIwZVh6Qm5va2hFbkFl0gFWQVVfeXFMT1FNVFh3UGFheVotU2hGZmNnNVJWUDlpRWd4RFpFRHVjN0pWN1c0N2dBd1RlTTZtT0JnMmZ3S0lxZld2VlVXZHotOHBFaTVZSEpSU2hkNWc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球空降屏東 創新科技玩轉客家 - hakkatv.org.tw
-  link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE5IWF9XTWF5R29PQWZMMUY4YkJuSkRxRWliQld6cWo4dHpoLUR6Vk9BSWhibXJiUHdJODdlaE11bGdrZnAtYS15QkxOVEF6V015dXB1eENKQ1ozdnNEdWVBWDJtS2M5QQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球空降屏東 創新科技玩轉客家 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE8yOU0zV2dPWjRoS042UklsSDc2RnIzeDlvXzd0dUcxRDI1b1N4N0hUM2kxUWpnblppTXVWeTRZUm11QlBCN2d4R2hUakwzTEpVTkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球賽裁判人才短缺 輔英培訓營師生共學爭取認證 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMiiwFBVV95cUxNUWlhU2VpS2ZxOVJkQk12WVh0d0hBWTJRbXp1RVVFRnMyeTRsSXdUQ2tiU1NhU25aRVIxWFFqZ1BMUlpCbDktR0RubUh5eDN3bHZQYjBjNXZTb0c3OHN1NjZIVkVaT2tHMXBRd1czMkdZNWNGRWhQeVZqdWtfR09VMG9rZ2ZrY21wSXBZ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球香港公開賽開幕 - TVB
-  link: https://news.google.com/rss/articles/CBMi1wFBVV95cUxOa2FWMzNyVWJjX1RfMGRIZGxjTTlwWmowVVpTdUpkMThEVTAzLVRMb0lOQkoxVDNMOTIyTjVWbGk4dklYbzdERmtDb08wMU9OZ1NFMm9iLVp0WTd6Qm1NRm9fUnViUmxoQTFhNUJuQWQxcUlCaGJLT3VHLVBlN0kxa05JY05KQk5fSVZpWGkwUTNhSDBqYWpEX0x5XzBycFotcXh5akNIa0c5THVnQVppem1oVEtIVUJmRHRuYXZ6U3U2R0pDd0ZQYUFndHoxc2h5WnRBcEFQaw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 無人機足球香港公開賽開幕 - TVB
-  link: https://news.google.com/rss/articles/CBMi1wFBVV95cUxQQUJnMk0wT1dSUzBUQmxBbnBmSFFVdWhsMERBdE42NHRha3RqR3lhU20zQVdUS3o5Z1ZYamo3S0licDI5Y1FFWGJBSFBkVjFTV0pIbHhST29udGhHWVpmVWtiT1hpaTE1RHJKdVFMTkljd0ZvRTQxcDZiRkI4N29Vdmstbm5DM2JwSjZKdzdfOHZDQ2JaYmc2c2xmclNNbGJRVVZKZ0RnTndkQnRWRkRzQzNnN1VPekRsaVhlandLMWFZLXZ6OFpoNGZrVkh1RG83cmN5UURLdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 天天上新聞
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTE9oSmUybUdTemU0UWtpV0U0WUpRcEtLTEhkN3VTYV9nVzVubzZiLXF1bTF1bjVIY0FxOEQwMF8tUTh1RlFDSGt0eXlsZ2Nwdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxPR25ES1ByblY2OEJIaDJUSHRwcTVEcHlPbDVlZ3lWZnpIWG1wd0Q5Tzh0bkM5aUVFWm5VNGJwazF0Ty0wMmx4Sy1kQUxmNlo2NlAySk92d055dF9oZUVGUnNtdkxUZ3RJQl9sdU11MTVuY3l1RVRJQmRMcDUwZDJ1ekQyX1h5OWJ5N3hacw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9CT3diWnM5em02TkJVQ2xPQXN5dlVBT0g2NzVXQ180dWpJWUNSZFdETzVNc3pLWE9rMXU2NmZJT2NERmZZZmxBYWdtLWN6TnRNYmc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 行銷人
-  link: https://news.google.com/rss/articles/CBMi5wJBVV95cUxPUTNXeGJsaEFFZDVzT25ybmFtdS1ubDFrYkdKR3IyN3M4dHVnV25tVUI3eVJpZEtwVzJOMjduZVBLbDVhT1RBRzZCUG53ZFFPb1E2bFFtNm9kd3NkeHUzcExqNlNyMmtncmRvdDBwWDJnNW84akR0dUdiN2steEpzQU55UTg4bVJETEtOWENPUU5WajM5TVhQZWtfRU5HT0R5SnU3UlZGd2JnV2ZTeFFEcDZFVzFiREtQMjRpYjJndVYyamZWRWJLdEp3YzJYOWlQVGJoWngzd2xzRWUyQmE1VmRhVDB1a05aQmlRQkRpTU4tbUptbDc1ZC1jTXRvMWRjbGlMTzE1MV9KSE5SeXZhRHRHMVotTWZOY1FVTjVCQ2lKclBOX3hvU1NxTkNjTG52akExSkdSTFlObkVnckVkUEpZZ1F1U1hFdjJ2VGJaU3pJZFR1dnFtNHJwdmJHT2tuLVBMS054TQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第三屆臺灣教育科技盃無人機足球新北地區公開賽登場 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi8wJBVV95cUxNaHdZLVlpWTFUZFF5ZTVvaGJoODJGZ0xwalRZUEFISUJ3V0ZqVEdWTXhFWFhZZGJEdFRpRGhLeWh0UzJKTTFRRmk4ODUxd2xTNmdfbjl3VVZpcUh6TWVfRk1yN0xmODdYYS1DWVdTYnNXRm9XelpTWS1kSTUxNzhweV9uX3R0S3dSeVRTYTRiUTVBMV9FRGFJbVlFbmhHZmJfRnJTUXRiYmF2eG5GeDFwdXRyWUpLNjNZTzJKNDFSTklxZGxyclVMRXJ0QnptMDU0Q1VVNjFpaFp4UE5PN253OGJWS21leHA4bXdfakVqVnZQX1AzdFdpU2c0QXVndEpWRHA2RlA5bUpybTB5LV8wN1pSdHBWUEdXajVLUkdTUUlHQWVFTDJXMGFZbVhfSDN1eHpDeWNGTlBnUWhrNko2dUhTRnRNejUtaUdVNFdwcjRDR0NiclUyQXJBdWE5QW9EcFcwc2Y0SEpjWW1mYUt6ZlJOSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 第三屆臺灣教育科技盃無人機足球新北地區公開賽登場 - 青年日報
-  link: https://news.google.com/rss/articles/CBMibkFVX3lxTE10WjRnSGh0UXB3WFhIYldkX3FkTGl4QjlnODUtY2FkLTdYSno1eFVDX1BfaVZwcHVURTRvb1M0Yjl6R1ZUcHlTb1dQWFlVeDVFbjJLbEpCMDg3WWdGWVItYUxVelpqUEJKZHp1bENB?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 大成報
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTFBRVnd4ZWRYQVU1ckFSOTVCakdESDAyUWlRRnRTbHpEOTlMMVNOMUlJa1BWX0I2cVBSb3dDNjJoQnEtSU13ZGlnR1ZzUkh6QS1ZQ1JKX2Q3NlRtdkxYcnY4aU5vQnJYSmJDeTJmUnV4SFE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOYXZoYmpxMEVvLTVKbWNlWmJMc1Q4R0RoRHJTdXBTOHJYemtNQTFsa3AwLVdNWW1BUjdOTmRmNDI4U0VLX0cyMkZQb0NrdmhBdzZVM1NrZFVPLVVRNmF3N2Q1YnNGTlo1bTl5b3pObTktdVdVLTZGeVMxbENJcHVfc1F4M0dTSXBzQXlEbQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1PQlhMSkV6T2staXppLS00dVhlUXRCMk52bVpheGxCNHYyWkwwQ0V5WU13bjN1YUFGVGI3UTBsSTBZT3p1eGU4Y0pYQ3FQX0thY2c?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 討論牆 | 無人機足球空戰開打！ 新北80隊300位學子競技 爭取全國賽門票 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE1aSllSdVltZTBpT1dTcjhaeGRqVXJRd1l0dmllLTIxakloamlfeHNUZ1paalpSdDNuVzVvaUhNNWl1S1lZYW54UUtPMHpNXzRqbGFyUkV4WU9FMXVhM0N1RnN2UTA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
-  looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球
-  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxQbktVRlU1WkpZMUljeVF3cm00UEY3b1hWQ0puVUI1Vm1waEhubWtQQnhsczJZYWMwajFBMzY3TkVUZjhzbk5IcE1IMEpFTGtxU01STzdJd1lyOFRqZFVJcWtDUE1qbnNFNzZCRFRTNlZVYlJ4NGJWWm5BZlhyaWlqZUhxZVlfM2JVRHB3enh0YTVlMXpjdXA2c2FXeWxrdFVqZURIZHlkaTJmN1MtbDdPWUh5YWRvZ2lLb0x3QllzazI3VWJzMTM3RlZvSmlRdGpickQ0b1hKc2NnS0dtbHZhcmFqdUlUR3RUanQ2LWdWaVlDY3Z4bHJoMmRKeXJBdlRicF81dGV2SDNHNHF2RDgzWl9RenA0UnZSYVpfSmtuS1NIeS1pbDhnUTllblZmQld6bnVpaDN3cFFIYjhkNEJiMGVNSUVMMEgxUTY2NTY0V2EyUHVRM2tBMHNxc0xpQXRncUFWc3F0MERfOWM?oc=5
+  title: 輔英培訓無人機足球裁判人才 補足賽事缺口 - 臺灣導報
+  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VMXJvdWhhbVpTQVZwdWJ3ZnRHSE1BQ3R0WHpRUXJWalRFWUpUTG91VTZqNkU2c3ZZRThYQXMtZTFIX0hlRDVfLU16SWdHMkR3LTZaVw?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球
   title: 輔英科大培訓無人機足球裁判人才 - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE5OSE1MVGtLMXotTGFSUE83UnlYRENSeGs2YjNXR045bHQ1SG1pYUpVNldRZTh6elI1SlhVWGxpRUR2a2I0c3ZETW14V09JOHhqUTRIdTUtV2RuTjNyZkNkdl96WlNCMVdrcE4w?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 進駐屏大技術展示 無人機足球國內扎根 - hakkatv.org.tw
-  link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE1XdnVaVzZjSTRuT3BYSWZLb3NTRTRuLVgya2lnYUU5X2hUNGRVdElIWUhRMnpTVE9hYjhGTEZPSkdtMGREclB0dzJta2FMb0ZwYS1Kc1NtREVVcXlWMzl4M0pQMlctdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 進駐屏大技術展示 無人機足球國內扎根 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFBYNmNOLXRJeks0TVFPX3JjR19WME5CQUlrTDB0cjRsSGZkNlAzbXViYng1aUpISURNZFpWdzVvNEVpWVRBSkp5elJjOFBadlVqX0E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 進駐屏大技術展示 無人機足球國內扎根 | 客家電視 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE1YNFVublZVd0Q1NEpFQU5YV1hxcHVGU0FvWTNzaFhRTG5NU0l5M0FXSUJfODhSM09lVjcyXy1DOGljTlpjNTBJejVwY294elZaZlRfT29B?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: 首屆FAI無人機足球公開賽收官 港隊過關斬將奪得亞軍 - 橙新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxPTmlLM3B1OWxJQ0NrRzUzRm93dUNNMTk5bFhpWWhYTmQ2NW92YmxUcVFXVjdlNTJRdkRLMVpSOG41bzIxREJqZ2p1MFlzbkpBdjdGN252V2QzdW1TcHptUkRRZnBxWm8xZkxicHRXU3VFWjVxU3dEZjJMQnU5OGl6NXpCc1ExZ0hJM1pVTHByUmZNaDROUFUzMnZ4Z1pkXzZyUG5CYmpzWUNMbWZXYVBNS3djaFZ0S2VkRkZfazkzMGY5anFiMUJrdjdQbURJRXF0VXRScEd1UWFnenVGbVduSFljM1liY21udlVGeko2MUhJckwwRlRsbUU0SXpOaUZsaDBjYjZFa3hBWDlWZm1xZk9KNkdoUGNES1VJV3l5dUd3QmFlbTR4SURzS0lGT3FaQkRJcWdKM0c2TFczdkFiM0ttdVA0a3Q3QWlOVUQ5TDBxOWNCeXFLMno4Nm1XZlE1Z20yYU1iS2h0MmM?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 首屆FAI無人機足球公開賽收官港隊摘亞揚威主場- 香港 - 香港文匯報
-  link: https://news.google.com/rss/articles/CBMid0FVX3lxTFBCZjV2NHZ1LXVoUnY4R3VQMVNVUUljdXc5N1A3TExBYnZfNWpYZk8xejNhelRJbk1DUmJzOGlma2tDZmR1SzQxdWY3RGdpb0xIamNEZUZmTUFvcFRBRUt1eGpueFk1cHUybVhtbFdadU45Qkx3RVc0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: （有影片）／秀傳開踢全台首場醫療無人機足球賽 科技飛進救援未來 - 獨家報導
-  link: https://news.google.com/rss/articles/CBMi3gJBVV95cUxPVDNYcHZtVHFUc0pIOEJPOTlNMy1SZVV0MGJLV3NMR0NvMGMyTHViWTdELXNyUHNaUFVvbHZuNTdXRE9ia0NTQ19KY2d2VnR3SnhQYy1TWVFMUmZMVWNRODFQbGY3RUtya3l2Nmw5d3lkZU5qbGVvMU5qZHEwa1VJUjZPRGdENW9STWNuUWtqZGd2WmdIRHYzNDkwQ3VFMVhYM3Q4VUkzS215ZDNQMGg3QmhxY0hZZHdMUVc0Wl92M1d6V3FNSmUtc2cxTEZBekd1a21iWll1SWVoYUN4Q2FyVkJNcE9rUVpQWl94bHVQZ2RYbll3dzlhakh3X3hIMS1DcGpDbF90Zi0xX0FKV0N6N0RuQ1ltMXd0MXNkNzhPaHdxSzhVX29yY21aQWo2RTFOVmcxSHpnSF93Y0FMQWZ0T2MwUUJ5ZFRlcnRLRXUwdmUwUk1aZzRDcGxXQzh4Zw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球
-  title: （有影片）／秀傳開踢全台首場醫療無人機足球賽 科技飛進救援未來 - 觀傳媒
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE8zem1yZXNURmlkdm9qOHl1MnM0NHBSeHFIS3A5MGUya0xjOXgtSExKQWdyQ3V6OE1MZkh0OWlMUEN5ZkpwTkc3Y2ZldGNaTGhFd1RIWVJiUQ?oc=5
+  link: https://news.google.com/rss/articles/CBMifEFVX3lxTE9GdDlsM0hQOFZIeHVlRzZUV1c4amVDOVIzeVlSbWhZQlBDTGVKYnRuWFowU3Zla3AxZUp0aXBBVVdnZVI4R0VkOHkzSkIyUUxRLUVKMnBDazNjMmpPSUhDXzVyVlJBSGRQUG5jWk9odENueGdycUlNZmo1SWs?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 30港將出戰世界無人機足球賽- 文娛 - 大公文匯網
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTFBMenk0TmxUYnJEbUFXVFctRkY1R0p3OG85bk9IeUdQOVZQRU9uY29QemlJOHJPYzgzZ1dlRlRYV0JUMFkteUNIN1VKd01Ed2xTcWIyR0ZnWjRpdWU1aWFmbi16bjZDWFh2b3RzUUc4dDI?oc=5
+  title: 2026夢想起飛！台中市無人機足球賽登場 51隊、330名親師生同場競技展科技力 - taichung.gov.tw
+  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE5saHJuYjVwS3RkeklQaVpLMHV3b0NnUS0tYjRmMU9zajBELTdlR3V0RlJubkJSQ24wTGFkWGVBVDFManpNR3NYTmpJMl9nNHRwdjJ2bVBDeXNqZlZsdHk4?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 《日本高中無人機社》無人機足球玩到全國第一 全都是男生不希望女同學加入嗎？ - 宅宅新聞
-  link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE9vdGk1bU5pUldlcXF0eVRjSEpDZjVYTXY1dXhfRGFxLURfVTlMV3NDaW9HN05rOElycVJmQVI4X2RaVWpNYktxQw?oc=5
+  title: 「飛躍。新征程」首屆粵港澳大灣區無人機足球聯賽圓滿舉行暨低空經濟應用恆常化成果展示 - 堅料網
+  link: https://news.google.com/rss/articles/CBMiogVBVV95cUxPTVZrSW5helRBMGptSXBrNnRCcVpFS2tzWDVBTVFOMTZORnZFa3Blb3pyUWRBNlU1Y0djVmp1dkhxVkNLcThyZ0p4TTBLVFc3ZnNzbm1SajV0U3VoWlpFRzIzWDNOdFlLUEpVUDhNRHhOY0xGQmN5Mmw4aWhnOGlmcWRuNkJKX1FEWUZPem8tT1B4ZHA3a2JBblppVzlsZ3NrZlZVWVA1TjBTYWQ0M3gtQ1pWU3p1Tjdld1V4VkxRMVhaQXZFdFJsMHNQNy1DWE95RC1LRmh5b2xYNHVqNURpQklOWTlNMHhJUGpxYVRXTXhSNThkanF1VGZwemtjdG5jZ0FnOHc1Z3JVOEJTaTR3cEdBYUdnMDk5Qzd6enMzaWRKSEVGMUxpblljYkJTUmRkTWthZURhNG1NRFBvNWxKUG9WUzZ2WlFNaGFYbXNFb1NWV3BJbF9qc1ZwYmRVNVRiNXJMT3RRbjU0dS1CcndWY2VlUDNRMjduSTBkTV8tdC1aaUxXSlYwaUh1VU53a0ZoVXpyQ0MtQ04weWlLdjdhVHZvdzllWExCckV5RW9jWkVweTVqckpISUxCTVZTTTRHSENzNkx2Y2NBSzhRODBHTnVYR1VMZHBvcDZIamdRWUVzYVNrS2tlM1BBamkwLVFNX2xlVmhJcXZJZHpwbFdEdURXWmpJSDZKRml3RmQwYWFWeHhISnRoOEtGZDFIU2JWRF96bG9uOVFVOWJJa3NMWHk2NGthTEFoWGVkTEt5N2JCR1duaHV6WXRIa3NWaTNoR3BfM0lvSmEyeEpHWjd6RzNMb0N5bmc0emw5R1JzUHYzc3dFUHNJRWN2NzhTMjJEMlFNSEp4TnR2MXFLTVBtYVFjYktoaFB6N3Y0Zng3QmNHZw?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 「AI無人機足球」華藝附小創意動起來 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9PR2E5Snh4clA4eGZZOE9QNUN3dVg0bEdBRS1YVWhmQVNUT1ZOUnBrbFB5WmctbzBRUG5fZGR4N2FTNWlwSVZMQTNQMGtDSGFSaGc?oc=5
+  title: 【深水埗區無人機足球種籽訓練班】第一堂正式啟航！ - 堅料網
+  link: https://news.google.com/rss/articles/CBMi8ARBVV95cUxOLUxSSjRSeHJoVE91M1JYa2lFNnpfQzJMLWJ3RHZ6Z0oyeGt3RmtnamVaMFV0SWRwX3NsS0k3ZmFFOHczbTRVcUV1cVF5U2lGX1k1WTNhay14YnBzdHh1M1hqVWd0RHE3WWU5OFl6YTlVOXh4Q3RmVjhYY2FkNHZaTzJZcEhZaklJbjZMWVVQT1gwLVFsYmFzWGpnNHVFUEV1TEt5TGp4bHphVWlWSHgyc1FCdXhITlBvZm1jSE1nTTkxNjN1OW1KVUxhLXhTWFRwUmVtOFRLNW85RFJVVGxOZDNVVERUNkdobUpZSm1XZFMzcHJRZy1qRUZyUzZQZTFDWE9RTmwtZU1CTVYwODRlQl9MWDRtTC1KMVNoMVZBc2N0MXZ6QVZwS2xBRUFJVjhhSG5jbmhoR2t6bDNUNFZyNXk2MmxxVHRtUGFOVEIyMm9EV1F6X1JNazdJbnhHbDNzanJSVzBRWl9MUHJ6S01rNUF5VUdUU2F6bmRxdFppanJOV2hLYnVGTTFfcC0zQTM5UUxGNXlYN2VGUDh1bHg4QW9CWWxTM0kxUC0yRHgxX2RqVlBoSENxQ1pkTWtQT05aZEJxcTVhX0EweU14elJjVl9kZ3lMODkzU2RQV24tUkE4NWV1YWk1eFFaNjhCUVBXT0d5UlVUZTEwRHhwTUNFUnNCWUViTnRIbkFVSVJKbDF1X0ptMmt0SGpVbXQ3cm45Vmp4Qm4za0JXQ25BbTlmYWlZaFZBVWNGeTJfZjN5dG9wNFBaMjJzZGRmYnE0R0pBc01lTmpfamJnNnRYa2F4UDlIazBBYTBoM1dNaVZndHU?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 「飛躍·新征程」首屆大灣區無人機足球聯賽舉行- 社區動態 - 點新聞
-  link: https://news.google.com/rss/articles/CBMiekFVX3lxTE5WcmFqdUU0TG1JMGgtWkJ4MlZoZnVXRFZRMEJkS1lPWmwyQ0JwSzFySUowX1d0eTc1M2d1OEo1QldLemZXeFhUOGNwUGR6bkVrUHBWR1FwUWttOUxGZTl4djZYZlJrM1NXSHhTQ1Rrb0NRTU1rYzFjUGdn?oc=5
+  title: 中國香港無人機運動總會舉辦粵港澳大灣區無人機足球聯賽 - 堅料網
+  link: https://news.google.com/rss/articles/CBMimANBVV95cUxQaTBIY1BJdUl6Vkx5UXhWNmVEUmtndEtfZl90RFhqRXFuRkpKcXZERkhmZjNkTXBHLXZURExiSnZhLXZUMnN6TUhGUG9lWE05dFFqb0hVaTRNbGxYb0w4S3pjQXZKeDR6MWg5bi1xRFkxMGFJN29mRno0b1h1bXlUTHBuWHlMbXpKQ3B3VVNuRFpMYVRQeE9td0ZsZVJDOUZENGtrT3lNQ0pQdVRBMkNCcHFLRk1XdHI3TjFxSHRGVXJhRVA4MUVrLTNUd1hBcDhBTmFxMkdrN3lCY1F4LURHNzFzeXVpd0w1WEpXUUlRaHRvVkRDWjc4VklCNFcyUHNIRHBMQVVvNy15N21pbFcweldxQUlJX1A5TkdTSkVtMWhFSmtXbmJuNnVMQmlZMHRKbFE4MTZaRS1KUjRydDE4ak1KbFhwYi1jTnQ3U3RmQ015YXdWS1JuZTI4R1ZLZjd3aW1XaUJVOW43ZGRZdmNvY0RwLUdmS3AzTk9yNFZMU19FNjItaFVaQi1YSVpseGsta3ZOd19YZ0w?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 【香港學生揚威海外】勇奪世界無人機足球賽組別全場亞軍 - 運動筆記HK
-  link: https://news.google.com/rss/articles/CBMibEFVX3lxTE1tdnpUNEtCeXVPWk9zSmtqYmdkV0hFNl96dGFWakFBNzVaN2lLR2V5STdkNjc4em0yU3NZSDBHLXQ1TGJIa05saGpGOGdZZ2RsRkR5dk80NkpNcjgwZW05RzQyY3JRay1EZ0FLUw?oc=5
+  title: 亞創盃無人機足球賽登場 吸引60支隊伍60人競技 - 新唐人亞太電視台
+  link: https://news.google.com/rss/articles/CBMi0wJBVV95cUxOdHZVVVkybk02a0RiRTl2YkktVDZzdTl4YVBjcmJLaDhFS3QyYWtYX1lITkxOVlR3SkZaeERNQ19xcFBVVWtTTmpZOUVZV1Z6Si1KSVRiY3VOOHVIMVdfZlhkNWVlM2NvNnE4cmxOc1BkNkhEcGRDS1Z1N0hGTTU3X21paWhZSXpLNGJ1RkJBMzFORUtocjVyd1J5TWd1MUtKUnFKazhwdDdjRDZoVnpvbnRyRG9sYzdaMUo3WWgzTEE3akFaQk81ZWFHSmdCTEhoajl4d19BWlpOMmkyUlppWUVUNHk2aW9HTFo2WnhLSVRlUFlzNjE2Q0ZzTnIyZlIzR200UlBlaHNyT1RXZ3hndDVkMFBUaUtHQjRfR2pnRkJUZ3dYSVhaeF81Tk0wZWEzajNQUGhoNFYxM1g4SDJrZXhVMDNSalJXREl0enJSekluLWc?oc=5
+  looks_like_results: false
+  is_new: true
+- source: 新聞・無人機足球成績
+  title: 國際無人機競賽勇奪4冠軍2亞軍南投縣長表揚獲獎學生| 中小學| 文教 - UDN
+  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE15QjNINFF2UmlQb25SWk9IZzRHQlJ6eFhTYlJYdFEwREg5dXJXMF9YQWRhLVNSdWxtcXBIQW96OHVYZW4yVWFHSG5QS3l1ZUJz?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 世界無人機運動錦標賽 | 香港中學生奪無人機足球賽亞軍 - Fitz 運動平台
-  link: https://news.google.com/rss/articles/CBMixAJBVV95cUxNMlB6cEZ4Q0tweXVwRDNhbl9SbGpMOThCRkxLSDM5dXltVVVzdjNfR1QwdkxFLXRXcFdNaVU0V0VkYlBMeDBKd0tsbjZVbkVPdHNZSW9pVWZsUjBnVmdoY0tCMVRCSlh3YUQxVmUwUVMxeEVtRThsYlRkM0dhMXFRUUQwQTFWdF9PdW9rdUNhcUI5ZjIwVlhNYUMtalVxX20xUDVxSFQ1T3Nob3k4ck9lcHZhTk1wZzdWMXh6NXBYaC1vcXhpdUFUSU5wZWtsRXpFZktHM3l4Xy00U2FuTk1LRTJrYVdaR2x3VHl5Q0RZdVJ2N3F3Tnh5cFJUdHlKMmZfc3NXVmVTOFM5aVFkeDhhWWlGNjM2dWEzcFlaZjF2b1RzNWdaQUdfM003VG1wc2VmSUNsdUNWV2YyZi1BN1FVNXJINTA?oc=5
+  title: 埔里國中辦無人機足球夏令營 學童瘋玩今年超夯電競 - 自由時報
+  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE5lNVFqeWtkZWhYdUFQeVl0aGhwTHpMNV95RU10OGZ4dGstTGVMTWo2MVRYaWN5aUtfR2E0aGRSdENJWlJjQ0lycU50ZC1qOHBmNFg5VFBmallUSk5KaUFES0pwVmTSAWpBVV95cUxOcWdIVVJzYnhzdnVKcnpiZVF2REd6MXFPQVhheUxOUE1qUG5zSUFlTm5tQVNGMHhpM25Zc2lmTzlSZzVET25kVnNycWRGY04xbFE1SlAxSkkyZG1LOEt5T2RwUk5La0toZFBB?oc=5
+  looks_like_results: false
+  is_new: true
+- source: 新聞・無人機足球成績
+  title: 推動無人機足球 「無人機足球裁判賽前複訓講習」嶺東科大舉行 - Yahoo新聞
+  link: https://news.google.com/rss/articles/CBMijgNBVV95cUxPWUxJOV9pMzhDRkZ6LW5aYmR6dXZBdG1sOFRiWmpvdGxiYi1pR2FaeWpQZDBzX0Q5aHpGZzZ0OExpLVB6U3FsMnJrRnpYNEZVQWpWdVMtcVdYdkh1MTVGSjZEYjF3dFk3Q0UtZjlvaVdDX2V6OVhtU2NHVzNBWmFrQ0ZwbnpZazRmU2N5aUFsUS13ZG9sQlpVTlVNRjRLSmljZzFZZTgtbUVjTzRLYk4xSVJzcDhlb0NibjVUaW1KQVlFWWwtSzh5eUlGY1pWekNmQ3VqTUhTN3Z4SlBHZkhxWVJDYkdicDFXOERUWDYtaGZiTlZGR0FZdEpsakdkTTlIYUUyUUZBM2NqNmRPbm1MQ1hfT0d2dWZuQ0xlcWdFWDNfeTZzVlFDUmc1blZheGItUU5pOWc4eWs1b0oxdm5oemQ1MDU5WFJZSmlTT0NBeXppbWxTVWV5LXkxR2E0TlZTcUdmcHF3d2NXakNQbS1UQlFJRnJpOURhUEc0Q0hJa0lkVFd3eFB4dk0wSHNUdw?oc=5
+  looks_like_results: false
+  is_new: true
+- source: 新聞・無人機足球成績
+  title: 林園高中無人機足球展現科技戰力 精準操控勇奪南區亞軍晉級全國決賽 - Life 生活網
+  link: https://news.google.com/rss/articles/CBMipANBVV95cUxQWWVXX0VpZ0JZRFF5SURlOHk0V3FIUVI1VF9BRVhZeVVJd3VtZFo5dzBFbnVjVC1TYW93TW1SN0RwMzJySm00QUYtWFlZM0g0ZzhYVUlsREtxMGhvZEpSQi1zaFlfZFJiZzcwOG1jOF9jbEVrSF9pclA1TjRkSVd2MUM3d2VQeG9MeW5qVng4NXQ3eDV1eE9jNVU2cWd2cUJWZ3VEYWk4UHlMRGEzaW5QZE5ZNy1FT2xfMGNIai1kVFlXeUoxZlBZYlVDeHNPM04wYUlxTzdZeElXanpSVzNDMEFjTnR2b0ZsWEh4WlM2bU4tNEJSUlU4dGQ5S3VKVldLTmVSSW5wNElfcGpORm9YUjZXMW1yS2lIc3kxcGU3dUZFSEdJbUQ5TWp3RlNzOE1MWW9aeTVyWFpmRkE4UFgtdWtHdkpBSGxzR2xXY0E5S21GbWdxQnYyZDVESmlRZUNnc3hOUXl6aTFlWTdJS0hBTFlwVXJfRFNKMTllMjE0b29pR1N2WnR6VjNYNHZXUmRvekpyaXpYWHBXYjFqNmpZN3QtX3k?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 中南部唯一！嘉市精忠社區成立「無人機足球培育基地」 透過科技跨世代共融 - 三星傳媒
-  link: https://news.google.com/rss/articles/CBMiYkFVX3lxTE1zX1RjZEY4NzJ3bTdvdzFCcVJKcmtUemk2TVVLUGgzaXFjSUlIRm40MlBfdlptQl80TEt2YXNwT1Q2dmRfZjA2OG94bmJJRWp4VFUtdnlsZTlOekNleWxkcXVn?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 偏鄉科技教育扎根有成 左鎮國小無人機足球賽全市第一 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE80Sk9xZjBZaFBIM001bmNwYjRZenJobjkyNlA1WXZmYm1HLV9sVFJpT1czYXdrY3d6VHVqcWZtRUNHbmprU3FVZS1nYkthMTRuUlJUVVI0RXo0M2cyU1FtREVpWTDSAWpBVV95cUxNbE9PcFVoYV82Y0hhc1RWemxtbm9PUjhCTWdReHQ0ek9ESi0yazNpUVQ1endUQVlUUUJsMGJmU0xzNl9pYWN4US14R20xeTVrNGxtS1B3T0hKeTdDa2l5Um1YdFdyX0lGTFVR?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 台南首辦無人機足球賽 60隊中小學生操控科技拼速度 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi3wJBVV95cUxPU0c1YnZJbFVfckRQMWFBYlU1MmdHVEczRDBSdldlRlQ2VnZnUXpaNGJHeHo1cTdMb3U2ZHhZNW1pTE5lcWpYS1RqTzgwcEpRRmdVRlRzWVZ0LWlyRFQ2LVB0MjU1akdGcGVKSFhqMzU3eEJqNlo1el9Db05DeGtYTl9KUHhiaHFjZmRWaHd2a0tVSXZMSmN6OTRNVGFlSll2dGFnc2kyMzFVUTNLV1hZS3hseWl0b2lzVWhwYmkzRmswX3pEdTJmcmRvbER3OGwyWmlOampHLUc1UTB4aWpCVkVVXzhoUVhfNHNsSVNxcWZ3Q1FIVDhlczNFaDJZcm1YUVpiQks5eVJVQkcwa1ZWRzRxXzVzVS1DRUpZUVA3WWJXcWZJaWxOWjVhN3JtUjJwRUNMN0pTOTVpbXctS1NwaGRtTmw4Wnh4ZmIyX01ZQ2JqUHdURGFQc0JMMEZGVjg?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 台南首辦無人機足球選拔賽 60隊180名學生參加 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE5SQ1E0LVZobXBnQUtLVU81QVVZcjN3NVhzdmEtZjZKcHJSU1JFRTU0TDJVSlhmdjVMemF3TVQwRjhQUlB1LVV4TUJpTlRHVGc2RzZMWTRVRVgxZTRBeWN3MWVfYWbSAWpBVV95cUxQUVQ1QXp4NDdCeFV6SVhweXBHaFJXSWdRSW5xdjhTbzZhWjVaZXRycFdiZ0cwakxxSlJIQWFLb3ZsQlVLOUVNTENfRDhWaGp4UWthUXBscGZmMExuc3YyOUNUdFRQU1F0TTdB?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 台灣AI無人機足球外交 亮相奧賽特國際競賽勇奪23金 - peopo.org
-  link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE5hX2QydXVfNUphVklEc0xsc2xMQktXVDlQQnVFZlg1WUNWdzQwNXBzclRHM1htR1VqREpRSjRjZGJzeTJHN1JjNA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 才在議會玩無人機足球…國民黨提案凍結預算！蔣萬安：尊重立委權力 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMipwNBVV95cUxOakRJUlZZMzFyZWhFY2RrMzJUYV9oUk5za0FrTUJkVWl4MzFsVmUzODlnRUZpeWJ4OVRpUEJsZlVOTWdJQW91NDdlTmUwSVprakVrMFAyRTc5UzVyRXh4dTY3YjYyb3NDZHhaUGpuWElhM0FjRzdvanZtV2xwMjVnTzVlclpWcWVqMU1PU3NkM29wX3JsSkc1TGpralBvMUdGLW5FVFRaUGg3cVRqM1U5T1hELUpSN1lBb2hVNG5tV3RxWlE5LThlOExZRE9QaHEtVGE4SV8tVVNuWkFQU2pjWlNveHlheldGM1AtM3lDeGRiX2g5cm1YSFFMZ292N1Y2YkVJVnJHTy0tQlduNUhKV2w0RFJTTWd2Y1NfcGtUUGJTR0JubTJHdHhfWWp5Nm90TTh5Qld2NWZtU05KU19nWjFKaEtzdjAyZUdtVC1XRnZOc3hEMUpXeG1MMEh6eWIycDE4dk9iQlc0N3JERWJkdGFWNGtENW10Mm1mdXlDVTU2NzFBcnp3U19hWmdmc0dqRTg5UlBGSFBOdTNpRUZfNTFISy1Sdnc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 扎根科技教育台南開辦無人機足球師資培訓營| 地方 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFB2RDhhbjcxTENDZGRFR2dNejBZSjRNRnZldFhtb2owU3diam15WExqaTdaZDNrS1BYTXZVYlQyU0doRy1wU1hNMGk4N3pXMGF0czdiMXh0SWFOTXFwMTY0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 明道中學黃歆恩入選中華台北代表隊 勇闖世界無人機足球錦標賽 - 互傳媒
-  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE94TnFXMXdNVnpqZEtPb09uUVRNbmpnUmd5cXdua2ExSnYwNzc4WGZib25NWHpUX0IwTlpfYjEwdmk5SGdqNnRvTF9ReERURGRUUlFmTA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 楊浦無人機足球、無人機競速項目，亮相上海市第四屆市民運動會開幕式 - 人民网-上海频道
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTE1EcHJkWTM4a0xxa1VINXZ0Q2ljaUo3QVRVUi1OOWl4YzhiRHRRVE0td01UdFRxUHhzVEZKZWNRcjk4TVpkdHREVTllcDROdm9VS0lpSjUxRWhrRnVQM3ZvV2thYnozcUJlcGptTnppLTM?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 無人機足球國家隊勇奪韓國洲際盃亞軍 北市跨校培訓創佳績 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMijANBVV95cUxQZmhncXZ4eVVsZkpERTZwX084Yms4RkRLQ3Vfa0Q5MnVuQ3phODRVb3VuamZWTGo5bmxNWHZabC1jWkxwRkFNeVJtbi1xOTMyV2NBQTNYS0tTSnJfMUttQVNPTUF4WGVNMlFzaEFudlN4dlBnelNvMGZuOTJOX0lfTGR4b0VPaWNTRnhyQng3cHZndVpfSlVSRV9JTUQ4Wm5zRkhKSUZyRmNydnk4XzdhaUwydkY5MUh6Z0hySXoxSUh3R0tiaE5XT2Vmb1N5Rjljank3UkhlOGVxcEJZMFNrVTRKY01uYktMcDhKZW0xdWJlSmJwVkQ1bXlpMV9qbndmaUdaSEtSdGlReHFidjBUT2Z5Q0FrWm1iSnJJN1puX2lJV2xuUGQ1R1JPZkdpRzBSNGxzUzFZeW5nYTVyWURkT0hoWHRyclkyb2lTZHB1djlaSHFsck9WUU1WSzVhNmx2aS1ZbS1qX0NpYTJiV2tYSEc0WHVSUzdTeXNDODZSYnFmMnI3eFdhbHdoeWk?oc=5
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 博識高科技
+  link: https://news.google.com/rss/articles/CBMiaEFVX3lxTE4yOG91bldvR293aDNteHcyUmR4MUpqdzA0TUxKRHRJRFNoQkZyM2U0dmxENnlxeVJiekhscDNvd2ppYUY3OVNWeFNvWnZwOVdaYlhCVVhYcm1NeWlpTVlkUFBzZzRzamdh?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 無人機足球接軌國際台灣首座FIDA標準場地啟用| 運動 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE5JYmlIY0ZheW9FZ28xTHBSc1BjRXVVMjVreG1lUjhvai1wbkpkMmJPeVE5TVNFY1R2cXFiNEI0NGRYc0dsT2hjWEo0ZVhNRnZXWXZoVExMYmFhcjBMZVI0?oc=5
+  title: 海峽兩岸暨港澳青少年無人機足球挑戰賽在深開賽- 神州 - 香港文匯報
+  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5fRTROcXg3NTZXSFVjX1BQTzRfSXEybHVCZHZvV2JOUnlhQm5YRWlTSmFlMThVVmxreW94QUJTUDZQZkJibU5yd01jVnJzcmNNc1plandzTHdlbEVWT1Y3emtaaHVuNmFZUWZwZkdudnRsZzBNa1hV?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 無人機足球近年快速崛起 臺灣將首度舉辦跨國際無人機足球培訓人才課程 - Zeek玩家誌
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFBWSDJWWGoyQWh4Mk1TVlg4QV81QlpVcGZHZmJpUlJMNEI1QzZFT2FjVlhCTHN3eW93LXQwcEUxNzBwcVcyWElwVGdBME15OUNSb2c?oc=5
+  title: 無人機足球熱力登場 花蓮吉安邀全民體驗「空中梅西」魅力 - 藍雀新傳媒
+  link: https://news.google.com/rss/articles/CBMi1gJBVV95cUxNMkhzRkN1X3Jod1Q1cHg0dHNtNG0xcHpmRmY4QWZaa0pqZjdKdklhaVVod0dDUXR2a0UxS29WVy01MXhpRC1fWmMzaXRBZ0VTT1Q2UkxFblpLaGV0ekRKLWtobDlEWi1OblJJT2xFY25Cb1FoVlNVRXR4Qklwel82cktmbENaeGhMUXRTU3ZzMUpQT0lmVDR6ZGloR3BER0Y1bDhzUUJiRVdZaFR1MGpZUTBOYWhHRXdkNldIZGEwVHROelBlUk1OSjM2cFY5bXZwOUVfZ29EMkxSTER0OW14SksyNFNLc2FUMDZEMmxjaFJUeGNVRnU5M2FsakkxT3lzNXUxU3dKUFZ1N2VZbHFHVXRBMldJZzd1UW1IcXhLb1J4b01GX0M2RmdNU08yOEZFRC02SmVzU3ROWVlkNHRfbzJiZ09NcUNCS2VuQ05qOGdPd1BNU1E?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 無人機足球預算全遭凍刪 全台最年輕的16歲裁判 憂未來無處競技 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiakFVX3lxTE9talc2STNsRmM3Zm92S1FrUklmcmxuNmZvM1dkV1FTR2hkTU9oNTh0NFY5UDIzNHNkN3FRUEVMOFU0QUtidmc2VU9jSHNJS1dtRVdsb21iaHFYQ1NLTUE1TEMyOXc0ZFpFUEHSAW9BVV95cUxPZEp3dVVDakFtbkhMR1BxeHpjakN1Zk5tYldDS0NJWVRVaWo3aTNMekt6ZFhGMXduZnFyM0JQYXhRU2I0Yk9iOTU1WEphMC1XMFZqX0VfaW1HMEFSZVJDalNJSXlZMkJPS1FVcFdoWDQ?oc=5
+  title: 真實版「魁地奇」！埔里國中無人機足球賽奪冠 年底角逐國際賽 - 自由時報
+  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE54b3p1Tlc1Q0JpVkhEMWl6T0N4N3lRV01jOS1KbXVscUNXWDl5QzA2QVhRU1RvTk85Tm5wLXdDNUlKVFBCTkNkYzJzZzZmeE4zR0NWbzZ0TzRURVh5VlBQc21vT0TSAWpBVV95cUxNX201UGJtbFZjVUE2SE1xRW1NcFZseTNmMDc5djlsNU16Nl95eDAyUGFLSEtjWlZwQS1TV0lYaXJqRXBCRUFaRFhzRWdFRWhEeWJUMk1PXzhMSDhJaW14V0dDQ0xWMGZsdnJB?oc=5
+  looks_like_results: false
+  is_new: true
+- source: 新聞・無人機足球成績
+  title: 香港學界無人機足球公開賽吸引13隊競賽東區無人機隊奪冠- 香港 - 香港文匯報
+  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5XbDlzNy1EUnNmQVRON3pFSkpSc3VLdFNqR3VfS1RYM195MGZZd1JjVnNpV0ZqZjNJU3RVc1N5Y1FkY0xSRlA5YVNrdmU0NDBuR3BTOEhtZzZSejhvOEgyZ1dUeGpnLVlaamY3VXB1dXdpajJIdEdV?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・無人機飛球
-  title: 中國香港無人機運動總會於高鐵西九站內辦無人機足球體驗活動 - 香港電台新聞網
-  link: https://news.google.com/rss/articles/CBMib0FVX3lxTE1IMy1GbUdOelF5QWtEXzVXbnZ2dGJ3QmFWelFjbUhzZ1dTak05UXRGbGJHaXdzTU93UVM2WXM3MmpPbDRGbjItWGpKNjNaNy1TNGdYOFpKTUZhLUp0UmpHNjVhTTRnS3hOYjRfcUxfRQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 全國首場無人機足球國小營隊 越港國小登場 - 大纪元
-  link: https://news.google.com/rss/articles/CBMiYEFVX3lxTFB0OTJlOXdLaVNSX1J5eElRRmRiUjdGMHlYNUVsUmJZSjQyWHJRZG1XN3VIWkJfdTYtUk0xQ2sxUFNTVllMRnVlUjR3VkhWZmNrM0c4aHhGQ2pITVU2VlREZdIBZkFVX3lxTE9MVnJ5dlBFaUc0ajNyVTAzM2pMejNJRk5MT0JFZFRWcEZTWXN6MGc2X3pwTDBLOXpaTXY1aWNMN3Z0aVBIeFlkR1BuVHZFX3JsdzRnSnNkNEJudnpGOTVYN1RsUWNvQQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 全縣首場無人機足球國小營隊土庫越港國小登場 激發學生科技熱情 - 雲林縣政府新聞處
-  link: https://news.google.com/rss/articles/CBMidEFVX3lxTE12cHlvTkM5VmtsbXpBUXZMLXdpQmhveXNDNkNVYjRITHRNWnBQY1pFZ3VTUnBKTFl6SVZJU3BZY3FhRExxTG9BQ0tTUDZOcklpRkI1WjRyS3BXbHlJY1ZadnFtRzVfZ3NnNWlMOHk0SE8zUFAx?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 前進上海！「天穹盃」無人機飛球錦標賽總決賽 台東熱血引爆 - 中時新聞網
-  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBoMUkxSml6aXZsX3hvTTc2Ry1QTVdIRVcxODNUUmx0VUdCZEFpSjJWMlp4WlhwV2lUQTZSRnpsczVzSlh5ODE4VXBzZnRSS1JwRk9nSE9GdU1iZUFDSXc2ZllDNzlBcTRHYUVNcU9R?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 台南首辦無人機足球賽 60隊中小學生操控科技拼速度 - 中華新聞雲／中華日報
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFB6Nk9uX3BORlFnUXphZTQzc3ZVQTZZdkc1Qkg3ZEpGZ3VaRENnd0gzY0RWYklBLUhWVmZmaDlxLWQ5OWI4czBvc216ODU1TGdfY1E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 培育選手參加2027世界大賽 台灣無人機足球接軌國際 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9WMkw3cldMRE5Gb1ZBWmtZQ2J3MUlGMWpvOFd2MkN1VHR3ckdHaU1uS0hCTVExazZXeVNzY0lpRHZJS0lNYnlUMmpqNDh1X3QwVnc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 天穹盃無人機飛球錦標賽 總決賽池上開戰 - 原住民族文化事業基金會
-  link: https://news.google.com/rss/articles/CBMiRkFVX3lxTFBJUE1fOHJ3RkZpNnlTRUI5bWJvcUg5eFBmUHV4VlZnV0M0U3BIbS1ndzFGdkRCLV9OREYtLTlyNDBaU2J1bUE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 天穹盃無人機飛球錦標賽登場 中部選手齊聚弘光科大爭冠 - taichung.gov.tw
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFBjVUZSdUVEZ2ZLRU9rbnJ1WDFieGVHemM2amVQbndaWmFSYnM2cW5GR1IwU3FlWThXbTczWE1mMXpaX0lmaTVfREYtYkhQTElmcDgtZzdxa19NTzdwako0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 攻球門好難！黃瀞瑩邀體驗無人機足球 蔣萬安允給學校更大支持 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBsaGhBSWVDLTNyeWtwd3E1Z2pVUEEwNXg3LXBCYlA3cWdTMVBPd1d4MWxpd0tXcW82X1JudGJqUEV5SnplR0ZXWmMxNUhOdE81eGZOeUV0bDZ6ZG5xaUHSAUtBVV95cUxPSnFEM2NqVS1lS3RxdkNSV2NVZmlfX0NKODRac3psRDJGWnpWeVF0YWZCYUxkV2pBRHJHc0tqRWZPcTRDV1JuNjFqMG8?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 為後勤戰力注入新能量 三支部補油庫成立無人機飛球社團 - 桃園電子報
-  link: https://news.google.com/rss/articles/CBMiTEFVX3lxTE5VVnVMRE5xWkdRcjk3eTRrX1hsVGl4dmNsZkdmZ0hoRGx0dzhHOUs0enduVW5UaThzOUhqd2xoLXZpQ1poV2hnamVOYS0?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 無人機足球聯賽化 結合低空經濟為學界開闢多元升學新路 - ezone.hk
-  link: https://news.google.com/rss/articles/CBMi9wJBVV95cUxNQS1SczBxUk5kWXM1SWZsT09yYWtDTWFZbWNuY3JaVzVIenhnVTdrTmdmYjVveVVyVUZucDJMNmIwX29fSTdhYWJRekpZYVlwOVlETUpycGh4eDhBLXl6R2lsbjZqLXZQcERraENxcmdHWGpvRDhrV1dCc01OX0N3NllwWGlKVUxYamlCYjhib0l5UDAwRUx4eVJERlUxWkhCY1AtQ1d4bzVsXzNNZFc1QnI3QU1qV3Qwc3pRX3pqT3NMLTZaZUNKM1ZpUlVGRnVvYnE3NzJvUGJ6MHk2d1NLVURSSEU3ckVzYkZIT2lxRkp0c3hqZV9HZUVBb3QxYlNMcFhMUFJrSGZDaUIySXNGVVRKUUNDa2lFYks0UEhzVmUxNGhwZ0lrb1p2OUg4ell3U29RZngwQVVVZWY4dkNNTVJqYnZWb1hUS2psYmdNU0VSb09nYkxnellpeUpfUXpBRjMwTWtCbjZyWnNzeW9pRENQQkxBMXc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 無人機足球飛進校園科技競技變身反毒新招- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFAyMzdYLXZZaWFaeEdIREtpblVPVk13ZEpJNE1tUndzeUxFVWlONnNhV3dMeXBFQ1BIV1IxRFRTQU9tcXExTUR2VGVYNTc1d1ZuN2tIMHdSSkNESm9WQUxIU0E2RDU?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 無人機足球體驗活動 實現空中飛球和圓環體育遊戲新契機 - 焦點時報
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE5ZbjRtc09qTmpJV2Y0Q1FvVV9XckFsRkc1Nm90Vlk3NXN3YVhMMU9lb1dYZXRUejQ5OF95YTN1YVc3enBPSlp5TU5FbnhwN0NDOEItandOSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 無人機飛球南投預賽 全縣29隊選手競技 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9Sb2owZHlva1g0QU5ET0w1UlVuTnRmVWV6QVBPVWc3eWNEaW13YWhDRWRwSGVlVW9tc2doN1RTRDBWejctQVVfUS0yNmNXQlNk?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 熱血的無人機足球賽酷炫登場 24支隊伍互相較勁 - 台灣好新聞
-  link: https://news.google.com/rss/articles/CBMixAJBVV95cUxQSGl6MjVFdUhWS3F6dDFib0pOdFhjcWMzdGw5eWw1TGF6LTlsaGxvMktHcXQ0XzM3anV5ekE1RmhNN1hvVjNrOWw4QmFIN0U5dGpBdjNCYlFCdlNxZGVYc1Z3RHhsS3FzbThGRVI3bnF3ZlQ4TjNIWUt0R1pORkhtOS1YeWtQQkYwcmhCUzFNQkE1THZFWndKcmxCaW5EN09vQ0VnaGRxMm9uY1dxN0N6Z3BTZVpDM2pITTROaXBTNVB0R0NCalZmVndCMkV0dE5hNk5CaWJLWFkzbUI5VTJULU1peFY2OGxra1VBbndfM1l0VEtROWpOOEg4YjJwcUo5Q0d1MTV2ZnJrZTA5UEZSRV9qVThDQ3pHMUdpVmd3Y3h6cEMtLTYxd2JWSEsyR2R4ZjRVb3pDRFh5dF9TN1BkRnNnU2g?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 立委媒合協會 捐贈東大附小無人機足球設備 - 原住民族文化事業基金會
-  link: https://news.google.com/rss/articles/CBMiRkFVX3lxTFBEOGJTSXhCOGwzc0VLYzNlb0VhZjFkUGozMFBNaW51aTR6T3l3OU9BVHJCS2F2UGcwTk83a2otVmxMcFZBSnc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 竹縣無人機足球賽6/29開放報名 新興賽事廣受親子家庭熱烈響應 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFBoZV9UNy1mT0s4c0FwSXZQUlU0VVNXOG5kTEo1TTA2Vmwxb2trNnotZ2VsT1RuSTNSZk1aQmRfMEtnQncycGhyLWcxRklQU0JT?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 蔣萬安體驗無人機足球、匹克球允支持推廣| 地方 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFBLelk5bnF6UHVFSEg3S2ZyMlNiZnFheWdmZUR0a3M4ZWx3SDZhcjUwMmg0X0JGT0ZXSzRoRTl2LWxkMGVKenZqaDZ2REJRakNIOElTQzJYR1QtcmZPT21B?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 足球飛上天！彰化市無人機足球賽24隊酷炫較勁- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFBEdkU4QS1pNXA4TGgyN0twZmdlLUtuQnkzaUR4S3BTWEdYblZLZUhmenB1QjNXbklacG5RTjQ1UnVwZ01JMzJ4aWN2dVEwS1JtTVZwVllzU1cwNVpHRzdlQXpzTkM?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: 陸軍三支部補油庫無人機飛球社參與南區天穹盃競賽 - 視傳媒
-  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBqOUs5aW5HVkRRRGE4aUZHQUQ5MEVwbHViOE44TVVrbndUWHQ5NmE1bk4wajVsQXRCS3ZYRGNCXzQ1cWl5aXRYX3ZjMlpzRTRBU211SnJjOUdONC0yV2lzQWFMWnNKWWdDdzBsWm9B?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・無人機飛球
-  title: （有片）青少年挑戰無人機足球新興運動空中協調攻防飛向未來- 香港 - 香港文匯報
-  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE40a0R1RHo5Q0RxWTZ4T0lDMXpPTFk3R0VTVVExZE5BTV9uaWtQWUhkSlhod2V1VGdWcXlSM3ZvSHFsblJ6bUwxYUJQWjhEa0NLaWhQTEJTVVd6cmtVaGNkbTBQb01zOU9FUnYwRGlIbVhKLTI1Q1Fv?oc=5
+  title: 全臺首批無人機足球裁判培訓完成 總統盃競賽蓄勢待發 - 青年日報
+  link: https://news.google.com/rss/articles/CBMibkFVX3lxTE8zZEU3VGQtWEFUTWxRYVFaV002d1lBcF9CakpScGRDbXB0Mk9sdnJkUGZabFMzYk1ESFVWXzl1QjZNTkFPUWhPMzlZTE12SzktQWpDMkV6NVlWYnBsdEpVTlhTb0Y2U0JSRTVNOUxn?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・足球無人機
-  title: 2026FAI國際無人機足球賽！中華青少年選手奪冠 替台灣摘下首面金牌 - 三立新聞網SETN.com
-  link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE85MTFSanRVUFhhdW1YM3FPUVhnSHJQWmxYRGE4Ym5jQUZHTC13VGx1WEJGbjBYVlloWU5lTkR0bEFrdmFGMzVTSdIBTEFVX3lxTFBFUUp0VUtMR2ZGdUE5VFZOMXFxZ0poUXE3R3NNTFhubkJxcFgtMDhuRVM0c2t0U19OVXVnN2IyaThVNkY2c1FGbzJ1RUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 中南部唯一！嘉義市精忠社區成立「無人機足球培育基地」 透過科技跨世代共融 - chiayi.gov.tw
-  link: https://news.google.com/rss/articles/CBMiakFVX3lxTE9IODRJOUJfYWhid2hlc1N5d2VHN3BJSVhaME9BaVZicFhUbmY0X0RtNjE5THBwWDhMQWswZlo4eXZqVzBBcmhOSGpXXzBvYW13Tkp2YkdINXNuZDJqMVJTMjJOd0thdVBxOGc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 仁川無人機足球賽傳捷報 - 國語日報社
-  link: https://news.google.com/rss/articles/CBMickFVX3lxTE5JOUUxMjZMSFlUbUdMM0NKN056Um5EeXBtU1hTTkJib201SGtuc052VkNMVEF1bGk3TXdId3p0c1JNQktScFIySmNEUkxLSXVnanN2OVVBd2x0cEI5dHprTk1Bdm5ITi1wRUVmZ3BMY3VDQQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 內湖科技成年禮 “無人機足球”飛向新里程 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE8ySVQzQVZNZHpibWNpekM5OVpCaWdlMGl4ZjJKUjFZcElhXzNFbkFrNU5UdDhHVlVkbkg1UzZoVTVpTmFmSFN2QkFacmUwRFNu?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 全台首創！秀傳舉辦無人機足球賽打造醫療科技新應用- 生活 - 工商時報
-  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE1wWTVVRDhYLVRLWWt5dVYtUXNpZzJHODcybThEWFlHU1piYkNSTEdRYXl4R3FnckoxN002S0JvdVRuOG9uRUdJR2Y3dktrTzNZQkp6S0I5NFVGRTV4ZVdV?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 全台﹁第一屆秀傳盃無人機足球賽﹂登場。（照片秀傳提供） - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE9oRUplYi1oS2JudVVIMXU3UTdQMVJ1bjh0ZmwweDRkRDg4MGlSZng5XzhRVjdVQ2t5UUdua0otS3c2Z2JkeXFaTVdLUnRRd1RTUlhvMngtaGx3VGgtRXJVOTJqYjhYY2Jvei1N?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 全港首個FAI無人機足球公開賽圓滿落幕港隊獲亞軍展現國際水準- 社區動態 - 點新聞
-  link: https://news.google.com/rss/articles/CBMiekFVX3lxTE13NWlmaVhIN1Bmdmw0VElJR21ndTY5R044YlpkQkRtZV8wQTN3RFB5NkpQT0hKMlZSemExa0Rrb25FbWJiclpBeklXZWxFcmEycnR6cjl3RXhUUVNqUVdDazhSbWU5bDZpelBvYkVNS3dIcXlrc0JtUFNn?oc=5
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 視傳媒
+  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBrUTdWaXA0Vnp5ZDFsc2FwTDBSTFJtYkpBZi1zQW9MUjRHb2g5b01HY3puLURuVDVaV3hyc0dfN19fX0RmVWl1V2puN3ZwX2xzaE90U2xmYkNKVjd3b1FFOFRkZHZ5VElGZWlZdURn?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・足球無人機
-  title: 全港首個國際級無人機足球賽開鑼 - 香港文匯報
-  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5ub1FOWnVVdFNCY1hhLUtlM2FYV1prZVAtQjhLNTFRUlBhVFlYV0FEd0tfZGtHVGRUU1hwekxTOFJMV2JfcHpJTG1CRjE5eWg2Ri1QMl94T19KMUpfbjVRb3lMdDJ2a0lJZ0lnejU2a0ZBSWprNWFv?oc=5
+  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
+  link: https://news.google.com/rss/articles/CBMijwFBVV95cUxNUlFjUWZHRmNlb1JyTEhPV2xuS253ZWkwcms4eEtYeVp0UVNBSTVyalktTVBvMzZUcU5QN1hkSkZ1TU9vb2pRbEN3VEtUbWVSNzVTQUZlYjY5Q0RZX1gwWDZMZklpQVdlLXF0VWtOVG0zaDVwOTJjbTdiSUw5MUJtSmJqZVdldS1oTnM1MGt6dw?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・足球無人機
-  title: 全港首個國際認可無人機足球公開賽正式開幕 - 紫荊雜誌
-  link: https://news.google.com/rss/articles/CBMikAFBVV95cUxOaG1tQzlTc1ZIQ0pIZE1vbEZfMm5lakpWYkRsNjNFRkxneUFWdXpyN1pDUXlUX3RFT29wZVN6eFZJZE1BUWhqeHIza21DeFh1SVBGNlZ3ZFZtZzUwU1pSUlJQREV5TGVZLUl6UmNobmhkS3A0SmdkancxaUJiZnJja29MVGdTUmxTaXNleldUNmo?oc=5
+  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - 蕃新聞
+  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1GeEM0SGZHbFAxcU01QkdLMFRPandzWFN2d1RVTGV0SndkaTZ6MjMwRWpBMEs3bm81alNCOURxakR4LTBLZmJpdXJNSW9LbEx0Z3c?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・足球無人機
-  title: 全港首個國際認可無人機足球公開賽開幕 - Yahoo體育：新聞
-  link: https://news.google.com/rss/articles/CBMitAJBVV95cUxNbzBQSUd4N0dJWVFOS0xlNWRoVU81SHVvdzl2cjBQWFExSUtRcUdKdnRJbTlUX0NWU0FCZktGSlVHSTBGd0JhMDVYY2QwTTdZaEE4STNQNjVvY1dHa2h4QlNlRTdHVXR0QjRHR2N0WFZQVTVST3NkTjZ4V01TZFJnSVVJcl90cldnaTc5Z3VtbUlMYXpVNnduZXJtb2Q2ZnU5RzYwOER1RThpTEZwbDk3TDRDWXlHU0xHUlVJQ0lFczJOVXdaQU9NNDE2Wm8wVkhBQVFaS0ROTXExMmZTbm8zX2ZUNDZOUGVpR2hIb3k3ZXNnVVA1OHBsMF9wMVB2RFlZYjFwYzJtanVwSVVLbTZOSXV3OFFfd3M2WEpGVUd6Y1NqLXlJbGdubWtMcm1jNHJiWFQwNQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 全港首個國際認可無人機足球公開賽開幕 9個國家地區隊伍同場競技 - 體路 Sportsroad
-  link: https://news.google.com/rss/articles/CBMi4AJBVV95cUxPcGZOU1dvTElLSWhjSU1qQ3E1UVVTbFBrYTFsQmoyUlZNN1B4LTNib2p3U2NER2NEUk5oZVQ5OUVDaFRXb3N1dnRYNl81bXlJR0J5Nk81bzZUMkNfdVE1bEFIaTlKVjNhWUR6UzNpN1o5MUJBQVpDWVRwcmJobzNXTzB6ekRKTzF1RUJ6b3c4cGtCemxZQVk1UGdpQW82ekRHeVAyUC05VWhDSlk1Y2NhSFhmam1YZ1ZSSm0yaE8zYjJsclpXTjZidjhDTEl2TVY5RlhnSmY3Y2dyYThDS0x1LTUzd0ZqN0dNTmJHVnhtYzk2RGoyNGVyaXRuNWRCQ19NeFRXZC1vQjF4cThDenliRXdGTDVPclJsQ1lEaks4N3FwQU1DeUNWRVh3ZjRiWlZERThNeF9iRmRwS1ZfZlRLRGdGVW5heFFCYm9LQUF4bzc1ZGhlMU1YaXNQSml4UGlX?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 全港首個國際認可的無人機足球公開賽一連三日舉行 - Now 新聞
-  link: https://news.google.com/rss/articles/CBMiYkFVX3lxTE1wc3NrYnJqVElnVDVqdzBwLVg0RjI3STRLY1lOd05sZGs3LW5RQWlPbWN5REtNR2VDZnd5eWFxSE8xN21FRkFOX2E2blloSUJZclYyekZUN3pDMFZ2TWR6TW9n?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪國際首金！台灣小將橫掃2026 FAI無人機足球賽 寫下歷史新頁 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFA3cUQ0WUk4SmxmSzZPa1BGWkV3d3J3QnJXRmtLLXZtTURSOVBhTmtOWENQeVFVb2JzbGJSR1R3VEc1WGpfS2lRNDFEcy1XMUZU0gFWQVVfeXFMT2N3clF1czZzMlVvRjc4UkRidzhLWmFnSDVocjNqOXI4MEd2a2hLRGxXMFZ4b05hc3Axc3dGZFZ5NURUZVJmenlNZVdjSUVWa0EzX3ZHMkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪第一金！ 台灣橫掃2026 FAI無人機足球賽- 綜合 - 華視新聞網
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTE1tMl85Tld0NkFDUlNOLVJjRFhJTXBEY3JDSngtdHd0MW9HMFBHOEFjNUw5dlRtdF9qZ2Z5S2VPSFJ6blJOTGNNMTZxTDIyQVpMSEp3T1hBcWtReEhxVkVnWmczU2wyOUhiN216SHNVek4?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMiqwRBVV95cUxNbWtiNERYdVRBSDd1Q2drZDJjQWFtakF0ay1KU2x0eWhnZ0x6QXhDdXEtOWY5WEY0Q1FQall3V21vbnhES2N2OU1qblI4QzBoWnBxZjk2MWR1ZEswc3BTZzZhNVBvQ0hpMTlCRC10WmdWZDRyWm4wNXNVZUhiU05qR3V5V1MydnI3RTZaN2ZUaUw0bHR6TGF5U2kyclFIUHNUSm1uUnQyeHpCNFJVZnFLMlg0dnNIb3hYLWZJNDR2OU1ZWUp4LXl1aVNuVDU0TWdNdVk5UkJKeldmR09QeUFBc1FVNElWR3NtWV91M1FRZnZEUm93cVp6RU5uR3VVV3Z1Nllqc1hyLS1vS25PMExORU1YX0x4d24xdVRtMHNfRTlxN3FlYW9yb1gtY2VmVG8zVjFBemdnX1hkNWhzME1ZM1FhWk5TREtnckJUMGoxc095TGkzWWN5WE1pbS01YkFvX2xsZHdSQm5KQ0RxSmtmTDRranZ2NHRNZFpFYnlVZ0F2T0xoMTdSM01xUlRjVlR6cVRYdE1GdDVxZlgtYkpVSHNGbVB6OE9DU1FNa1QxeHc3bHBpazlQRklyaW1NX1dkZ1o4b1REVXQ0dTM5cUh5dXp2YmduOVNEUGZUUzRtX05IT1QzZl9LVDVJUkZaRmw5ZFQ4NXVqUTgyeFR0NURSNHdGdEtBZlAyRTVJX3hueTVBQWR0NjlBeDFyRmdRbDhHZHdEWVVSQ3h2RUk?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMirARBVV95cUxOeE1UQzRMR3FaWlZROUlJMFJJTzBfdXVjeVVZMzVmSjhReHMwM2p4bVF3cUtya3FESXRxN2N6dnctOWZhM0VMaTFoQXhHY3lxbnRwbEY1ZkxSTmpPMmRzM3RKcnNGUjQybTJhdlJCZkIwajRwQk8xTi04cnV5eUVuaTJDZ0Z6Ymg1N0lYOThlMUJJcno1Wk53dkVKajBySF9JWHByZnV2VUtWakNya1JUc1I3cGRyMDZHTUhienQxQUIwczRncTBCOUFXTER2TGxrMVByclBjVmlWTkRBV2xkSWlIbFBJQlRZM3FFMkFSaFo1QVVMamExSlVBc19Mb3ZDZ3M3OEJUS1ZJNnRHcjlrekh5MXRfZFZkQ0ZDTDlEOVdmVkFoMHgtc0h3WF9aZGg3RDNxMWFwTi1McGNFcFpsdjdYeUhQand4eWNsSVYyU21qZVRDd0RhTzlIZHhvaV9VUVRlbS1fSnJsU2hDUE85SlVLbzZYYkxtTGstTkJrZ0p2d0hXZFQ0MHhGeHlSa3RzdWVBeW55ZXNTZ2lHQlM5ZnEwb1dWbnhpWUxlTTJzbUdEUXp3Mjc0ZU03dkxIbWVBb1FwSzlEZ0VfWkNid2NXeVZIamNCVUl1YzdHaE9GTlhtNWloNFhjZmFSdkhBZkV5VEVhSVdQWjVESFB1dHJ0a0tDQ1BaUG9YYllsUW1qVHJLcVpBUFJGcG56Y3RfSlBoYnBtMWpOSXlrU0lo?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 台灣之光！國際大賽激戰29場 國中生抱回無人機足球「首金」 - TVBS新聞網
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBDT2tOX251X1d0QjBIdWgxMVdkZzhzMW90RE5tWGhHajVYRTU5dm9UWHlZbGhhRjd2VGo0S25seXlaSlR0LXYzVVdXNDhXZw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 台灣小將空中踢進金牌 無人機足球隊香港摘冠 - 自由體育
-  link: https://news.google.com/rss/articles/CBMiYEFVX3lxTE9ZQWk1QUFtYzZxZ2FIbXFNazRHX1JRTUVMSjZjRzRJYXZ3aWpxTmFYcTdKdkhweEkzZ3U4TGpXbmI2V3NKSkc0RURoX0hydllkSzBJay1pUlNVZWo0UFptUw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義市打造中南部首座無人機足球基地 老幼一起玩科技 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE5IWEx6U0pKeDFHbXdoUU9ZekhDUEpnOWljUXVuM0htbUU4M3IzVzdLNnk4M0JQRTdRVlgwUHF0Z2FTdXVsa3pEVzZQa3lXcmxF0gFWQVVfeXFMT2JIMUVZc1Y4ZDZUREJONG01MXZoSGx1dGlCUVM3bnYxVFdua3FVR281RXU3a0MwX05ZMklJYnJmeTA4V1c3NjNERzlLMGRYT0lUbmhYSUE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽熱血登場 73隊首挑戰「空中足球」 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBlcS1CN1AzbDF4eWJzWEJURzNqMy15UldCb2ZNeTc0NEJNMmp3NVAtUW5WY3NxVXNadDBGQ25TR3BybE9tazVIM1Mya1JnQ2xKLTAzWDNHckctUVN5a1HSAUtBVV95cUxOVjliZ0dWWEhkWFpHOXRPeDhWMHhnRExtclZEc2MtcDhWb0VMR1Y5b3YzU1gzR3FrYnBsTzV3VWlPdWRCbU1PaWd6Ync?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場 73隊挑戰無人機足球 - PChome Online 股市
-  link: https://news.google.com/rss/articles/CBMigAFBVV95cUxNZU9JeTRzRmFZN1p3cDUxTENya21QTXFYUENHcTFhTmY0QmxXSFFFanFvdjJxRktxWTJtZGdERHFzV0xVVTkxcGRoS3kyX2YzdjIyM2J6Qng1SVlNb3diTTB1N1NuS3dob3lmLV9tY09YSDF1SFVXM2ItUXcxU0NoaQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場 73隊挑戰無人機足球 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi0wJBVV95cUxQUDNwQmQ0Vzdjekw3SE9VMmFKd1ZsOTBKazZZNk9FZDdDcEhyYWNPbXFKUHhWVTl4enloZGpqUWN3VzVyUkNoY1ZDLW9tbXVDT25NVnItNnBWSkVkd0xWd1kwRzUxM2xPY3NBRFBfVXRhaHFJTXRoRkFXd1BlN1RHTW1JckRJVHFfWkc0c1hqYnNQemVXYXhFbVZ0TmdhTlR4YzlWa05hSThBM2dBWFZNNHlLbzBjeXFQbU8wQ0ZMYXE0eFFqRlF2TnpTa0piZUxndUlCc3RrVy1lT1k0eDFqQUs3M0VsSzJkeHJoN2tMdlJEa0NQZ1BVTEVwUUxWbk9pSDRBWGdSYm1MUEYzRS1aWFNfbFBhNnRhVElqZjhsQ0E4ek4tVEZsQlBFVUlBM3dFTDJ0NExBTGNwTThuVmVsYkJWWkhBbmRIa3Z5anZKdUFzYm8?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 樂聯網
-  link: https://news.google.com/rss/articles/CBMiS0FVX3lxTE4ycVplZmlCTmNZS21IZ05LUERJUU1XTEJhNzdCeEVWRXRQWmZ4MHBQUUk3bE5NVldWcGdURHJNclBMTkNBYjh1V3NuZw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 睿傳媒 Rightmedia
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTFB6T2Vwcnlqck4xdU1qbXFuUkNmd05EVmowc0FJaTJ3TWtTR3BlOW16SGVraHRPQTVWZ045d1V6YUZTd2t0akFxS0s4WnRiUXdwWHVVczFxTQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場73隊挑戰穿越賽與無人機足球- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9lVlF5ZTMtZmdPSnlIYVlidUxxZUpsTUZEYW9aeUYtZWRtQ2tfTjJuM3d4Z0xfRllPa3NNLUVoZnd2WkhVZnJkTlYyYldQZzhwMWpyLXhUUzB4U1o5OE5ELXU4N0w?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義無人機競賽登場73隊挑戰穿越賽與無人機足球讓學生透過競技及團隊合作展現無人機教育學習成果！ - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE1kQzRNTHQ5VW16ZGg3X2dxY0c1YzhleF8wRGlZVGJYaXdDYlFyNnctTXpEUXhzVkFnU19UbVdGdUhpVFVQM1JpeXA3V2xkdVZVYTJCQzVfem5UYmM4MlpBbmlTcU12Zlc5cy13?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi0wJBVV95cUxPakhYZGp2Z1hwWVFQQ3J0eHpwa25zbVJuZlpkeWVuSUtYUkxfcHAyVW1Ja2pXYklPZUVHZTVnY0g5T1Q0dEpTMjI1M2xjWmptaFY5eUEzdnNORGE2VERPWVBnZWJpRVd4cWRjTzB5VXhXT0owZENTbmRCMzRZRGJiVF9KR2VZcGFWdkxuSEhPQjVhc0dNZ3JVc0VuZzIyN3NRdG1pdHpUb01wa1UwaE9wcnBkMW5iTk5wQ2pNcDdGdUVwLW15cExiZGVFaENYcEs4cF81R09PSXhkaFhSdXFFQ2VXaUNiYm1DeTFpLXBoY3BQMWQtNTFrS1g5TDJ4YmpXY3doSGM2bmdHLWwyTGJRaktyOVBlRkJSNkJMT0ZVbmFsRE5OdGhrOVpmNi1KRjhNRXU1REdMcDRZTVZMUGZCTlZVNUV4eUJQWC1NUlFUSEFOcHc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - 新頭條
-  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE5fQXlIUHdZZHJ1Q1hFdnc2TGFfM3gweXlqNFQ2U3loMnI0X2hKZUd6VjJ4WV9JbVA2c0xQdGNfdHhkRFRZQmFSNHpTYTRnQjhIRzR4Sg?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義縣國中小73隊參加無人機競賽 首度新增足球賽 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijwFBVV95cUxNMDY0UUJSNUFQc3JXWnZVWDFyeGhUb2NVOEcyeEplcUNnRFlGZWNjcWM3WGFkUURhT3NxMHFwUEEtVjlwUWl0Q2Y1cnFMVEp5bUd6eHk0T3FIWjNWUi1PM1hUd2xkZU5HOVJDQUx3a19jUFRnQm8yWGRMeDdJM0hremEtZ1RTSFRPZ2t5ZVBuMA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 嘉義縣無人機競賽登場 73隊挑戰穿越賽與無人機足球 - 臺灣導報
-  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE52V0VzN0lKQlhzWEdPQkVrakVxS1NSX2JXcExBTmZDcVJ6eW1zbGY1cGpMZGhqTHNoSDVJb3lCMmxHSnp0OHpza1ZIdjV1bTJ6NHRvdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 國際級無人機足球公開賽開幕 香港派兩隊出戰 - on.cc東網
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxNZFlXV2ZqaWpCN3pOQlctdjNSRnlDRm9fb0E4VUJ5MXJ6OEVxaS1XRFRfbV9hU282ZmhMVm5YSldLNzBVVlFXdUoybFhLMWt1aE1Lb19KQ2Z4aHJkS0NhaWRoY2thQkY0d1dybWJvT1hwbkZwQUI3SElQQl8xTFM0SUd1NWhlRmQweklkUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 實踐大學包辦無人機足球北區前3名 邁向全國無人機人才培訓基地 - cna.com.tw
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTFBHWE1BYnVwUzFhaXAtZ1B6RlMyQVFZYXlJYjNyYkJSbUhEaEQzRTBab2dIV3VSVjZCT2RNNGdHWjk0aDFJU2pEeDhjLWpTTXNpZmlzY1lR?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 將軍澳官立小學無人機足球隊奪國際賽亞軍 9月再代表港隊赴土耳其作賽 - 星島頭條
-  link: https://news.google.com/rss/articles/CBMizgNBVV95cUxQNjhFZVViNmZRVjVlUDc4SmlxRWhiTFNoOURzb1BBNHUzOS1uZEJLTUotNGxBdUwybUhybUlMeTZFZHd1Vy1jcUJ0TGhsOGo5N1l5Tnp2NFozMVFLcHNteGdDQ3BaMzFOU2MwRUsySS1NRWFETHNTMUJwWjB5Yk8zM3hzT3NNS0dwV0hPek9QejlhdVBXUlhWQzZMSGRjN3dqdlRqRFBIUnk5VmM4UHBBYjJrcEVkTWdQdnpJVThyMEsySmF1ZmZtRGRNOXgxRjgtdk1ZMW8zVmx1US0zNnQ0cE5meXdob3MwR09LaF9Ud294QzhaMldub2NvUEcxRkVOUmlCc29zeTh3Y1FFVkxMeDVIYWw3TkhrMVpubEt0MG5pVVRvV3JYWTNnUlB5RXNaVTRrdFRxYUpDNnkzSlc1OWJRTXVJcGZKNkVVZlQzYUN2d21UWFVLOE1OdjhSejk3dVhWa3lDWFFaQkNTaFhfLVE2aXdESEluMDJuTVQzZnc0ZFNtRWROV0lhVGFoMTBxT05RUEhyQUZhcGE3Z0FEQzFVWVJjNTN6NnpvV0xwczF6X01MNGd3MmxWMkwwSEMybnVsQUFKa1N3RW9MQlE?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBnUUcyS3JmdUJsTzhRMTFOT2gyVnJlN2VQWHhETjJ4R2REeE1FOGNYS2EtTTdDQVZOSkZmZHNFamdtb1I0eVRydkZfOGx3Nnk0bENHU20tdVZ4RVQ5cEHSAUtBVV95cUxPRzRVOWJ6UUhTbmVhMW1WUTcxMXZtUUgwZDhYWVNsLUF5ZHI2TlZ0QW54a2RVM0xwT1FDV0U1c1ozbzFmMTRYZXhzLW8?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOM1RVejRzVzBJVnlrQ05rNUVfYXd0d2lSUHJ6N2pnaURaMHA3RWNmbVdza1VFZXItX19TaW5LaU52YklXZWx4WVpNVFEwbnR1ZzZpWmlJZEJ1UFdxWlBETjVhcVh1c1hvRFU5SVpieHRxQXNqUFlPeFUwYTJxM1R6aGp1WWFOeHJoaXQwcg?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFBaSUM2NkJfY09sVFdKUExydGNWb3B0NERHeVNwR3pjYWZJcnpCcmJrOTdlTHU2MEhaUkdfMTdDZEx2UGdEdktEbVJ4THZ1cnRYT1E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 暑期無人機足球營隊 認識了解體驗操作 - TDN台灣生活新聞
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE11Rlhxc3VrbXphNUxqYTFhWjFPVEFkWmM4REFCUUh5TVNmZTJhaXZ3NkFnNzAtRVJmNXdTenNoUEFRY0gwY3o2NGZiVmdDRU1C?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 林園高中無人機足球奪南區亞軍晉級全國決賽- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9FQnVPc0RaY2hJN0lPaGlKM3p2bG9ZRzdkVDhNZXJqWUUyNlZHTHZXQUcwMEZVeU1UWHZnT2tKZVhOUUxlWUJ1R2N5cUpwME1yMUUyN1FPRGViby1HUF9NM0l2NUs?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - wennan.org.tw
-  link: https://news.google.com/rss/articles/CBMickFVX3lxTE1MNERCX0hOeDN5cHpnUExFOWJxaGZCYTkyMW5PSFFfaFYxQV9OYjZoUzZIcThBZWxZXzdfVUQ0azRJckFpUndGbC1tODZxbjVyTG9kbm1ta1NLd3B5U1VNX0kyblJxU05wbmtScVh0bUZDUQ?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球來校展示 屏大將投入相關技術開發 - 【飛揚新聞】
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE14NDFDYWw5a2stZjdjZVI2YUlkRVNxUWUtcS1tbFJyTHpOMFFPb3h2WUUzb0cwNmxIWDhqVDRfS0ktYlhCeGtXem0tNDZtOFpMb0E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球在台灣爆紅！一次看懂玩法與規則 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFB4cWNVbTdYQUhxRFZ5ekwwUUFNSGdqeHV0Z0xPcDlad0VVbGxaUFppaWlZdUFXWTdvV2IyQml6Y05jcWNHSFBVQXNaYVZjcGE1U2JGb2dmaWZuUjJrNFA3SUhPaDjSAWpBVV95cUxNbUF5MEgxeWtQQlFhVjVDd2IxaGNCUG00WUFXblg5ZkFIY253aWxUbHlSQ1Y3TE1LWk5Vb1Y0MHBheVR0cDBJX3RZN3RpNzRxODdDNV9hMWpsRHJYZnRoQlRnZVJiZ051TGhB?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球夯進校園 輔英科大培訓裁判補足賽事人才缺口 - 焦點時報
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE1lcUFZNXU4Vnk0Wk1VQlNQN3NxcFJkQzFQLURfdERjTXA5TUpkdVZPOF9nNWxSNXF4cG5SUGF3ZXNONkhDYTVpeUVMM3EtRGxGQjJwU2VZSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 勁報
-  link: https://news.google.com/rss/articles/CBMib0FVX3lxTE43MWlSZHRQTm5WQUNqUjJMeFg5Y1BhdU5LbGdzbFBoTGlMX0R2OFJGM3EzUzRYOGh2ajktdWNiRFN0WFZUZ0w2ZkUzcWJNYWVxNjlUUmZDRmVnM3B4d0EyaFdnYy0xZjNBWHl3TEh0TQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球熱進校園！輔英科大培訓裁判人才補足賽事缺口 | 徐炳文 | 地方新聞 - 風傳媒
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOOUFlZ0RFSzc2TzQyck5DVzBtMnE4MnBIQTB6RmV1dERveU9QVHNuMmdlUHowTTVjc2xlUkdna0Y5Q1hnbm9JUFZST2k2QQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球空戰 新北公開賽開打 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi_AFBVV95cUxOZl8wZ2hwS0ZHaTFKR2UxNnVCVXNtX3h1TDRUXzYxQ0x6dlUta2RTVzJKQVppeFdJVy1TclFZc3FaRXJUZER3Z3RnWWdwaE9NNDZVOVVfdEVDNWN5clA4UkNRZ3dQbXgxOFFhbC1veWpxbS1xam1TUzdYQmtucE5EVVF4bmtqNDlWdkJ2SVFEQmNFeU51Z3dzLV94WDNBRGxTclhrc1hiTlVST1FpOUZLaWtUWmdubXhZMDVyT1FCNEtfazM0TU1BbFFnVXZsa1dEa0FZS3NvUVZaRTNCaHJqcHJwb3kxRVJvV0o3bjBQNzJfYU9FXzE2dnRSMVY?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球空戰開打 新北80隊300位學子競技爭全國賽門票 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFB5S2czUEk3QXVZRURJVkQ2N3lZT0VZblJuNmMtYnNGUTBsZXJaZWRSZzkzLXpRUW95RzBZQS1CZ2hjOWIwZVh6Qm5va2hFbkFl0gFWQVVfeXFMT1FNVFh3UGFheVotU2hGZmNnNVJWUDlpRWd4RFpFRHVjN0pWN1c0N2dBd1RlTTZtT0JnMmZ3S0lxZld2VlVXZHotOHBFaTVZSEpSU2hkNWc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球空戰開打！ 新北80隊300位學子競技 爭取全國賽門票 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi_AJBVV95cUxNd09Tb3dCR1VGaVVvc0x4bW9jWk02VFQ0SEhEaV8zQXotTmIwdXE1MWVKNnlBeUlDZzFmc1U3eVQ1dHYxRTlPdjdZdlNUanhFM0tEUFZzczEzUndqZkNZZy1JMXVvZHA4d1RDMHVobUdhU2tpWUFjdnZJV240bzJMQnBaeVpvM0NMMnBzT01SdGhCc1BBZjVLNTFHeVI2T0VzVnpOR09DN29KdWdfRjIxNzlTbzlPZ21rbGhodjE1TVhWLWVUVlNVd0pHaU1lUnc4aEVfblBHSTFpN05jNjk1cHE2cUFNMnBOVmd3RUNvZktsczBnWWJVLXhKbjRtRGNIXzBBMG1DSWh6cW91UVNkckpvLWx5UWFVbFFTaWdJUmF2RkRBTzEwRW00WGxINnczS0F6N0VUUXVPU0VXRXA3ZDYxY3M4d2VYZ3ozZjY1dUR6Z0FMN3BkenY5cFJOQUYzRW0yZ1dfaFVQdjA0Q2RBRTBMdEw1U28tLTVRZQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球空降屏東 創新科技玩轉客家 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE8yOU0zV2dPWjRoS042UklsSDc2RnIzeDlvXzd0dUcxRDI1b1N4N0hUM2kxUWpnblppTXVWeTRZUm11QlBCN2d4R2hUakwzTEpVTkE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球香港公開賽開幕 - TVB
-  link: https://news.google.com/rss/articles/CBMi1wFBVV95cUxOa2FWMzNyVWJjX1RfMGRIZGxjTTlwWmowVVpTdUpkMThEVTAzLVRMb0lOQkoxVDNMOTIyTjVWbGk4dklYbzdERmtDb08wMU9OZ1NFMm9iLVp0WTd6Qm1NRm9fUnViUmxoQTFhNUJuQWQxcUlCaGJLT3VHLVBlN0kxa05JY05KQk5fSVZpWGkwUTNhSDBqYWpEX0x5XzBycFotcXh5akNIa0c5THVnQVppem1oVEtIVUJmRHRuYXZ6U3U2R0pDd0ZQYUFndHoxc2h5WnRBcEFQaw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 無人機足球香港公開賽開幕 - TVB
-  link: https://news.google.com/rss/articles/CBMi1wFBVV95cUxQQUJnMk0wT1dSUzBUQmxBbnBmSFFVdWhsMERBdE42NHRha3RqR3lhU20zQVdUS3o5Z1ZYamo3S0licDI5Y1FFWGJBSFBkVjFTV0pIbHhST29udGhHWVpmVWtiT1hpaTE1RHJKdVFMTkljd0ZvRTQxcDZiRkI4N29Vdmstbm5DM2JwSjZKdzdfOHZDQ2JaYmc2c2xmclNNbGJRVVZKZ0RnTndkQnRWRkRzQzNnN1VPekRsaVhlandLMWFZLXZ6OFpoNGZrVkh1RG83cmN5UURLdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 天天上新聞
-  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTE9oSmUybUdTemU0UWtpV0U0WUpRcEtLTEhkN3VTYV9nVzVubzZiLXF1bTF1bjVIY0FxOEQwMF8tUTh1RlFDSGt0eXlsZ2Nwdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxPR25ES1ByblY2OEJIaDJUSHRwcTVEcHlPbDVlZ3lWZnpIWG1wd0Q5Tzh0bkM5aUVFWm5VNGJwazF0Ty0wMmx4Sy1kQUxmNlo2NlAySk92d055dF9oZUVGUnNtdkxUZ3RJQl9sdU11MTVuY3l1RVRJQmRMcDUwZDJ1ekQyX1h5OWJ5N3hacw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9CT3diWnM5em02TkJVQ2xPQXN5dlVBT0g2NzVXQ180dWpJWUNSZFdETzVNc3pLWE9rMXU2NmZJT2NERmZZZmxBYWdtLWN6TnRNYmc?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用 - 行銷人
-  link: https://news.google.com/rss/articles/CBMi5wJBVV95cUxPUTNXeGJsaEFFZDVzT25ybmFtdS1ubDFrYkdKR3IyN3M4dHVnV25tVUI3eVJpZEtwVzJOMjduZVBLbDVhT1RBRzZCUG53ZFFPb1E2bFFtNm9kd3NkeHUzcExqNlNyMmtncmRvdDBwWDJnNW84akR0dUdiN2steEpzQU55UTg4bVJETEtOWENPUU5WajM5TVhQZWtfRU5HT0R5SnU3UlZGd2JnV2ZTeFFEcDZFVzFiREtQMjRpYjJndVYyamZWRWJLdEp3YzJYOWlQVGJoWngzd2xzRWUyQmE1VmRhVDB1a05aQmlRQkRpTU4tbUptbDc1ZC1jTXRvMWRjbGlMTzE1MV9KSE5SeXZhRHRHMVotTWZOY1FVTjVCQ2lKclBOX3hvU1NxTkNjTG52akExSkdSTFlObkVnckVkUEpZZ1F1U1hFdjJ2VGJaU3pJZFR1dnFtNHJwdmJHT2tuLVBMS054TQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 第三屆臺灣教育科技盃無人機足球新北地區公開賽登場 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi8wJBVV95cUxNaHdZLVlpWTFUZFF5ZTVvaGJoODJGZ0xwalRZUEFISUJ3V0ZqVEdWTXhFWFhZZGJEdFRpRGhLeWh0UzJKTTFRRmk4ODUxd2xTNmdfbjl3VVZpcUh6TWVfRk1yN0xmODdYYS1DWVdTYnNXRm9XelpTWS1kSTUxNzhweV9uX3R0S3dSeVRTYTRiUTVBMV9FRGFJbVlFbmhHZmJfRnJTUXRiYmF2eG5GeDFwdXRyWUpLNjNZTzJKNDFSTklxZGxyclVMRXJ0QnptMDU0Q1VVNjFpaFp4UE5PN253OGJWS21leHA4bXdfakVqVnZQX1AzdFdpU2c0QXVndEpWRHA2RlA5bUpybTB5LV8wN1pSdHBWUEdXajVLUkdTUUlHQWVFTDJXMGFZbVhfSDN1eHpDeWNGTlBnUWhrNko2dUhTRnRNejUtaUdVNFdwcjRDR0NiclUyQXJBdWE5QW9EcFcwc2Y0SEpjWW1mYUt6ZlJOSQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 大成報
-  link: https://news.google.com/rss/articles/CBMicEFVX3lxTFBRVnd4ZWRYQVU1ckFSOTVCakdESDAyUWlRRnRTbHpEOTlMMVNOMUlJa1BWX0I2cVBSb3dDNjJoQnEtSU13ZGlnR1ZzUkh6QS1ZQ1JKX2Q3NlRtdkxYcnY4aU5vQnJYSmJDeTJmUnV4SFE?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
-  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOYXZoYmpxMEVvLTVKbWNlWmJMc1Q4R0RoRHJTdXBTOHJYemtNQTFsa3AwLVdNWW1BUjdOTmRmNDI4U0VLX0cyMkZQb0NrdmhBdzZVM1NrZFVPLVVRNmF3N2Q1YnNGTlo1bTl5b3pObTktdVdVLTZGeVMxbENJcHVfc1F4M0dTSXBzQXlEbQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 臺南暑期無人機足球營開踢 百名學子玩科技、學團隊合作 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1PQlhMSkV6T2staXppLS00dVhlUXRCMk52bVpheGxCNHYyWkwwQ0V5WU13bjN1YUFGVGI3UTBsSTBZT3p1eGU4Y0pYQ3FQX0thY2c?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 討論牆 | 無人機足球空戰開打！ 新北80隊300位學子競技 爭取全國賽門票 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE1aSllSdVltZTBpT1dTcjhaeGRqVXJRd1l0dmllLTIxakloamlfeHNUZ1paalpSdDNuVzVvaUhNNWl1S1lZYW54UUtPMHpNXzRqbGFyUkV4WU9FMXVhM0N1RnN2UTA?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxQbktVRlU1WkpZMUljeVF3cm00UEY3b1hWQ0puVUI1Vm1waEhubWtQQnhsczJZYWMwajFBMzY3TkVUZjhzbk5IcE1IMEpFTGtxU01STzdJd1lyOFRqZFVJcWtDUE1qbnNFNzZCRFRTNlZVYlJ4NGJWWm5BZlhyaWlqZUhxZVlfM2JVRHB3enh0YTVlMXpjdXA2c2FXeWxrdFVqZURIZHlkaTJmN1MtbDdPWUh5YWRvZ2lLb0x3QllzazI3VWJzMTM3RlZvSmlRdGpickQ0b1hKc2NnS0dtbHZhcmFqdUlUR3RUanQ2LWdWaVlDY3Z4bHJoMmRKeXJBdlRicF81dGV2SDNHNHF2RDgzWl9RenA0UnZSYVpfSmtuS1NIeS1pbDhnUTllblZmQld6bnVpaDN3cFFIYjhkNEJiMGVNSUVMMEgxUTY2NTY0V2EyUHVRM2tBMHNxc0xpQXRncUFWc3F0MERfOWM?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 輔英培訓裁判人才補足賽事缺口 無人機足球夯進校園 師生青壯共學爭取認證 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1RaW9qc1pSVUh4dDVZMlJ0THdsRU9kaUNBVlNXNS16RnVTRkE0NU9IM1lRRHBsVEs5UzFFWWJabjNDbEUyLUswNDBWdHNKOUllX2c?oc=5
+  title: 輔英培訓無人機足球裁判人才 補足賽事缺口 - 臺灣導報
+  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VMXJvdWhhbVpTQVZwdWJ3ZnRHSE1BQ3R0WHpRUXJWalRFWUpUTG91VTZqNkU2c3ZZRThYQXMtZTFIX0hlRDVfLU16SWdHMkR3LTZaVw?oc=5
   looks_like_results: false
   is_new: true
 - source: 新聞・足球無人機
   title: 輔英科大培訓無人機足球裁判人才 - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE5OSE1MVGtLMXotTGFSUE83UnlYRENSeGs2YjNXR045bHQ1SG1pYUpVNldRZTh6elI1SlhVWGxpRUR2a2I0c3ZETW14V09JOHhqUTRIdTUtV2RuTjNyZkNkdl96WlNCMVdrcE4w?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 進駐屏大技術展示 無人機足球國內扎根 - hakkatv.org.tw
-  link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE1XdnVaVzZjSTRuT3BYSWZLb3NTRTRuLVgya2lnYUU5X2hUNGRVdElIWUhRMnpTVE9hYjhGTEZPSkdtMGREclB0dzJta2FMb0ZwYS1Kc1NtREVVcXlWMzl4M0pQMlctdw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 進駐屏大技術展示 無人機足球國內扎根 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFBYNmNOLXRJeks0TVFPX3JjR19WME5CQUlrTDB0cjRsSGZkNlAzbXViYng1aUpISURNZFpWdzVvNEVpWVRBSkp5elJjOFBadlVqX0E?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 進駐屏大技術展示 無人機足球國內扎根 | 客家電視 - LINE TODAY
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE1YNFVublZVd0Q1NEpFQU5YV1hxcHVGU0FvWTNzaFhRTG5NU0l5M0FXSUJfODhSM09lVjcyXy1DOGljTlpjNTBJejVwY294elZaZlRfT29B?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 首屆FAI無人機足球公開賽收官 港隊過關斬將奪得亞軍 - 橙新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxPTmlLM3B1OWxJQ0NrRzUzRm93dUNNMTk5bFhpWWhYTmQ2NW92YmxUcVFXVjdlNTJRdkRLMVpSOG41bzIxREJqZ2p1MFlzbkpBdjdGN252V2QzdW1TcHptUkRRZnBxWm8xZkxicHRXU3VFWjVxU3dEZjJMQnU5OGl6NXpCc1ExZ0hJM1pVTHByUmZNaDROUFUzMnZ4Z1pkXzZyUG5CYmpzWUNMbWZXYVBNS3djaFZ0S2VkRkZfazkzMGY5anFiMUJrdjdQbURJRXF0VXRScEd1UWFnenVGbVduSFljM1liY21udlVGeko2MUhJckwwRlRsbUU0SXpOaUZsaDBjYjZFa3hBWDlWZm1xZk9KNkdoUGNES1VJV3l5dUd3QmFlbTR4SURzS0lGT3FaQkRJcWdKM0c2TFczdkFiM0ttdVA0a3Q3QWlOVUQ5TDBxOWNCeXFLMno4Nm1XZlE1Z20yYU1iS2h0MmM?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 首屆FAI無人機足球公開賽收官港隊摘亞揚威主場- 香港 - 香港文匯報
-  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE1HVUhEV182MGhiLXVPZnFLUnk5MlpxclYyZ0lESjJDT1d5X1V6Rnh1NElhOGhNRmI0TUNSZ1Q0ZUVKWTM3YTg2TmRoSnBYVnlNdFFoa1VpVm9ZYXN6V2oxUVRCWWVUWVdHS0hKbUNCRVBBb1E1b04w?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: 首屆無人機足球賽：港隊摘亞揚威主場- 港澳 - 新聞 - 華人今日網
-  link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE1DSG96RXdOSXVTYmlTWnVKZ3hOc21Xc2t1bDNEdUpQMDU1X0ZKa1RIdDhYZV9VTTR2YndxWXl4RG9WdzBCMjlNVXQ0aWxiNHZoMklHWHRKZGZIRlctTE5yTGhiRnFJZw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: （有影片）／秀傳開踢全台首場醫療無人機足球賽 科技飛進救援未來 - 獨家報導
-  link: https://news.google.com/rss/articles/CBMi3gJBVV95cUxPVDNYcHZtVHFUc0pIOEJPOTlNMy1SZVV0MGJLV3NMR0NvMGMyTHViWTdELXNyUHNaUFVvbHZuNTdXRE9ia0NTQ19KY2d2VnR3SnhQYy1TWVFMUmZMVWNRODFQbGY3RUtya3l2Nmw5d3lkZU5qbGVvMU5qZHEwa1VJUjZPRGdENW9STWNuUWtqZGd2WmdIRHYzNDkwQ3VFMVhYM3Q4VUkzS215ZDNQMGg3QmhxY0hZZHdMUVc0Wl92M1d6V3FNSmUtc2cxTEZBekd1a21iWll1SWVoYUN4Q2FyVkJNcE9rUVpQWl94bHVQZ2RYbll3dzlhakh3X3hIMS1DcGpDbF90Zi0xX0FKV0N6N0RuQ1ltMXd0MXNkNzhPaHdxSzhVX29yY21aQWo2RTFOVmcxSHpnSF93Y0FMQWZ0T2MwUUJ5ZFRlcnRLRXUwdmUwUk1aZzRDcGxXQzh4Zw?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 新聞・足球無人機
-  title: （有影片）／秀傳開踢全台首場醫療無人機足球賽 科技飛進救援未來 - 觀傳媒
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE8zem1yZXNURmlkdm9qOHl1MnM0NHBSeHFIS3A5MGUya0xjOXgtSExKQWdyQ3V6OE1MZkh0OWlMUEN5ZkpwTkc3Y2ZldGNaTGhFd1RIWVJiUQ?oc=5
-  looks_like_results: false
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 114彰化教育科技盃無人機足球公開賽
-  link: https://www.google.com/url?q=https%3A%2F%2Fsites.google.com%2Fview%2Fchwsoccer%2Fhome%3Fauthuser%3D2&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw0nIG2_4BsGW_4mEDY6ak-S
-  looks_like_results: false
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 114新竹縣教育科技盃無人機足球公開賽
-  link: https://www.google.com/url?q=https%3A%2F%2Fsites.google.com%2Fview%2Fhchccsoccer%2Fhome%3Fauthuser%3D2&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw25qFTA9u0Rs_6B7mopnsCQ
-  looks_like_results: false
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 2024臺灣教育科技盃無人機足球全國公開賽 得獎名單
-  link: https://www.google.com/url?q=https%3A%2F%2Fsites.google.com%2Fntjh.ntct.edu.tw%2Ftda2024%2Fhome%3Fauthuser%3D0&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw2mEI8QrxaMo08Tk847cqVr
-  looks_like_results: true
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 2025臺灣教育科技盃無人機足球全國公開賽
-  link: https://drive.google.com/drive/folders/1v1o-VXr_84E_gQvRNA80aHq5NHkPJalL?usp=drive_link
-  looks_like_results: false
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 臺灣教育科技盃無人機足球全國公開賽 官方網站
-  link: /view/tda2025/home
+  link: https://news.google.com/rss/articles/CBMie0FVX3lxTE1KZHRxN3lDQ09jTnZNRjRpTWg5VjVPR0VoMkhtVWhrWERPZnRjdjJPQW9aYm90RXlYVHgtdnFkTG41TmQyZl9JWW90VGVwamtjTGk3d2xyemVsZzFyOWhOQWh0LVFSQWZNN0poaEdIek9uRE04cmhqSnZsOA?oc=5
   looks_like_results: false
   is_new: true
 results_candidates:
-- source: 新聞・教育科技盃
-  title: 狂賀！臺北代表隊勇奪世界盃冠軍 FIDA無人機足球賽大放異彩 - 台灣新聞雲報
-  link: https://news.google.com/rss/articles/CBMiRkFVX3lxTE12TDNrbnVXTjQ4aG9lbk1YUXhlcjVBV0Q2R3N5NC1JejNFbGtlZERnS0I0U2o3R3F5MmJYWnMzaUtJNjRyX1E?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・教育科技盃
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMioAFBVV95cUxQMzZVU0E0bHUzUHhVVWpHYnV4Zjl6cFhWeXBkSmppNlRWNG1vaGFDN2xacVpsdHdEN3RBQzQyVU4xRkIxYmpKeV9pX1ZYMUpZbmNWckFnQVEwbkQ5bmthdW9nRm9zSVNEeFdad1Qzd0Z2SDBfOVVCMXViREwtWkpKdm4xMEZaRjU2cHRxNnBoV3M3Znd6UWtLWUVlX3lEZXpY?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個FAI無人機足球公開賽圓滿落幕 港隊表現亮眼勇奪亞軍 - 香港商报
-  link: https://news.google.com/rss/articles/CBMieEFVX3lxTE5xNVNWZDRHWlA4V1hOemRtdTVrMnRMa3hQTjFGVVBCR19pZEV6b3REV0lmLXhCc0dGX3dZSG5SMGp1T2w3Um10OHNjczZqa0N6MUdiQnlXMFcweTd6MVlKOUY1ZmJfNFc5cXlPSXA4UGFnUm9vLUlUVA?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 全港首個FAI無人機足球公開賽圓滿落幕港隊獲亞軍展現國際水準- 社區動態 - 點新聞
-  link: https://news.google.com/rss/articles/CBMiekFVX3lxTE13NWlmaVhIN1Bmdmw0VElJR21ndTY5R044YlpkQkRtZV8wQTN3RFB5NkpQT0hKMlZSemExa0Rrb25FbWJiclpBeklXZWxFcmEycnR6cjl3RXhUUVNqUVdDazhSbWU5bDZpelBvYkVNS3dIcXlrc0JtUFNn?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMiqwRBVV95cUxNbWtiNERYdVRBSDd1Q2drZDJjQWFtakF0ay1KU2x0eWhnZ0x6QXhDdXEtOWY5WEY0Q1FQall3V21vbnhES2N2OU1qblI4QzBoWnBxZjk2MWR1ZEswc3BTZzZhNVBvQ0hpMTlCRC10WmdWZDRyWm4wNXNVZUhiU05qR3V5V1MydnI3RTZaN2ZUaUw0bHR6TGF5U2kyclFIUHNUSm1uUnQyeHpCNFJVZnFLMlg0dnNIb3hYLWZJNDR2OU1ZWUp4LXl1aVNuVDU0TWdNdVk5UkJKeldmR09QeUFBc1FVNElWR3NtWV91M1FRZnZEUm93cVp6RU5uR3VVV3Z1Nllqc1hyLS1vS25PMExORU1YX0x4d24xdVRtMHNfRTlxN3FlYW9yb1gtY2VmVG8zVjFBemdnX1hkNWhzME1ZM1FhWk5TREtnckJUMGoxc095TGkzWWN5WE1pbS01YkFvX2xsZHdSQm5KQ0RxSmtmTDRranZ2NHRNZFpFYnlVZ0F2T0xoMTdSM01xUlRjVlR6cVRYdE1GdDVxZlgtYkpVSHNGbVB6OE9DU1FNa1QxeHc3bHBpazlQRklyaW1NX1dkZ1o4b1REVXQ0dTM5cUh5dXp2YmduOVNEUGZUUzRtX05IT1QzZl9LVDVJUkZaRmw5ZFQ4NXVqUTgyeFR0NURSNHdGdEtBZlAyRTVJX3hueTVBQWR0NjlBeDFyRmdRbDhHZHdEWVVSQ3h2RUk?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMirARBVV95cUxOeE1UQzRMR3FaWlZROUlJMFJJTzBfdXVjeVVZMzVmSjhReHMwM2p4bVF3cUtya3FESXRxN2N6dnctOWZhM0VMaTFoQXhHY3lxbnRwbEY1ZkxSTmpPMmRzM3RKcnNGUjQybTJhdlJCZkIwajRwQk8xTi04cnV5eUVuaTJDZ0Z6Ymg1N0lYOThlMUJJcno1Wk53dkVKajBySF9JWHByZnV2VUtWakNya1JUc1I3cGRyMDZHTUhienQxQUIwczRncTBCOUFXTER2TGxrMVByclBjVmlWTkRBV2xkSWlIbFBJQlRZM3FFMkFSaFo1QVVMamExSlVBc19Mb3ZDZ3M3OEJUS1ZJNnRHcjlrekh5MXRfZFZkQ0ZDTDlEOVdmVkFoMHgtc0h3WF9aZGg3RDNxMWFwTi1McGNFcFpsdjdYeUhQand4eWNsSVYyU21qZVRDd0RhTzlIZHhvaV9VUVRlbS1fSnJsU2hDUE85SlVLbzZYYkxtTGstTkJrZ0p2d0hXZFQ0MHhGeHlSa3RzdWVBeW55ZXNTZ2lHQlM5ZnEwb1dWbnhpWUxlTTJzbUdEUXp3Mjc0ZU03dkxIbWVBb1FwSzlEZ0VfWkNid2NXeVZIamNCVUl1YzdHaE9GTlhtNWloNFhjZmFSdkhBZkV5VEVhSVdQWjVESFB1dHJ0a0tDQ1BaUG9YYllsUW1qVHJLcVpBUFJGcG56Y3RfSlBoYnBtMWpOSXlrU0lo?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 將軍澳官立小學無人機足球隊奪國際賽亞軍 9月再代表港隊赴土耳其作賽 - 星島頭條
-  link: https://news.google.com/rss/articles/CBMizgNBVV95cUxQNkJDd051d1B5NGhfNkd5NWlrLV9tWUJUZlE3WkFIZjNkYTNXX3ZOSTF2MXh0WkV5QTVnQnZjVWNkWkdfeEM1ajc4aWE0bXk4WjcwM0NyQklhMmFnT3RXODJlNjZuMFp3bHBaN3NzYkVSU3lmcDRZX00xX2xKNmZnRFN3em1vYjgxWGg5aWtVTGxRV184dEs3Y1JVOUN6SjdJY3FuWU1WMm9neFhpN3JzajVYX1RKRDVJZkdLdExDUkxkTG5EbzZYempMdS1naEZUeEhDUlFvZEptRVNSLTl0SkZXVnY4cGdqUUhMYVN4azZrZHE4T2JFN3NoeWRWeXBTZlU5U0pIWDllVi1rc3VwM2NfVUpBS3J0Nk5Kam5oUUZTYkdvdFZMOTFrLTFObjJaY2NWLUFYczJ0SktpSmM0aW5rY1MyVWMyRDRjSlVHeTlhTnpKUU04RE9RQkN1R2VrLWpUM2djYkVoeGpickp0WWNST09XQk5VVC1FZjFuei1KWG5IN3ZWdkdWeUtia2M1Y0xwQXRDbXpPQ3hfZi1pcW1fYktoR0ZXWWpCU2NOWWNvZjg1MlphVVQyV0V6Sk4yRkFzc0RHRUd4blBKZGc?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 林園高中無人機足球奪南區亞軍晉級全國決賽- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9FQnVPc0RaY2hJN0lPaGlKM3p2bG9ZRzdkVDhNZXJqWUUyNlZHTHZXQUcwMEZVeU1UWHZnT2tKZVhOUUxlWUJ1R2N5cUpwME1yMUUyN1FPRGViby1HUF9NM0l2NUs?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國– 資訊總分類 - taidaily.com
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE1KWW5IbDhyN19MU3BBTGl2UHFFQXlRQ3YtRHlMRGNJa2dOSG5CUWtvdmhiVGt0WWFLSTVKQ29fUlRCLTlYVzdfS0pLVl9xV3A2?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球
-  title: 首屆FAI無人機足球公開賽收官 港隊過關斬將奪得亞軍 - 橙新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxPTmlLM3B1OWxJQ0NrRzUzRm93dUNNMTk5bFhpWWhYTmQ2NW92YmxUcVFXVjdlNTJRdkRLMVpSOG41bzIxREJqZ2p1MFlzbkpBdjdGN252V2QzdW1TcHptUkRRZnBxWm8xZkxicHRXU3VFWjVxU3dEZjJMQnU5OGl6NXpCc1ExZ0hJM1pVTHByUmZNaDROUFUzMnZ4Z1pkXzZyUG5CYmpzWUNMbWZXYVBNS3djaFZ0S2VkRkZfazkzMGY5anFiMUJrdjdQbURJRXF0VXRScEd1UWFnenVGbVduSFljM1liY21udlVGeko2MUhJckwwRlRsbUU0SXpOaUZsaDBjYjZFa3hBWDlWZm1xZk9KNkdoUGNES1VJV3l5dUd3QmFlbTR4SURzS0lGT3FaQkRJcWdKM0c2TFczdkFiM0ttdVA0a3Q3QWlOVUQ5TDBxOWNCeXFLMno4Nm1XZlE1Z20yYU1iS2h0MmM?oc=5
+- source: 新聞・無人機足球成績
+  title: 國際無人機競賽勇奪4冠軍2亞軍南投縣長表揚獲獎學生| 中小學| 文教 - UDN
+  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE15QjNINFF2UmlQb25SWk9IZzRHQlJ6eFhTYlJYdFEwREg5dXJXMF9YQWRhLVNSdWxtcXBIQW96OHVYZW4yVWFHSG5QS3l1ZUJz?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 【香港學生揚威海外】勇奪世界無人機足球賽組別全場亞軍 - 運動筆記HK
-  link: https://news.google.com/rss/articles/CBMibEFVX3lxTE1tdnpUNEtCeXVPWk9zSmtqYmdkV0hFNl96dGFWakFBNzVaN2lLR2V5STdkNjc4em0yU3NZSDBHLXQ1TGJIa05saGpGOGdZZ2RsRkR5dk80NkpNcjgwZW05RzQyY3JRay1EZ0FLUw?oc=5
+  title: 林園高中無人機足球展現科技戰力 精準操控勇奪南區亞軍晉級全國決賽 - Life 生活網
+  link: https://news.google.com/rss/articles/CBMipANBVV95cUxQWWVXX0VpZ0JZRFF5SURlOHk0V3FIUVI1VF9BRVhZeVVJd3VtZFo5dzBFbnVjVC1TYW93TW1SN0RwMzJySm00QUYtWFlZM0g0ZzhYVUlsREtxMGhvZEpSQi1zaFlfZFJiZzcwOG1jOF9jbEVrSF9pclA1TjRkSVd2MUM3d2VQeG9MeW5qVng4NXQ3eDV1eE9jNVU2cWd2cUJWZ3VEYWk4UHlMRGEzaW5QZE5ZNy1FT2xfMGNIai1kVFlXeUoxZlBZYlVDeHNPM04wYUlxTzdZeElXanpSVzNDMEFjTnR2b0ZsWEh4WlM2bU4tNEJSUlU4dGQ5S3VKVldLTmVSSW5wNElfcGpORm9YUjZXMW1yS2lIc3kxcGU3dUZFSEdJbUQ5TWp3RlNzOE1MWW9aeTVyWFpmRkE4UFgtdWtHdkpBSGxzR2xXY0E5S21GbWdxQnYyZDVESmlRZUNnc3hOUXl6aTFlWTdJS0hBTFlwVXJfRFNKMTllMjE0b29pR1N2WnR6VjNYNHZXUmRvekpyaXpYWHBXYjFqNmpZN3QtX3k?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・無人機足球成績
-  title: 世界無人機運動錦標賽 | 香港中學生奪無人機足球賽亞軍 - Fitz 運動平台
-  link: https://news.google.com/rss/articles/CBMixAJBVV95cUxNMlB6cEZ4Q0tweXVwRDNhbl9SbGpMOThCRkxLSDM5dXltVVVzdjNfR1QwdkxFLXRXcFdNaVU0V0VkYlBMeDBKd0tsbjZVbkVPdHNZSW9pVWZsUjBnVmdoY0tCMVRCSlh3YUQxVmUwUVMxeEVtRThsYlRkM0dhMXFRUUQwQTFWdF9PdW9rdUNhcUI5ZjIwVlhNYUMtalVxX20xUDVxSFQ1T3Nob3k4ck9lcHZhTk1wZzdWMXh6NXBYaC1vcXhpdUFUSU5wZWtsRXpFZktHM3l4Xy00U2FuTk1LRTJrYVdaR2x3VHl5Q0RZdVJ2N3F3Tnh5cFJUdHlKMmZfc3NXVmVTOFM5aVFkeDhhWWlGNjM2dWEzcFlaZjF2b1RzNWdaQUdfM003VG1wc2VmSUNsdUNWV2YyZi1BN1FVNXJINTA?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・無人機足球成績
-  title: 無人機足球國家隊勇奪韓國洲際盃亞軍 北市跨校培訓創佳績 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMijANBVV95cUxQZmhncXZ4eVVsZkpERTZwX084Yms4RkRLQ3Vfa0Q5MnVuQ3phODRVb3VuamZWTGo5bmxNWHZabC1jWkxwRkFNeVJtbi1xOTMyV2NBQTNYS0tTSnJfMUttQVNPTUF4WGVNMlFzaEFudlN4dlBnelNvMGZuOTJOX0lfTGR4b0VPaWNTRnhyQng3cHZndVpfSlVSRV9JTUQ4Wm5zRkhKSUZyRmNydnk4XzdhaUwydkY5MUh6Z0hySXoxSUh3R0tiaE5XT2Vmb1N5Rjljank3UkhlOGVxcEJZMFNrVTRKY01uYktMcDhKZW0xdWJlSmJwVkQ1bXlpMV9qbndmaUdaSEtSdGlReHFidjBUT2Z5Q0FrWm1iSnJJN1puX2lJV2xuUGQ1R1JPZkdpRzBSNGxzUzFZeW5nYTVyWURkT0hoWHRyclkyb2lTZHB1djlaSHFsck9WUU1WSzVhNmx2aS1ZbS1qX0NpYTJiV2tYSEc0WHVSUzdTeXNDODZSYnFmMnI3eFdhbHdoeWk?oc=5
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 博識高科技
+  link: https://news.google.com/rss/articles/CBMiaEFVX3lxTE4yOG91bldvR293aDNteHcyUmR4MUpqdzA0TUxKRHRJRFNoQkZyM2U0dmxENnlxeVJiekhscDNvd2ppYUY3OVNWeFNvWnZwOVdaYlhCVVhYcm1NeWlpTVlkUFBzZzRzamdh?oc=5
   looks_like_results: true
   is_new: true
 - source: 新聞・足球無人機
-  title: 全港首個FAI無人機足球公開賽圓滿落幕港隊獲亞軍展現國際水準- 社區動態 - 點新聞
-  link: https://news.google.com/rss/articles/CBMiekFVX3lxTE13NWlmaVhIN1Bmdmw0VElJR21ndTY5R044YlpkQkRtZV8wQTN3RFB5NkpQT0hKMlZSemExa0Rrb25FbWJiclpBeklXZWxFcmEycnR6cjl3RXhUUVNqUVdDazhSbWU5bDZpelBvYkVNS3dIcXlrc0JtUFNn?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMiqwRBVV95cUxNbWtiNERYdVRBSDd1Q2drZDJjQWFtakF0ay1KU2x0eWhnZ0x6QXhDdXEtOWY5WEY0Q1FQall3V21vbnhES2N2OU1qblI4QzBoWnBxZjk2MWR1ZEswc3BTZzZhNVBvQ0hpMTlCRC10WmdWZDRyWm4wNXNVZUhiU05qR3V5V1MydnI3RTZaN2ZUaUw0bHR6TGF5U2kyclFIUHNUSm1uUnQyeHpCNFJVZnFLMlg0dnNIb3hYLWZJNDR2OU1ZWUp4LXl1aVNuVDU0TWdNdVk5UkJKeldmR09QeUFBc1FVNElWR3NtWV91M1FRZnZEUm93cVp6RU5uR3VVV3Z1Nllqc1hyLS1vS25PMExORU1YX0x4d24xdVRtMHNfRTlxN3FlYW9yb1gtY2VmVG8zVjFBemdnX1hkNWhzME1ZM1FhWk5TREtnckJUMGoxc095TGkzWWN5WE1pbS01YkFvX2xsZHdSQm5KQ0RxSmtmTDRranZ2NHRNZFpFYnlVZ0F2T0xoMTdSM01xUlRjVlR6cVRYdE1GdDVxZlgtYkpVSHNGbVB6OE9DU1FNa1QxeHc3bHBpazlQRklyaW1NX1dkZ1o4b1REVXQ0dTM5cUh5dXp2YmduOVNEUGZUUzRtX05IT1QzZl9LVDVJUkZaRmw5ZFQ4NXVqUTgyeFR0NURSNHdGdEtBZlAyRTVJX3hueTVBQWR0NjlBeDFyRmdRbDhHZHdEWVVSQ3h2RUk?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 勇奪首屆公開賽冠軍！(#01J) 【把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩】 （圖／民眾提供） - facebook.com
-  link: https://news.google.com/rss/articles/CBMirARBVV95cUxOeE1UQzRMR3FaWlZROUlJMFJJTzBfdXVjeVVZMzVmSjhReHMwM2p4bVF3cUtya3FESXRxN2N6dnctOWZhM0VMaTFoQXhHY3lxbnRwbEY1ZkxSTmpPMmRzM3RKcnNGUjQybTJhdlJCZkIwajRwQk8xTi04cnV5eUVuaTJDZ0Z6Ymg1N0lYOThlMUJJcno1Wk53dkVKajBySF9JWHByZnV2VUtWakNya1JUc1I3cGRyMDZHTUhienQxQUIwczRncTBCOUFXTER2TGxrMVByclBjVmlWTkRBV2xkSWlIbFBJQlRZM3FFMkFSaFo1QVVMamExSlVBc19Mb3ZDZ3M3OEJUS1ZJNnRHcjlrekh5MXRfZFZkQ0ZDTDlEOVdmVkFoMHgtc0h3WF9aZGg3RDNxMWFwTi1McGNFcFpsdjdYeUhQand4eWNsSVYyU21qZVRDd0RhTzlIZHhvaV9VUVRlbS1fSnJsU2hDUE85SlVLbzZYYkxtTGstTkJrZ0p2d0hXZFQ0MHhGeHlSa3RzdWVBeW55ZXNTZ2lHQlM5ZnEwb1dWbnhpWUxlTTJzbUdEUXp3Mjc0ZU03dkxIbWVBb1FwSzlEZ0VfWkNid2NXeVZIamNCVUl1YzdHaE9GTlhtNWloNFhjZmFSdkhBZkV5VEVhSVdQWjVESFB1dHJ0a0tDQ1BaUG9YYllsUW1qVHJLcVpBUFJGcG56Y3RfSlBoYnBtMWpOSXlrU0lo?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 將軍澳官立小學無人機足球隊奪國際賽亞軍 9月再代表港隊赴土耳其作賽 - 星島頭條
-  link: https://news.google.com/rss/articles/CBMizgNBVV95cUxQNjhFZVViNmZRVjVlUDc4SmlxRWhiTFNoOURzb1BBNHUzOS1uZEJLTUotNGxBdUwybUhybUlMeTZFZHd1Vy1jcUJ0TGhsOGo5N1l5Tnp2NFozMVFLcHNteGdDQ3BaMzFOU2MwRUsySS1NRWFETHNTMUJwWjB5Yk8zM3hzT3NNS0dwV0hPek9QejlhdVBXUlhWQzZMSGRjN3dqdlRqRFBIUnk5VmM4UHBBYjJrcEVkTWdQdnpJVThyMEsySmF1ZmZtRGRNOXgxRjgtdk1ZMW8zVmx1US0zNnQ0cE5meXdob3MwR09LaF9Ud294QzhaMldub2NvUEcxRkVOUmlCc29zeTh3Y1FFVkxMeDVIYWw3TkhrMVpubEt0MG5pVVRvV3JYWTNnUlB5RXNaVTRrdFRxYUpDNnkzSlc1OWJRTXVJcGZKNkVVZlQzYUN2d21UWFVLOE1OdjhSejk3dVhWa3lDWFFaQkNTaFhfLVE2aXdESEluMDJuTVQzZnc0ZFNtRWROV0lhVGFoMTBxT05RUEhyQUZhcGE3Z0FEQzFVWVJjNTN6NnpvV0xwczF6X01MNGd3MmxWMkwwSEMybnVsQUFKa1N3RW9MQlE?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 林園高中無人機足球奪南區亞軍晉級全國決賽- 生活 - 自由時報
-  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9FQnVPc0RaY2hJN0lPaGlKM3p2bG9ZRzdkVDhNZXJqWUUyNlZHTHZXQUcwMEZVeU1UWHZnT2tKZVhOUUxlWUJ1R2N5cUpwME1yMUUyN1FPRGViby1HUF9NM0l2NUs?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - wennan.org.tw
-  link: https://news.google.com/rss/articles/CBMickFVX3lxTE1MNERCX0hOeDN5cHpnUExFOWJxaGZCYTkyMW5PSFFfaFYxQV9OYjZoUzZIcThBZWxZXzdfVUQ0azRJckFpUndGbC1tODZxbjVyTG9kbm1ta1NLd3B5U1VNX0kyblJxU05wbmtScVh0bUZDUQ?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
-  link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 新聞・足球無人機
-  title: 首屆FAI無人機足球公開賽收官 港隊過關斬將奪得亞軍 - 橙新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxPTmlLM3B1OWxJQ0NrRzUzRm93dUNNMTk5bFhpWWhYTmQ2NW92YmxUcVFXVjdlNTJRdkRLMVpSOG41bzIxREJqZ2p1MFlzbkpBdjdGN252V2QzdW1TcHptUkRRZnBxWm8xZkxicHRXU3VFWjVxU3dEZjJMQnU5OGl6NXpCc1ExZ0hJM1pVTHByUmZNaDROUFUzMnZ4Z1pkXzZyUG5CYmpzWUNMbWZXYVBNS3djaFZ0S2VkRkZfazkzMGY5anFiMUJrdjdQbURJRXF0VXRScEd1UWFnenVGbVduSFljM1liY21udlVGeko2MUhJckwwRlRsbUU0SXpOaUZsaDBjYjZFa3hBWDlWZm1xZk9KNkdoUGNES1VJV3l5dUd3QmFlbTR4SURzS0lGT3FaQkRJcWdKM0c2TFczdkFiM0ttdVA0a3Q3QWlOVUQ5TDBxOWNCeXFLMno4Nm1XZlE1Z20yYU1iS2h0MmM?oc=5
-  looks_like_results: true
-  is_new: true
-- source: 臺灣教育科技盃全國公開賽官網
-  title: 2024臺灣教育科技盃無人機足球全國公開賽 得獎名單
-  link: https://www.google.com/url?q=https%3A%2F%2Fsites.google.com%2Fntjh.ntct.edu.tw%2Ftda2024%2Fhome%3Fauthuser%3D0&amp;sa=D&amp;sntz=1&amp;usg=AOvVaw2mEI8QrxaMo08Tk847cqVr
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 視傳媒
+  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBrUTdWaXA0Vnp5ZDFsc2FwTDBSTFJtYkpBZi1zQW9MUjRHb2g5b01HY3puLURuVDVaV3hyc0dfN19fX0RmVWl1V2puN3ZwX2xzaE90U2xmYkNKVjd3b1FFOFRkZHZ5VElGZWlZdURn?oc=5
   looks_like_results: true
   is_new: true
 fetch_errors: []
@@ -1310,8 +175,8 @@ known:
   title: 陸軍三支部補油庫無人機飛球社參與南區天穹盃競賽 - 視傳媒
   link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBqOUs5aW5HVkRRRGE4aUZHQUQ5MEVwbHViOE44TVVrbndUWHQ5NmE1bk4wajVsQXRCS3ZYRGNCXzQ1cWl5aXRYX3ZjMlpzRTRBU211SnJjOUdONC0yV2lzQWFMWnNKWWdDdzBsWm9B?oc=5
 - source: 新聞・教育科技盃
-  title: 2026首屆草屯鎮長盃無人機足球競賽 虎山國小隆重登場！產官學攜手培育新世代未來人才! - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE5WcEpRbUwtMkZfUWdJTVRXY0VYX3ByTG05ZnVxZG1zaElsV1B2NG0wRGxNNE9jMU12TmlHSkhqR3VkV3IzWU5KWHphT0lOQjNUNmc?oc=5
+  title: 2026首屆草屯鎮長盃無人機足球競賽 虎山國小隆重登場！產官學攜手培育新世代未來人才! - 墨新聞-MORE News
+  link: https://news.google.com/rss/articles/CBMiQkFVX3lxTFBzeXA4ZEFRTk55a1JqWExSUXlUSVlQNk9fSmpaYUhJRGZBbE5BRVJRVVJiWjcxUF90WThFTno0T3lOdw?oc=5
 - source: 新聞・教育科技盃
   title: FIDA國際無人機足球訓練營登場 台韓跨國合作校園接軌國際 - 蕃新聞
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE9TbU5IZTd1bUZfS0hQOXcyMXczNUlsNTJJNVFHVnh2VXBUVFgtMFRjZEQxaUliVnFJVVZtNVlndXJCLWxxZm9VTWNZcndDVFBCM2c?oc=5
@@ -1337,9 +202,6 @@ known:
   title: 彰化教育科技盃公開賽 無人機足球點燃青少年熱情 - 焦點時報
   link: https://news.google.com/rss/articles/CBMiV0FVX3lxTFBXNUg0UU1rNlRXRlpyeVpFU1lBcDBsWHhsWTItT2M5MDFrbXRVdmEtTGJNNnhNV29WY3dTTXRSWWtzbTZQamZMdHU2WkQ1eWtPb1VGc01TOA?oc=5
 - source: 新聞・教育科技盃
-  title: 教育科技盃無人機足球公開賽開打 青少年操控小飛球熱力競技 - 觀傳媒
-  link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE5QT0s5cGNVNU5DX2JYMzZ5THFQR1gxUDNoQXRQQnhwbUIwZmxUMzNUeHYxLVJzX0FOaG9fMWY2V29iZWdwNk9DV2hweldPNldPUVpoUEZ1RQ?oc=5
-- source: 新聞・教育科技盃
   title: 新竹縣無人機足球全國賽6/29開放報名系列活動起跑- 生活 - 自由時報
   link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE81bzRwbWMxNTd6eUxKTHBROEREUlExRHdudGw3OVpIQjlkZ21iYnhMLUNQOS1lRWlFbzZHUnU3cUplUmRJSGQ1NUhtc25WQXdiME5zblJZU0tLVGtMS3l0NTlRVW0?oc=5
 - source: 新聞・教育科技盃
@@ -1354,9 +216,6 @@ known:
 - source: 新聞・教育科技盃
   title: 無人機足球空戰開打 新北80隊300位學子競技爭全國賽門票 - UDN
   link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFB5S2czUEk3QXVZRURJVkQ2N3lZT0VZblJuNmMtYnNGUTBsZXJaZWRSZzkzLXpRUW95RzBZQS1CZ2hjOWIwZVh6Qm5va2hFbkFl0gFWQVVfeXFMT1FNVFh3UGFheVotU2hGZmNnNVJWUDlpRWd4RFpFRHVjN0pWN1c0N2dBd1RlTTZtT0JnMmZ3S0lxZld2VlVXZHotOHBFaTVZSEpSU2hkNWc?oc=5
-- source: 新聞・教育科技盃
-  title: 無人機足球空戰開打新北80隊300位學子競技爭全國賽門票| 2026九合一選舉 - UDN
-  link: https://news.google.com/rss/articles/CBMiVkFVX3lxTE8yMXhDVUZRRk5pVHB4cnRrODAtZmdMekpya3BFX3Q1TTNmTDU4Z2dKdUE2WjBvTzRGeFUta1FYWlRJN1lZYjFXQ05QVFdsaEZNcTJVQmhn?oc=5
 - source: 新聞・教育科技盃
   title: 無人機足球走進花蓮校園 科技公益陪伴孩子成長 - 蕃新聞
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE05aXhxZUoyeEJXd3BYTzZMZTVwbTFraElIMkFkVWIxZ2EtalhNNEE4RS1NaF9ycjlsYW5ESWtsY0o2WmZETllWazZFUmdMVWtESkE?oc=5
@@ -1514,11 +373,11 @@ known:
   title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
   link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
 - source: 新聞・無人機足球
-  title: 把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBnUUcyS3JmdUJsTzhRMTFOT2gyVnJlN2VQWHhETjJ4R2REeE1FOGNYS2EtTTdDQVZOSkZmZHNFamdtb1I0eVRydkZfOGx3Nnk0bENHU20tdVZ4RVQ5cEHSAUtBVV95cUxPRzRVOWJ6UUhTbmVhMW1WUTcxMXZtUUgwZDhYWVNsLUF5ZHI2TlZ0QW54a2RVM0xwT1FDV0U1c1ozbzFmMTRYZXhzLW8?oc=5
-- source: 新聞・無人機足球
   title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
   link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOM1RVejRzVzBJVnlrQ05rNUVfYXd0d2lSUHJ6N2pnaURaMHA3RWNmbVdza1VFZXItX19TaW5LaU52YklXZWx4WVpNVFEwbnR1ZzZpWmlJZEJ1UFdxWlBETjVhcVh1c1hvRFU5SVpieHRxQXNqUFlPeFUwYTJxM1R6aGp1WWFOeHJoaXQwcg?oc=5
+- source: 新聞・無人機足球
+  title: 星期二「生活萬事通」地理中心盃無人機足球賽 - ner.gov.tw
+  link: https://news.google.com/rss/articles/CBMiaEFVX3lxTFBRVEhwaHpwY1BtMHd1cUE4QjRjRGQ2RjVMbGpiaE8xVUJsWHB5MWpvRzdoeERhX1J0RjgtQXhpN3pxN1dfUXcwX3haY09tWUItNXJSN3Zubm5ZRzdtY2gtaXhUTzdFOG13?oc=5
 - source: 新聞・無人機足球
   title: 暑期無人機足球營隊 認識了解體驗操作 - TDN台灣生活新聞
   link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE11Rlhxc3VrbXphNUxqYTFhWjFPVEFkWmM4REFCUUh5TVNmZTJhaXZ3NkFnNzAtRVJmNXdTenNoUEFRY0gwY3o2NGZiVmdDRU1C?oc=5
@@ -1534,9 +393,6 @@ known:
 - source: 新聞・無人機足球
   title: 無人機足球在台灣爆紅！一次看懂玩法與規則 - 自由時報
   link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFB4cWNVbTdYQUhxRFZ5ekwwUUFNSGdqeHV0Z0xPcDlad0VVbGxaUFppaWlZdUFXWTdvV2IyQml6Y05jcWNHSFBVQXNaYVZjcGE1U2JGb2dmaWZuUjJrNFA3SUhPaDjSAWpBVV95cUxNbUF5MEgxeWtQQlFhVjVDd2IxaGNCUG00WUFXblg5ZkFIY253aWxUbHlSQ1Y3TE1LWk5Vb1Y0MHBheVR0cDBJX3RZN3RpNzRxODdDNV9hMWpsRHJYZnRoQlRnZVJiZ051TGhB?oc=5
-- source: 新聞・無人機足球
-  title: 無人機足球夯進校園 輔英培訓裁判人才 - 中華新聞雲／中華日報
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFA2SjdVLXl5WHV3ZUFpLXpsRWhZUW5iRGl0M19WcWpGMHdxcE1KRmttX0EyNUYwSDhrRzBpRHBXcHZPYzlnZGRQalo4ellfQjJ0R1E?oc=5
 - source: 新聞・無人機足球
   title: 無人機足球夯進校園 輔英科大培訓裁判補足賽事人才缺口 - 焦點時報
   link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE1lcUFZNXU4Vnk0Wk1VQlNQN3NxcFJkQzFQLURfdERjTXA5TUpkdVZPOF9nNWxSNXF4cG5SUGF3ZXNONkhDYTVpeUVMM3EtRGxGQjJwU2VZSQ?oc=5
@@ -1604,11 +460,14 @@ known:
   title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
   link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
 - source: 新聞・無人機足球
-  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxQbktVRlU1WkpZMUljeVF3cm00UEY3b1hWQ0puVUI1Vm1waEhubWtQQnhsczJZYWMwajFBMzY3TkVUZjhzbk5IcE1IMEpFTGtxU01STzdJd1lyOFRqZFVJcWtDUE1qbnNFNzZCRFRTNlZVYlJ4NGJWWm5BZlhyaWlqZUhxZVlfM2JVRHB3enh0YTVlMXpjdXA2c2FXeWxrdFVqZURIZHlkaTJmN1MtbDdPWUh5YWRvZ2lLb0x3QllzazI3VWJzMTM3RlZvSmlRdGpickQ0b1hKc2NnS0dtbHZhcmFqdUlUR3RUanQ2LWdWaVlDY3Z4bHJoMmRKeXJBdlRicF81dGV2SDNHNHF2RDgzWl9RenA0UnZSYVpfSmtuS1NIeS1pbDhnUTllblZmQld6bnVpaDN3cFFIYjhkNEJiMGVNSUVMMEgxUTY2NTY0V2EyUHVRM2tBMHNxc0xpQXRncUFWc3F0MERfOWM?oc=5
+  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - 蕃新聞
+  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1GeEM0SGZHbFAxcU01QkdLMFRPandzWFN2d1RVTGV0SndkaTZ6MjMwRWpBMEs3bm81alNCOURxakR4LTBLZmJpdXJNSW9LbEx0Z3c?oc=5
+- source: 新聞・無人機足球
+  title: 輔英培訓無人機足球裁判人才 補足賽事缺口 - 臺灣導報
+  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VMXJvdWhhbVpTQVZwdWJ3ZnRHSE1BQ3R0WHpRUXJWalRFWUpUTG91VTZqNkU2c3ZZRThYQXMtZTFIX0hlRDVfLU16SWdHMkR3LTZaVw?oc=5
 - source: 新聞・無人機足球
   title: 輔英科大培訓無人機足球裁判人才 - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE5OSE1MVGtLMXotTGFSUE83UnlYRENSeGs2YjNXR045bHQ1SG1pYUpVNldRZTh6elI1SlhVWGxpRUR2a2I0c3ZETW14V09JOHhqUTRIdTUtV2RuTjNyZkNkdl96WlNCMVdrcE4w?oc=5
+  link: https://news.google.com/rss/articles/CBMifEFVX3lxTE9GdDlsM0hQOFZIeHVlRzZUV1c4amVDOVIzeVlSbWhZQlBDTGVKYnRuWFowU3Zla3AxZUp0aXBBVVdnZVI4R0VkOHkzSkIyUUxRLUVKMnBDazNjMmpPSUhDXzVyVlJBSGRQUG5jWk9odENueGdycUlNZmo1SWs?oc=5
 - source: 新聞・無人機足球
   title: 進駐屏大技術展示 無人機足球國內扎根 - hakkatv.org.tw
   link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE1XdnVaVzZjSTRuT3BYSWZLb3NTRTRuLVgya2lnYUU5X2hUNGRVdElIWUhRMnpTVE9hYjhGTEZPSkdtMGREclB0dzJta2FMb0ZwYS1Kc1NtREVVcXlWMzl4M0pQMlctdw?oc=5
@@ -1631,6 +490,9 @@ known:
   title: （有影片）／秀傳開踢全台首場醫療無人機足球賽 科技飛進救援未來 - 觀傳媒
   link: https://news.google.com/rss/articles/CBMiV0FVX3lxTE8zem1yZXNURmlkdm9qOHl1MnM0NHBSeHFIS3A5MGUya0xjOXgtSExKQWdyQ3V6OE1MZkh0OWlMUEN5ZkpwTkc3Y2ZldGNaTGhFd1RIWVJiUQ?oc=5
 - source: 新聞・無人機足球成績
+  title: 2026夢想起飛！台中市無人機足球賽登場 51隊、330名親師生同場競技展科技力 - taichung.gov.tw
+  link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE5saHJuYjVwS3RkeklQaVpLMHV3b0NnUS0tYjRmMU9zajBELTdlR3V0RlJubkJSQ24wTGFkWGVBVDFManpNR3NYTmpJMl9nNHRwdjJ2bVBDeXNqZlZsdHk4?oc=5
+- source: 新聞・無人機足球成績
   title: 30港將出戰世界無人機足球賽- 文娛 - 大公文匯網
   link: https://news.google.com/rss/articles/CBMicEFVX3lxTFBMenk0TmxUYnJEbUFXVFctRkY1R0p3OG85bk9IeUdQOVZQRU9uY29QemlJOHJPYzgzZ1dlRlRYV0JUMFkteUNIN1VKd01Ed2xTcWIyR0ZnWjRpdWU1aWFmbi16bjZDWFh2b3RzUUc4dDI?oc=5
 - source: 新聞・無人機足球成績
@@ -1643,6 +505,12 @@ known:
   title: 「飛躍·新征程」首屆大灣區無人機足球聯賽舉行- 社區動態 - 點新聞
   link: https://news.google.com/rss/articles/CBMiekFVX3lxTE5WcmFqdUU0TG1JMGgtWkJ4MlZoZnVXRFZRMEJkS1lPWmwyQ0JwSzFySUowX1d0eTc1M2d1OEo1QldLemZXeFhUOGNwUGR6bkVrUHBWR1FwUWttOUxGZTl4djZYZlJrM1NXSHhTQ1Rrb0NRTU1rYzFjUGdn?oc=5
 - source: 新聞・無人機足球成績
+  title: 「飛躍。新征程」首屆粵港澳大灣區無人機足球聯賽圓滿舉行暨低空經濟應用恆常化成果展示 - 堅料網
+  link: https://news.google.com/rss/articles/CBMiogVBVV95cUxPTVZrSW5helRBMGptSXBrNnRCcVpFS2tzWDVBTVFOMTZORnZFa3Blb3pyUWRBNlU1Y0djVmp1dkhxVkNLcThyZ0p4TTBLVFc3ZnNzbm1SajV0U3VoWlpFRzIzWDNOdFlLUEpVUDhNRHhOY0xGQmN5Mmw4aWhnOGlmcWRuNkJKX1FEWUZPem8tT1B4ZHA3a2JBblppVzlsZ3NrZlZVWVA1TjBTYWQ0M3gtQ1pWU3p1Tjdld1V4VkxRMVhaQXZFdFJsMHNQNy1DWE95RC1LRmh5b2xYNHVqNURpQklOWTlNMHhJUGpxYVRXTXhSNThkanF1VGZwemtjdG5jZ0FnOHc1Z3JVOEJTaTR3cEdBYUdnMDk5Qzd6enMzaWRKSEVGMUxpblljYkJTUmRkTWthZURhNG1NRFBvNWxKUG9WUzZ2WlFNaGFYbXNFb1NWV3BJbF9qc1ZwYmRVNVRiNXJMT3RRbjU0dS1CcndWY2VlUDNRMjduSTBkTV8tdC1aaUxXSlYwaUh1VU53a0ZoVXpyQ0MtQ04weWlLdjdhVHZvdzllWExCckV5RW9jWkVweTVqckpISUxCTVZTTTRHSENzNkx2Y2NBSzhRODBHTnVYR1VMZHBvcDZIamdRWUVzYVNrS2tlM1BBamkwLVFNX2xlVmhJcXZJZHpwbFdEdURXWmpJSDZKRml3RmQwYWFWeHhISnRoOEtGZDFIU2JWRF96bG9uOVFVOWJJa3NMWHk2NGthTEFoWGVkTEt5N2JCR1duaHV6WXRIa3NWaTNoR3BfM0lvSmEyeEpHWjd6RzNMb0N5bmc0emw5R1JzUHYzc3dFUHNJRWN2NzhTMjJEMlFNSEp4TnR2MXFLTVBtYVFjYktoaFB6N3Y0Zng3QmNHZw?oc=5
+- source: 新聞・無人機足球成績
+  title: 【深水埗區無人機足球種籽訓練班】第一堂正式啟航！ - 堅料網
+  link: https://news.google.com/rss/articles/CBMi8ARBVV95cUxOLUxSSjRSeHJoVE91M1JYa2lFNnpfQzJMLWJ3RHZ6Z0oyeGt3RmtnamVaMFV0SWRwX3NsS0k3ZmFFOHczbTRVcUV1cVF5U2lGX1k1WTNhay14YnBzdHh1M1hqVWd0RHE3WWU5OFl6YTlVOXh4Q3RmVjhYY2FkNHZaTzJZcEhZaklJbjZMWVVQT1gwLVFsYmFzWGpnNHVFUEV1TEt5TGp4bHphVWlWSHgyc1FCdXhITlBvZm1jSE1nTTkxNjN1OW1KVUxhLXhTWFRwUmVtOFRLNW85RFJVVGxOZDNVVERUNkdobUpZSm1XZFMzcHJRZy1qRUZyUzZQZTFDWE9RTmwtZU1CTVYwODRlQl9MWDRtTC1KMVNoMVZBc2N0MXZ6QVZwS2xBRUFJVjhhSG5jbmhoR2t6bDNUNFZyNXk2MmxxVHRtUGFOVEIyMm9EV1F6X1JNazdJbnhHbDNzanJSVzBRWl9MUHJ6S01rNUF5VUdUU2F6bmRxdFppanJOV2hLYnVGTTFfcC0zQTM5UUxGNXlYN2VGUDh1bHg4QW9CWWxTM0kxUC0yRHgxX2RqVlBoSENxQ1pkTWtQT05aZEJxcTVhX0EweU14elJjVl9kZ3lMODkzU2RQV24tUkE4NWV1YWk1eFFaNjhCUVBXT0d5UlVUZTEwRHhwTUNFUnNCWUViTnRIbkFVSVJKbDF1X0ptMmt0SGpVbXQ3cm45Vmp4Qm4za0JXQ25BbTlmYWlZaFZBVWNGeTJfZjN5dG9wNFBaMjJzZGRmYnE0R0pBc01lTmpfamJnNnRYa2F4UDlIazBBYTBoM1dNaVZndHU?oc=5
+- source: 新聞・無人機足球成績
   title: 【香港學生揚威海外】勇奪世界無人機足球賽組別全場亞軍 - 運動筆記HK
   link: https://news.google.com/rss/articles/CBMibEFVX3lxTE1tdnpUNEtCeXVPWk9zSmtqYmdkV0hFNl96dGFWakFBNzVaN2lLR2V5STdkNjc4em0yU3NZSDBHLXQ1TGJIa05saGpGOGdZZ2RsRkR5dk80NkpNcjgwZW05RzQyY3JRay1EZ0FLUw?oc=5
 - source: 新聞・無人機足球成績
@@ -1652,8 +520,20 @@ known:
   title: 中南部唯一！嘉市精忠社區成立「無人機足球培育基地」 透過科技跨世代共融 - 三星傳媒
   link: https://news.google.com/rss/articles/CBMiYkFVX3lxTE1zX1RjZEY4NzJ3bTdvdzFCcVJKcmtUemk2TVVLUGgzaXFjSUlIRm40MlBfdlptQl80TEt2YXNwT1Q2dmRfZjA2OG94bmJJRWp4VFUtdnlsZTlOekNleWxkcXVn?oc=5
 - source: 新聞・無人機足球成績
+  title: 中國香港無人機運動總會舉辦粵港澳大灣區無人機足球聯賽 - 堅料網
+  link: https://news.google.com/rss/articles/CBMimANBVV95cUxQaTBIY1BJdUl6Vkx5UXhWNmVEUmtndEtfZl90RFhqRXFuRkpKcXZERkhmZjNkTXBHLXZURExiSnZhLXZUMnN6TUhGUG9lWE05dFFqb0hVaTRNbGxYb0w4S3pjQXZKeDR6MWg5bi1xRFkxMGFJN29mRno0b1h1bXlUTHBuWHlMbXpKQ3B3VVNuRFpMYVRQeE9td0ZsZVJDOUZENGtrT3lNQ0pQdVRBMkNCcHFLRk1XdHI3TjFxSHRGVXJhRVA4MUVrLTNUd1hBcDhBTmFxMkdrN3lCY1F4LURHNzFzeXVpd0w1WEpXUUlRaHRvVkRDWjc4VklCNFcyUHNIRHBMQVVvNy15N21pbFcweldxQUlJX1A5TkdTSkVtMWhFSmtXbmJuNnVMQmlZMHRKbFE4MTZaRS1KUjRydDE4ak1KbFhwYi1jTnQ3U3RmQ015YXdWS1JuZTI4R1ZLZjd3aW1XaUJVOW43ZGRZdmNvY0RwLUdmS3AzTk9yNFZMU19FNjItaFVaQi1YSVpseGsta3ZOd19YZ0w?oc=5
+- source: 新聞・無人機足球成績
+  title: 亞創盃無人機足球賽登場 吸引60支隊伍60人競技 - 新唐人亞太電視台
+  link: https://news.google.com/rss/articles/CBMi0wJBVV95cUxOdHZVVVkybk02a0RiRTl2YkktVDZzdTl4YVBjcmJLaDhFS3QyYWtYX1lITkxOVlR3SkZaeERNQ19xcFBVVWtTTmpZOUVZV1Z6Si1KSVRiY3VOOHVIMVdfZlhkNWVlM2NvNnE4cmxOc1BkNkhEcGRDS1Z1N0hGTTU3X21paWhZSXpLNGJ1RkJBMzFORUtocjVyd1J5TWd1MUtKUnFKazhwdDdjRDZoVnpvbnRyRG9sYzdaMUo3WWgzTEE3akFaQk81ZWFHSmdCTEhoajl4d19BWlpOMmkyUlppWUVUNHk2aW9HTFo2WnhLSVRlUFlzNjE2Q0ZzTnIyZlIzR200UlBlaHNyT1RXZ3hndDVkMFBUaUtHQjRfR2pnRkJUZ3dYSVhaeF81Tk0wZWEzajNQUGhoNFYxM1g4SDJrZXhVMDNSalJXREl0enJSekluLWc?oc=5
+- source: 新聞・無人機足球成績
   title: 偏鄉科技教育扎根有成 左鎮國小無人機足球賽全市第一 - 自由時報
   link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE80Sk9xZjBZaFBIM001bmNwYjRZenJobjkyNlA1WXZmYm1HLV9sVFJpT1czYXdrY3d6VHVqcWZtRUNHbmprU3FVZS1nYkthMTRuUlJUVVI0RXo0M2cyU1FtREVpWTDSAWpBVV95cUxNbE9PcFVoYV82Y0hhc1RWemxtbm9PUjhCTWdReHQ0ek9ESi0yazNpUVQ1endUQVlUUUJsMGJmU0xzNl9pYWN4US14R20xeTVrNGxtS1B3T0hKeTdDa2l5Um1YdFdyX0lGTFVR?oc=5
+- source: 新聞・無人機足球成績
+  title: 全港首個FAI無人機足球公開賽圓滿落幕 港隊表現亮眼勇奪亞軍 - 香港商报
+  link: https://news.google.com/rss/articles/CBMieEFVX3lxTE5xNVNWZDRHWlA4V1hOemRtdTVrMnRMa3hQTjFGVVBCR19pZEV6b3REV0lmLXhCc0dGX3dZSG5SMGp1T2w3Um10OHNjczZqa0N6MUdiQnlXMFcweTd6MVlKOUY1ZmJfNFc5cXlPSXA4UGFnUm9vLUlUVA?oc=5
+- source: 新聞・無人機足球成績
+  title: 全港首個國際認可無人機足球公開賽開幕 9個國家地區隊伍同場競技 - 體路 Sportsroad
+  link: https://news.google.com/rss/articles/CBMi4AJBVV95cUxPcGZOU1dvTElLSWhjSU1qQ3E1UVVTbFBrYTFsQmoyUlZNN1B4LTNib2p3U2NER2NEUk5oZVQ5OUVDaFRXb3N1dnRYNl81bXlJR0J5Nk81bzZUMkNfdVE1bEFIaTlKVjNhWUR6UzNpN1o5MUJBQVpDWVRwcmJobzNXTzB6ekRKTzF1RUJ6b3c4cGtCemxZQVk1UGdpQW82ekRHeVAyUC05VWhDSlk1Y2NhSFhmam1YZ1ZSSm0yaE8zYjJsclpXTjZidjhDTEl2TVY5RlhnSmY3Y2dyYThDS0x1LTUzd0ZqN0dNTmJHVnhtYzk2RGoyNGVyaXRuNWRCQ19NeFRXZC1vQjF4cThDenliRXdGTDVPclJsQ1lEaks4N3FwQU1DeUNWRVh3ZjRiWlZERThNeF9iRmRwS1ZfZlRLRGdGVW5heFFCYm9LQUF4bzc1ZGhlMU1YaXNQSml4UGlX?oc=5
 - source: 新聞・無人機足球成績
   title: 台南首辦無人機足球賽 60隊中小學生操控科技拼速度 - Yahoo新聞
   link: https://news.google.com/rss/articles/CBMi3wJBVV95cUxPU0c1YnZJbFVfckRQMWFBYlU1MmdHVEczRDBSdldlRlQ2VnZnUXpaNGJHeHo1cTdMb3U2ZHhZNW1pTE5lcWpYS1RqTzgwcEpRRmdVRlRzWVZ0LWlyRFQ2LVB0MjU1akdGcGVKSFhqMzU3eEJqNlo1el9Db05DeGtYTl9KUHhiaHFjZmRWaHd2a0tVSXZMSmN6OTRNVGFlSll2dGFnc2kyMzFVUTNLV1hZS3hseWl0b2lzVWhwYmkzRmswX3pEdTJmcmRvbER3OGwyWmlOampHLUc1UTB4aWpCVkVVXzhoUVhfNHNsSVNxcWZ3Q1FIVDhlczNFaDJZcm1YUVpiQks5eVJVQkcwa1ZWRzRxXzVzVS1DRUpZUVA3WWJXcWZJaWxOWjVhN3JtUjJwRUNMN0pTOTVpbXctS1NwaGRtTmw4Wnh4ZmIyX01ZQ2JqUHdURGFQc0JMMEZGVjg?oc=5
@@ -1664,6 +544,12 @@ known:
   title: 台灣AI無人機足球外交 亮相奧賽特國際競賽勇奪23金 - peopo.org
   link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE5hX2QydXVfNUphVklEc0xsc2xMQktXVDlQQnVFZlg1WUNWdzQwNXBzclRHM1htR1VqREpRSjRjZGJzeTJHN1JjNA?oc=5
 - source: 新聞・無人機足球成績
+  title: 國際無人機競賽勇奪4冠軍2亞軍南投縣長表揚獲獎學生| 中小學| 文教 - UDN
+  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE15QjNINFF2UmlQb25SWk9IZzRHQlJ6eFhTYlJYdFEwREg5dXJXMF9YQWRhLVNSdWxtcXBIQW96OHVYZW4yVWFHSG5QS3l1ZUJz?oc=5
+- source: 新聞・無人機足球成績
+  title: 埔里國中辦無人機足球夏令營 學童瘋玩今年超夯電競 - 自由時報
+  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE5lNVFqeWtkZWhYdUFQeVl0aGhwTHpMNV95RU10OGZ4dGstTGVMTWo2MVRYaWN5aUtfR2E0aGRSdENJWlJjQ0lycU50ZC1qOHBmNFg5VFBmallUSk5KaUFES0pwVmTSAWpBVV95cUxOcWdIVVJzYnhzdnVKcnpiZVF2REd6MXFPQVhheUxOUE1qUG5zSUFlTm5tQVNGMHhpM25Zc2lmTzlSZzVET25kVnNycWRGY04xbFE1SlAxSkkyZG1LOEt5T2RwUk5La0toZFBB?oc=5
+- source: 新聞・無人機足球成績
   title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
   link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
 - source: 新聞・無人機足球成績
@@ -1673,11 +559,26 @@ known:
   title: 扎根科技教育台南開辦無人機足球師資培訓營| 地方 - cna.com.tw
   link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFB2RDhhbjcxTENDZGRFR2dNejBZSjRNRnZldFhtb2owU3diam15WExqaTdaZDNrS1BYTXZVYlQyU0doRy1wU1hNMGk4N3pXMGF0czdiMXh0SWFOTXFwMTY0?oc=5
 - source: 新聞・無人機足球成績
+  title: 推動無人機足球 「無人機足球裁判賽前複訓講習」嶺東科大舉行 - Yahoo新聞
+  link: https://news.google.com/rss/articles/CBMijgNBVV95cUxPWUxJOV9pMzhDRkZ6LW5aYmR6dXZBdG1sOFRiWmpvdGxiYi1pR2FaeWpQZDBzX0Q5aHpGZzZ0OExpLVB6U3FsMnJrRnpYNEZVQWpWdVMtcVdYdkh1MTVGSjZEYjF3dFk3Q0UtZjlvaVdDX2V6OVhtU2NHVzNBWmFrQ0ZwbnpZazRmU2N5aUFsUS13ZG9sQlpVTlVNRjRLSmljZzFZZTgtbUVjTzRLYk4xSVJzcDhlb0NibjVUaW1KQVlFWWwtSzh5eUlGY1pWekNmQ3VqTUhTN3Z4SlBHZkhxWVJDYkdicDFXOERUWDYtaGZiTlZGR0FZdEpsakdkTTlIYUUyUUZBM2NqNmRPbm1MQ1hfT0d2dWZuQ0xlcWdFWDNfeTZzVlFDUmc1blZheGItUU5pOWc4eWs1b0oxdm5oemQ1MDU5WFJZSmlTT0NBeXppbWxTVWV5LXkxR2E0TlZTcUdmcHF3d2NXakNQbS1UQlFJRnJpOURhUEc0Q0hJa0lkVFd3eFB4dk0wSHNUdw?oc=5
+- source: 新聞・無人機足球成績
+  title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
+  link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOM1RVejRzVzBJVnlrQ05rNUVfYXd0d2lSUHJ6N2pnaURaMHA3RWNmbVdza1VFZXItX19TaW5LaU52YklXZWx4WVpNVFEwbnR1ZzZpWmlJZEJ1UFdxWlBETjVhcVh1c1hvRFU5SVpieHRxQXNqUFlPeFUwYTJxM1R6aGp1WWFOeHJoaXQwcg?oc=5
+- source: 新聞・無人機足球成績
   title: 明道中學黃歆恩入選中華台北代表隊 勇闖世界無人機足球錦標賽 - 互傳媒
   link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE94TnFXMXdNVnpqZEtPb09uUVRNbmpnUmd5cXdua2ExSnYwNzc4WGZib25NWHpUX0IwTlpfYjEwdmk5SGdqNnRvTF9ReERURGRUUlFmTA?oc=5
 - source: 新聞・無人機足球成績
+  title: 林園高中無人機足球展現科技戰力 精準操控勇奪南區亞軍晉級全國決賽 - Life 生活網
+  link: https://news.google.com/rss/articles/CBMipANBVV95cUxQWWVXX0VpZ0JZRFF5SURlOHk0V3FIUVI1VF9BRVhZeVVJd3VtZFo5dzBFbnVjVC1TYW93TW1SN0RwMzJySm00QUYtWFlZM0g0ZzhYVUlsREtxMGhvZEpSQi1zaFlfZFJiZzcwOG1jOF9jbEVrSF9pclA1TjRkSVd2MUM3d2VQeG9MeW5qVng4NXQ3eDV1eE9jNVU2cWd2cUJWZ3VEYWk4UHlMRGEzaW5QZE5ZNy1FT2xfMGNIai1kVFlXeUoxZlBZYlVDeHNPM04wYUlxTzdZeElXanpSVzNDMEFjTnR2b0ZsWEh4WlM2bU4tNEJSUlU4dGQ5S3VKVldLTmVSSW5wNElfcGpORm9YUjZXMW1yS2lIc3kxcGU3dUZFSEdJbUQ5TWp3RlNzOE1MWW9aeTVyWFpmRkE4UFgtdWtHdkpBSGxzR2xXY0E5S21GbWdxQnYyZDVESmlRZUNnc3hOUXl6aTFlWTdJS0hBTFlwVXJfRFNKMTllMjE0b29pR1N2WnR6VjNYNHZXUmRvekpyaXpYWHBXYjFqNmpZN3QtX3k?oc=5
+- source: 新聞・無人機足球成績
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 博識高科技
+  link: https://news.google.com/rss/articles/CBMiaEFVX3lxTE4yOG91bldvR293aDNteHcyUmR4MUpqdzA0TUxKRHRJRFNoQkZyM2U0dmxENnlxeVJiekhscDNvd2ppYUY3OVNWeFNvWnZwOVdaYlhCVVhYcm1NeWlpTVlkUFBzZzRzamdh?oc=5
+- source: 新聞・無人機足球成績
   title: 楊浦無人機足球、無人機競速項目，亮相上海市第四屆市民運動會開幕式 - 人民网-上海频道
   link: https://news.google.com/rss/articles/CBMicEFVX3lxTE1EcHJkWTM4a0xxa1VINXZ0Q2ljaUo3QVRVUi1OOWl4YzhiRHRRVE0td01UdFRxUHhzVEZKZWNRcjk4TVpkdHREVTllcDROdm9VS0lpSjUxRWhrRnVQM3ZvV2thYnozcUJlcGptTnppLTM?oc=5
+- source: 新聞・無人機足球成績
+  title: 海峽兩岸暨港澳青少年無人機足球挑戰賽在深開賽- 神州 - 香港文匯報
+  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5fRTROcXg3NTZXSFVjX1BQTzRfSXEybHVCZHZvV2JOUnlhQm5YRWlTSmFlMThVVmxreW94QUJTUDZQZkJibU5yd01jVnJzcmNNc1plandzTHdlbEVWT1Y3emtaaHVuNmFZUWZwZkdudnRsZzBNa1hV?oc=5
 - source: 新聞・無人機足球成績
   title: 無人機足球國家隊勇奪韓國洲際盃亞軍 北市跨校培訓創佳績 - Yahoo新聞
   link: https://news.google.com/rss/articles/CBMijANBVV95cUxQZmhncXZ4eVVsZkpERTZwX084Yms4RkRLQ3Vfa0Q5MnVuQ3phODRVb3VuamZWTGo5bmxNWHZabC1jWkxwRkFNeVJtbi1xOTMyV2NBQTNYS0tTSnJfMUttQVNPTUF4WGVNMlFzaEFudlN4dlBnelNvMGZuOTJOX0lfTGR4b0VPaWNTRnhyQng3cHZndVpfSlVSRV9JTUQ4Wm5zRkhKSUZyRmNydnk4XzdhaUwydkY5MUh6Z0hySXoxSUh3R0tiaE5XT2Vmb1N5Rjljank3UkhlOGVxcEJZMFNrVTRKY01uYktMcDhKZW0xdWJlSmJwVkQ1bXlpMV9qbndmaUdaSEtSdGlReHFidjBUT2Z5Q0FrWm1iSnJJN1puX2lJV2xuUGQ1R1JPZkdpRzBSNGxzUzFZeW5nYTVyWURkT0hoWHRyclkyb2lTZHB1djlaSHFsck9WUU1WSzVhNmx2aS1ZbS1qX0NpYTJiV2tYSEc0WHVSUzdTeXNDODZSYnFmMnI3eFdhbHdoeWk?oc=5
@@ -1685,11 +586,29 @@ known:
   title: 無人機足球接軌國際台灣首座FIDA標準場地啟用| 運動 - cna.com.tw
   link: https://news.google.com/rss/articles/CBMiX0FVX3lxTE5JYmlIY0ZheW9FZ28xTHBSc1BjRXVVMjVreG1lUjhvai1wbkpkMmJPeVE5TVNFY1R2cXFiNEI0NGRYc0dsT2hjWEo0ZVhNRnZXWXZoVExMYmFhcjBMZVI0?oc=5
 - source: 新聞・無人機足球成績
+  title: 無人機足球熱力登場 花蓮吉安邀全民體驗「空中梅西」魅力 - 藍雀新傳媒
+  link: https://news.google.com/rss/articles/CBMi1gJBVV95cUxNMkhzRkN1X3Jod1Q1cHg0dHNtNG0xcHpmRmY4QWZaa0pqZjdKdklhaVVod0dDUXR2a0UxS29WVy01MXhpRC1fWmMzaXRBZ0VTT1Q2UkxFblpLaGV0ekRKLWtobDlEWi1OblJJT2xFY25Cb1FoVlNVRXR4Qklwel82cktmbENaeGhMUXRTU3ZzMUpQT0lmVDR6ZGloR3BER0Y1bDhzUUJiRVdZaFR1MGpZUTBOYWhHRXdkNldIZGEwVHROelBlUk1OSjM2cFY5bXZwOUVfZ29EMkxSTER0OW14SksyNFNLc2FUMDZEMmxjaFJUeGNVRnU5M2FsakkxT3lzNXUxU3dKUFZ1N2VZbHFHVXRBMldJZzd1UW1IcXhLb1J4b01GX0M2RmdNU08yOEZFRC02SmVzU3ROWVlkNHRfbzJiZ09NcUNCS2VuQ05qOGdPd1BNU1E?oc=5
+- source: 新聞・無人機足球成績
+  title: 無人機足球熱進校園！輔英科大培訓裁判人才補足賽事缺口 | 徐炳文 | 地方新聞 - 風傳媒
+  link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOOUFlZ0RFSzc2TzQyck5DVzBtMnE4MnBIQTB6RmV1dERveU9QVHNuMmdlUHowTTVjc2xlUkdna0Y5Q1hnbm9JUFZST2k2QQ?oc=5
+- source: 新聞・無人機足球成績
+  title: 無人機足球聯賽化 結合低空經濟為學界開闢多元升學新路 - ezone.hk
+  link: https://news.google.com/rss/articles/CBMi9wJBVV95cUxNQS1SczBxUk5kWXM1SWZsT09yYWtDTWFZbWNuY3JaVzVIenhnVTdrTmdmYjVveVVyVUZucDJMNmIwX29fSTdhYWJRekpZYVlwOVlETUpycGh4eDhBLXl6R2lsbjZqLXZQcERraENxcmdHWGpvRDhrV1dCc01OX0N3NllwWGlKVUxYamlCYjhib0l5UDAwRUx4eVJERlUxWkhCY1AtQ1d4bzVsXzNNZFc1QnI3QU1qV3Qwc3pRX3pqT3NMLTZaZUNKM1ZpUlVGRnVvYnE3NzJvUGJ6MHk2d1NLVURSSEU3ckVzYkZIT2lxRkp0c3hqZV9HZUVBb3QxYlNMcFhMUFJrSGZDaUIySXNGVVRKUUNDa2lFYks0UEhzVmUxNGhwZ0lrb1p2OUg4ell3U29RZngwQVVVZWY4dkNNTVJqYnZWb1hUS2psYmdNU0VSb09nYkxnellpeUpfUXpBRjMwTWtCbjZyWnNzeW9pRENQQkxBMXc?oc=5
+- source: 新聞・無人機足球成績
   title: 無人機足球近年快速崛起 臺灣將首度舉辦跨國際無人機足球培訓人才課程 - Zeek玩家誌
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFBWSDJWWGoyQWh4Mk1TVlg4QV81QlpVcGZHZmJpUlJMNEI1QzZFT2FjVlhCTHN3eW93LXQwcEUxNzBwcVcyWElwVGdBME15OUNSb2c?oc=5
 - source: 新聞・無人機足球成績
   title: 無人機足球預算全遭凍刪 全台最年輕的16歲裁判 憂未來無處競技 - 自由時報
   link: https://news.google.com/rss/articles/CBMiakFVX3lxTE9talc2STNsRmM3Zm92S1FrUklmcmxuNmZvM1dkV1FTR2hkTU9oNTh0NFY5UDIzNHNkN3FRUEVMOFU0QUtidmc2VU9jSHNJS1dtRVdsb21iaHFYQ1NLTUE1TEMyOXc0ZFpFUEHSAW9BVV95cUxPZEp3dVVDakFtbkhMR1BxeHpjakN1Zk5tYldDS0NJWVRVaWo3aTNMekt6ZFhGMXduZnFyM0JQYXhRU2I0Yk9iOTU1WEphMC1XMFZqX0VfaW1HMEFSZVJDalNJSXlZMkJPS1FVcFdoWDQ?oc=5
+- source: 新聞・無人機足球成績
+  title: 真實版「魁地奇」！埔里國中無人機足球賽奪冠 年底角逐國際賽 - 自由時報
+  link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE54b3p1Tlc1Q0JpVkhEMWl6T0N4N3lRV01jOS1KbXVscUNXWDl5QzA2QVhRU1RvTk85Tm5wLXdDNUlKVFBCTkNkYzJzZzZmeE4zR0NWbzZ0TzRURVh5VlBQc21vT0TSAWpBVV95cUxNX201UGJtbFZjVUE2SE1xRW1NcFZseTNmMDc5djlsNU16Nl95eDAyUGFLSEtjWlZwQS1TV0lYaXJqRXBCRUFaRFhzRWdFRWhEeWJUMk1PXzhMSDhJaW14V0dDQ0xWMGZsdnJB?oc=5
+- source: 新聞・無人機足球成績
+  title: 首屆FAI無人機足球公開賽收官港隊摘亞揚威主場- 香港 - 香港文匯報
+  link: https://news.google.com/rss/articles/CBMid0FVX3lxTFBCZjV2NHZ1LXVoUnY4R3VQMVNVUUljdXc5N1A3TExBYnZfNWpYZk8xejNhelRJbk1DUmJzOGlma2tDZmR1SzQxdWY3RGdpb0xIamNEZUZmTUFvcFRBRUt1eGpueFk1cHUybVhtbFdadU45Qkx3RVc0?oc=5
+- source: 新聞・無人機足球成績
+  title: 香港學界無人機足球公開賽吸引13隊競賽東區無人機隊奪冠- 香港 - 香港文匯報
+  link: https://news.google.com/rss/articles/CBMid0FVX3lxTE5XbDlzNy1EUnNmQVRON3pFSkpSc3VLdFNqR3VfS1RYM195MGZZd1JjVnNpV0ZqZjNJU3RVc1N5Y1FkY0xSRlA5YVNrdmU0NDBuR3BTOEhtZzZSejhvOEgyZ1dUeGpnLVlaamY3VXB1dXdpajJIdEdV?oc=5
 - source: 新聞・無人機飛球
   title: 中國香港無人機運動總會於高鐵西九站內辦無人機足球體驗活動 - 香港電台新聞網
   link: https://news.google.com/rss/articles/CBMib0FVX3lxTE1IMy1GbUdOelF5QWtEXzVXbnZ2dGJ3QmFWelFjbUhzZ1dTak05UXRGbGJHaXdzTU93UVM2WXM3MmpPbDRGbjItWGpKNjNaNy1TNGdYOFpKTUZhLUp0UmpHNjVhTTRnS3hOYjRfcUxfRQ?oc=5
@@ -1700,8 +619,11 @@ known:
   title: 全縣首場無人機足球國小營隊土庫越港國小登場 激發學生科技熱情 - 雲林縣政府新聞處
   link: https://news.google.com/rss/articles/CBMidEFVX3lxTE12cHlvTkM5VmtsbXpBUXZMLXdpQmhveXNDNkNVYjRITHRNWnBQY1pFZ3VTUnBKTFl6SVZJU3BZY3FhRExxTG9BQ0tTUDZOcklpRkI1WjRyS3BXbHlJY1ZadnFtRzVfZ3NnNWlMOHk0SE8zUFAx?oc=5
 - source: 新聞・無人機飛球
-  title: 前進上海！「天穹盃」無人機飛球錦標賽總決賽 台東熱血引爆 - 中時新聞網
-  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBoMUkxSml6aXZsX3hvTTc2Ry1QTVdIRVcxODNUUmx0VUdCZEFpSjJWMlp4WlhwV2lUQTZSRnpsczVzSlh5ODE4VXBzZnRSS1JwRk9nSE9GdU1iZUFDSXc2ZllDNzlBcTRHYUVNcU9R?oc=5
+  title: 全臺首批無人機足球裁判培訓完成 總統盃競賽蓄勢待發 - 青年日報
+  link: https://news.google.com/rss/articles/CBMibkFVX3lxTE8zZEU3VGQtWEFUTWxRYVFaV002d1lBcF9CakpScGRDbXB0Mk9sdnJkUGZabFMzYk1ESFVWXzl1QjZNTkFPUWhPMzlZTE12SzktQWpDMkV6NVlWYnBsdEpVTlhTb0Y2U0JSRTVNOUxn?oc=5
+- source: 新聞・無人機飛球
+  title: 前進上海！「天穹盃」無人機飛球錦標賽總決賽 台東熱血引爆 - Yahoo運動
+  link: https://news.google.com/rss/articles/CBMigANBVV95cUxOVHlYbWNFNi1mOWJ4c2NnUEY0cjZ0R3dNVGRRRm1NR3BtdHBXazVmTWNZaXNMdUhGMmRrNER5ZFY0aE96eVBBci1seXQ1X2NDNEdmMk5WUGRGZ0pRNW1lOGZDT2tVLTVYX0Fnay12WU9uLWU4dFFVRVRyNnM1WjJsLWVVdVNyUUxpY25hOU5ic0kwdHJSQjdzSWhLcWxpcG9xY2NVUkx1NTlpZVp6ODVfcXhLWEtNd1QzOWlTTXB1RWM5bGpXdnBiQjRZc29SbjFSSTh2VkwxWHFkdHJUb2FlZVdUR2Z3ZjZxb1J4UnFFTTJhelJOUVU0RTYzMGtrZkRmNS1pSzltbVRXTU5VNjdVZzZoT1JUamxsOFRvVWFtUENtNlNrcndqMG5ta29iRkc2WWhhNURJWVE1VFJDWFk5WEdfZ3BzU1E2SzJ3LTZBN3IxWmJLTW4yQTM4RXplT1M4OFEtdWFCcDJCb1A5Znk3Qzl6Y1VneFZIdTRhNGh6YkE?oc=5
 - source: 新聞・無人機飛球
   title: 台南首辦無人機足球賽 60隊中小學生操控科技拼速度 - 中華新聞雲／中華日報
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTFB6Nk9uX3BORlFnUXphZTQzc3ZVQTZZdkc1Qkg3ZEpGZ3VaRENnd0gzY0RWYklBLUhWVmZmaDlxLWQ5OWI4czBvc216ODU1TGdfY1E?oc=5
@@ -1721,9 +643,6 @@ known:
   title: 為後勤戰力注入新能量 三支部補油庫成立無人機飛球社團 - 桃園電子報
   link: https://news.google.com/rss/articles/CBMiTEFVX3lxTE5VVnVMRE5xWkdRcjk3eTRrX1hsVGl4dmNsZkdmZ0hoRGx0dzhHOUs0enduVW5UaThzOUhqd2xoLXZpQ1poV2hnamVOYS0?oc=5
 - source: 新聞・無人機飛球
-  title: 無人機足球聯賽化 結合低空經濟為學界開闢多元升學新路 - ezone.hk
-  link: https://news.google.com/rss/articles/CBMi9wJBVV95cUxNQS1SczBxUk5kWXM1SWZsT09yYWtDTWFZbWNuY3JaVzVIenhnVTdrTmdmYjVveVVyVUZucDJMNmIwX29fSTdhYWJRekpZYVlwOVlETUpycGh4eDhBLXl6R2lsbjZqLXZQcERraENxcmdHWGpvRDhrV1dCc01OX0N3NllwWGlKVUxYamlCYjhib0l5UDAwRUx4eVJERlUxWkhCY1AtQ1d4bzVsXzNNZFc1QnI3QU1qV3Qwc3pRX3pqT3NMLTZaZUNKM1ZpUlVGRnVvYnE3NzJvUGJ6MHk2d1NLVURSSEU3ckVzYkZIT2lxRkp0c3hqZV9HZUVBb3QxYlNMcFhMUFJrSGZDaUIySXNGVVRKUUNDa2lFYks0UEhzVmUxNGhwZ0lrb1p2OUg4ell3U29RZngwQVVVZWY4dkNNTVJqYnZWb1hUS2psYmdNU0VSb09nYkxnellpeUpfUXpBRjMwTWtCbjZyWnNzeW9pRENQQkxBMXc?oc=5
-- source: 新聞・無人機飛球
   title: 無人機足球飛進校園科技競技變身反毒新招- 生活 - 自由時報
   link: https://news.google.com/rss/articles/CBMiZEFVX3lxTFAyMzdYLXZZaWFaeEdIREtpblVPVk13ZEpJNE1tUndzeUxFVWlONnNhV3dMeXBFQ1BIV1IxRFRTQU9tcXExTUR2VGVYNTc1d1ZuN2tIMHdSSkNESm9WQUxIU0E2RDU?oc=5
 - source: 新聞・無人機飛球
@@ -1739,9 +658,6 @@ known:
   title: 立委媒合協會 捐贈東大附小無人機足球設備 - 原住民族文化事業基金會
   link: https://news.google.com/rss/articles/CBMiRkFVX3lxTFBEOGJTSXhCOGwzc0VLYzNlb0VhZjFkUGozMFBNaW51aTR6T3l3OU9BVHJCS2F2UGcwTk83a2otVmxMcFZBSnc?oc=5
 - source: 新聞・無人機飛球
-  title: 竹縣無人機足球賽6/29開放報名 新興賽事廣受親子家庭熱烈響應 - 客新聞 HakkaNews
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTFBoZV9UNy1mT0s4c0FwSXZQUlU0VVNXOG5kTEo1TTA2Vmwxb2trNnotZ2VsT1RuSTNSZk1aQmRfMEtnQncycGhyLWcxRklQU0JT?oc=5
-- source: 新聞・無人機飛球
   title: 蔣萬安體驗無人機足球、匹克球允支持推廣| 地方 - cna.com.tw
   link: https://news.google.com/rss/articles/CBMiX0FVX3lxTFBLelk5bnF6UHVFSEg3S2ZyMlNiZnFheWdmZUR0a3M4ZWx3SDZhcjUwMmg0X0JGT0ZXSzRoRTl2LWxkMGVKenZqaDZ2REJRakNIOElTQzJYR1QtcmZPT21B?oc=5
 - source: 新聞・無人機飛球
@@ -1756,6 +672,9 @@ known:
 - source: 新聞・足球無人機
   title: 2026FAI國際無人機足球賽！中華青少年選手奪冠 替台灣摘下首面金牌 - 三立新聞網SETN.com
   link: https://news.google.com/rss/articles/CBMiSEFVX3lxTE85MTFSanRVUFhhdW1YM3FPUVhnSHJQWmxYRGE4Ym5jQUZHTC13VGx1WEJGbjBYVlloWU5lTkR0bEFrdmFGMzVTSdIBTEFVX3lxTFBFUUp0VUtMR2ZGdUE5VFZOMXFxZ0poUXE3R3NNTFhubkJxcFgtMDhuRVM0c2t0U19OVXVnN2IyaThVNkY2c1FGbzJ1RUQ?oc=5
+- source: 新聞・足球無人機
+  title: 三對三無人機足球 操控技術決戰關鍵 - TDN台灣生活新聞
+  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE5kbHVyNmlCNnJaMDBhQV9sUkVTbkgwWjZxa0xXSlY0Ykp0b2F6WVU5bTN1MFNVaGFyUjI4WDRnV2VuNUl2TTVxSWtOOWJfX1Vz?oc=5
 - source: 新聞・足球無人機
   title: 中南部唯一！嘉義市精忠社區成立「無人機足球培育基地」 透過科技跨世代共融 - chiayi.gov.tw
   link: https://news.google.com/rss/articles/CBMiakFVX3lxTE9IODRJOUJfYWhid2hlc1N5d2VHN3BJSVhaME9BaVZicFhUbmY0X0RtNjE5THBwWDhMQWswZlo4eXZqVzBBcmhOSGpXXzBvYW13Tkp2YkdINXNuZDJqMVJTMjJOd0thdVBxOGc?oc=5
@@ -1808,9 +727,6 @@ known:
   title: 台灣小將空中踢進金牌 無人機足球隊香港摘冠 - 自由體育
   link: https://news.google.com/rss/articles/CBMiYEFVX3lxTE9ZQWk1QUFtYzZxZ2FIbXFNazRHX1JRTUVMSjZjRzRJYXZ3aWpxTmFYcTdKdkhweEkzZ3U4TGpXbmI2V3NKSkc0RURoX0hydllkSzBJay1pUlNVZWo0UFptUw?oc=5
 - source: 新聞・足球無人機
-  title: 嘉義市打造中南部首座無人機足球基地 老幼一起玩科技 - UDN
-  link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE5IWEx6U0pKeDFHbXdoUU9ZekhDUEpnOWljUXVuM0htbUU4M3IzVzdLNnk4M0JQRTdRVlgwUHF0Z2FTdXVsa3pEVzZQa3lXcmxF0gFWQVVfeXFMT2JIMUVZc1Y4ZDZUREJONG01MXZoSGx1dGlCUVM3bnYxVFdua3FVR281RXU3a0MwX05ZMklJYnJmeTA4V1c3NjNERzlLMGRYT0lUbmhYSUE?oc=5
-- source: 新聞・足球無人機
   title: 嘉義無人機競賽熱血登場 73隊首挑戰「空中足球」 - ETtoday新聞雲
   link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBlcS1CN1AzbDF4eWJzWEJURzNqMy15UldCb2ZNeTc0NEJNMmp3NVAtUW5WY3NxVXNadDBGQ25TR3BybE9tazVIM1Mya1JnQ2xKLTAzWDNHckctUVN5a1HSAUtBVV95cUxOVjliZ0dWWEhkWFpHOXRPeDhWMHhnRExtclZEc2MtcDhWb0VMR1Y5b3YzU1gzR3FrYnBsTzV3VWlPdWRCbU1PaWd6Ync?oc=5
 - source: 新聞・足球無人機
@@ -1856,9 +772,6 @@ known:
   title: 從客語績優到無人機足球 十興國小校長徐發斌獲師鐸獎 - 客新聞 HakkaNews
   link: https://news.google.com/rss/articles/CBMiUEFVX3lxTE9lX1F2MDBiUm15d3IwLW1fWjdjOHA4WThlcXRUazljTllQQXIwSkNsZFFqaXltZVZ0NjFBSDJia1hUZ0xtV2k4ODlfRUxWTE5R?oc=5
 - source: 新聞・足球無人機
-  title: 把金牌帶回台灣！無人機足球「橫掃9國強敵」封王 教練淚崩 - ETtoday新聞雲
-  link: https://news.google.com/rss/articles/CBMiXkFVX3lxTFBnUUcyS3JmdUJsTzhRMTFOT2gyVnJlN2VQWHhETjJ4R2REeE1FOGNYS2EtTTdDQVZOSkZmZHNFamdtb1I0eVRydkZfOGx3Nnk0bENHU20tdVZ4RVQ5cEHSAUtBVV95cUxPRzRVOWJ6UUhTbmVhMW1WUTcxMXZtUUgwZDhYWVNsLUF5ZHI2TlZ0QW54a2RVM0xwT1FDV0U1c1ozbzFmMTRYZXhzLW8?oc=5
-- source: 新聞・足球無人機
   title: 新北學子挑戰無人機足球空戰 爭取全國賽門票 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
   link: https://news.google.com/rss/articles/CBMijAFBVV95cUxOM1RVejRzVzBJVnlrQ05rNUVfYXd0d2lSUHJ6N2pnaURaMHA3RWNmbVdza1VFZXItX19TaW5LaU52YklXZWx4WVpNVFEwbnR1ZzZpWmlJZEJ1UFdxWlBETjVhcVh1c1hvRFU5SVpieHRxQXNqUFlPeFUwYTJxM1R6aGp1WWFOeHJoaXQwcg?oc=5
 - source: 新聞・足球無人機
@@ -1871,8 +784,8 @@ known:
   title: 林園高中無人機足球奪南區亞軍晉級全國決賽- 生活 - 自由時報
   link: https://news.google.com/rss/articles/CBMiZEFVX3lxTE9FQnVPc0RaY2hJN0lPaGlKM3p2bG9ZRzdkVDhNZXJqWUUyNlZHTHZXQUcwMEZVeU1UWHZnT2tKZVhOUUxlWUJ1R2N5cUpwME1yMUUyN1FPRGViby1HUF9NM0l2NUs?oc=5
 - source: 新聞・足球無人機
-  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - wennan.org.tw
-  link: https://news.google.com/rss/articles/CBMickFVX3lxTE1MNERCX0hOeDN5cHpnUExFOWJxaGZCYTkyMW5PSFFfaFYxQV9OYjZoUzZIcThBZWxZXzdfVUQ0azRJckFpUndGbC1tODZxbjVyTG9kbm1ta1NLd3B5U1VNX0kyblJxU05wbmtScVh0bUZDUQ?oc=5
+  title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國 - 視傳媒
+  link: https://news.google.com/rss/articles/CBMibkFVX3lxTFBrUTdWaXA0Vnp5ZDFsc2FwTDBSTFJtYkpBZi1zQW9MUjRHb2g5b01HY3puLURuVDVaV3hyc0dfN19fX0RmVWl1V2puN3ZwX2xzaE90U2xmYkNKVjd3b1FFOFRkZHZ5VElGZWlZdURn?oc=5
 - source: 新聞・足球無人機
   title: 無人機足球來校展示 屏大將投入相關技術開發 - 【飛揚新聞】
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE14NDFDYWw5a2stZjdjZVI2YUlkRVNxUWUtcS1tbFJyTHpOMFFPb3h2WUUzb0cwNmxIWDhqVDRfS0ktYlhCeGtXem0tNDZtOFpMb0E?oc=5
@@ -1885,6 +798,9 @@ known:
 - source: 新聞・足球無人機
   title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 勁報
   link: https://news.google.com/rss/articles/CBMib0FVX3lxTE43MWlSZHRQTm5WQUNqUjJMeFg5Y1BhdU5LbGdzbFBoTGlMX0R2OFJGM3EzUzRYOGh2ajktdWNiRFN0WFZUZ0w2ZkUzcWJNYWVxNjlUUmZDRmVnM3B4d0EyaFdnYy0xZjNBWHl3TEh0TQ?oc=5
+- source: 新聞・足球無人機
+  title: 無人機足球新北地區公開賽開打 集結300位學子同場競技 - 生活新聞 - PChome Online 新聞 - PChome Online 新聞
+  link: https://news.google.com/rss/articles/CBMijwFBVV95cUxNUlFjUWZHRmNlb1JyTEhPV2xuS253ZWkwcms4eEtYeVp0UVNBSTVyalktTVBvMzZUcU5QN1hkSkZ1TU9vb2pRbEN3VEtUbWVSNzVTQUZlYjY5Q0RZX1gwWDZMZklpQVdlLXF0VWtOVG0zaDVwOTJjbTdiSUw5MUJtSmJqZVdldS1oTnM1MGt6dw?oc=5
 - source: 新聞・足球無人機
   title: 無人機足球熱進校園！輔英科大培訓裁判人才補足賽事缺口 | 徐炳文 | 地方新聞 - 風傳媒
   link: https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOOUFlZ0RFSzc2TzQyck5DVzBtMnE4MnBIQTB6RmV1dERveU9QVHNuMmdlUHowTTVjc2xlUkdna0Y5Q1hnbm9JUFZST2k2QQ?oc=5
@@ -1900,6 +816,9 @@ known:
 - source: 新聞・足球無人機
   title: 無人機足球空降屏東 創新科技玩轉客家 - 蕃新聞
   link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE8yOU0zV2dPWjRoS042UklsSDc2RnIzeDlvXzd0dUcxRDI1b1N4N0hUM2kxUWpnblppTXVWeTRZUm11QlBCN2d4R2hUakwzTEpVTkE?oc=5
+- source: 新聞・足球無人機
+  title: 無人機足球賽裁判人才短缺 輔英培訓營師生共學爭取認證 - 社會新聞 - PChome Online 新聞 - PChome Online 新聞
+  link: https://news.google.com/rss/articles/CBMiiwFBVV95cUxNUWlhU2VpS2ZxOVJkQk12WVh0d0hBWTJRbXp1RVVFRnMyeTRsSXdUQ2tiU1NhU25aRVIxWFFqZ1BMUlpCbDktR0RubUh5eDN3bHZQYjBjNXZTb0c3OHN1NjZIVkVaT2tHMXBRd1czMkdZNWNGRWhQeVZqdWtfR09VMG9rZ2ZrY21wSXBZ?oc=5
 - source: 新聞・足球無人機
   title: 無人機足球香港公開賽開幕 - TVB
   link: https://news.google.com/rss/articles/CBMi1wFBVV95cUxOa2FWMzNyVWJjX1RfMGRIZGxjTTlwWmowVVpTdUpkMThEVTAzLVRMb0lOQkoxVDNMOTIyTjVWbGk4dklYbzdERmtDb08wMU9OZ1NFMm9iLVp0WTd6Qm1NRm9fUnViUmxoQTFhNUJuQWQxcUlCaGJLT3VHLVBlN0kxa05JY05KQk5fSVZpWGkwUTNhSDBqYWpEX0x5XzBycFotcXh5akNIa0c5THVnQVppem1oVEtIVUJmRHRuYXZ6U3U2R0pDd0ZQYUFndHoxc2h5WnRBcEFQaw?oc=5
@@ -1937,14 +856,14 @@ known:
   title: 賀！臺北市足球無人機國家代表隊榮獲FIDA韓國仁川無人機足球洲際盃Class20亞軍、Class40殿軍！ - gov.taipei
   link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPY0dnV2p2ckM3TjZqQkUtS0pneFRHdEI4TE1abDBPdmNNTDFhLXdxVmptemJMaW4yZWxnUTFDWmxtWUdoZFp2bWM0YTE1VDVaMVF3VEFoVkM5dm1uQmkzUmxYV3hmQlIxSUVHVzhUQmdDcEZzX2x4eE5mUEh4bVl0YjdoWV8?oc=5
 - source: 新聞・足球無人機
-  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - Yahoo新聞
-  link: https://news.google.com/rss/articles/CBMi6wJBVV95cUxQbktVRlU1WkpZMUljeVF3cm00UEY3b1hWQ0puVUI1Vm1waEhubWtQQnhsczJZYWMwajFBMzY3TkVUZjhzbk5IcE1IMEpFTGtxU01STzdJd1lyOFRqZFVJcWtDUE1qbnNFNzZCRFRTNlZVYlJ4NGJWWm5BZlhyaWlqZUhxZVlfM2JVRHB3enh0YTVlMXpjdXA2c2FXeWxrdFVqZURIZHlkaTJmN1MtbDdPWUh5YWRvZ2lLb0x3QllzazI3VWJzMTM3RlZvSmlRdGpickQ0b1hKc2NnS0dtbHZhcmFqdUlUR3RUanQ2LWdWaVlDY3Z4bHJoMmRKeXJBdlRicF81dGV2SDNHNHF2RDgzWl9RenA0UnZSYVpfSmtuS1NIeS1pbDhnUTllblZmQld6bnVpaDN3cFFIYjhkNEJiMGVNSUVMMEgxUTY2NTY0V2EyUHVRM2tBMHNxc0xpQXRncUFWc3F0MERfOWM?oc=5
+  title: 賽事暴增凸顯裁判荒 輔英科大無人機足球研習30席搶手 - 蕃新聞
+  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1GeEM0SGZHbFAxcU01QkdLMFRPandzWFN2d1RVTGV0SndkaTZ6MjMwRWpBMEs3bm81alNCOURxakR4LTBLZmJpdXJNSW9LbEx0Z3c?oc=5
 - source: 新聞・足球無人機
-  title: 輔英培訓裁判人才補足賽事缺口 無人機足球夯進校園 師生青壯共學爭取認證 - 蕃新聞
-  link: https://news.google.com/rss/articles/CBMiUkFVX3lxTE1RaW9qc1pSVUh4dDVZMlJ0THdsRU9kaUNBVlNXNS16RnVTRkE0NU9IM1lRRHBsVEs5UzFFWWJabjNDbEUyLUswNDBWdHNKOUllX2c?oc=5
+  title: 輔英培訓無人機足球裁判人才 補足賽事缺口 - 臺灣導報
+  link: https://news.google.com/rss/articles/CBMiVEFVX3lxTE9VMXJvdWhhbVpTQVZwdWJ3ZnRHSE1BQ3R0WHpRUXJWalRFWUpUTG91VTZqNkU2c3ZZRThYQXMtZTFIX0hlRDVfLU16SWdHMkR3LTZaVw?oc=5
 - source: 新聞・足球無人機
   title: 輔英科大培訓無人機足球裁判人才 - 台灣華報
-  link: https://news.google.com/rss/articles/CBMia0FVX3lxTE5OSE1MVGtLMXotTGFSUE83UnlYRENSeGs2YjNXR045bHQ1SG1pYUpVNldRZTh6elI1SlhVWGxpRUR2a2I0c3ZETW14V09JOHhqUTRIdTUtV2RuTjNyZkNkdl96WlNCMVdrcE4w?oc=5
+  link: https://news.google.com/rss/articles/CBMie0FVX3lxTE1KZHRxN3lDQ09jTnZNRjRpTWg5VjVPR0VoMkhtVWhrWERPZnRjdjJPQW9aYm90RXlYVHgtdnFkTG41TmQyZl9JWW90VGVwamtjTGk3d2xyemVsZzFyOWhOQWh0LVFSQWZNN0poaEdIek9uRE04cmhqSnZsOA?oc=5
 - source: 新聞・足球無人機
   title: 進駐屏大技術展示 無人機足球國內扎根 - hakkatv.org.tw
   link: https://news.google.com/rss/articles/CBMiZkFVX3lxTE1XdnVaVzZjSTRuT3BYSWZLb3NTRTRuLVgya2lnYUU5X2hUNGRVdElIWUhRMnpTVE9hYjhGTEZPSkdtMGREclB0dzJta2FMb0ZwYS1Kc1NtREVVcXlWMzl4M0pQMlctdw?oc=5
