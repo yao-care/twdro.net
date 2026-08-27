@@ -19,7 +19,12 @@ const jsonld = collectionPageJsonLd({
 ---
 <BaseLayout title="無人機足球隊伍名錄：學校、俱樂部與代表隊 | twdro.net" description="全臺無人機足球隊伍名錄，依國小、國中、高中、大專、俱樂部與代表隊分組，可查各隊招生狀態。" heroTitle="隊伍名錄" heroDesc="全臺無人機足球的學校、俱樂部與代表隊。">
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <p style="margin:0 0 16px">
+    <a class="btn-action" href={url('/teams/records/')}>隊伍與學校成績反查 →</a>
+    <span class="text-muted" style="display:inline-block;margin-left:12px">查某一支隊伍或某一所學校在各賽事拿過什麼名次</span>
+  </p>
   <p class="text-muted" style="margin:0 0 24px">
+    本頁是已建檔的隊伍；<strong>只要在任何一場公開成績名單上出現過，就會出現在<a href={url('/teams/records/')}>成績反查</a>裡</strong>，即使還沒建檔。
     想知道這些隊伍在打哪些比賽，見 <a href={url('/learn/taiwan-competitions-overview/')} style="font-weight:650">臺灣有哪些無人機足球賽事</a>；
     想從零組一隊，見 <a href={url('/learn/starting-a-school-club/')}>怎麼在學校成立社團</a>。
   </p>

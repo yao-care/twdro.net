@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { url } from '../../lib/url';
+import { isPublicEvent } from '../../lib/enums';
+import { collectRecords, groupByTeam, groupBySchool } from '../../lib/records';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
+
+// 這一頁把「賽事 → 名次 → 隊伍」翻過來變成「隊伍／學校 → 拿過什麼」。緣由見 lib/records.ts：
+// 站上頭部字的天花板已經量到了，而每一所學校、每一支隊伍都是一個沒有人在維護的獨立查詢。
+const events = (await getCollection('events'))
+  .filter((e) => isPublicEvent(e.data.status))
+  .map((e) => ({
+    slug: e.id,
+    title: e.data.title,
+    eventStart: e.data.schedule.event_start ?? null,
+    results: e.data.results,
+  }));
+
+const rows = collectRecords(events);
+const teams = groupByTeam(rows);
+const schools = groupBySchool(rows);
+const eventCount = new Set(rows.map((r) => r.eventSlug)).size;
+
+const anchorId = (s: string) => `t-${encodeURIComponent(s).replace(/%/g, '')}`;
+
+const metaDescription =
+  `臺灣無人機足球的隊伍與學校成績反查：${teams.length} 支具名隊伍、${schools.length} 所學校，`
+  + `共 ${rows.length} 筆名次，來自 ${eventCount} 場已公布成績的賽事。`
+  + '想查某一支隊伍或某一所學校拿過什麼，在這裡一次看完，每一筆都連得回原始賽事與來源。';
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球隊伍與學校成績反查',
+  url: 'https://twdro.net/teams/records/',
+  description: metaDescription,
+  items: teams.slice(0, 50).map((t) => ({ name: t.key, url: `https://twdro.net/teams/records/#${anchorId(t.key)}` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '隊伍', url: 'https://twdro.net/teams/' },
+  { name: '隊伍與學校成績反查', url: 'https://twdro.net/teams/records/' },
+]);
+
+const dateOf = (r: { eventStart: string | null }) => r.eventStart ?? '';
+---
+<BaseLayout
+  title="無人機足球隊伍與學校成績反查：誰拿過什麼 | twdro.net"
+  description={metaDescription}
+  heroTitle="隊伍與學校成績反查"
+  heroDesc={`${teams.length} 支具名隊伍、${schools.length} 所學校、${rows.length} 筆名次。想查某一隊或某一所學校拿過什麼，從這裡找。`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '隊伍', href: '/teams/' }, { name: '隊伍與學校成績反查', href: '/teams/records/' }]} />
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">這頁在做什麼</h2>
+    <p style="margin:0 0 12px">
+      比賽成績都是按場次公布的，所以「某一支隊伍打過哪些比賽」「某一所學校拿過什麼」
+      沒有地方查得到——除非你把每一場的名單自己翻一遍。這頁把
+      <a href={url('/events/results/')}>成績總表</a>反過來索引，用隊伍與學校當入口。
+    </p>
+    <p style="margin:0">
+      <strong>名字一律照原始公告抄。</strong>來源沒寫學校就留空，不從隊名猜；
+      同名不同屆、A／B／C 隊也照原文分開列，不自作主張合併。
+      <strong>只收隊伍名稱，不收選手與教練姓名</strong>——即使原始成績名單上有。
+    </p>
+  </section>
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">學校與單位（{schools.length}）</h2>
+    <p class="text-muted" style="margin:0 0 14px">只列原始公告有寫出學校的那些。</p>
+    {schools.map((s) => (
+      <div style="padding:14px 0;border-top:1px solid var(--color-border)">
+        <h3 id={anchorId(s.key)} style="margin:0 0 6px;font-size:1.08rem">
+          {s.key}
+          {s.extra.area && <span class="text-muted" style="font-weight:500;font-size:.92rem">　{s.extra.area}</span>}
+        </h3>
+        <ul class="data-list">
+          {s.rows.slice().sort((a, b) => dateOf(b).localeCompare(dateOf(a))).map((r) => (
+            <li>
+              <span class="k">{r.place}</span>
+              <span class="v">
+                {r.team !== s.key && <strong>{r.team}</strong>}
+                {r.team !== s.key && '　'}
+                <a href={url(`/events/${r.eventSlug}/`)}>{r.eventTitle}</a>
+                <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:2px">
+                  {[r.eventStart, r.division].filter(Boolean).join('・')}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">隊伍（{teams.length}）</h2>
+    <p class="text-muted" style="margin:0 0 14px">拿過名次最多的排前面。</p>
+    {teams.map((t) => (
+      <div style="padding:14px 0;border-top:1px solid var(--color-border)">
+        <h3 id={anchorId(t.key)} style="margin:0 0 6px;font-size:1.08rem">
+          {t.key}
+          {t.extra.schools.length > 0 && (
+            <span class="text-muted" style="font-weight:500;font-size:.92rem">　{t.extra.schools.join('、')}</span>
+          )}
+        </h3>
+        <ul class="data-list">
+          {t.rows.slice().sort((a, b) => dateOf(b).localeCompare(dateOf(a))).map((r) => (
+            <li>
+              <span class="k">{r.place}</span>
+              <span class="v">
+                <a href={url(`/events/${r.eventSlug}/`)}>{r.eventTitle}</a>
+                <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:2px">
+                  {[r.eventStart, r.division].filter(Boolean).join('・')}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-top:0">名單漏了你這一隊？</h2>
+    <p style="margin:0 0 14px">
+      這頁只涵蓋<strong>已經有公開成績可查</strong>的賽事。臺灣的無人機足球成績沒有集中的公告處，
+      很多場次我們到現在還查不到名次——哪幾場還在等，列在<a href={url('/events/results/')}>成績總表</a>下半部。
+      手上有名單的話直接寄給我們，我們會標明來源與查核日期後補上。
+    </p>
+    <p style="margin:0">
+      <a class="btn-action" href={url('/about/correction/')}>回報或提供成績 →</a>
+      <a class="btn-outline" href={url('/teams/')} style="margin-left:10px">看已建檔的隊伍</a>
+    </p>
+  </section>
+</BaseLayout>

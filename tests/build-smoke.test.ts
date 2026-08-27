@@ -17,6 +17,7 @@ describe('build smoke', () => {
     'dist/equipment/compliance-check/index.html',
     'dist/events/calendar/index.html',
     'dist/events/results/index.html',
+    'dist/teams/records/index.html',
     'dist/search/index.html',
     'dist/organizations/index.html',
     'dist/organizations/oursteam/index.html',

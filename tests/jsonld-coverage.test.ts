@@ -1,6 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it, expect } from 'vitest';
+import { SITE_SECTIONS } from '../src/lib/nav';
 
 // 自己走目錄，不用 fs.globSync——那是 Node 22 才有的 API，而 CI 跑 Node 20。
 // （本機 Node 22 測得過、CI 直接 `globSync is not a function` 讓 build 掛掉、
@@ -87,9 +88,15 @@ describe('JSON-LD 覆蓋率', () => {
     ];
     for (const [target, needle] of expectations) {
       // walk 會一併撈到該區的索引頁本身（它帶的是 CollectionPage，不是實體節點），排除掉。
+      // 工具／索引子頁（/teams/records/、/equipment/budget/…）同理：它們描述的是一份清單或
+      // 一個計算，不是單一實體。豁免清單讀 lib/nav 的 SITE_SECTIONS subPages——IA 本來就有
+      // 單一真實來源，日後再加子頁不必回來改測試（2026-08-27，加 /teams/records/ 時踩到）。
+      const toolPaths = new Set(
+        SITE_SECTIONS.flatMap((sec) => sec.subPages ?? []).map((item) => join('dist', item.href, 'index.html')),
+      );
       const candidates = target.endsWith('.html')
         ? [target]
-        : walk(target).filter((f) => f !== join(target, 'index.html'));
+        : walk(target).filter((f) => f !== join(target, 'index.html') && !toolPaths.has(f));
       expect(candidates.length, `${target} 找不到明細頁`).toBeGreaterThan(0);
       for (const f of candidates) {
         expect(readFileSync(f, 'utf-8'), `${f} 缺 ${needle}`).toContain(needle);
