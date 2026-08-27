@@ -44,7 +44,7 @@ const jsonld = collectionPageJsonLd({
   {GROUPS.map(([key, label]) => {
     const list = orgs.filter((o) => o.data.org_type === key);
     return list.length ? (
-      <section>
+      <section id={key}>
         <h2 class="group-title">{label}</h2>
         <ul class="card-grid">
           {list.map((o) => (

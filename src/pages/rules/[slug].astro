@@ -3,15 +3,22 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { url } from '../../lib/url';
 export async function getStaticPaths() {
   const books = await getCollection('rulebooks');
   const rules = await getCollection('rules');
+  const orgs = await getCollection('organizations');
   return books.map((b) => ({
     params: { slug: b.id },
-    props: { book: b, rules: rules.filter((r) => r.data.rulebook === b.id) },
+    props: {
+      book: b,
+      rules: rules.filter((r) => r.data.rulebook === b.id),
+      // 訂定單位的站內條目（organization 欄位是顯示用字串，對不上 slug，見 content.config）。
+      org: orgs.find((o) => o.id === b.data.organization_slug) ?? null,
+    },
   }));
 }
-const { book, rules } = Astro.props;
+const { book, rules, org } = Astro.props;
 const d = book.data;
 
 // 賽制規格：只列有值的欄位，標籤用臺灣用語
@@ -60,6 +67,11 @@ const heroDesc = `制定：${d.organization}｜版本：${d.version}${effectiveD
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '規則', href: '/rules/' }, { name: d.name, href: `/rules/${book.id}/` }]} />
   {d.source_document_url && (
     <p style="margin:0 0 20px"><a href={d.source_document_url} rel="nofollow noopener" target="_blank" style="font-weight:650">原始官方文件 ↗</a></p>
+  )}
+  {org && (
+    <p style="margin:0 0 20px">
+      這套規則由 <a href={url(`/organizations/${org.id}/`)} style="font-weight:650">{org.data.name} →</a> 訂定。
+    </p>
   )}
   {specRows.length > 0 && (
     <section class="panel">

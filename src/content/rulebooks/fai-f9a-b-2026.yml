@@ -1,5 +1,6 @@
 name: FAI F9A-B 2026
 organization: FAI (Fédération Aéronautique Internationale)
+organization_slug: fai
 rule_system: FAI
 version: '2026'
 language: en

@@ -90,6 +90,14 @@ const rulebooks = defineCollection({
   schema: z.object({
     name: z.string(),
     organization: z.string(),
+    // 2026-08-27 加。organization 是顯示用的自由字串（「FAI (Fédération Aéronautique
+    // Internationale)」），對不上 organizations 的 slug，所以另立一欄。
+    // 加它的理由不是欄位好看：2026-08-03 收錄 FAI／FIDA 時的原話是「讀者看得到規則卻查不到
+    // 規則是誰訂的」，但那次只建了資料、沒有把兩邊連起來——於是 /organizations/fai/ 至今
+    // 是 URL is unknown to Google，整個 /organizations/ 子樹（索引＋7 個明細）從未被爬取。
+    // 全站唯一連到它們的是頁尾樣板連結與 llms.txt，那不足以讓爬蟲把預算花下去。
+    // 對應的 organizations 條目不存在時留空（教育部目前就沒有條目），不硬湊。
+    organization_slug: z.string().optional(),
     rule_system: z.enum(RULE_SYSTEM),
     version: z.string(),
     language: z.string().default('zh-Hant'),
@@ -168,6 +176,11 @@ const equipment = defineCollection({
   loader: yml('equipment'),
   schema: z.object({
     brand: z.string(),
+    // 廠商在 organizations 的 slug（理由同 rulebooks.organization_slug）。
+    // brand 是資料來源怎麼寫就怎麼存的自由字串（「奧斯丁國際（OURSTEAM）」），
+    // 與 organizations 的 name（「奧斯丁國際有限公司（OURSTEAM）」）對不起來，故另立一欄。
+    // 未收錄該廠商時留空——organizations 是事實型資料，需附來源，不為了補連結硬建條目。
+    brand_slug: z.string().optional(),
     model: z.string(),
     diameter_mm: z.number().optional(),
     weight_g: z.number().optional(),

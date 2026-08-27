@@ -1,5 +1,6 @@
 name: FIDA Drone Soccer Rule Book (Class 40, 5th Revision)
 organization: FIDA (Federation of International Dronesoccer Association)
+organization_slug: fida
 rule_system: FIDA
 version: '2026'
 language: en

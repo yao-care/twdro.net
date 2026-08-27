@@ -4,11 +4,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { parsePrice, motorLabel as toMotorLabel, shortBrand } from '../../lib/price';
+import { url } from '../../lib/url';
 export async function getStaticPaths() {
   const items = await getCollection('equipment');
-  return items.map((it) => ({ params: { slug: it.id }, props: { item: it } }));
+  const orgs = await getCollection('organizations');
+  return items.map((it) => ({
+    params: { slug: it.id },
+    // 廠商條目在建置期解析：slug 打錯或條目被刪，這裡就是 undefined、畫面安靜少一行。
+    // 那種靜默壞法由 tests/organization-links.test.ts 擋下（打錯字要 build 失敗，不是少一個連結）。
+    props: { item: it, org: orgs.find((o) => o.id === it.data.brand_slug) ?? null },
+  }));
 }
-const { item } = Astro.props;
+const { item, org } = Astro.props;
 const d = item.data;
 
 const motorLabel = toMotorLabel(d.motor_type);
@@ -50,6 +57,15 @@ const heroDesc = [brandShort, specSummary, priceText ? `參考售價 ${priceText
       <ul class="data-list">
         {rows.map(([k, v]) => <li><span class="k">{k}</span><span class="v">{v}</span></li>)}
       </ul>
+    </section>
+  )}
+  {org && (
+    <section class="panel">
+      <h2 style="margin-top:0">這台是誰做的</h2>
+      <p style="margin:0">
+        {d.model} 由 <a href={url(`/organizations/${org.id}/`)} style="font-weight:650">{org.data.name} →</a> 生產或代理。
+        該單位在臺灣無人機足球裡做了什麼、有沒有開課或營隊，都在單位頁上，並標明來源。
+      </p>
     </section>
   )}
   {d.sources && d.sources.length > 0 && (
