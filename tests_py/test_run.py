@@ -1,3 +1,4 @@
+import json
 import os
 
 from pipeline.run import (
@@ -105,3 +106,34 @@ def test_load_source_honors_env(monkeypatch):
     monkeypatch.setenv("MOE_SCHOOLS_URL", "https://example.org/custom.json")
     src = _load_source("moe_schools")
     assert src.url == "https://example.org/custom.json"
+
+
+def test_run_source_honors_the_fingerprint_hook(tmp_path, monkeypatch):
+    """來源實作 fingerprint() 時，變更偵測吃指紋而非整包 raw（2026-08-27）。
+
+    存在的理由見 county_edu_news.fingerprint：抓取錯誤要留在 alert 檔裡給人看，
+    但不該被當成「有新公告」而開空 PR。
+    """
+    monkeypatch.chdir(tmp_path)
+
+    class _Src:
+        name = "noisy"
+        out_dir = "pipeline/state/noisy"
+        payloads = [b'{"items":[1],"errors":[]}', b'{"items":[1],"errors":["504"]}']
+
+        def fetch(self):
+            return self.payloads.pop(0)
+
+        @staticmethod
+        def fingerprint(raw):
+            return json.dumps({"items": json.loads(raw)["items"]}).encode("utf-8")
+
+        def parse(self, raw):
+            return [Record(slug="alert", data=json.loads(raw), raw=raw, free_text_fields=[])]
+
+    src = _Src()
+    mp = "pipeline/state/manifest.json"
+    _, changed = run_source(src, mp, lambda _t: [])
+    assert changed is True                       # 第一輪：新來源
+    _, changed = run_source(src, mp, lambda _t: [])
+    assert changed is False, "只有 errors 變動不得觸發告警"

@@ -1,8 +1,8 @@
-detected_at: '2026-07-24'
+detected_at: '2026-08-27'
 note: 官方規則頁指紋變更。請人工比對官方頁，必要時**手動**更新 rulebooks/rules——切勿自動改寫官方規則。
 pages:
-- url: https://www.dronesoccer.org/dronesoccer/rules
-  content_hash: 2f974ac75758564709142fea4ce64b50a497462a6ed2bbea8c8d0ce9e74005c6
+- url: https://www.dronesoccer.org/images/dronesoccer/desktop-rule.svg
+  content_hash: 3c5929062bc392b41c1588b1b2c80408fc9458aa872793093d0285faf5f6a95b
   fetched_ok: true
 - url: https://www.dronesoccer.org/static/files/Rule-book-2.pdf
   content_hash: 0e29aa6555e44fac9fe9f1bd75788ed7c21b36e271deccaab1cf6ef5144ed6f3

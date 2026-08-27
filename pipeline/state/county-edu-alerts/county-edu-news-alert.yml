@@ -1,4 +1,4 @@
-note: 縣市教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進
+note: 縣市政府／教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進
   src/content/events/。本 adapter 只偵測不改寫（站規鐵則 1）。
 matched: []
 matched_count: 0

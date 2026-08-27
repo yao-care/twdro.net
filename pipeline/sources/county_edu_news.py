@@ -221,6 +221,21 @@ class CountyEduNews:
         payload = {"items": collected, "errors": sorted(errors, key=lambda x: x["feed"])}
         return json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
 
+    @staticmethod
+    def fingerprint(raw: bytes) -> bytes:
+        """變更偵測只吃 `items`——**抓取錯誤不是「有新公告」的訊號**（2026-08-27）。
+
+        errors 仍留在 payload 與 alert 檔裡（人要看得到誰改版了），但不進指紋。
+        不這樣切的代價已經實際發生過：18 個縣市 feed 之中只要有一個在 runner 上
+        504／逾時（基隆、屏東、臺北、高雄那批在 GitHub runner 上時好時壞，本機同時
+        全部 200），指紋就變，於是開出一個 `matched: []`、`results_candidates: []`
+        的空 PR，內容只有錯誤訊息——正是 fetch docstring 想擋的「天天開空 PR」，
+        只是從另一道門進來。
+        """
+        payload = json.loads(raw.decode("utf-8"))
+        return json.dumps({"items": payload.get("items", [])},
+                          ensure_ascii=False, sort_keys=True).encode("utf-8")
+
     def parse(self, raw: bytes) -> list[Record]:
         payload = json.loads(raw.decode("utf-8"))
         items = payload.get("items", [])

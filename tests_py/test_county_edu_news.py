@@ -190,3 +190,61 @@ def test_unrelated_announcements_do_not_change_the_hash(tmp_path, monkeypatch):
     # 但真的多了一則無人機足球公告時，就必須偵測得到
     body["v"] = _xml('<item><title>無人機足球競賽實施計畫</title><link>u2</link></item>')
     assert src.fetch() != first
+
+
+def test_fetch_errors_do_not_trigger_an_alert(tmp_path, monkeypatch):
+    """縣市 feed 逾時／504 **不是**「有新公告」，不得觸發告警（2026-08-27）。
+
+    PR #3 就是這樣來的：18 個來源裡有 5 個在 GitHub runner 上抓失敗（同一時間本機
+    全部 200），fetch_errors 進了 payload → 指紋變 → 開出一個 matched: []、
+    results_candidates: [] 的空 PR，內容只有錯誤訊息。錯誤仍要寫進 alert 檔供人
+    診斷對方改版，但只有 items 進指紋。
+    """
+    cfg = tmp_path / "feeds.yml"
+    cfg.write_text("feeds:\n  - label: A\n    url: https://a.example/rss\n    mode: rss\n"
+                   "  - label: B\n    url: https://b.example/rss\n    mode: rss\n",
+                   encoding="utf-8")
+
+    xml_a = ('<rss><channel>'
+             '<item><title>115年度無人機足球競賽成績公告</title><link>u1</link></item>'
+             '</channel></rss>')
+    # B 平時就沒有無人機足球公告（縣市來源絕大多數如此），所以它掛掉時 items 不變，
+    # 兩輪之間唯一的差別就是 errors——正是 PR #3 的形狀。
+    xml_b = '<rss><channel><item><title>本縣代理教師甄選簡章</title><link>j1</link></item></channel></rss>'
+
+    class _Res:
+        def __init__(self, text):
+            self.text = text
+            self.content = text.encode("utf-8")
+            self.headers = {"Content-Type": "application/xml; charset=utf-8"}
+        def raise_for_status(self): return None
+
+    state = {"b_ok": True}
+
+    def fake_get(url, **_kw):
+        if url.startswith("https://b."):
+            if not state["b_ok"]:
+                raise RuntimeError("504 Server Error: Gateway Time-out")
+            return _Res(xml_b)
+        return _Res(xml_a)
+
+    monkeypatch.setattr("pipeline.sources.county_edu_news.requests.get", fake_get)
+    src = CountyEduNews(config_path=str(cfg), content_root=str(tmp_path))
+
+    healthy = src.fetch()
+    state["b_ok"] = False
+    degraded = src.fetch()
+
+    assert degraded != healthy, "錯誤仍要留在 payload 裡，人才看得到誰掛了"
+    assert src.fingerprint(degraded) == src.fingerprint(healthy), "抓取錯誤不得觸發告警"
+    assert "504" in json.loads(degraded.decode("utf-8"))["errors"][0]["error"]
+
+    # 但真的多一則無人機足球公告時，指紋必須變。
+    state["b_ok"] = True
+    more = ('<rss><channel>'
+            '<item><title>115年度無人機足球競賽成績公告</title><link>u1</link></item>'
+            '<item><title>無人機足球競賽實施計畫</title><link>u2</link></item>'
+            '</channel></rss>')
+    monkeypatch.setattr("pipeline.sources.county_edu_news.requests.get",
+                        lambda url, **_kw: _Res(more))
+    assert src.fingerprint(src.fetch()) != src.fingerprint(healthy)

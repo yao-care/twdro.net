@@ -7,7 +7,7 @@ from pipeline.run import (
 )
 from pipeline.report import Candidate
 from pipeline.scrub import ScrubResult
-from pipeline.sources.intl_rules import IntlRules, ALERT_SLUG
+from pipeline.sources.intl_rules import IntlRules, ALERT_SLUG, DEFAULT_URLS
 
 
 def _raw(pages: dict) -> bytes:
@@ -67,3 +67,14 @@ def test_route_intl_alerts_goes_to_pr_never_auto(tmp_path, monkeypatch):
     assert "pipeline/state/manifest.json" in pr_paths     # merge 後收斂變更偵測
     body = open(PR_BODY_PATH, encoding="utf-8").read()
     assert "切勿自動改寫官方規則" in body
+
+
+def test_default_urls_hold_only_byte_stable_rule_files():
+    """監看對象必須是「位元組變＝規則變」的檔案，不是前端框架產生的頁面（2026-08-27）。
+
+    `https://www.dronesoccer.org/dronesoccer/rules` 曾在清單裡兩次觸發假警報：那是
+    Next.js SPA，HTML 帶著每次部署都換的 buildId，而 pageProps 是空的——規則內容
+    根本不在 HTML 裡，指紋只偵測得到對方重新部署。把它釘死在清單外。
+    """
+    assert "https://www.dronesoccer.org/dronesoccer/rules" not in DEFAULT_URLS
+    assert all(u.rsplit("?", 1)[0].endswith((".pdf", ".svg")) for u in DEFAULT_URLS), DEFAULT_URLS

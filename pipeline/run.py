@@ -31,7 +31,13 @@ def run_source(source, manifest_path: str, ner: NER) -> tuple[list[Candidate], b
     """
     raw = source.fetch()
     key = source.name
-    h = content_hash(raw)
+    # 指紋預設吃整包 raw；來源可另外實作 fingerprint(raw)，把「與告警無關的雜訊」
+    # 排除在變更偵測之外，同時仍讓 parse 看得到那些欄位並寫進 alert 檔。
+    # 存在的理由是實測過的（2026-08-27）：county_edu_news 把 fetch_errors 放進 payload，
+    # 於是任一個縣市 feed 在 runner 上逾時／504，指紋就變 → 開一個 matched: [] 的空 PR。
+    # 錯誤要看得到（診斷對方改版），但不該當成「有新公告」的訊號。
+    fingerprint = getattr(source, "fingerprint", None)
+    h = content_hash(fingerprint(raw) if callable(fingerprint) else raw)
     manifest = Manifest.load(manifest_path)
     if not manifest.is_changed(key, h):
         return [], False
