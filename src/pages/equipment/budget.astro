@@ -1,0 +1,192 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+import { parsePrice, shortBrand } from '../../lib/price';
+import { batteryUnitPrice } from '../../lib/budget';
+import { webPageJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
+
+// 這頁回答的是賣場回答不了的那個問題：「一整隊要編多少預算？」
+// 廠商官網只算自家一款的單價，跨品牌的整隊總價沒有人在算——而學校老師要編的正是這個數字。
+// 機型與價格全部來自 src/content/equipment，賽事台數來自 src/content/rulebooks，不寫死。
+const equipment = await getCollection('equipment');
+const models = equipment
+  .map((it) => ({ id: it.id, brand: shortBrand(it.data.brand), model: it.data.model, parsed: parsePrice(it.data.list_price), raw: it.data.list_price ?? '' }))
+  .filter((m) => !m.parsed.soldOut && m.parsed.amount != null)
+  .sort((a, b) => a.parsed.amount! - b.parsed.amount!)
+  .map((m) => ({ id: m.id, name: `${m.brand} ${m.model}`, price: m.parsed.amount!, note: m.parsed.text ?? '' }));
+
+// 單顆電池推估價：由「同款球機因配幾顆電池而有兩個價」的標法反推（見 lib/budget.ts）。
+// 推不出來就是 null，畫面上整行不出現——寧可少一行，也不掰一個數字。
+const batteryUnit = equipment
+  .map((it) => batteryUnitPrice(it.data.list_price))
+  .find((v): v is number => v != null) ?? null;
+
+const books = (await getCollection('rulebooks')).map((b) => ({
+  id: b.id,
+  name: b.data.name,
+  active: b.data.competition_spec?.active_players_max ?? null,
+  subs: b.data.competition_spec?.substitutes ?? null,
+  weightMax: b.data.competition_spec?.drone_weight_g_max ?? null,
+}));
+
+const dataJson = JSON.stringify({ models, books, batteryUnit });
+const cheapest = models[0], dearest = models[models.length - 1];
+const field = 'display:block;width:100%;font-size:1.05rem;padding:10px 12px;margin-top:6px;border:1px solid var(--color-border);border-radius:9px;background:var(--color-surface)';
+
+const metaDescription =
+  `無人機足球一整隊要花多少錢？選賽事與隊伍規模，直接算出球機、備援機、電池與備品的總預算，`
+  + `並用本站收錄的 ${models.length} 款現售球機（NT$${cheapest.price.toLocaleString('en-US')}–${dearest.price.toLocaleString('en-US')}）逐款比總價。`;
+
+const jsonld = webPageJsonLd({
+  name: '無人機足球預算試算器',
+  url: 'https://twdro.net/equipment/budget/',
+  description: metaDescription,
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '器材', url: 'https://twdro.net/equipment/' },
+  { name: '預算試算器', url: 'https://twdro.net/equipment/budget/' },
+]);
+---
+<BaseLayout
+  title="無人機足球預算試算器：一隊要多少錢 | twdro.net"
+  description={metaDescription}
+  heroTitle="無人機足球預算試算器"
+  heroDesc="球機單價只是第一筆。選賽事與隊伍規模，算出整隊的球機、備援機、電池與備品預算，並逐款比較不同機型的總價。"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2>為什麼要算整隊，而不是算一台</h2>
+    <p style="margin:0">
+      查價格查到的都是單機價，但真正要編的預算是一整隊：上場台數由賽事規則決定，
+      撞壞了要有備援機，電池是消耗品，槳與防護框會一直耗損。
+      這頁把這幾筆一次算完，數字全部取自本站收錄的機型與規則資料，
+      看得到出處也看得到怎麼算的。<strong>本站不販售任何器材</strong>，
+      售價與售況以廠商最新公告為準。
+    </p>
+  </section>
+
+  <form id="bg-form" class="panel" style="display:grid;gap:16px;max-width:40rem;margin:0 0 20px">
+    <label>目標賽事規則
+      <select id="bg-rule" style={field}>
+        {books.map((b) => <option value={b.id}>{b.name}</option>)}
+      </select>
+      <span class="bg-hint text-muted" id="bg-rule-hint" style="display:block;margin-top:6px;font-size:0.92rem"></span>
+    </label>
+    <label>球機機型
+      <select id="bg-model" style={field}>
+        {models.map((m) => <option value={m.id}>{m.name}　{m.note}</option>)}
+      </select>
+    </label>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:12px">
+      <label>上場台數 <input id="bg-active" type="number" inputmode="numeric" min="1" max="20" value="5" style={field} /></label>
+      <label>備援機 <input id="bg-spare" type="number" inputmode="numeric" min="0" max="20" value="1" style={field} /></label>
+      <label>每台額外電池 <input id="bg-battery" type="number" inputmode="numeric" min="0" max="20" value="2" style={field} /></label>
+      <label>備品預留 (%) <input id="bg-spares" type="number" inputmode="numeric" min="0" max="50" value="10" style={field} /></label>
+    </div>
+    <button type="submit" class="btn-action" style="margin-top:4px">算這一隊要多少 →</button>
+  </form>
+
+  <div id="bg-result"></div>
+
+  <p class="tool-note">
+    試算不含場地、報名費、運費與保固方案；標註「教育單位／課程用專案」的品項，
+    實際條件需與廠商洽談。價格資料的完整內容與來源見
+    <a href={url('/equipment/')}>器材與價格總覽</a>。
+  </p>
+
+  <section class="panel" style="margin-top:24px">
+    <h2>算完之後</h2>
+    <ul style="margin:0;padding-left:1.4em">
+      <li>想知道各價位帶買到的是什麼，看 <a href={url('/learn/entry-cost/')}>無人機足球價格與入門預算</a>。</li>
+      <li>還沒決定機型，先對準賽事規格：<a href={url('/learn/choosing-your-first-drone/')}>第一台球機怎麼挑</a>、<a href={url('/equipment/compliance-check/')}>球機合規檢查器</a>。</li>
+      <li>要以學校名義採購的，先看 <a href={url('/learn/drone-registration-and-licence/')}>球機要不要註冊、老師要不要考照</a>——學校所有的機器，法規要求與個人買不一樣。</li>
+      <li>要從零把隊伍拉起來，見 <a href={url('/learn/starting-a-school-club/')}>如何在學校成立社團</a>。</li>
+    </ul>
+  </section>
+
+  <script type="application/json" id="bg-data" set:html={dataJson} />
+  <script>
+    import { calcBudget } from '../../lib/budget';
+    import { track } from '../../lib/analytics';
+
+    interface Model { id: string; name: string; price: number; note: string }
+    interface Book { id: string; name: string; active: number | null; subs: number | null; weightMax: number | null }
+    const { models, books, batteryUnit } = JSON.parse(document.getElementById('bg-data')!.textContent!) as
+      { models: Model[]; books: Book[]; batteryUnit: number | null };
+
+    const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const form = el<HTMLFormElement>('bg-form');
+    const ruleSel = el<HTMLSelectElement>('bg-rule');
+    const modelSel = el<HTMLSelectElement>('bg-model');
+    const hint = el<HTMLElement>('bg-rule-hint');
+    const result = el<HTMLElement>('bg-result');
+    const num = (id: string) => Number(el<HTMLInputElement>(id).value) || 0;
+    const money = (n: number) => `NT$${Math.round(n).toLocaleString('en-US')}`;
+
+    // 選了賽事就把上場台數與備援數帶進來——規則怎麼寫就帶什麼，使用者仍可覆寫。
+    const syncRule = () => {
+      const b = books.find((x) => x.id === ruleSel.value);
+      if (!b) return;
+      if (b.active != null) el<HTMLInputElement>('bg-active').value = String(b.active);
+      if (b.subs != null) el<HTMLInputElement>('bg-spare').value = String(b.subs);
+      hint.textContent = [
+        b.active != null ? `上場 ${b.active} 台` : null,
+        b.subs != null ? `替補 ${b.subs} 台` : null,
+        b.weightMax != null ? `球機重量上限 ${b.weightMax} 公克` : null,
+      ].filter(Boolean).join('・');
+    };
+    ruleSel.addEventListener('change', syncRule);
+    syncRule();
+
+    const build = (price: number) => calcBudget({
+      dronePrice: price,
+      activeDrones: num('bg-active'),
+      spareDrones: num('bg-spare'),
+      batteriesPerDrone: num('bg-battery'),
+      batteryUnit,
+      sparePartsRate: num('bg-spares') / 100,
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const chosen = models.find((m) => m.id === modelSel.value);
+      if (!chosen) return;
+      const r = build(chosen.price);
+      track('budget_estimate_submit', {
+        rule_id: ruleSel.value, model_id: chosen.id, drone_count: r.droneCount, total: r.total,
+      });
+
+      const td = 'style="padding:.6rem .7rem;border-bottom:1px solid var(--color-border)"';
+      const rows = r.lines.map((l) =>
+        `<tr><th style="text-align:left;padding:.6rem .7rem;border-bottom:1px solid var(--color-border);color:var(--color-text-muted);font-weight:600">${l.label}</th>`
+        + `<td ${td}>${l.detail}</td><td ${td} align="right"><strong>${money(l.amount)}</strong></td></tr>`).join('');
+
+      // 同一組條件換成別款機型會是多少——這是賣場給不了的那張表。
+      const compare = models.map((m) => ({ m, total: build(m.price).total })).sort((a, b) => a.total - b.total);
+      const compareRows = compare.map(({ m, total }) =>
+        `<tr${m.id === chosen.id ? ' style="background:var(--color-surface-muted)"' : ''}>`
+        + `<td ${td}>${m.id === chosen.id ? '▶ ' : ''}${m.name}</td><td ${td}>${m.note}</td>`
+        + `<td ${td} align="right"><strong>${money(total)}</strong></td></tr>`).join('');
+
+      const batteryNote = batteryUnit == null
+        ? '<p style="margin:12px 0 0;color:var(--color-text-muted);font-size:0.95rem">目前的器材資料推導不出單顆電池價，電池那一筆未列入試算。</p>'
+        : `<p style="margin:12px 0 0;color:var(--color-text-muted);font-size:0.95rem">單顆電池 ${money(batteryUnit)} 是推估值：取同一款球機「一機兩電」與「一機六電」兩個標價的差額除以顆數差，非廠商公告的電池單價。</p>`;
+
+      result.innerHTML =
+        `<div class="panel"><h2 style="margin-top:0">這一隊的預算：${money(r.total)}</h2>`
+        + `<p class="text-muted" style="margin:0 0 14px">${chosen.name}，共 ${r.droneCount} 台</p>`
+        + `<table class="data-table"><tbody>${rows}`
+        + `<tr><th style="text-align:left;padding:.6rem .7rem;font-weight:800">合計</th><td></td>`
+        + `<td style="padding:.6rem .7rem" align="right"><strong style="font-size:1.25rem">${money(r.total)}</strong></td></tr>`
+        + `</tbody></table>${batteryNote}</div>`
+        + `<div class="panel" style="margin-top:20px"><h2 style="margin-top:0">同樣的隊伍，換成其他機型</h2>`
+        + `<p class="text-muted" style="margin:0 0 14px">條件相同、只換球機，由低到高排列。單機價差不等於整隊價差——台數會把差距放大。</p>`
+        + `<table class="data-table"><tbody>${compareRows}</tbody></table></div>`;
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</BaseLayout>

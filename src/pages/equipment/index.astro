@@ -65,6 +65,12 @@ const jsonld = collectionPageJsonLd({
           <span class="meta">看組裝順序、槳與電池線材的檢查步驟</span>
         </a>
       </li>
+      <li>
+        <a class="card-link" href={url('/equipment/budget')}>
+          <span class="name">要編一整隊的預算</span>
+          <span class="meta">含備援機、電池與備品，逐款比整隊總價</span>
+        </a>
+      </li>
     </ul>
   </section>
 
@@ -91,7 +97,8 @@ const jsonld = collectionPageJsonLd({
   </section>
 
   <p style="margin:0 0 24px">
-    <a class="btn-action" href={url('/equipment/compliance-check')}>球機合規檢查器 →</a>
+    <a class="btn-action" href={url('/equipment/budget')}>預算試算器 →</a>
+    <a class="btn-outline" href={url('/equipment/compliance-check')} style="margin-left:10px">球機合規檢查器</a>
     <a class="btn-outline" href={url('/learn/drone-size-20cm-vs-40cm')} style="margin-left:10px">先分清 20／40 公分級</a>
   </p>
 
@@ -116,6 +123,7 @@ const jsonld = collectionPageJsonLd({
     <h2>買之前最後檢查</h2>
     <ul style="margin:0;padding-left:1.4em">
       <li>先確認目標賽事採用哪一套規則與球機級距。</li>
+      <li>以學校名義採購的，機器登記在學校名下就進入不分重量的註冊範圍，指導老師與學生的操作證要求也不同——見<a href={url('/learn/drone-registration-and-licence')}>球機要不要註冊、老師要不要考照</a>。</li>
       <li>確認參考售價包含幾顆電池、遙控器、保固或課程，不把方案價當成裸機價。</li>
       <li>材料包或自行換零件後，依<a href={url('/learn/drone-assembly-basics')}>組裝檢查流程</a>測試，再用<a href={url('/equipment/compliance-check')}>合規檢查器</a>做初步比對。</li>
     </ul>

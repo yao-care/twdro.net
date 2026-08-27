@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
+import { SITE_SECTIONS } from '../src/lib/nav';
 
 // 教育文裡有些句子是「攤開 src/content/equipment 才成立」的斷言（幾倍價差、只有一款有刷、
 // 完售的全來自同一家…）。器材資料由人工／pipeline PR 更新，改了資料而沒改文章，
@@ -67,10 +68,18 @@ describe('choosing-your-first-drone 的資料斷言', () => {
     expect(race).toHaveLength(2);
   });
 
-  it('文中提到的器材頁連結都指向實際存在的機型', () => {
+  it('文中提到的器材頁連結都指向實際存在的機型或工具頁', () => {
+    // /equipment/ 底下除了機型明細頁，還有工具子頁（合規檢查器、預算試算器）。
+    // 這份豁免清單原本是硬寫的 'compliance-check' 一個字串，於是 2026-08-27 加第二個
+    // 工具頁時這個測試轉紅——問題不在新頁，在清單沒有真實來源。改讀 lib/nav 的
+    // 器材區塊 subPages：那本來就是全站 IA 的單一真實來源，日後再加工具頁不必改測試。
+    const toolSlugs = new Set(
+      (SITE_SECTIONS.find((sec) => sec.urlBase === '/equipment/')?.subPages ?? [])
+        .map((item) => item.href.replace(/^\/equipment\/|\/$/g, '')),
+    );
     const linked = [...article.matchAll(/\]\(\/equipment\/([a-z0-9-]+)\/\)/g)].map((m) => m[1]);
     const slugs = new Set(equipment.map((e) => e.slug));
-    const missing = linked.filter((s) => s !== 'compliance-check' && !slugs.has(s));
+    const missing = linked.filter((s) => !toolSlugs.has(s) && !slugs.has(s));
     expect(missing).toEqual([]);
   });
 
