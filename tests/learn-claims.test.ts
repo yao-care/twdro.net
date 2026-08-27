@@ -334,12 +334,19 @@ describe('who-promotes-drone-soccer-taiwan 的資料斷言', () => {
     expect(linked.filter((s) => !slugs.has(s))).toEqual([]);
   });
 
-  it('文中提到的隊伍頁連結都指向實際存在的隊伍', () => {
+  it('文中提到的隊伍頁連結都指向實際存在的隊伍或工具頁', () => {
+    // /teams/ 底下除了隊伍明細，還有工具子頁（成績反查）。豁免清單讀 lib/nav 的
+    // SITE_SECTIONS subPages——與 equipment 那次同一個修法，IA 本來就有單一真實來源，
+    // 日後再加子頁不必回來改測試（2026-08-27 連 /teams/records/ 時踩到）。
+    const toolSlugs = new Set(
+      (SITE_SECTIONS.find((sec) => sec.urlBase === '/teams/')?.subPages ?? [])
+        .map((item) => item.href.replace(/^\/teams\/|\/$/g, '')),
+    );
     const slugs = new Set(readdirSync('src/content/teams').filter((f) => f.endsWith('.yml')).map((f) => f.replace(/\.yml$/, '')));
     for (const file of ['who-promotes-drone-soccer-taiwan', 'taiwan-international-results']) {
       const md = readFileSync(`src/content/learn/${file}.md`, 'utf8');
       const linked = [...md.matchAll(/\]\(\/teams\/([a-z0-9-]+)\/\)/g)].map((m) => m[1]);
-      expect(linked.filter((s) => !slugs.has(s))).toEqual([]);
+      expect(linked.filter((s) => !toolSlugs.has(s) && !slugs.has(s))).toEqual([]);
     }
   });
 });
