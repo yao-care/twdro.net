@@ -8,6 +8,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
 import { hasTeam, teamText, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults, FINISHED_STATUSES } from '../../lib/results';
 import { isPublicEvent, verificationLabel } from '../../lib/enums';
+import { citySlug } from '../../lib/geo.mjs';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
 import { resultsMailto, resultsUrl, correctionMailto } from '../../lib/correction';
 export async function getStaticPaths() {
@@ -40,6 +41,8 @@ const organizerOrgs = (d.organizer_slugs ?? []).length
       : []);
 // 我方最後確認日：取各來源 retrieved_at 的最大值，與 sitemap lastmod 同一套語意。
 // 尚未舉行的賽事把它明講出來——這一場已經因颱風延期過一次，而讀者是要決定要不要出門的人。
+// 地點連到該縣市的彙整頁：看完這一場的人，下一個問題通常是「這附近還有嗎」。
+const cityHref = citySlug(d.schedule.city) ? url(`/events/city/${citySlug(d.schedule.city)}/`) : null;
 const lastChecked = (d.sources ?? [])
   .map((x) => x.retrieved_at)
   .filter((x): x is string => !!x)
@@ -152,7 +155,9 @@ const seoDesc = eventPageDescription(d);
       <li><span class="k">地點</span><span class="v">
         {hasLocation
           ? <>
-              {d.schedule.city}
+              {d.schedule.city && (cityHref
+                ? <a href={cityHref}>{d.schedule.city}</a>
+                : d.schedule.city)}
               {d.schedule.city && d.schedule.venue_name && ' · '}
               {d.schedule.venue_name && (venueId
                 ? <a href={url(`/venues/${venueId}`)}>{d.schedule.venue_name}</a>

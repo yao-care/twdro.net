@@ -14,6 +14,7 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
+import { citySlug } from './geo.mjs';
 import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = fileURLToPath(new URL('../..', import.meta.url));
@@ -149,6 +150,16 @@ export function buildLastmodMap(contentDir, today) {
       if (!base) continue;
       put(`${base}${slug}/`, date);
       if (INDEX_OF[base]) put(INDEX_OF[base], date);
+
+      // 縣市彙整頁沒有自己的內容檔——它是由賽事交叉產生的，所以 lastmod 要從賽事回推：
+      // 取該縣市所有賽事查核日的最大值。不接這一段的話，這一整層在 sitemap 裡沒有
+      // lastmod，而那正是 2026-07-28 讓 16 個網址卡在「已找到／尚未建立索引」的原因。
+      // 用同一份 geo.mjs 的對照表，避免與頁面端走鐘（走鐘的樣子是某個縣市頁沒有 lastmod）。
+      if (collection.name === 'events' && !/(?:^|\n)status\s*:\s*draft\b/.test(text)) {
+        const city = text.match(/(?:^|\n)\s+city\s*:\s*"?([^"\n]+)"?/)?.[1]?.trim();
+        const cs = citySlug(city);
+        if (cs) put(`/events/city/${cs}/`, date);
+      }
     }
   }
 

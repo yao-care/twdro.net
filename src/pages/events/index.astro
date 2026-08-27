@@ -6,6 +6,7 @@ import SubscribeBox from '../../components/SubscribeBox.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { hasTeam } from '../../lib/results';
+import { citySlug } from '../../lib/geo.mjs';
 import { collectionPageJsonLd } from '../../lib/jsonld';
 
 const all = (await getCollection('events'))
@@ -55,6 +56,17 @@ const resultCount = all.filter((e) => {
   return !!r && (hasTeam(r.champion_team) || hasTeam(r.runner_up_team) || hasTeam(r.third_place_team)
     || r.divisions?.some((x) => hasTeam(x.champion_team) || hasTeam(x.runner_up_team) || hasTeam(x.third_place_team)));
 }).length;
+
+// 依縣市分組：找比賽的人問的是「我這邊有沒有」。縣市頁完全由既有資料交叉產生，
+// 這裡只是把入口露出來——沒有入口的頁等於不存在（/organizations/ 卡了 38 天沒被爬就是教訓）。
+const cityCounts = new Map<string, number>();
+for (const e of all) {
+  const slug = citySlug(e.data.schedule.city);
+  if (slug) cityCounts.set(slug, (cityCounts.get(slug) ?? 0) + 1);
+}
+const cities = [...cityCounts.entries()]
+  .map(([slug, count]) => ({ slug, name: all.find((e) => citySlug(e.data.schedule.city) === slug)!.data.schedule.city!, count }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hant'));
 
 const groups = [
   { key: 'open', heading: '開放報名中', items: open,
@@ -106,6 +118,14 @@ const jsonld = collectionPageJsonLd({
         <strong style="display:block;font-size:1.35rem">{resultCount}</strong>
         <span class="text-muted"><a href={url('/events/results')}>已有成績 →</a></span>
       </div>
+    </div>
+    <div style="margin:0 0 18px">
+      <h3 style="margin:0 0 8px;font-size:1.02rem">依縣市找</h3>
+      <p style="margin:0;line-height:2">
+        {cities.map((c) => (
+          <><a href={url(`/events/city/${c.slug}/`)} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{c.name}<span class="text-muted" style="font-size:.88rem">　{c.count}</span></a></>
+        ))}
+      </p>
     </div>
     <ul class="card-grid" style="margin:0">
       <li><a class="card-link" href={url('/events/results')}><span class="name">看比賽成績</span><span class="meta">各賽事名次一次看完，附原始公告來源</span></a></li>

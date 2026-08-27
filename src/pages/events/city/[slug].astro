@@ -1,0 +1,203 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import EventCard from '../../../components/EventCard.astro';
+import { url } from '../../../lib/url';
+import { isPublicEvent } from '../../../lib/enums';
+import { citySlug, cityFromSlug, normalizeCity } from '../../../lib/geo.mjs';
+import { collectRecords, groupBySchool } from '../../../lib/records';
+import { hasPublishedResults, awaitsResults } from '../../../lib/results';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
+
+// 為什麼有縣市頁（2026-08-27）：
+// 找比賽的人問的是「我這邊有沒有」，不是「全臺有哪些」。地理意圖在 GSC 上已經看得到——
+// 「無人機足球台灣」近 90 天 18 次曝光，是站上第二大的查詢，而它目前打到的是首頁（pos 64）。
+// 縣市這一層站上有資料卻沒有頁：19 場賽事分佈在 10 個縣市，場館、學校、成績都標了縣市，
+// 只是從來沒有人能用「臺中」當入口把它們看在一起。
+//
+// 這一頁完全由既有資料交叉產生，不新增任何內容——縣市多一場賽事，頁就自己長出來。
+export async function getStaticPaths() {
+  const [events, venues, teams, orgs] = await Promise.all([
+    getCollection('events'), getCollection('venues'), getCollection('teams'), getCollection('organizations'),
+  ]);
+  const publicEvents = events.filter((e) => isPublicEvent(e.data.status));
+
+  const records = collectRecords(publicEvents.map((e) => ({
+    slug: e.id, title: e.data.title,
+    eventStart: e.data.schedule.event_start ?? null,
+    results: e.data.results,
+  })));
+  const schools = groupBySchool(records);
+
+  const cities = [...new Set(publicEvents.map((e) => citySlug(e.data.schedule.city)).filter((s): s is string => !!s))];
+
+  return cities.map((slug) => {
+    const name = cityFromSlug(slug)!;
+    const inCity = <T extends { data: { city?: string } }>(list: T[]) =>
+      list.filter((x) => normalizeCity(x.data.city) === name);
+    return {
+      params: { slug },
+      props: {
+        city: name,
+        events: publicEvents
+          .filter((e) => citySlug(e.data.schedule.city) === slug)
+          .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? '')),
+        venues: inCity(venues),
+        teams: inCity(teams),
+        orgs: inCity(orgs),
+        // 成績裡標明縣市的學校（來源寫「恆興疾風（新竹 十興國小）」那種）。
+        // 縣市在來源上常寫成不帶「市／縣」的簡稱，所以用去尾後的字串比對。
+        schools: schools.filter((s) => s.extra.area && name.startsWith(s.extra.area.replace(/[市縣]$/, ''))),
+      },
+    };
+  });
+}
+
+const { city, events, venues, teams, orgs, schools } = Astro.props;
+
+const withResults = events.filter((e) => hasPublishedResults(e.data.results));
+const pending = events.filter((e) => awaitsResults(e.data.status, e.data.results));
+const upcoming = events.filter((e) => !['completed', 'results_pending', 'archived', 'cancelled'].includes(e.data.status));
+
+const bits = [
+  `${events.length} 場賽事`,
+  venues.length ? `${venues.length} 個已建檔場地` : null,
+  teams.length ? `${teams.length} 支隊伍` : null,
+  schools.length ? `${schools.length} 所在成績名單上的學校` : null,
+].filter(Boolean).join('、');
+
+const metaDescription =
+  `${city}的無人機足球：${bits}。`
+  + (upcoming.length ? `目前有 ${upcoming.length} 場尚未舉行。` : '')
+  + '每一筆都標明來源與查核日期，查不到的留白不推測。';
+
+const jsonld = collectionPageJsonLd({
+  name: `${city}的無人機足球賽事`,
+  url: `https://twdro.net/events/city/${citySlug(city)}/`,
+  description: metaDescription,
+  items: events.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '賽事', url: 'https://twdro.net/events/' },
+  { name: city, url: `https://twdro.net/events/city/${citySlug(city)}/` },
+]);
+---
+<BaseLayout
+  title={`${city}無人機足球：賽事、場地與隊伍 | twdro.net`}
+  description={metaDescription}
+  heroTitle={`${city}的無人機足球`}
+  heroDesc={bits}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: city, href: `/events/city/${citySlug(city)}/` }]} />
+
+  {events.length > 0 && (
+    <section style="margin-bottom:32px">
+      <h2 style="margin:0 0 16px">在{city}舉行的賽事（{events.length}）</h2>
+      <div style="display:grid;gap:18px">
+        {events.map((e) => (
+          <EventCard
+            id={e.id}
+            title={e.data.title}
+            status={e.data.status}
+            eventStart={e.data.schedule.event_start}
+            eventEnd={e.data.schedule.event_end}
+            city={e.data.schedule.city}
+            venue={e.data.schedule.venue_name}
+            registrationEnd={e.data.schedule.registration_end}
+            registrationUrl={e.data.registration_url}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {withResults.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">已公布成績的場次</h2>
+      <ul class="data-list">
+        {withResults.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '—'}</span>
+            <span class="v"><a href={url(`/events/${e.id}/`)}>{e.data.title}</a></span>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="margin:12px 0 0">
+        全部名次見<a href={url('/events/results/')}>比賽成績總表</a>；
+        想用隊伍或學校當入口，見<a href={url('/teams/records/')}>成績反查</a>。
+      </p>
+    </section>
+  )}
+
+  {schools.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">{city}在成績名單上的學校</h2>
+      <p class="text-muted" style="margin:0 0 14px">來源公告有標明學校的那些，逐筆連得回原始賽事。</p>
+      <ul class="data-list">
+        {schools.map((s) => (
+          <li>
+            <span class="k">{s.key}</span>
+            <span class="v">
+              {s.rows.map((r, i) => (
+                <>
+                  {i > 0 && <br />}
+                  {r.place}　{r.team !== s.key && <strong>{r.team}</strong>}　
+                  <a href={url(`/events/${r.eventSlug}/`)}>{r.eventTitle}</a>
+                </>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {venues.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">{city}的場地</h2>
+      <ul class="card-grid">
+        {venues.map((v) => (
+          <li><a class="card-link" href={url(`/venues/${v.id}/`)}>
+            <span class="name">{v.data.name}</span>
+            {v.data.district && <span class="meta">{v.data.district}</span>}
+          </a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {(teams.length > 0 || orgs.length > 0) && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">{city}的隊伍與單位</h2>
+      <ul class="card-grid">
+        {teams.map((t) => (
+          <li><a class="card-link" href={url(`/teams/${t.id}/`)}>
+            <span class="name">{t.data.name}</span><span class="meta">隊伍</span>
+          </a></li>
+        ))}
+        {orgs.map((o) => (
+          <li><a class="card-link" href={url(`/organizations/${o.id}/`)}>
+            <span class="name">{o.data.name}</span><span class="meta">單位</span>
+          </a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="panel">
+    <h2 style="margin-top:0">{city}沒有你要找的？</h2>
+    <p style="margin:0 0 14px">
+      本站只收錄查得到公開資料的場次，{city}一定還有我們沒看到的比賽與隊伍。
+      {pending.length > 0 && `這裡也有 ${pending.length} 場已經打完但成績還查不到。`}
+      知道的話直接告訴我們，會標明來源與查核日期後補上。
+    </p>
+    <p style="margin:0">
+      <a class="btn-action" href={url('/about/correction/')}>提供賽事或成績 →</a>
+      <a class="btn-outline" href={url('/events/')} style="margin-left:10px">看全臺賽事</a>
+    </p>
+  </section>
+</BaseLayout>
