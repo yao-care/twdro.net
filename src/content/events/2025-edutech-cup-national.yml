@@ -1,0 +1,36 @@
+title: 2025 第二屆臺灣教育科技盃無人機足球全國公開賽
+subtitle: 教育科技盃系列的全國賽；菁英組與新秀組各限額 36 隊，兩組循環淘汰後於同一天打四強
+event_series: 臺灣教育科技盃無人機足球
+level: 全國
+status: completed
+event_type: 全國公開賽
+organizer: 奧斯丁國際（賽事官方網站列為聯絡窗口）
+organizer_slugs:
+  - oursteam
+rule_system: OTHER
+schedule:
+  # 菁英組 11/14 循環淘汰、新秀組 11/15 循環淘汰，兩組 11/16 同日四強。
+  event_start: "2025-11-14"
+  event_end: "2025-11-16"
+  venue_name: 臺北世界貿易中心展覽一館
+  city: 臺北市
+  district: 信義區
+eligibility:
+  education_levels: [國小, 國中, 高中]
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2025 第二屆臺灣教育科技盃無人機足球公開賽（賽事官方網站）
+    url: https://sites.google.com/view/tda2025/home
+    publisher: 臺灣教育科技盃無人機足球全國公開賽官方網站
+    retrieved_at: "2026-08-27"
+    trust_level: A
+  - type: organizer_announcement
+    # ⚠️ 主辦單位有公布得獎名單，但那一頁只放頒獎合照、沒有文字名單，
+    # 所以站上的成績仍然留白。要補這一場的名次，得向主辦單位索取文字版。
+    title: 比賽結果公布（新秀組／菁英組第一至第三名與優勝，僅頒獎合照無文字名單）
+    url: https://sites.google.com/view/tda2025/news/record
+    publisher: 臺灣教育科技盃無人機足球全國公開賽官方網站
+    published_at: "2025-11-18"
+    retrieved_at: "2026-08-27"
+    trust_level: A

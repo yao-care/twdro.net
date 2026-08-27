@@ -1,0 +1,25 @@
+title: 臺北市 114 年度無人機競賽
+subtitle: 由臺北市無人機教育中心推出，首度增設「無人機足球賽」；採兩分鐘限時分組對抗，總獎勵 12 萬元、第一名 5,000 元，並設裁判特別獎
+event_series: 縣市選拔賽
+level: 縣市
+status: completed
+event_type: 市級競賽
+organizer: 臺北市政府教育局（臺北市無人機教育中心）
+organizer_slugs:
+  - taipei-doe
+rule_system: OTHER
+schedule:
+  event_start: "2025-12-06"
+  event_end: "2025-12-06"
+  venue_name: 臺北市立木柵高級工業職業學校
+  city: 臺北市
+  district: 文山區
+verification: official
+sources:
+  - type: gov_announcement
+    title: 北市無人機賽事創新亮相 AI自動識別、足球對戰引爆熱潮
+    url: https://www.doe.gov.taipei/News_Content.aspx?n=B3DDF0458F0FFC11&sms=72544237BBE4C5F6&s=2C7A1ED4013B8E45
+    publisher: 臺北市政府教育局
+    published_at: "2025-09-16"
+    retrieved_at: "2026-08-27"
+    trust_level: A
