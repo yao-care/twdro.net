@@ -175,7 +175,7 @@ export const scoreCandidate = ({ googleHits, bingHits, upcomingDays, verified, s
 };
 
 const querySuggestions = async (query, warnings) => {
-  const result = { query, google: [], bing: [], urls: {
+  const result = { query, google: [], bing: [], available: { google: false, bing: false }, urls: {
     google: GOOGLE_SUGGEST_URL(query),
     bing: BING_SUGGEST_URL(query),
   } };
@@ -183,11 +183,46 @@ const querySuggestions = async (query, warnings) => {
     fetchText(result.urls.google, AUTOCOMPLETE_TIMEOUT_MS),
     fetchText(result.urls.bing, AUTOCOMPLETE_TIMEOUT_MS),
   ]);
-  if (responses[0].status === 'fulfilled') result.google = parseSuggestions(responses[0].value);
+  // ⚠️ 「抓不到」與「抓到但沒有建議字」必須分開記（2026-08-27）。原本兩者都留下空陣列，
+  // 於是 googleHits 永遠是 0——而 Google Suggest 對本主機的資料中心 IP 一律回 403
+  // （四個端點實測皆同：complete/search 的 firefox／chrome／gws-wiz／toolbar）。
+  // 結果是 `enoughSearchSignals` 要求雙引擎各 ≥2、而 score 門檻 7 分裡有 4 分只有
+  // Google 拿得到，兩道都變成永遠不可能通過：2026-08-17 建立這條產線起，
+  // 它一次都沒有、也不可能發出任何文章，而每天的輸出看起來只是「訊號未達門檻」。
+  if (responses[0].status === 'fulfilled') { result.google = parseSuggestions(responses[0].value); result.available.google = true; }
   else warnings.push(`Google 建議字「${query}」抓取失敗：${responses[0].reason?.message ?? 'unknown error'}`);
-  if (responses[1].status === 'fulfilled') result.bing = parseSuggestions(responses[1].value);
+  if (responses[1].status === 'fulfilled') { result.bing = parseSuggestions(responses[1].value); result.available.bing = true; }
   else warnings.push(`Bing 建議字「${query}」抓取失敗：${responses[1].reason?.message ?? 'unknown error'}`);
   return result;
+};
+
+/**
+ * 需求訊號的通過條件。分開成一個函式，是因為「幾個引擎在線」會同時改變門檻與判準，
+ * 寫在 buildCandidate 裡會看不出降級發生過。
+ *
+ * - 兩個引擎都在：維持原判準（各 ≥2 個相關建議字、score ≥ 7）。
+ * - 只剩一個引擎：**降級但要說出來**。門檻降到 5（另一個引擎的 2 分與交叉比對的 2 分
+ *   本來就拿不到，不降就是假門檻），同時把在線引擎的要求從 ≥2 提高到 ≥3——
+ *   少了交叉佐證，就該對僅存的訊號要求更嚴，而不是照原樣放行。
+ * - 兩個都不在：不發布。沒有需求訊號時不能靠賽事資料自己就上稿。
+ */
+export const signalGate = ({ googleHits, bingHits, googleAvailable, bingAvailable, score }) => {
+  const online = [googleAvailable && 'google', bingAvailable && 'bing'].filter(Boolean);
+  if (online.length === 0) {
+    return { enough: false, threshold: Infinity, degraded: true, note: '兩個建議字引擎都抓不到，本輪不發布。' };
+  }
+  if (online.length === 1) {
+    const hits = googleAvailable ? googleHits : bingHits;
+    const offline = googleAvailable ? 'Bing' : 'Google';   // 在線的是 google ⇒ 掉線的是 bing
+    return {
+      enough: hits >= 3,
+      threshold: 5,
+      degraded: true,
+      note: `⚠️ ${offline} 建議字不可用，雙引擎交叉比對已降級為單引擎：門檻 5 分、`
+        + `在線引擎需 ≥3 個相關建議字（本輪 ${hits} 個）。這一輪的需求訊號沒有第二個來源佐證。`,
+    };
+  }
+  return { enough: googleHits >= 2 && bingHits >= 2, threshold: 7, degraded: false, note: '' };
 };
 
 const buildCandidate = (event, signal, runDate, knownTrendIds) => {
@@ -213,8 +248,14 @@ const buildCandidate = (event, signal, runDate, knownTrendIds) => {
     verified,
     sourceCount: sourceUrls.length,
   });
-  const enoughSearchSignals = googleHits.length >= 2 && bingHits.length >= 2;
-  const publishable = score >= 7 && enoughSearchSignals && upcomingDays >= 0 &&
+  const gate = signalGate({
+    googleHits: googleHits.length,
+    bingHits: bingHits.length,
+    googleAvailable: signal.available?.google ?? false,
+    bingAvailable: signal.available?.bing ?? false,
+    score,
+  });
+  const publishable = score >= gate.threshold && gate.enough && upcomingDays >= 0 &&
     upcomingDays <= UPCOMING_WINDOW_DAYS && sourceUrls.length >= 2 && verified;
   const alreadyCovered = knownTrendIds.has(id);
   return {
@@ -234,6 +275,9 @@ const buildCandidate = (event, signal, runDate, knownTrendIds) => {
       bing_suggestions: bingHits,
       google_count: googleHits.length,
       bing_count: bingHits.length,
+      engines_online: [signal.available?.google && 'google', signal.available?.bing && 'bing'].filter(Boolean),
+      score_threshold: gate.threshold === Infinity ? null : gate.threshold,
+      degraded: gate.degraded,
       event_status: event.status,
       event_verification: event.verification,
       event_start: event.eventStart,
@@ -243,9 +287,14 @@ const buildCandidate = (event, signal, runDate, knownTrendIds) => {
     },
     source_urls: sourceUrls,
     required_phrases: [event.eventSeries, dateDisplay, event.city, event.venueName].filter(Boolean),
-    reason: publishable
-      ? alreadyCovered ? '已有同一趨勢文章，交給既有文章更新，不新增重複頁。' : '雙搜尋引擎建議字＋近期已驗證賽事＋至少兩個可追溯來源。'
-      : '訊號或來源未達自動發布門檻，保留觀察，不新增文章。',
+    reason: [
+      publishable
+        ? alreadyCovered ? '已有同一趨勢文章，交給既有文章更新，不新增重複頁。'
+          : gate.degraded ? '單一搜尋引擎建議字（降級判準）＋近期已驗證賽事＋至少兩個可追溯來源。'
+          : '雙搜尋引擎建議字＋近期已驗證賽事＋至少兩個可追溯來源。'
+        : '訊號或來源未達自動發布門檻，保留觀察，不新增文章。',
+      gate.note,
+    ].filter(Boolean).join(' '),
   };
 };
 
@@ -279,12 +328,19 @@ export const collectTrendData = async ({ runDate = dateArg() } = {}) => {
   const querySignals = [];
   for (const query of queries) querySignals.push(await querySuggestions(query, warnings));
   const byQuery = new Map(querySignals.map((signal) => [normalize(signal.query), signal]));
+  const EMPTY_SIGNAL = { google: [], bing: [], available: { google: false, bing: false } };
   const candidates = events.map((event) => {
-    const seriesSignal = byQuery.get(normalize(event.eventSeries)) ?? { google: [], bing: [] };
-    const citySignal = byQuery.get(normalize(`${event.eventSeries ?? ''} ${stripCitySuffix(event.city)}`.trim())) ?? { google: [], bing: [] };
+    const seriesSignal = byQuery.get(normalize(event.eventSeries)) ?? EMPTY_SIGNAL;
+    const citySignal = byQuery.get(normalize(`${event.eventSeries ?? ''} ${stripCitySuffix(event.city)}`.trim())) ?? EMPTY_SIGNAL;
     return buildCandidate(event, {
       google: [...new Set([...(seriesSignal.google ?? []), ...(citySignal.google ?? [])])],
       bing: [...new Set([...(seriesSignal.bing ?? []), ...(citySignal.bing ?? [])])],
+      // 引擎可用性要跟著訊號一起傳進去，否則 buildCandidate 看到的永遠是「兩個都不可用」，
+      // 於是連降級判準都用不上——修了門檻卻忘了接線，等於沒修（2026-08-27 當場踩到）。
+      available: {
+        google: Boolean(seriesSignal.available?.google || citySignal.available?.google),
+        bing: Boolean(seriesSignal.available?.bing || citySignal.available?.bing),
+      },
     }, runDate, knownTrendIds);
   }).sort((a, b) => b.score - a.score || a.upcoming_days - b.upcoming_days);
 
@@ -301,6 +357,20 @@ export const collectTrendData = async ({ runDate = dateArg() } = {}) => {
     }
   }
 
+  // 引擎總狀態：任何一天有引擎全程抓不到，就要在報告最上面說出來。
+  // 這條之所以存在：2026-08-17 建立產線到 08-27 的每一份 JSON 裡，Google 都是 403，
+  // 而輸出只寫「訊號未達門檻」——看起來像需求不足，實際上是量測管道斷了。
+  const engineStatus = {
+    google: querySignals.some((sig) => sig.available?.google) ? 'ok' : 'unavailable',
+    bing: querySignals.some((sig) => sig.available?.bing) ? 'ok' : 'unavailable',
+  };
+  for (const [engine, status] of Object.entries(engineStatus)) {
+    if (status === 'unavailable') {
+      warnings.unshift(`⚠️ ${engine} 建議字整輪不可用（所有種子皆抓取失敗）。`
+        + `需求訊號本輪只有另一個引擎，判準已降級——不要把這一輪的結果讀成「雙引擎驗證過」。`);
+    }
+  }
+
   return {
     schema_version: 1,
     site: 'twdro.net',
@@ -308,10 +378,14 @@ export const collectTrendData = async ({ runDate = dateArg() } = {}) => {
     collected_at: new Date().toISOString(),
     methodology: {
       trend_signal: 'Google Trends RSS；若 unavailable/無相關項目，不視為需求為零。',
-      demand_signal: 'Google 與 Bing 建議字交叉比對。',
+      demand_signal: 'Google 與 Bing 建議字交叉比對；某引擎抓不到時記為「不可用」，不當成 0 個建議字。',
       fact_signal: '只使用站內已驗證、21 天內開始的公開賽事，來源至少含站內頁與一筆外部來源。',
-      publish_policy: 'score >= 7、雙引擎各至少兩個相關建議字、來源 >= 2、每日最多 1 個新頁。',
+      publish_policy: '雙引擎都在線：score >= 7 且各至少兩個相關建議字。'
+        + '只剩一個引擎在線：降級為 score >= 5 且該引擎 >= 3 個相關建議字，'
+        + '並在 candidate.reason 與 warnings 標明降級（沒有第二個來源佐證）。'
+        + '兩個引擎都不在線：不發布。來源 >= 2、每日最多 1 個新頁不變。',
     },
+    autocomplete_engines: engineStatus,
     seeds: SEEDS,
     google_trends_rss: rss,
     autocomplete: querySignals,
