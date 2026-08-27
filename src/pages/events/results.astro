@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import SourceBlock from '../../components/SourceBlock.astro';
+import { url } from '../../lib/url';
+import { isPublicEvent } from '../../lib/enums';
+import {
+  teamText, hasTeam, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults,
+} from '../../lib/results';
+import { resultsMailto, resultsUrl } from '../../lib/correction';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
+
+// 為什麼要有這一頁（2026-08-27）：
+// 站上唯一沒有人有的資料就是成績——2026-07-30 實查全臺沒有任何可爬取的網頁在公布
+// 無人機足球成績，我們是把縣市教育處公告與地方新聞一筆一筆抄進來的。但那些名次目前
+// 只散在各自的賽事頁上，而其中兩頁（嘉義縣選拔賽、雲林縣科技教育盃）已卡在
+// 「Discovered - currently not indexed・從未被爬取」24 天。搜「無人機足球成績」的人
+// 在站上沒有任何一頁可以落地：/events/ 是賽事清單，看不到隊名。
+//
+// 這頁把已公布的名次全部攤開（隊名直接可見、附來源），並且**同樣攤開還沒公布的**——
+// 「哪幾場查不到、我們在等誰」對讀者一樣是答案，而且是我們敢寫、主辦單位不會寫的那一半。
+const all = (await getCollection('events')).filter((e) => isPublicEvent(e.data.status));
+
+const byDateDesc = (a: typeof all[number], b: typeof all[number]) => {
+  const da = a.data.schedule.event_start ?? '', db = b.data.schedule.event_start ?? '';
+  if (!da) return 1;
+  if (!db) return -1;
+  return db.localeCompare(da);
+};
+
+const published = all.filter((e) => hasPublishedResults(e.data.results)).sort(byDateDesc);
+const pending = all.filter((e) => awaitsResults(e.data.status, e.data.results)).sort(byDateDesc);
+
+// 收錄了幾支隊伍的名次——這是本頁的規模，也是「值不值得看」的唯一誠實指標。
+const teamCount = new Set(
+  published.flatMap((e) => {
+    const r = e.data.results;
+    const blocks = [r, ...publishedDivisions(r)];
+    return blocks.flatMap((b) => [
+      ...(b?.champion_team ? [teamText(b.champion_team)] : []),
+      ...(b?.runner_up_team ? [teamText(b.runner_up_team)] : []),
+      ...(b?.third_place_team ? [teamText(b.third_place_team)] : []),
+      ...(b?.merit_teams ?? []),
+    ]);
+  }).flatMap((s) => s.split('、')).filter(Boolean),
+).size;
+
+const dateText = (e: typeof all[number]) => {
+  const s = e.data.schedule.event_start, t = e.data.schedule.event_end;
+  if (!s) return '日期未定';
+  return t && t !== s ? `${s} ～ ${t}` : s;
+};
+
+const metaDescription =
+  `臺灣無人機足球比賽成績總表：本站已收錄 ${published.length} 場賽事的名次、共 ${teamCount} 支隊伍，`
+  + `每一筆都標明來源與查核日期。另有 ${pending.length} 場已結束但成績尚未公布，一併列出並說明在等誰。`;
+
+const jsonld = collectionPageJsonLd({
+  name: '無人機足球比賽成績',
+  url: 'https://twdro.net/events/results/',
+  items: published.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '賽事', url: 'https://twdro.net/events/' },
+  { name: '比賽成績', url: 'https://twdro.net/events/results/' },
+]);
+
+const PLACES: [string, (b: any) => any][] = [
+  ['冠軍', (b) => b?.champion_team],
+  ['亞軍', (b) => b?.runner_up_team],
+  ['季軍', (b) => b?.third_place_team],
+];
+---
+<BaseLayout
+  title="無人機足球比賽成績：臺灣各賽事名次總表 | twdro.net"
+  description={metaDescription}
+  heroTitle="無人機足球比賽成績"
+  heroDesc={`臺灣各賽事的名次一次看完，只列隊伍名稱、每筆標明來源。已公布 ${published.length} 場，尚未公布 ${pending.length} 場。`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: '比賽成績', href: '/events/results/' }]} />
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">這份成績是怎麼來的</h2>
+    <p style="margin:0 0 12px">
+      臺灣的無人機足球成績沒有一個集中的公告處：有些由縣市政府教育處公告，有些只出現在地方新聞，
+      主辦協會多半不另外發布。本站是一筆一筆查出來抄進資料裡的，每一場都附得起原始公告連結與查核日期。
+    </p>
+    <p style="margin:0">
+      <strong>只收錄隊伍名稱，不收選手姓名等個人資料。</strong>
+      查不到的名次一律留白，不推測、不補齊——下面「尚未公布」那一段就是留白的部分。
+    </p>
+  </section>
+
+  {published.map((e) => {
+    const r = e.data.results;
+    const divisions = publishedDivisions(r);
+    return (
+      <section class="panel" style="margin-bottom:20px">
+        <h2 style="margin-top:0">
+          <a href={url(`/events/${e.id}/`)}>{e.data.title}</a>
+        </h2>
+        <p class="text-muted" style="margin:0 0 14px">
+          {[dateText(e), e.data.schedule.city, e.data.organizer].filter(Boolean).join('・')}
+        </p>
+
+        {hasAnyPlace(r) && (
+          <ul class="data-list">
+            {PLACES.map(([label, pick]) => hasTeam(pick(r)) && (
+              <li><span class="k">{label}</span><span class="v">{teamText(pick(r))}</span></li>
+            ))}
+            {(r?.merit_teams?.length ?? 0) > 0 && (
+              <li><span class="k">優勝</span><span class="v">{r!.merit_teams!.join('、')}</span></li>
+            )}
+          </ul>
+        )}
+
+        {divisions.map((g) => (
+          <div style="margin-top:14px">
+            <h3 style="margin:0 0 6px;font-size:1.05rem">{g.name}</h3>
+            <ul class="data-list">
+              {PLACES.map(([label, pick]) => hasTeam(pick(g)) && (
+                <li><span class="k">{label}</span><span class="v">{teamText(pick(g))}</span></li>
+              ))}
+              {(g.merit_teams?.length ?? 0) > 0 && (
+                <li><span class="k">優勝</span><span class="v">{g.merit_teams!.join('、')}</span></li>
+              )}
+            </ul>
+          </div>
+        ))}
+
+        {e.data.sources && e.data.sources.length > 0 && (
+          <div style="margin-top:16px">
+            <SourceBlock sources={e.data.sources} verification={e.data.verification} title={e.data.title} showCorrection={false} />
+          </div>
+        )}
+      </section>
+    );
+  })}
+
+  {pending.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">已結束，但成績尚未公布</h2>
+      <p style="margin:0 0 14px">
+        這幾場比完了，我們查不到公開的名次，所以留白——不放推測的成績。
+        看得到名次的是到過現場的隊伍、指導老師與承辦學校。
+      </p>
+      <ul class="data-list">
+        {pending.map((e) => (
+          <li>
+            <span class="k"><a href={url(`/events/${e.id}/`)}>{e.data.title}</a></span>
+            <span class="v">{[dateText(e), e.data.schedule.city, e.data.organizer].filter(Boolean).join('・')}</span>
+          </li>
+        ))}
+      </ul>
+      <p style="margin:16px 0 0">
+        <a class="btn-action" href={resultsMailto({ path: '/events/results/', title: '賽事成績' })}>來信提供成績</a>
+        <span style="display:inline-block;margin-left:12px">
+          或<a href={resultsUrl({ path: '/events/results/', title: '賽事成績' })} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
+        </span>
+      </p>
+    </section>
+  )}
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">看到錯的、或知道我們還沒有的名次</h2>
+    <p style="margin:0 0 14px">
+      成績是抄來的，抄錯或漏抄都可能發生——尤其校名，用英文摘要或羅馬拼音回推最容易出錯
+      （實例：「景山國小」曾被誤讀成「靜山國小」）。看到不對的地方，或手上有我們還沒收錄的名次，
+      直接告訴我們；主辦單位與當事單位的回報優先處理。
+    </p>
+    <p style="margin:0">
+      <a class="btn-action" href={resultsMailto({ path: '/events/results/', title: '賽事成績' })}>來信回報或提供成績</a>
+      <span style="display:inline-block;margin-left:12px">
+        或<a href={resultsUrl({ path: '/events/results/', title: '賽事成績' })} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
+        ．<a href={url('/about/correction/')}>更正流程</a>
+      </span>
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-top:0">接下來</h2>
+    <ul style="margin:0;padding-left:1.4em">
+      <li>還沒比的賽事、報名截止日與賽程見 <a href={url('/events/')}>賽事總覽</a>，可訂閱 <a href={url('/events/calendar.ics')}>行事曆</a> 或 <a href={url('/rss.xml')}>RSS</a>，成績公布時會出現在同一份訂閱裡。</li>
+      <li>各賽事採哪一套規則、名次怎麼決定，見 <a href={url('/rules/')}>規則專區</a> 與 <a href={url('/learn/rules-overview/')}>規則總整理</a>。</li>
+      <li>臺灣有哪些賽事系列、彼此差在哪，見 <a href={url('/learn/taiwan-competitions-overview/')}>臺灣賽事總覽</a>。</li>
+      <li>國際賽的臺灣成績另見 <a href={url('/learn/taiwan-international-results/')}>臺灣在國際賽的成績</a>。</li>
+    </ul>
+  </section>
+</BaseLayout>

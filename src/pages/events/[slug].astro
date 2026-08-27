@@ -6,7 +6,7 @@ import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
-import { hasTeam, teamText } from '../../lib/results';
+import { hasTeam, teamText, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults } from '../../lib/results';
 import { isPublicEvent } from '../../lib/enums';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
 import { resultsMailto, resultsUrl } from '../../lib/correction';
@@ -53,18 +53,14 @@ const showEligibility = levels.length > 0 || hasTeamSize;
 const showCompetition = d.competition.drone_class != null
   || d.competition.drone_diameter != null
   || d.competition.active_drones_per_team != null;
+// 「有沒有成績」「算不算在等成績」的判斷集中在 lib/results（與 /events/results/ 共用一套）。
 const r = d.results;
-const divisionResults = (r?.divisions ?? []).filter(
-  (x) => hasTeam(x.champion_team) || hasTeam(x.runner_up_team) || hasTeam(x.third_place_team) || (x.merit_teams?.length ?? 0) > 0,
-);
-const showResults = !!r && !!(
-  hasTeam(r.champion_team) || hasTeam(r.runner_up_team) || hasTeam(r.third_place_team) || (r.merit_teams?.length ?? 0) > 0 || divisionResults.length
-);
+const divisionResults = publishedDivisions(r);
+const showResults = hasPublishedResults(r);
 // 已結束但查不到成績 → 開徵稿入口。這是站上最大的資料缺口（2026-07-30 實查：全臺沒有
 // 任何可爬取的網頁在公布無人機足球成績，連主辦單位官網都沒有），而看得到成績的是到過
 // 現場的隊伍、指導老師與承辦學校。取消／延期的賽事沒有成績可談，不出這一段。
-const FINISHED = ['completed', 'archived', 'results_pending'];
-const wantsResults = !showResults && FINISHED.includes(d.status);
+const wantsResults = awaitsResults(d.status, r);
 // title/description 交給 lib/eventSeo 依生命週期組（意圖詞＋年份、事實句），理由見該檔開頭。
 // 畫面上的 hero 仍用正式全名與 subtitle，不受搜尋用的字串影響。
 const seoTitle = eventPageTitle(d);
@@ -146,7 +142,7 @@ const seoDesc = eventPageDescription(d);
   {showResults && (
     <section class="panel">
       <h2>成績</h2>
-      {(hasTeam(r?.champion_team) || hasTeam(r?.runner_up_team) || hasTeam(r?.third_place_team) || (r?.merit_teams?.length ?? 0) > 0) && (
+      {hasAnyPlace(r) && (
         <ul class="data-list">
           {hasTeam(r?.champion_team) && <li><span class="k">冠軍</span><span class="v">{teamText(r?.champion_team)}</span></li>}
           {hasTeam(r?.runner_up_team) && <li><span class="k">亞軍</span><span class="v">{teamText(r?.runner_up_team)}</span></li>}

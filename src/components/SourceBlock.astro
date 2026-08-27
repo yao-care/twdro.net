@@ -3,8 +3,11 @@ import { verificationLabel } from '../lib/enums';
 import { correctionUrl, correctionMailto, CORRECTION_EMAIL } from '../lib/correction';
 import { url } from '../lib/url';
 import { groupSources, bylineOf, type SourceItem } from '../lib/sources';
-interface Props { sources: SourceItem[]; verification?: string; title?: string; }
-const { sources, verification, title } = Astro.props;
+interface Props { sources: SourceItem[]; verification?: string; title?: string; showCorrection?: boolean; }
+// showCorrection：一頁只放一次勘誤入口。明細頁維持預設 true；
+// 像 /events/results/ 這種一頁列多筆來源的索引頁要傳 false，
+// 否則同一段「這頁的資料有誤？」會連印好幾次，看起來像版面壞掉，也稀釋了真正該點的那一個。
+const { sources, verification, title, showCorrection = true } = Astro.props;
 // 勘誤入口帶著「你正在看的這一頁」一起送出，見 src/lib/correction.ts。
 // email 放前面：最該回報的協會、學校與主辦單位多半沒有 GitHub 帳號。
 const target = { path: Astro.url.pathname, title: title ?? Astro.url.pathname };
@@ -62,12 +65,14 @@ const statusText = verification
       </li>
     ))}
   </ul>
-  <p style="margin:14px 0 0">
-    這頁的資料有誤？<a href={reportMailto} style="font-weight:650">來信 {CORRECTION_EMAIL} 回報</a>
-    ，或<a href={reportUrl} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
-    <span style="display:block;margin-top:4px;font-size:0.92rem">
-      兩種方式都會預先帶入這一頁的網址。主辦單位與當事單位的回報優先處理。
-      <a href={url('/about/correction/')}>更正流程</a>
-    </span>
-  </p>
+  {showCorrection && (
+    <p style="margin:14px 0 0">
+      這頁的資料有誤？<a href={reportMailto} style="font-weight:650">來信 {CORRECTION_EMAIL} 回報</a>
+      ，或<a href={reportUrl} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
+      <span style="display:block;margin-top:4px;font-size:0.92rem">
+        兩種方式都會預先帶入這一頁的網址。主辦單位與當事單位的回報優先處理。
+        <a href={url('/about/correction/')}>更正流程</a>
+      </span>
+    </p>
+  )}
 </aside>

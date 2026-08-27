@@ -104,10 +104,11 @@ const jsonld = collectionPageJsonLd({
       </div>
       <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
         <strong style="display:block;font-size:1.35rem">{resultCount}</strong>
-        <span class="text-muted">已有成績</span>
+        <span class="text-muted"><a href={url('/events/results')}>已有成績 →</a></span>
       </div>
     </div>
     <ul class="card-grid" style="margin:0">
+      <li><a class="card-link" href={url('/events/results')}><span class="name">看比賽成績</span><span class="meta">各賽事名次一次看完，附原始公告來源</span></a></li>
       <li><a class="card-link" href={url('/events/calendar')}><span class="name">按月份找賽程</span><span class="meta">日曆檢視、狀態篩選與報名截止日</span></a></li>
       <li><a class="card-link" href={url('/learn/taiwan-competitions-overview')}><span class="name">比較賽事系列</span><span class="meta">教育部、天穹盃、教育科技盃與縣市賽規格差異</span></a></li>
       <li><a class="card-link" href={url('/organizations')}><span class="name">找主辦與推廣單位</span><span class="meta">協會、學校、政府與器材／課程單位</span></a></li>

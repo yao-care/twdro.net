@@ -59,7 +59,7 @@ export interface SiteSection {
 }
 
 export const SITE_SECTIONS: SiteSection[] = [
-  { title: '賽事', href: '/events/', collection: 'events', urlBase: '/events/', subPages: [{ href: '/events/calendar/', label: '賽事行事曆' }] },
+  { title: '賽事', href: '/events/', collection: 'events', urlBase: '/events/', subPages: [{ href: '/events/calendar/', label: '賽事行事曆' }, { href: '/events/results/', label: '比賽成績' }] },
   { title: '規則', href: '/rules/', collection: 'rulebooks', urlBase: '/rules/', subPages: [{ href: '/rules/compare/', label: '規則比較' }] },
   { title: '器材', href: '/equipment/', collection: 'equipment', urlBase: '/equipment/', subPages: [{ href: '/equipment/compliance-check/', label: '器材合規檢查' }, { href: '/equipment/budget/', label: '預算試算器' }] },
   { title: '隊伍', href: '/teams/', collection: 'teams', urlBase: '/teams/' },
