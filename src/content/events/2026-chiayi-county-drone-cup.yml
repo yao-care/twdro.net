@@ -1,0 +1,35 @@
+title: 嘉義縣 115 年度無人機競賽
+subtitle: 舉辦邁入第 3 年，今年首度新增無人機足球項目；國中 23 隊、國小 50 隊共 73 隊，足球分 C 組（12.5 公分級）與 D 組（F9A-B 20 公分級）
+event_series: 縣市級賽事
+level: 縣市
+status: completed
+event_type: 縣級競賽
+organizer: 嘉義縣政府
+rule_system: OTHER
+schedule:
+  event_start: "2026-08-07"
+  event_end: "2026-08-07"
+  venue_name: 永慶高中
+  city: 嘉義縣
+eligibility:
+  education_levels: [國小, 國中]
+competition:
+  # 這場同時有無人機穿越賽（A、B 組）與無人機足球（C、D 組），只有 D 組採 F9A-B 20 公分級，
+  # C 組是 12.5 公分級——站上其他賽事都沒有這個級距，故 rule_system 記 OTHER 不掛 rulebook。
+  drone_class: C 組 12.5cm／D 組 F9A-B 20cm
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 嘉義無人機競賽登場 73隊挑戰穿越賽與無人機足球
+    url: https://n.yam.com/Article/20260807588015
+    publisher: 蕃新聞（三星傳媒）
+    published_at: "2026-08-07"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 嘉義無人機競賽熱血登場 73隊首挑戰「空中足球」
+    url: https://www.ettoday.net/news/20260808/3215453.htm
+    publisher: ETtoday 新聞雲
+    published_at: "2026-08-08"
+    retrieved_at: "2026-08-27"
+    trust_level: B

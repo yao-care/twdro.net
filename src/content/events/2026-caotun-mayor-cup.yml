@@ -1,0 +1,31 @@
+title: 2026 首屆草屯鎮長盃無人機足球競賽
+subtitle: 42 支隊伍、210 名師生，來自臺北、臺中、彰化、南投與嘉義五個縣市
+event_series: 草屯鎮長盃
+level: 地方
+status: completed
+event_type: 邀請賽
+organizer: 草屯鎮公所／AI 人工智慧握手協會（協辦：虎山國小、憶正教育科技）
+rule_system: OTHER
+schedule:
+  event_start: "2026-06-13"
+  event_end: "2026-06-13"
+  venue_name: 南投縣草屯鎮虎山國民小學
+  city: 南投縣
+  district: 草屯鎮
+eligibility:
+  education_levels: [國小, 國中]
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 草屯鎮長盃無人機足球競賽 產官學攜手培育新世代未來人才
+    url: https://n.yam.com/Article/20260613382812
+    publisher: 蕃新聞
+    published_at: "2026-06-13"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: organizer_announcement
+    title: 「2026草屯鎮長盃無人機足球競賽」活動簡章、海報（學校轉知）
+    url: https://ttjhs.ntct.edu.tw/p/406-1009-493030,r2257.php
+    publisher: 南投縣立土城國民中學
+    retrieved_at: "2026-08-27"
+    trust_level: A

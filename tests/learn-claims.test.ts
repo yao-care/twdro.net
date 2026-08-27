@@ -351,7 +351,12 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
   // 把常數 +1（本日一路從 4 撞到 7）。守門的用意是「文章宣稱的系列數要跟實際資料一致」，
   // 所以改成從文章自己的文字解析出宣稱值再比對——加了系列卻忘了改文章一樣會擋下來，
   // 但正確更新文章之後不必再回頭動測試。
-  const ZH_NUM: Record<string, number> = { 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
+  // 中文數字對照。2026-08-27 擴到二十：系列數一過十，原本的表就查不到「十一」，
+  // 而失敗訊息會變成 `expected undefined to be truthy`——看起來像測試壞了，其實是資料長大了。
+  const ZH_NUM: Record<string, number> = {
+    二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10,
+    十一: 11, 十二: 12, 十三: 13, 十四: 14, 十五: 15, 十六: 16, 十七: 17, 十八: 18, 十九: 19, 二十: 20,
+  };
 
   it('文章宣稱的賽事系列數與實際資料一致，且逐列點名的系列都還在', () => {
     const series = new Set(
@@ -361,7 +366,7 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
         .filter(Boolean),
     );
     // 文章標題寫「N 個系列一次看懂」，內文寫「本站目前收錄 N 個系列」，兩處都要對得上資料
-    const claimed = overview.match(/本站目前收錄([一二三四五六七八九十])個系列/)?.[1];
+    const claimed = overview.match(/本站目前收錄([一二三四五六七八九十]{1,3})個系列/)?.[1];
     expect(claimed).toBeTruthy();
     expect(ZH_NUM[claimed!]).toBe(series.size);
     expect(overview).toContain(`${claimed}個系列一次看懂`);
@@ -371,7 +376,7 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
     expect(series).toContain('臺灣教育科技盃無人機足球');
     expect(series).toContain('秀傳夏季無人機嘉年華會');
     // 2026-08-03 加：縣市選拔賽（全國賽之前的那一關，先前整層缺漏）
-    expect(series).toContain('縣市選拔賽');
+    expect(series).toContain('縣市級賽事');
   });
 
   it('秀傳盃「全臺首度由醫療單位主辦」與主辦單位仍有來源', () => {

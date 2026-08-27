@@ -1,0 +1,23 @@
+title: 2026 第二屆地理中心盃無人機足球賽
+subtitle: 12 支隊伍參賽；結合運動部與中華民國飛行運動總會的裁判講習（7/21–7/23），受訓裁判隔日直接臨場執法
+event_series: 地理中心盃
+level: 地方
+status: completed
+event_type: 邀請賽
+organizer: 中華民國飛行運動總會（場地：埔里鎮寶大飯店）
+rule_system: OTHER
+schedule:
+  event_start: "2026-07-24"
+  event_end: "2026-07-24"
+  venue_name: 埔里鎮寶大飯店
+  city: 南投縣
+  district: 埔里鎮
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 地理中心盃無人機足球賽7／24登場 結合裁判講習推廣新科技運動
+    url: https://www.ettoday.net/news/20260723/3206712.htm
+    publisher: ETtoday 新聞雲
+    published_at: "2026-07-23"
+    retrieved_at: "2026-08-27"
+    trust_level: B

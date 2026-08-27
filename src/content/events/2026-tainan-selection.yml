@@ -1,0 +1,35 @@
+title: 臺南市 115 年度無人機足球選拔賽
+subtitle: 臺南市首度舉辦；國中組與國小組各 30 隊、共 60 隊 180 名學生，前 4 名取得分區賽保障資格
+event_series: 縣市級賽事
+level: 縣市
+status: completed
+event_type: 選拔賽
+organizer: 臺南市政府教育局（承辦：仁德國中；協辦：實踐大學 AI 無人機中心與各科技中心）
+rule_system: OTHER
+schedule:
+  event_start: "2026-05-29"
+  event_end: "2026-05-29"
+  venue_name: 臺南市 AI 創學中心
+  city: 臺南市
+eligibility:
+  education_levels: [國小, 國中]
+competition:
+  # 報導原文的賽制：團體計時接力，每隊 3 名選手依序上場、每人操控 1 分鐘，
+  # 全隊須在 3 分鐘內完成得分挑戰。這與 FAI F9A-B 的對戰制不同，故 rule_system 記 OTHER。
+  active_drones_per_team: 1
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 台南首辦無人機足球選拔賽 60隊齊聚AI創學中心展現科技教育新亮點
+    url: https://newtalk.tw/news/view/2026-05-29/1038225
+    publisher: Newtalk 新頭殼
+    published_at: "2026-05-29"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 台南首辦無人機足球選拔賽 60隊180名學生參加
+    url: https://news.ltn.com.tw/news/life/breakingnews/5454109
+    publisher: 自由時報
+    published_at: "2026-05-29"
+    retrieved_at: "2026-08-27"
+    trust_level: B

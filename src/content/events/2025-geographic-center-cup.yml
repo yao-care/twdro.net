@@ -1,0 +1,42 @@
+title: 2025 地理中心盃全國無人機四軸足球邀請賽
+subtitle: 首屆，20 支國內隊伍齊聚埔里；冠亞軍由埔里國中的兩支隊伍包辦
+event_series: 地理中心盃
+level: 全國
+status: completed
+event_type: 邀請賽
+organizer: 中華民國飛行運動總會／中華民國航空模型協會（協辦：南投縣議會、埔里鎮公所；場地：埔里鎮寶大飯店）
+rule_system: OTHER
+schedule:
+  event_start: "2025-07-13"
+  event_end: "2025-07-13"
+  venue_name: 埔里鎮寶大飯店 17 樓國際會議廳
+  city: 南投縣
+  district: 埔里鎮
+results:
+  # 報導只寫到冠亞軍，季軍未見報 → 留白不推測。
+  # 兩支隊伍皆為埔里國中（ETtoday 標題：「埔里國中團隊奪冠亞軍」），照站上慣例
+  # 以「隊名（縣市 學校）」記錄；不含選手姓名。
+  champion_team: 我的隊名七個字（南投 埔里國中）
+  runner_up_team: 千里洧難遇柏樂（南投 埔里國中）
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 「地理中心盃」無人機四軸足球賽埔里登場 埔里國中團隊奪冠亞軍
+    url: https://www.ettoday.net/news/20250720/2999918.htm
+    publisher: ETtoday 新聞雲
+    published_at: "2025-07-20"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 2025地理中心盃無人機四軸足球全國邀請賽 20支無人機足球隊齊聚鎮寶大飯店
+    url: https://nvns.net/news_view.php?new_sn=93442&new_csn=1468
+    publisher: 南投新聞網
+    published_at: "2025-07-14"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: organizer_announcement
+    title: 2025地理中心盃全國無人機四軸足球邀請賽｜7/13 熱血登場
+    url: https://www.chengpao.com.tw/news/ins.php?index_id=83&index_m_id=8
+    publisher: 埔里鎮寶大飯店
+    retrieved_at: "2026-08-27"
+    trust_level: B
