@@ -1,0 +1,36 @@
+title: 2026 夢想起飛－台中市無人機足球競賽
+subtitle: 國中 21 隊、國小 30 隊共 51 隊、330 名親師生參賽；採台中市自訂賽制，非 FAI／FIDA 規格
+event_series: 縣市選拔賽
+level: 縣市
+status: completed
+event_type: 縣級公開賽
+organizer: 臺中市政府教育局
+rule_system: OTHER
+schedule:
+  event_start: "2026-05-23"
+  event_end: "2026-05-23"
+  venue_name: 臺中市富春國民小學體操館
+  city: 臺中市
+eligibility:
+  education_levels: [國小, 國中]
+competition:
+  # 報導原文的賽制：每隊 3 位選手、1 分鐘內完成接力、球門高 2 公尺、
+  # 進球後須飛越中場線才能再次進攻得分。與 FAI F9A-B／FIDA／天穹盃都不同，
+  # 屬縣市自訂賽制，故 rule_system 為 OTHER、不掛任何 rulebook。
+  active_drones_per_team: 3
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 2026夢想起飛！ 台中市無人機足球賽登場 51隊、330名親師生同場競技展科技力
+    url: https://n.yam.com/Article/20260523109365
+    publisher: 蕃新聞
+    published_at: "2026-05-23"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 2026夢想起飛！ 台中市無人機足球賽登場 51隊、330名親師生同場競技展科技力
+    url: https://news.pchome.com.tw/public/morenews/20260523/index-77951834151860350016.html
+    publisher: PChome Online 新聞（政府消息新聞）
+    published_at: "2026-05-23"
+    retrieved_at: "2026-08-27"
+    trust_level: B

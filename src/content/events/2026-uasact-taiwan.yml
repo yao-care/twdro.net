@@ -1,0 +1,53 @@
+title: UASACT 2026 奧賽特 AI-無人機與機器人競賽嘉年華－無人機足球競賽
+subtitle: 分社青組、國中組與國小組；主辦單位公布完整冠亞季軍名單，是站上少數三個名次都查得到的賽事
+event_series: UASACT 奧賽特嘉年華
+level: 全國
+status: completed
+event_type: 全國公開賽
+organizer: TDECA 台灣無人機育才發展協會（協辦：國立屏東科技大學／實踐大學／台中市私立光華高職／中華民國航空太空學會／教育部育才平臺－國立臺灣科技大學執行辦公室）
+rule_system: FAI
+schedule:
+  event_start: "2026-07-18"
+  event_end: "2026-07-19"
+  venue_name: 新北市立海山高級中學
+  city: 新北市
+eligibility:
+  education_levels: [國小, 國中, 社會人士]
+results:
+  # ⚠️ 主辦單位的成績 PDF 同時列出教練與選手姓名。**那些一律不記錄**——
+  # 站規：成績只到隊伍層級，不得含選手姓名等個資（teams schema 也明文禁止）。
+  # 這裡只抄隊名，隊名照原文，不補所屬學校（PDF 未以學校欄位標示，補了就是推測）。
+  divisions:
+    - name: 社青組
+      champion_team: APEX TEAM
+      runner_up_team: TeamX平方
+      third_place_team: 多元智趣2
+    - name: 國中組
+      champion_team: TeamX
+      runner_up_team: Miracle Wings
+      third_place_team: 竹林中學
+    - name: 國小組
+      champion_team: 恆興疾風隊
+      runner_up_team: 多元智趣7
+      third_place_team: 多元智趣6
+verification: organizer_verified
+sources:
+  - type: organizer_announcement
+    title: 2026 奧賽特無人機足球競賽獲勝名單
+    url: https://www.uasact.com/data/files/2026_1785283240.pdf
+    publisher: TDECA 台灣無人機育才發展協會（UASACT 奧賽特）
+    retrieved_at: "2026-08-27"
+    trust_level: A
+  - type: organizer_announcement
+    title: UASACT 奧賽特官方網站（賽事日期、地點與各項成績名單）
+    url: https://www.uasact.com/
+    publisher: TDECA 台灣無人機育才發展協會
+    retrieved_at: "2026-08-27"
+    trust_level: A
+  - type: news_article
+    title: UASACT 2026無人機與機器人嘉年華！APEX TEAM勇奪無人機足球社青組冠軍
+    url: https://tw.news.yahoo.com/uasact-2026%E7%84%A1%E4%BA%BA%E6%A9%9F%E8%88%87%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%98%89%E5%B9%B4%E8%8F%AF-apex-team%E5%8B%87%E5%A5%AA%E7%84%A1%E4%BA%BA%E6%A9%9F%E8%B6%B3%E7%90%83%E7%A4%BE%E9%9D%92%E7%B5%84%E5%86%A0%E8%BB%8D-100500290.html
+    publisher: 三立新聞網（Yahoo 奇摩新聞轉載）
+    published_at: "2026-07-21"
+    retrieved_at: "2026-08-27"
+    trust_level: B
