@@ -387,3 +387,24 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
     }
   });
 });
+
+// naming-drone-soccer-vs-flyball 說「廠商型號常寫成『足球無人機』」，並點名四款。
+// 那是攤開 src/content/equipment 才成立的斷言——型號改名或機型下架，句子就默默變成假話。
+// 這個字序值得單獨守：GSC 近 90 天「足球無人機」有曝光（pos 59，落在首頁），
+// 而搜尋引擎不一定把它和「無人機足球」當成同一個詞。
+describe('naming-drone-soccer-vs-flyball 的型號斷言', () => {
+  const article = readFileSync('src/content/learn/naming-drone-soccer-vs-flyball.md', 'utf8');
+  const models = equipment.map((e) => e.model);
+
+  it('確實有型號用「足球無人機」這個字序', () => {
+    expect(models.filter((m) => m.includes('足球無人機')).length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('文中點名的四款都還在，連結也指得到', () => {
+    for (const slug of ['arklab-hjt006', 'oursteam-fb200', 'oursteam-s4a-tda196', 'soeasy-balkin-v2']) {
+      expect(article).toContain(`/equipment/${slug}/`);
+      expect(equipment.some((e) => e.slug === slug)).toBe(true);
+      expect(equipment.find((e) => e.slug === slug)!.model).toContain('足球無人機');
+    }
+  });
+});
