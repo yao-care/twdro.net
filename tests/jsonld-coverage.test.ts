@@ -94,9 +94,14 @@ describe('JSON-LD 覆蓋率', () => {
       const toolPaths = new Set(
         SITE_SECTIONS.flatMap((sec) => sec.subPages ?? []).map((item) => join('dist', item.href, 'index.html')),
       );
+      // 實體明細頁固定是「區塊根目錄下一層」：dist/teams/<slug>/index.html。
+      // 再深一層的是彙整頁（dist/teams/school/<校名>/、dist/events/city/<縣市>/…），
+      // 它們描述的是一份清單而不是單一實體，帶的是 CollectionPage，不該要求實體節點。
+      // 2026-08-27 學校頁上線時踩到：那 13 頁全部被當成隊伍明細頁要求 SportsTeam。
+      const depth = (f: string) => f.slice(target.length).replace(/^\//, '').split('/').length;
       const candidates = target.endsWith('.html')
         ? [target]
-        : walk(target).filter((f) => f !== join(target, 'index.html') && !toolPaths.has(f));
+        : walk(target).filter((f) => f !== join(target, 'index.html') && !toolPaths.has(f) && depth(f) === 2);
       expect(candidates.length, `${target} 找不到明細頁`).toBeGreaterThan(0);
       for (const f of candidates) {
         expect(readFileSync(f, 'utf-8'), `${f} 缺 ${needle}`).toContain(needle);

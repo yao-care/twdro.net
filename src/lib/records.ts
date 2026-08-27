@@ -63,6 +63,10 @@ export function parseTeamEntry(raw: string): Pick<RecordRow, 'raw' | 'team' | 's
   // 沒有括號時，來源可能直接寫「南投縣南崗國中」這種「縣市＋校名」
   const county = value.match(/^(臺北市|台北市|新北市|桃園市|臺中市|台中市|臺南市|台南市|高雄市|基隆市|新竹市|新竹縣|苗栗縣|彰化縣|南投縣|雲林縣|嘉義市|嘉義縣|屏東縣|宜蘭縣|花蓮縣|臺東縣|台東縣|澎湖縣|金門縣|連江縣)(.+)$/);
   if (county && SCHOOL_TAIL.test(county[2])) {
+    // 「高雄市立林園高級中學」的「市立」是校名的一部分，把縣市剝掉會剩下「立林園高級中學」
+    // ——那不是任何一所學校的名字，而且會變成一個沒有人搜得到的網址（2026-08-27 實際產出過）。
+    // 縣市後面接「立」時，整串都是校名，縣市只當作地區標記。
+    if (county[2].startsWith('立')) return { raw: value, team: value, school: value, area: county[1] };
     return { raw: value, team: value, school: county[2], area: county[1] };
   }
   if (SCHOOL_TAIL.test(value)) return { raw: value, team: value, school: value, area: null };

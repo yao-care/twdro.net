@@ -40,13 +40,36 @@ const jsonld = webPageJsonLd({ name: '站內搜尋', url: 'https://twdro.net/sea
       });
       input.addEventListener('change', sendSearch);
     };
+
+    // 「搜了什麼」只說明讀者想找什麼；**「搜了卻沒有結果」才直接說出站上缺什麼**。
+    // 這是站內唯一能指出內容缺口的訊號，而先前完全沒有量測（2026-08-27 補）。
+    // Pagefind 把「沒有結果」渲染成一段訊息，所以觀察結果區塊的變化，
+    // 有結果才送 result_count、零結果另送一個事件，方便在 GA4 直接篩。
+    const bindEmptyTracking = (root: HTMLElement) => {
+      let reported = '';
+      const check = () => {
+        const input = document.querySelector<HTMLInputElement>('#search input');
+        const term = input?.value.trim() ?? '';
+        if (!term || term === reported) return;
+        const results = root.querySelectorAll('.pagefind-ui__result').length;
+        // Pagefind 在載入中不會有 result node，也不會有 message；只在確定渲染完才回報。
+        const message = root.querySelector('.pagefind-ui__message')?.textContent?.trim() ?? '';
+        if (!message && results === 0) return;
+        reported = term;
+        if (results === 0) track('search_no_results', { search_term: term });
+        else track('search_results', { search_term: term, result_count: results });
+      };
+      new MutationObserver(() => window.setTimeout(check, 250)).observe(root, { childList: true, subtree: true });
+    };
     const s = document.createElement('script');
     s.src = bundlePath + 'pagefind-ui.js';
     s.onload = () => {
       // @ts-ignore - PagefindUI 由外部腳本掛到全域
       new (window as any).PagefindUI({ element: '#search', bundlePath, showSubResults: true, translations: { placeholder: '搜尋賽事、規則、隊伍、器材…' } });
+      const root = document.getElementById('search')!;
       bindSearchTracking();
-      new MutationObserver(bindSearchTracking).observe(document.getElementById('search')!, { childList: true, subtree: true });
+      bindEmptyTracking(root);
+      new MutationObserver(bindSearchTracking).observe(root, { childList: true, subtree: true });
     };
     document.head.appendChild(s);
   </script>

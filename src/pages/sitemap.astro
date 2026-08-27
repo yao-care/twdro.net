@@ -5,6 +5,8 @@ import { url } from '../lib/url';
 import { SITE_SECTIONS } from '../lib/nav';
 import { isPublicEvent } from '../lib/enums';
 import { citySlug, normalizeCity } from '../lib/geo.mjs';
+import { aggHref, yearOf } from '../lib/aggregate.mjs';
+import { collectRecords, groupBySchool } from '../lib/records';
 import { webPageJsonLd } from '../lib/jsonld';
 
 const [events, rulebooks, equipment, teams, venues, organizations, learn] = await Promise.all([
@@ -36,11 +38,38 @@ const citySections = [...new Map(
   .map(([slug, name]) => ({ href: `/events/city/${slug}/`, label: name }))
   .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hant'));
 
+const publicEvents = events.filter((e) => isPublicEvent(e.data.status));
+const seriesSections = [...new Set(publicEvents.map((e) => e.data.event_series).filter((n): n is string => !!n))]
+  .sort((a, b) => a.localeCompare(b, 'zh-Hant'))
+  .map((n) => ({ href: aggHref('/events/series/', n), label: n }));
+const yearSections = [...new Set(publicEvents.map((e) => yearOf(e.data.schedule.event_start)).filter((y): y is string => !!y))]
+  .sort((a, b) => b.localeCompare(a))
+  .map((y) => ({ href: aggHref('/events/year/', y), label: `${y} 年` }));
+const schoolSections = groupBySchool(collectRecords(publicEvents.map((e) => ({
+  slug: e.id, title: e.data.title,
+  eventStart: e.data.schedule.event_start ?? null,
+  results: e.data.results,
+}))))
+  .map((s) => ({ href: aggHref('/teams/school/', s.key), label: s.key }))
+  .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hant'));
+
 const jsonld = webPageJsonLd({ name: '網站地圖', url: 'https://twdro.net/sitemap/' });
 
 ---
 <BaseLayout title="網站地圖 | twdro.net" description="twdro.net 全站頁面一覽：賽事、規則、器材、隊伍、場地、單位與教育文章。" heroTitle="網站地圖" heroDesc="全站頁面一覽，方便快速找到你要的資料。">
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  {[
+    { title: '依系列找賽事', href: '/events/', items: seriesSections },
+    { title: '依年度找賽事', href: '/events/', items: yearSections },
+    { title: '學校成績紀錄', href: '/teams/records/', items: schoolSections },
+  ].map((sec) => sec.items.length > 0 && (
+    <section class="panel sitemap-section">
+      <h2><a href={url(sec.href)}>{sec.title}</a></h2>
+      <ul class="sitemap-list sitemap-list--cols">
+        {sec.items.map((i) => <li><a href={url(i.href)}>{i.label}</a></li>)}
+      </ul>
+    </section>
+  ))}
   <section class="panel sitemap-section">
     <h2><a href={url('/events/')}>依縣市找賽事</a></h2>
     <ul class="sitemap-list sitemap-list--cols">

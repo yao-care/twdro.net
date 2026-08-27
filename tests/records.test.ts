@@ -26,6 +26,14 @@ describe('parseTeamEntry', () => {
     expect(parseTeamEntry('蒜頭國小')).toMatchObject({ school: '蒜頭國小', area: null });
   });
 
+  it('「市立／縣立」不能被當成縣市前綴剝掉', () => {
+    // 剝掉會剩下「立林園高級中學」——不是任何一所學校的名字，而且會變成一個沒有人
+    // 搜得到的網址。2026-08-27 學校頁第一次產出時就出現過這個目錄。
+    expect(parseTeamEntry('高雄市立林園高級中學'))
+      .toMatchObject({ school: '高雄市立林園高級中學', area: '高雄市' });
+    expect(parseTeamEntry('新北市立三民高級中學').school).toBe('新北市立三民高級中學');
+  });
+
   it('純隊名不亂猜學校', () => {
     for (const raw of ['APEX TEAM', '多元智趣2', '全村的希望', '飛行日常-陝亮登場']) {
       expect(parseTeamEntry(raw).school, raw).toBeNull();

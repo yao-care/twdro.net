@@ -7,6 +7,7 @@ import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { hasTeam } from '../../lib/results';
 import { citySlug } from '../../lib/geo.mjs';
+import { aggHref, yearOf } from '../../lib/aggregate.mjs';
 import { collectionPageJsonLd } from '../../lib/jsonld';
 
 const all = (await getCollection('events'))
@@ -68,6 +69,17 @@ const cities = [...cityCounts.entries()]
   .map(([slug, count]) => ({ slug, name: all.find((e) => citySlug(e.data.schedule.city) === slug)!.data.schedule.city!, count }))
   .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hant'));
 
+const seriesCounts = new Map<string, number>();
+const yearCounts = new Map<string, number>();
+for (const e of all) {
+  const s = e.data.event_series;
+  if (s) seriesCounts.set(s, (seriesCounts.get(s) ?? 0) + 1);
+  const y = yearOf(e.data.schedule.event_start);
+  if (y) yearCounts.set(y, (yearCounts.get(y) ?? 0) + 1);
+}
+const seriesList = [...seriesCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hant'));
+const yearList = [...yearCounts.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+
 const groups = [
   { key: 'open', heading: '開放報名中', items: open,
     note: '報名期間以主辦單位公告為準，點進去可看報名截止日與報名連結。' },
@@ -124,6 +136,22 @@ const jsonld = collectionPageJsonLd({
       <p style="margin:0;line-height:2">
         {cities.map((c) => (
           <><a href={url(`/events/city/${c.slug}/`)} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{c.name}<span class="text-muted" style="font-size:.88rem">　{c.count}</span></a></>
+        ))}
+      </p>
+    </div>
+    <div style="margin:0 0 18px">
+      <h3 style="margin:0 0 8px;font-size:1.02rem">依系列找</h3>
+      <p style="margin:0;line-height:2">
+        {seriesList.map(([name, count]) => (
+          <><a href={url(aggHref('/events/series/', name))} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{name}<span class="text-muted" style="font-size:.88rem">　{count}</span></a></>
+        ))}
+      </p>
+    </div>
+    <div style="margin:0 0 18px">
+      <h3 style="margin:0 0 8px;font-size:1.02rem">依年度找</h3>
+      <p style="margin:0;line-height:2">
+        {yearList.map(([y, count]) => (
+          <><a href={url(aggHref('/events/year/', y))} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{y} 年<span class="text-muted" style="font-size:.88rem">　{count}</span></a></>
         ))}
       </p>
     </div>

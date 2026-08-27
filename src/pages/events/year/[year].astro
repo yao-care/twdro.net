@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import EventCard from '../../../components/EventCard.astro';
+import { url } from '../../../lib/url';
+import { isPublicEvent } from '../../../lib/enums';
+import { yearOf, aggHref } from '../../../lib/aggregate.mjs';
+import { hasPublishedResults } from '../../../lib/results';
+import { citySlug } from '../../../lib/geo.mjs';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
+
+// 年度頁承接的是「今年有哪些比賽」這種時間軸查詢。它是四個彙整維度裡最弱的一個，
+// 但成本近乎零（同一份資料再切一刀），而且它是唯一能一眼看出「這項運動在臺灣長多快」的頁：
+// 2025 年 4 場、2026 年 15 場。
+export async function getStaticPaths() {
+  const events = (await getCollection('events')).filter((e) => isPublicEvent(e.data.status));
+  const years = [...new Set(events.map((e) => yearOf(e.data.schedule.event_start)).filter((y): y is string => !!y))];
+  return years.map((year) => ({
+    params: { year },
+    props: {
+      year,
+      events: events
+        .filter((e) => yearOf(e.data.schedule.event_start) === year)
+        .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? '')),
+      allYears: years.slice().sort(),
+    },
+  }));
+}
+
+const { year, events, allYears } = Astro.props;
+const seriesNames = [...new Set(events.map((e) => e.data.event_series).filter(Boolean))] as string[];
+const cities = [...new Set(events.map((e) => e.data.schedule.city).filter(Boolean))] as string[];
+const withResults = events.filter((e) => hasPublishedResults(e.data.results));
+
+const metaDescription =
+  `${year} 年臺灣的無人機足球賽事：本站收錄 ${events.length} 場，涵蓋 ${seriesNames.length} 個系列、`
+  + `${cities.length} 個縣市，其中 ${withResults.length} 場已公布成績。每一筆都標明來源與查核日期。`;
+
+const jsonld = collectionPageJsonLd({
+  name: `${year} 年無人機足球賽事`,
+  url: `https://twdro.net${aggHref('/events/year/', year)}`,
+  description: metaDescription,
+  items: events.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '賽事', url: 'https://twdro.net/events/' },
+  { name: `${year} 年`, url: `https://twdro.net${aggHref('/events/year/', year)}` },
+]);
+---
+<BaseLayout
+  title={`${year} 年臺灣無人機足球賽事一覽 | twdro.net`}
+  description={metaDescription}
+  heroTitle={`${year} 年的無人機足球賽事`}
+  heroDesc={`${events.length} 場、${seriesNames.length} 個系列、${cities.length} 個縣市。`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: `${year} 年`, href: aggHref('/events/year/', year) }]} />
+
+  {allYears.length > 1 && (
+    <p style="margin:0 0 20px;line-height:2">
+      {allYears.map((y) => (
+        <><a href={url(aggHref('/events/year/', y))} style={`display:inline-block;padding:.25rem .8rem;margin-right:.5rem;border-radius:999px;border:1px solid var(--color-border)${y === year ? ';background:var(--color-surface-muted);font-weight:700' : ''}`}>{y}</a></>
+      ))}
+    </p>
+  )}
+
+  <section style="margin-bottom:32px">
+    <div style="display:grid;gap:18px">
+      {events.map((e) => (
+        <EventCard
+          id={e.id} title={e.data.title} status={e.data.status}
+          eventStart={e.data.schedule.event_start} eventEnd={e.data.schedule.event_end}
+          city={e.data.schedule.city} venue={e.data.schedule.venue_name}
+          registrationEnd={e.data.schedule.registration_end} registrationUrl={e.data.registration_url}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">{year} 年的系列與縣市</h2>
+    <p style="margin:0 0 10px;line-height:2">
+      {seriesNames.map((s) => (
+        <><a href={url(aggHref('/events/series/', s))} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{s}</a></>
+      ))}
+    </p>
+    <p style="margin:0;line-height:2">
+      {cities.map((c) => citySlug(c) && (
+        <><a href={url(`/events/city/${citySlug(c)}/`)} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{c}</a></>
+      ))}
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-top:0">漏了 {year} 年的場次？</h2>
+    <p style="margin:0 0 14px">本站只收錄查得到公開資料的場次。知道我們沒有的，直接告訴我們，會標明來源與查核日期後補上。</p>
+    <p style="margin:0"><a class="btn-action" href={url('/about/correction/')}>提供賽事或成績 →</a></p>
+  </section>
+</BaseLayout>

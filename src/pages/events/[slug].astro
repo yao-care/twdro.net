@@ -9,6 +9,7 @@ import { url } from '../../lib/url';
 import { hasTeam, teamText, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults, FINISHED_STATUSES } from '../../lib/results';
 import { isPublicEvent, verificationLabel } from '../../lib/enums';
 import { citySlug } from '../../lib/geo.mjs';
+import { aggHref } from '../../lib/aggregate.mjs';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
 import { resultsMailto, resultsUrl, correctionMailto } from '../../lib/correction';
 export async function getStaticPaths() {
@@ -136,7 +137,9 @@ const seoDesc = eventPageDescription(d);
   <section class="panel">
     <h2>基本資訊</h2>
     <ul class="data-list">
-      {d.event_series && <li><span class="k">賽事系列</span><span class="v">{d.event_series}</span></li>}
+      {d.event_series && <li><span class="k">賽事系列</span><span class="v">
+        <a href={url(aggHref('/events/series/', d.event_series))}>{d.event_series}</a>
+      </span></li>}
       {d.event_type && <li><span class="k">賽事類型</span><span class="v">{d.event_type}</span></li>}
       {d.level && <li><span class="k">層級</span><span class="v">{d.level}</span></li>}
       <li><span class="k">主辦</span><span class="v">

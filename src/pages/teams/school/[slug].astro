@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import { url } from '../../../lib/url';
+import { isPublicEvent } from '../../../lib/enums';
+import { collectRecords, groupBySchool } from '../../../lib/records';
+import { aggHref } from '../../../lib/aggregate.mjs';
+import { citySlug, normalizeCity } from '../../../lib/geo.mjs';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
+
+// 學校頁是這條長尾路線裡最重要的一層：**當事人會主動找。**
+// 對照證據不是推論——2026-08-03 逼出整條縣市公告 pipeline 的那個 GSC 查詢，
+// 就是「無人機足球比賽嘉義縣蒜頭國小」。老師、家長、學生自己會搜學校名，
+// 而全臺沒有任何人在維護「這所學校在無人機足球拿過什麼」。
+//
+// 名單完全來自既有成績資料，不新增內容：只收「原始公告有寫出學校」的那些，不從隊名猜。
+export async function getStaticPaths() {
+  const [events, orgs, teams] = await Promise.all([
+    getCollection('events'), getCollection('organizations'), getCollection('teams'),
+  ]);
+  const publicEvents = events.filter((e) => isPublicEvent(e.data.status));
+  const records = collectRecords(publicEvents.map((e) => ({
+    slug: e.id, title: e.data.title,
+    eventStart: e.data.schedule.event_start ?? null,
+    results: e.data.results,
+  })));
+  const cityOf = new Map(publicEvents.map((e) => [e.id, normalizeCity(e.data.schedule.city)]));
+
+  return groupBySchool(records).map((s) => ({
+    params: { slug: s.key },
+    props: {
+      school: s.key,
+      area: s.extra.area,
+      teamNames: s.extra.teams,
+      rows: s.rows.slice().sort((a, b) => (b.eventStart ?? '').localeCompare(a.eventStart ?? '')),
+      // 這所學校若已建檔為單位或隊伍，連過去；沒有就不硬建（organizations 是事實型資料）。
+      org: orgs.find((o) => o.data.name.includes(s.key)) ?? null,
+      teams: teams.filter((t) => t.data.name.includes(s.key)),
+      cities: [...new Set(s.rows.map((r) => cityOf.get(r.eventSlug)).filter((c): c is string => !!c))],
+    },
+  }));
+}
+
+const { school, area, teamNames, rows, org, teams, cities } = Astro.props;
+
+const places = rows.reduce((acc: Record<string, number>, r) => ({ ...acc, [r.place]: (acc[r.place] ?? 0) + 1 }), {});
+const placeText = ['冠軍', '亞軍', '季軍', '優勝'].filter((p) => places[p]).map((p) => `${p} ${places[p]} 次`).join('、');
+const eventCount = new Set(rows.map((r) => r.eventSlug)).size;
+
+const metaDescription =
+  `${school}在無人機足球賽事的成績紀錄：${eventCount} 場賽事共 ${rows.length} 筆名次`
+  + (placeText ? `（${placeText}）` : '')
+  + (teamNames.length ? `，隊伍名稱：${teamNames.join('、')}` : '')
+  + '。每一筆都連得回原始賽事與公告來源。';
+
+const jsonld = collectionPageJsonLd({
+  name: `${school}的無人機足球成績`,
+  url: `https://twdro.net${aggHref('/teams/school/', school)}`,
+  description: metaDescription,
+  items: rows.map((r) => ({ name: r.eventTitle, url: `https://twdro.net/events/${r.eventSlug}/` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '隊伍與學校成績反查', url: 'https://twdro.net/teams/records/' },
+  { name: school, url: `https://twdro.net${aggHref('/teams/school/', school)}` },
+]);
+---
+<BaseLayout
+  title={`${school} 無人機足球成績紀錄 | twdro.net`}
+  description={metaDescription}
+  heroTitle={school}
+  heroDesc={`${eventCount} 場賽事、${rows.length} 筆名次${placeText ? `（${placeText}）` : ''}${area ? `・${area}` : ''}`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '成績反查', href: '/teams/records/' }, { name: school, href: aggHref('/teams/school/', school) }]} />
+
+  <section class="panel" style="margin-bottom:20px">
+    <h2 style="margin-top:0">名次紀錄</h2>
+    <ul class="data-list">
+      {rows.map((r) => (
+        <li>
+          <span class="k">{r.place}</span>
+          <span class="v">
+            {r.team !== school && <><strong>{r.team}</strong>　</>}
+            <a href={url(`/events/${r.eventSlug}/`)}>{r.eventTitle}</a>
+            <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:2px">
+              {[r.eventStart, r.division].filter(Boolean).join('・')}
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
+    <p class="text-muted" style="margin:14px 0 0">
+      名字照原始公告抄，來源沒寫的不猜。<strong>只收隊伍名稱，不收選手與教練姓名</strong>——
+      即使原始成績名單上有。全部名次見<a href={url('/events/results/')}>成績總表</a>。
+    </p>
+  </section>
+
+  {(org || teams.length > 0 || cities.length > 0) && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">站上的其他資料</h2>
+      <ul class="data-list">
+        {org && <li><span class="k">單位頁</span><span class="v"><a href={url(`/organizations/${org.id}/`)}>{org.data.name}</a></span></li>}
+        {teams.map((t) => (
+          <li><span class="k">隊伍</span><span class="v"><a href={url(`/teams/${t.id}/`)}>{t.data.name}</a></span></li>
+        ))}
+        {cities.length > 0 && (
+          <li><span class="k">參賽縣市</span><span class="v">
+            {cities.map((c, i) => citySlug(c) && (
+              <>{i > 0 && '、'}<a href={url(`/events/city/${citySlug(c)}/`)}>{c}</a></>
+            ))}
+          </span></li>
+        )}
+      </ul>
+    </section>
+  )}
+
+  <section class="panel">
+    <h2 style="margin-top:0">{school}的紀錄不完整？</h2>
+    <p style="margin:0 0 14px">
+      本站只收錄查得到公開成績的場次，臺灣的無人機足球成績沒有集中的公告處，很多場次到現在
+      還查不到名次。手上有名單的話直接告訴我們，會標明來源與查核日期後補上——
+      <strong>只收隊伍名稱，不收學生姓名</strong>。
+    </p>
+    <p style="margin:0">
+      <a class="btn-action" href={url('/about/correction/')}>提供成績 →</a>
+      <a class="btn-outline" href={url('/teams/records/')} style="margin-left:10px">看全部學校與隊伍</a>
+    </p>
+  </section>
+</BaseLayout>

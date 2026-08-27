@@ -15,6 +15,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import { citySlug } from './geo.mjs';
+import { yearOf } from './aggregate.mjs';
 import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = fileURLToPath(new URL('../..', import.meta.url));
@@ -45,6 +46,29 @@ const INDEX_OF = {
   '/organizations/': '/organizations/',
   '/rules/': '/rules/',
 };
+
+
+// 名次字串 → 學校名。與 src/lib/records.ts 的 parseTeamEntry 同一套規則，但這裡是 .mjs
+// （lastmod 跑在 Astro 設定載入階段，只吃純 JS）。兩邊走鐘的樣子是「某個學校頁沒有 lastmod」，
+// 所以 tests/aggregate.test.ts 直接比對兩邊對同一批字串的結果。
+const SCHOOL_TAIL_MJS = /(國小|國中|中學|高中|高工|高商|實中|實驗中學|國民小學|國民中學|大學|科技大學|補習班|文理補習班)$/;
+const COUNTY_MJS = /^(臺北市|台北市|新北市|桃園市|臺中市|台中市|臺南市|台南市|高雄市|基隆市|新竹市|新竹縣|苗栗縣|彰化縣|南投縣|雲林縣|嘉義市|嘉義縣|屏東縣|宜蘭縣|花蓮縣|臺東縣|台東縣|澎湖縣|金門縣|連江縣)(.+)$/;
+
+export function schoolFromEntry(raw) {
+  const value = String(raw ?? '').trim();
+  if (!value) return null;
+  const paren = value.match(/^(.+?)（(.+?)）$/);
+  if (paren) {
+    const parts = paren[2].trim().split(/[\s\u3000]+/);
+    const last = parts[parts.length - 1];
+    return SCHOOL_TAIL_MJS.test(last) ? last : null;
+  }
+  const county = value.match(COUNTY_MJS);
+  if (county && SCHOOL_TAIL_MJS.test(county[2])) {
+    return county[2].startsWith('立') ? value : county[2];
+  }
+  return SCHOOL_TAIL_MJS.test(value) ? value : null;
+}
 
 function maxDate(a, b) {
   if (!a) return b;
@@ -159,6 +183,25 @@ export function buildLastmodMap(contentDir, today) {
         const city = text.match(/(?:^|\n)\s+city\s*:\s*"?([^"\n]+)"?/)?.[1]?.trim();
         const cs = citySlug(city);
         if (cs) put(`/events/city/${cs}/`, date);
+
+        // 系列與年度頁同理。中文段落要 encode，才會跟 sitemap 產出的網址對得起來。
+        const series = text.match(/(?:^|\n)event_series\s*:\s*"?([^"\n]+)"?/)?.[1]?.trim();
+        if (series) put(`/events/series/${encodeURIComponent(series)}/`, date);
+        const year = yearOf(text.match(/(?:^|\n)\s+event_start\s*:\s*"?([\d-]+)"?/)?.[1]?.trim());
+        if (year) put(`/events/year/${year}/`, date);
+
+        // 學校頁：名次欄位裡出現的學校。這裡刻意用寬鬆的抽法（括號內或縣市後的校名），
+        // 與 lib/records.ts 的 parseTeamEntry 同一套判準；抽不出來就不輸出 lastmod，
+        // 不亂猜——lastmod 寧可缺，也不能是假的（假訊號 Google 會學會忽略）。
+        for (const m of text.matchAll(/^\s+(?:champion_team|runner_up_team|third_place_team|merit_teams):\s*(.+)$/gm)) {
+          const rawValue = m[1].trim();
+          const items = rawValue.startsWith('[') ? rawValue.slice(1, -1).split(',') : [rawValue];
+          for (const item of items) {
+            const nameOnly = item.trim().replace(/^['"]|['"]$/g, '');
+            const school = schoolFromEntry(nameOnly);
+            if (school) put(`/teams/school/${encodeURIComponent(school)}/`, date);
+          }
+        }
       }
     }
   }

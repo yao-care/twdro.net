@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import EventCard from '../../../components/EventCard.astro';
+import { url } from '../../../lib/url';
+import { isPublicEvent } from '../../../lib/enums';
+import { aggHref } from '../../../lib/aggregate.mjs';
+import { hasPublishedResults, awaitsResults } from '../../../lib/results';
+import { citySlug } from '../../../lib/geo.mjs';
+import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
+
+// 賽事系列是站上唯一的「品牌查詢」入口：搜「天穹盃」「教育科技盃」的人要的是那個系列的
+// 全部場次、規格與成績，而不是某一場。這一層先前只存在於教育文的表格裡，沒有自己的頁。
+// 九個系列全部由既有資料交叉產生，系列多一場賽事，頁就自己長出來。
+export async function getStaticPaths() {
+  const [events, rulebooks] = await Promise.all([getCollection('events'), getCollection('rulebooks')]);
+  const publicEvents = events.filter((e) => isPublicEvent(e.data.status));
+  const names = [...new Set(publicEvents.map((e) => e.data.event_series).filter((n): n is string => !!n))];
+  return names.map((name) => {
+    const list = publicEvents
+      .filter((e) => e.data.event_series === name)
+      .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? ''));
+    const bookIds = [...new Set(list.map((e) => e.data.rulebook).filter((b): b is string => !!b))];
+    return {
+      params: { slug: name },
+      props: { series: name, events: list, books: rulebooks.filter((b) => bookIds.includes(b.id)) },
+    };
+  });
+}
+
+const { series, events, books } = Astro.props;
+
+const withResults = events.filter((e) => hasPublishedResults(e.data.results));
+const pending = events.filter((e) => awaitsResults(e.data.status, e.data.results));
+const upcoming = events.filter((e) => !['completed', 'results_pending', 'archived', 'cancelled'].includes(e.data.status));
+const cities = [...new Set(events.map((e) => e.data.schedule.city).filter(Boolean))] as string[];
+const years = [...new Set(events.map((e) => (e.data.schedule.event_start ?? '').slice(0, 4)).filter(Boolean))].sort();
+
+const metaDescription =
+  `${series}的全部場次：本站收錄 ${events.length} 場`
+  + (years.length ? `（${years.join('、')} 年）` : '')
+  + (cities.length ? `，分佈於${cities.join('、')}` : '')
+  + `。已公布成績 ${withResults.length} 場、尚未公布 ${pending.length} 場`
+  + (upcoming.length ? `、尚未舉行 ${upcoming.length} 場` : '')
+  + '。每一筆都標明來源與查核日期。';
+
+const jsonld = collectionPageJsonLd({
+  name: `${series}｜賽事系列`,
+  url: `https://twdro.net${aggHref('/events/series/', series)}`,
+  description: metaDescription,
+  items: events.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
+});
+const crumbs = breadcrumbJsonLd([
+  { name: '首頁', url: 'https://twdro.net/' },
+  { name: '賽事', url: 'https://twdro.net/events/' },
+  { name: series, url: `https://twdro.net${aggHref('/events/series/', series)}` },
+]);
+---
+<BaseLayout
+  title={`${series}：全部場次、規格與成績 | twdro.net`}
+  description={metaDescription}
+  heroTitle={series}
+  heroDesc={`本站收錄 ${events.length} 場${years.length ? `（${years.join('、')} 年）` : ''}${cities.length ? `，分佈於${cities.join('、')}` : ''}。`}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
+  <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: series, href: aggHref('/events/series/', series) }]} />
+
+  {books.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">這個系列用哪一套規則</h2>
+      <ul class="data-list">
+        {books.map((b) => (
+          <li>
+            <span class="k">{b.data.version}</span>
+            <span class="v">
+              <a href={url(`/rules/${b.id}/`)}>{b.data.name}</a>
+              {b.data.competition_spec?.drone_weight_g_max != null && (
+                <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:2px">
+                  球機重量上限 {b.data.competition_spec.drone_weight_g_max} 公克
+                  {b.data.competition_spec.drone_diameter_mm != null && `・直徑 ${b.data.competition_spec.drone_diameter_mm} mm`}
+                </span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="margin:12px 0 0">
+        跨系列的規格差異見<a href={url('/rules/compare/')}>規則比較器</a>——
+        <strong>一台球機打不了全部賽事</strong>。
+      </p>
+    </section>
+  )}
+
+  <section style="margin-bottom:32px">
+    <h2 style="margin:0 0 16px">全部場次（{events.length}）</h2>
+    <div style="display:grid;gap:18px">
+      {events.map((e) => (
+        <EventCard
+          id={e.id} title={e.data.title} status={e.data.status}
+          eventStart={e.data.schedule.event_start} eventEnd={e.data.schedule.event_end}
+          city={e.data.schedule.city} venue={e.data.schedule.venue_name}
+          registrationEnd={e.data.schedule.registration_end} registrationUrl={e.data.registration_url}
+        />
+      ))}
+    </div>
+  </section>
+
+  {withResults.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">已公布成績的場次（{withResults.length}）</h2>
+      <ul class="data-list">
+        {withResults.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '—'}</span>
+            <span class="v"><a href={url(`/events/${e.id}/`)}>{e.data.title}</a></span>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="margin:12px 0 0">
+        全部名次見<a href={url('/events/results/')}>比賽成績總表</a>；用隊伍或學校當入口見
+        <a href={url('/teams/records/')}>成績反查</a>。
+      </p>
+    </section>
+  )}
+
+  {cities.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">辦過的縣市</h2>
+      <p style="margin:0;line-height:2">
+        {cities.map((c) => citySlug(c) && (
+          <><a href={url(`/events/city/${citySlug(c)}/`)} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{c}</a></>
+        ))}
+      </p>
+    </section>
+  )}
+
+  <section class="panel">
+    <h2 style="margin-top:0">漏了這個系列的場次？</h2>
+    <p style="margin:0 0 14px">
+      本站只收錄查得到公開資料的場次{pending.length > 0 && `，另有 ${pending.length} 場已經打完但成績還查不到`}。
+      知道我們沒有的場次或名次，直接告訴我們，會標明來源與查核日期後補上。
+    </p>
+    <p style="margin:0">
+      <a class="btn-action" href={url('/about/correction/')}>提供賽事或成績 →</a>
+      <a class="btn-outline" href={url('/events/')} style="margin-left:10px">看全部賽事</a>
+    </p>
+  </section>
+</BaseLayout>

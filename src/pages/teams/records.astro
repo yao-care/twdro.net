@@ -5,6 +5,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { collectRecords, groupByTeam, groupBySchool } from '../../lib/records';
+import { aggHref } from '../../lib/aggregate.mjs';
 import { collectionPageJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
 
 // 這一頁把「賽事 → 名次 → 隊伍」翻過來變成「隊伍／學校 → 拿過什麼」。緣由見 lib/records.ts：
@@ -74,7 +75,7 @@ const dateOf = (r: { eventStart: string | null }) => r.eventStart ?? '';
     {schools.map((s) => (
       <div style="padding:14px 0;border-top:1px solid var(--color-border)">
         <h3 id={anchorId(s.key)} style="margin:0 0 6px;font-size:1.08rem">
-          {s.key}
+          <a href={url(aggHref('/teams/school/', s.key))}>{s.key}</a>
           {s.extra.area && <span class="text-muted" style="font-weight:500;font-size:.92rem">　{s.extra.area}</span>}
         </h3>
         <ul class="data-list">
