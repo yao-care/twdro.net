@@ -13,4 +13,19 @@ schedule:
   event_start: "2026-07-18"
   venue_name: 南投縣立南崗國民中學活動中心
   city: 南投縣
-verification: outdated
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 無人機飛球南投預賽 全縣29隊選手競技
+    url: https://news.st-media.com.tw/news/61142
+    publisher: TDN 台灣生活新聞（鑫傳國際多媒體）
+    published_at: "2026-07-18"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: gov_announcement
+    title: 天穹盃無人機飛球錦標賽 29隊拚全國賽門票
+    url: https://news.ntcc.gov.tw/tw/news-detail/2403
+    publisher: 南投縣議會
+    published_at: "2026-07-20"
+    retrieved_at: "2026-08-27"
+    trust_level: A

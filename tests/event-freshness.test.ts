@@ -51,12 +51,20 @@ describe('賽事卡片的過期標記', () => {
 
 describe('沒有來源或標為過期的賽事頁', () => {
   it('會直接對讀者說明資料狀態，而不是安靜地什麼都不顯示', () => {
-    const suspect = events.filter((e) => !e.hasSources || e.verification === 'outdated');
-    expect(suspect.length).toBeGreaterThan(0);   // 目前確實有，沒有的話這條測試也該重寫
-    for (const e of suspect) {
+    // 2026-08-27：這一條原本斷言「目前確實有可疑的賽事」，當天把那三筆都查證補完之後就轉紅了。
+    // 那是好的失敗，但斷言寫錯了——要釘的是規則（有可疑就一定要出警語），不是「站上一定有髒資料」。
+    // 站上乾淨時這條是空跑，所以下面另外釘一條「乾淨」本身：公開賽事全部附得起來源。
+    for (const e of events.filter((x) => !x.hasSources || x.verification === 'outdated')) {
       const html = readFileSync(`dist/events/${e.slug}/index.html`, 'utf8');
       expect(html, `${e.slug} 少了資料狀態警語`).toContain('這一頁的資料狀態是');
     }
+  });
+
+  it('公開賽事全部附得起來源（這是目標狀態，退步就轉紅）', () => {
+    // CI 的 scripts/check-event-status.mjs 是給維護者的提醒、不擋部署；
+    // 這一條是給程式碼的門檻：零來源的賽事重新出現時，測試就會擋下來要人處理。
+    const unsourced = events.filter((e) => !e.hasSources);
+    expect(unsourced.map((e) => e.slug)).toEqual([]);
   });
 
   it('有來源且不過期的賽事頁不會出現那段警語（別對正常頁面喊狼來了）', () => {

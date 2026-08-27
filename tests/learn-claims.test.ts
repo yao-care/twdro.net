@@ -372,10 +372,13 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
     expect(series).toContain('縣市選拔賽');
   });
 
-  it('秀傳盃「全臺首屆由醫院主辦」與主辦單位仍有來源', () => {
+  it('秀傳盃「全臺首度由醫療單位主辦」與主辦單位仍有來源', () => {
+    // 2026-08-27 用字對齊實際報導：多家媒體寫的是「全台首度由醫療單位主辦」，
+    // 賽事正式名稱是「第一屆秀傳盃無人機足球賽」（原本站上寫「秀傳盃無人機足球友誼賽」）。
     const raw = eventRaw('2026-shuang-cup');
-    expect(raw).toContain('全臺首屆由醫院主辦');
+    expect(raw).toContain('全臺首度由醫療單位主辦');
     expect(raw).toContain('秀傳醫療體系／奧斯丁國際');
+    expect(raw).toContain('title: 第一屆秀傳盃無人機足球賽');
   });
 
   it('樞紐文連出的四篇專篇都存在（避免改檔名後變死連結）', () => {

@@ -1,7 +1,7 @@
-title: 2026 秀傳盃無人機足球友誼賽
-subtitle: 全臺首屆由醫院主辦，結合醫療無人機論壇與代表隊示範賽
+title: 第一屆秀傳盃無人機足球賽
+subtitle: 全臺首度由醫療單位主辦；2026-08-02 於彰化秀傳紀念醫院舉行，為「2026 秀傳夏季無人機嘉年華」（8/1–8/2）的一環，並由國家代表隊進行示範賽
 event_series: 秀傳夏季無人機嘉年華會
-status: announced
+status: completed
 event_type: 友誼賽
 level: 地方
 organizer: 秀傳醫療體系／奧斯丁國際
@@ -21,3 +21,17 @@ sources:
     publisher: 奧斯丁國際
     retrieved_at: "2026-07-19"
     trust_level: C
+  - type: news_article
+    title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用
+    url: https://n.yam.com/Article/20260802747196
+    publisher: 蕃新聞
+    published_at: "2026-08-02"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 第一屆秀傳盃無人機足球賽 整合無人機與緊急救援應用
+    url: https://focus.586.com.tw/2026/08/02/p398048/
+    publisher: 焦點時報
+    published_at: "2026-08-02"
+    retrieved_at: "2026-08-27"
+    trust_level: B

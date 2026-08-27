@@ -1,7 +1,7 @@
 title: 第三屆臺灣教育科技盃無人機足球－新北地區公開賽
-subtitle: 新增無刷馬達組，賽制參考 FAI／FIDA 國際規範
+subtitle: 新增無刷馬達組，賽制參考 FAI／FIDA 國際規範；2026-08-08 於三民高中舉行，80 隊逾 300 名學生參賽，優勝隊伍代表新北市角逐全國公開賽
 event_series: 臺灣教育科技盃無人機足球
-status: announced
+status: results_pending
 event_type: 地區公開賽
 level: 地方
 organizer: 新北市教育局／台北市電腦商業同業公會／奧斯丁國際
@@ -13,4 +13,19 @@ schedule:
   venue_name: 新北市立三民高中 逸仙堂
   city: 新北市
   district: 蘆洲區
-verification: outdated
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 無人機足球空戰開打 新北80隊300位學子競技爭全國賽門票
+    url: https://udn.com/news/story/6898/9678820
+    publisher: 聯合報
+    published_at: "2026-08-08"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 無人機化身空中足球員 新北80隊逾300學生熱血對戰
+    url: https://n.yam.com/Article/20260808859559
+    publisher: 蕃新聞
+    published_at: "2026-08-08"
+    retrieved_at: "2026-08-27"
+    trust_level: B

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { correctionUrl, correctionMailto, resultsUrl, resultsMailto, CORRECTION_EMAIL } from '../src/lib/correction';
 
 // 為什麼有這組測試（2026-07-28）：
@@ -151,8 +151,20 @@ describe('成績徵稿入口只出現在「已結束且無成績」的賽事頁'
   });
 
   it('尚未舉行的賽事不出現入口（還沒有成績可談）', () => {
-    const html = readFileSync('dist/events/2026-edutech-cup-newtaipei/index.html', 'utf8');
-    expect(html).not.toContain('來信提供成績');
+    // 2026-08-27 改成從資料挑，不再寫死賽事 slug：原本釘的是教育科技盃新北場，
+    // 那場 8/8 打完、狀態改成 results_pending 之後這條測試就轉紅了——
+    // 測試釘住的應該是「規則」，不是「今天剛好還沒打的那一場」。
+    const dir = 'src/content/events';
+    const FINISHED = ['completed', 'results_pending', 'archived'];
+    const upcoming = readdirSync(dir)
+      .filter((f) => f.endsWith('.yml'))
+      .map((f) => ({ slug: f.replace(/\.yml$/, ''), status: readFileSync(`${dir}/${f}`, 'utf8').match(/^status:\s*(\S+)/m)?.[1] ?? '' }))
+      .filter((e) => !FINISHED.includes(e.status) && e.status !== 'draft');
+    expect(upcoming.length).toBeGreaterThan(0);
+    for (const e of upcoming) {
+      const html = readFileSync(`dist/events/${e.slug}/index.html`, 'utf8');
+      expect(html, `${e.slug}（${e.status}）不該出現成績徵稿入口`).not.toContain('來信提供成績');
+    }
   });
 
   it('入口帶本頁網址，收信一眼看得出是哪一場', () => {

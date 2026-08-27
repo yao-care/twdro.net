@@ -23,6 +23,15 @@ competition:
   drone_class: F9A-B
   drone_diameter: 20cm
   active_drones_per_team: 3
+results:
+  # 只有冠軍見報，亞季軍未公布——查不到的名次留白，不推測（站規鐵則 1）。
+  # 隊名亦未見報，來源以學校為單位寫「菁英組冠軍由南投縣南崗國中奪得，新秀組則由
+  # 南投縣平林國小摘冠」，故照原文以學校名記錄，不自行拼湊隊名，也不含選手姓名。
+  divisions:
+    - name: 菁英組
+      champion_team: 南投縣南崗國中
+    - name: 新秀組
+      champion_team: 南投縣平林國小
 verification: official
 sources:
   - type: gov_announcement
@@ -31,3 +40,10 @@ sources:
     publisher: 國立臺灣科學教育館
     retrieved_at: "2026-08-03"
     trust_level: A
+  - type: news_article
+    title: 無人機足球開踢 383名學生決賽秀AI創意
+    url: https://news.ltn.com.tw/news/life/breakingnews/5495140
+    publisher: 自由時報
+    published_at: "2026-07-05"
+    retrieved_at: "2026-08-27"
+    trust_level: B
