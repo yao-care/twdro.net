@@ -2,14 +2,36 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SPEC_FIELDS, SYSTEM_LABELS } from '../../lib/compare';
+import { url } from '../../lib/url';
 import { collectionPageJsonLd } from '../../lib/jsonld';
-const books = (await getCollection('rulebooks')).map((b) => ({
+const rulebooks = await getCollection('rulebooks');
+const books = rulebooks.map((b) => ({
   id: b.id,
   name: b.data.name,
   system: SYSTEM_LABELS[b.data.rule_system] ?? b.data.rule_system,
   spec: b.data.competition_spec ?? {},
 }));
 const dataJson = JSON.stringify({ books, fields: SPEC_FIELDS });
+
+// 裁判與判決：站上唯一沒有被任何一頁承接的查詢意圖之一（Bing 對「無人機足球」回的
+// 建議字裡就有「無人機足球裁判」）。條文其實早就收在 src/content/rules，只是散在四套
+// 規則裡、沒有人並排看過——而「誰說了算」正好是四套規則差最多的地方之一。
+//
+// 刻意用 tags 篩而不是寫死條文清單：規則書由人工／pipeline 更新，寫死的清單會與資料走鐘，
+// 而走鐘的樣子是「少列一條」——沒有人看得出來少了什麼。新增判決類條文只要打對 tag 就會出現。
+const JUDGING_TAGS = ['裁判', '判決', '犯規', '黃牌', '紅牌', '罰球'];
+const allRules = await getCollection('rules');
+const judgingByBook = rulebooks.map((b) => ({
+  id: b.id,
+  name: b.data.name,
+  system: SYSTEM_LABELS[b.data.rule_system] ?? b.data.rule_system,
+  articles: allRules
+    .filter((r) => r.data.rulebook === b.id)
+    .filter((r) => (r.data.tags ?? []).some((t: string) => JUDGING_TAGS.includes(t)))
+    .sort((a, x) => String(a.data.article_number ?? '').localeCompare(String(x.data.article_number ?? ''), undefined, { numeric: true })),
+}));
+const withJudging = judgingByBook.filter((b) => b.articles.length > 0);
+const withoutJudging = judgingByBook.filter((b) => b.articles.length === 0);
 
 const jsonld = collectionPageJsonLd({
   name: '無人機足球規則比較',
@@ -20,10 +42,10 @@ const jsonld = collectionPageJsonLd({
 
 ---
 <BaseLayout
-  title="規則比較器 | twdro.net"
-  description="並排比較 FAI、FIDA、教育部等不同無人機足球規則的賽制規格。"
+  title="無人機足球規則比較：球機規格、賽制與裁判判決一次對照 | twdro.net"
+  description="並排比較 FAI、FIDA、教育部與天穹盃四套無人機足球規則：球機規格、賽制，以及裁判編制與判決權限——同一個動作在不同規則下的判法並不一樣。條文逐條標明出處。"
   heroTitle="規則比較器"
-  heroDesc="勾選要比較的規則版本。不同體系規則各自獨立，請勿視為可互換。"
+  heroDesc="勾選要比較的規則版本，並往下看四套規則的裁判編制與判決條文。不同體系規則各自獨立，請勿視為可互換。"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <fieldset id="book-picker" class="panel" style="border:1px solid var(--color-border);margin:0 0 20px">
@@ -56,6 +78,53 @@ const jsonld = collectionPageJsonLd({
       各欄位以官方規則書原文為準，本站不代為解釋規則。
     </p>
   </section>
+  <section class="panel" style="margin-top:20px" id="judging">
+    <h2>裁判怎麼配置、誰說了算</h2>
+    <p>
+      四套規則差最多的地方不只在球機。<strong>同一個動作在不同規則下的判法與判它的人都不一樣</strong>，
+      而這件事在賽前檢錄與抗議時才會被發現。以下是本站收錄的判決類條文，逐條連回原文與出處。
+    </p>
+    <ul style="margin:0 0 18px;padding-left:1.4em">
+      <li><strong>FIDA Class 40</strong>：<strong>主裁判加兩位助理裁判</strong>。局末由主裁判指示助理裁判核對犯規次數，
+        雙方犯規先互相抵銷、只罰淨值較多的一方；罰球在每局結束後才執行。比賽中前鋒退出時，引導手的接任是否成立也由主裁判認定並宣告。</li>
+      <li><strong>FAI F9A-B</strong>（教育部全國賽採用同一套規格）：<strong>所有處罰由主審裁定</strong>，且不跨場次累計；
+        得分由得分裁判判定。採黃紅牌制，單場兩張黃牌即轉紅牌，收紅牌者逐出該場，該隊剩餘時間須少一台球機出賽。</li>
+      <li><strong>天穹盃</strong>：<strong>主審與裁判</strong>依大會判決守則裁量，兩者判決不一致時<strong>以主審為準</strong>。</li>
+    </ul>
+    {withJudging.map((b) => (
+      <div style="margin-top:18px">
+        <h3 style="margin:0 0 8px;font-size:1.08rem">
+          <a href={url(`/rules/${b.id}/`)}>{b.name}</a>
+          <span class="text-muted" style="font-weight:500;font-size:.92rem">　{b.system}</span>
+        </h3>
+        <ul class="data-list">
+          {b.articles.map((r) => (
+            <li>
+              <span class="k">{r.data.article_number ?? '—'}</span>
+              <span class="v">
+                <a href={url(`/rules/${b.id}/`)}>{r.data.title}</a>
+                {r.data.summary && <span style="display:block;color:var(--color-text-muted);font-size:.95rem;margin-top:4px">{r.data.summary}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+    {withoutJudging.length > 0 && (
+      <p class="text-muted" style="margin-top:18px;margin-bottom:0">
+        {withoutJudging.map((b) => b.name).join('、')}
+        ：本站尚未收錄其判決類條文——
+        <a href={url('/rules/moe-taiwan-2026/')}>教育部全國賽</a>明文採用 FAI F9A-B 規格，判決依該套規則；
+        其餘查不到的部分留白，不以推測補齊。看到我們漏收的條文，歡迎<a href={url('/about/correction/')}>回報</a>。
+      </p>
+    )}
+    <p class="text-muted" style="font-size:.92rem;margin-top:18px;margin-bottom:0">
+      想當裁判而不是被判的：教育部無人機教育推廣辦公室辦過 <strong>FAI 無人機足球裁判培訓課程</strong>，
+      16 歲以上國人皆可報名、不限教師或在校生，梯次與辦理方式見
+      <a href={url('/learn/moe-drone-office/')}>教育部在無人機足球上做了什麼</a>。
+    </p>
+  </section>
+
   <script type="application/json" id="compare-data" set:html={dataJson} />
   <script>
     import { compareRulebooks } from '../../lib/compare';
