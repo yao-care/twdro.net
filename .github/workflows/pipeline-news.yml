@@ -1,0 +1,43 @@
+name: Pipeline · 新聞與主辦單位公告監看
+# 為什麼有這支（2026-08-27）：
+# 這一天人工用搜尋挖了一輪，找到 4 場站上完全沒收錄的賽事、1 份九個名次的官方成績名單，
+# 還有 2 場「已經打完但站上還寫著即將舉行」。**那些線索沒有任何一支既有 pipeline 在看**：
+# county_edu_news 看縣市政府 RSS、organizer_articles 看主辦協會的文章 API、
+# event_announcements 看固定賽事頁——而當天每一筆的實際來源是新聞媒體與主辦單位自架的成績頁。
+# 用戶的指示是「每天都要檢查有沒有新資料」，這支就是那個機制。
+# 只偵測不改寫——賽事與成績屬事實型資料（站規鐵則 1），一律人工核實後手動上站。
+on:
+  schedule:
+    # 06:30 台北。既有排程：gov 04:00、events 04:30、intl 週一 05:00、organizer 05:30、county 06:00。
+    # 不能跟 organizer 同排 05:30——兩支都會寫 pipeline/state/manifest.json 並開 PR，同時跑會互相覆蓋。
+    - cron: '30 22 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: pip
+      # 只讀標題與連結，不涉個資 → 用 dev 依賴（免裝 torch／CKIP）。
+      - run: pip install -r pipeline/requirements-dev.txt
+      - name: 新聞與主辦單位公告監看
+        run: python -m pipeline.run --source news_watch
+      - name: 開 PR（若出現沒看過的標題）
+        if: ${{ hashFiles('pipeline/state/pr-body.md') != '' }}
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: pipeline/news-watch
+          title: '資料 pipeline：新聞與主辦單位公告出現新標題（可能含新賽事或成績）'
+          body-path: pipeline/state/pr-body.md
+          labels: |
+            data-pipeline
+            needs-review
+          add-paths: |
+            pipeline/state/news-alerts/**
+            pipeline/state/manifest.json

@@ -1,0 +1,56 @@
+# 每日新聞與主辦單位公告監看的來源清單（news_watch adapter 讀這一份）。
+#
+# 為什麼有這一支（2026-08-27）：
+# 這一天用搜尋人工挖了一輪，找到 4 場站上完全沒收錄的賽事、1 場拿到九個名次的官方名單，
+# 還有 2 場「已經打完但站上還寫著即將舉行」。**這些全部不在既有 pipeline 的覆蓋範圍內**：
+#   - county_edu_news 監看的是 18 個縣市政府／教育網 RSS，抓的是政府公告
+#   - organizer_articles 只監看主辦協會官網的文章 API（實測只有 2024–2025 的部落格文）
+#   - event_announcements 監看固定的賽事頁
+# 而當天的每一筆線索都來自**新聞媒體**（聯合報、自由時報、蕃新聞、TDN、焦點時報）
+# 與**主辦單位自架的成績頁**（Google Sites、uasact.com）。沒有任何一支在看那兩類來源。
+#
+# 用戶當天的指示是「每天都要檢查有沒有新資料」，所以這支跑每日 cron，
+# 只對「沒看過的標題」告警——看過的留在 known，不重複吵。
+#
+# 欄位：
+#   label      顯示名稱（出現在 alert 與 PR 內文）
+#   mode       google_news → 用 Google News RSS 搜尋 query
+#              html        → 直接抓頁面，抽 <a href> 連結與文字
+#   query      （google_news）搜尋字串
+#   url        （html）要抓的網址
+#   link_re    （html，選填）只留 href 命中此正規式的連結，濾掉導覽列
+
+sources:
+  # ── 新聞：這一層是今天所有線索的實際來源 ──
+  - label: 新聞・無人機足球
+    mode: google_news
+    query: 無人機足球
+  - label: 新聞・無人機飛球
+    mode: google_news
+    query: 無人機飛球
+  - label: 新聞・足球無人機
+    mode: google_news
+    query: 足球無人機
+  # 成績是站上唯一沒人有的資料，所以單獨開一條專門盯名次字樣的查詢。
+  - label: 新聞・無人機足球成績
+    mode: google_news
+    query: 無人機足球 成績
+  - label: 新聞・天穹盃
+    mode: google_news
+    query: 天穹盃 無人機
+  - label: 新聞・教育科技盃
+    mode: google_news
+    query: 教育科技盃 無人機足球
+
+  # ── 主辦單位自架的成績／公告頁 ──
+  # 這幾個站都是「賽後才把名單掛上去」，而且不會發新聞稿通知。
+  - label: UASACT 奧賽特官方網站
+    mode: html
+    url: https://www.uasact.com/
+    link_re: (data/files|competition|news)
+  - label: 臺灣教育科技盃全國公開賽官網
+    mode: html
+    url: https://sites.google.com/view/tda2025/news/record
+  - label: 新竹縣教育科技盃官網
+    mode: html
+    url: https://sites.google.com/view/hchccsoccer/

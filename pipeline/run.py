@@ -76,6 +76,11 @@ def _load_source(name: str):
         # 環境變數 COUNTY_FEEDS_CONFIG 可覆寫來源清單檔；未設則用 sources/county_feeds.yml。
         cfg = os.environ.get("COUNTY_FEEDS_CONFIG", "").strip() or None
         return CountyEduNews(cfg)
+    if name == "news_watch":
+        from pipeline.sources.news_watch import NewsWatch
+        # 環境變數 NEWS_QUERIES_CONFIG 可覆寫來源清單檔；未設則用 sources/news_queries.yml。
+        cfg = os.environ.get("NEWS_QUERIES_CONFIG", "").strip() or None
+        return NewsWatch(cfg)
     if name == "organizer_articles":
         from pipeline.sources.organizer_articles import OrganizerArticles
         # 環境變數 ORGANIZER_ARTICLES_URL 可覆寫；未設則用內建主辦單位官網 API。
@@ -212,6 +217,37 @@ def route_county_edu_alerts(candidates: list[Candidate], manifest_path: str) -> 
     )
 
 
+def route_news_alerts(candidates: list[Candidate], manifest_path: str) -> None:
+    """新聞或主辦單位頁出現沒看過的無人機足球標題＝可能有新賽事或新成績，一律走 PR 人審。
+
+    2026-08-27 建立。緣由見 pipeline/sources/news_watch.py 開頭：當天人工用搜尋挖到 4 場
+    站上完全沒收錄的賽事與 1 份九個名次的官方成績名單，而那些線索的來源（新聞媒體、主辦
+    單位自架的成績頁）沒有任何一支既有 pipeline 在看。用戶的指示是「每天都要檢查有沒有新資料」。
+    """
+    route_alert_pr(
+        candidates, manifest_path,
+        heading="## 新聞與主辦單位公告：出現沒看過的標題",
+        intro=("> 新聞媒體或主辦單位頁面出現本站沒看過的無人機足球相關標題（只對**新標題**告警）。"
+               "本 PR 由 pipeline 自動產生，**不改動站上任何資料**。"),
+        steps=[
+            "開啟下列 alert 檔，先看 `results_candidates`（標題含成績字樣者），再看 `new_items`。",
+            "若是**新的賽事**（站上沒有的場次）→ 點進原始報導核對日期、地點、主辦與規格，"
+            "在 `src/content/events/` 建檔，附得起 `sources`（url／retrieved_at／trust_level）。",
+            "若是**成績公布** → 人工核實後補該場 `results`（**只填隊伍名，不得含選手或教練姓名**）。"
+            "多組別用 `results.divisions`；查不到的名次留白，不推測。",
+            "⚠️ 校名務必看中文原文，不要靠英文摘要或羅馬拼音回推"
+            "（2026-08-03 實例：「景山國小」曾被摘要誤讀成「靜山國小」）。",
+            "若報導提到站上賽事**已經舉行**，順手把 `status` 更新掉——"
+            "`node scripts/check-event-status.mjs` 會抓出狀態過期的場次。",
+            "看 `fetch_errors`：某個來源連續失敗代表對方改版，回頭修 "
+            "`pipeline/sources/news_queries.yml`。",
+            "merge 本 PR 以收斂 known 清單，避免同一批標題重複告警。",
+        ],
+        checklist=("**審核清單**：成績只到隊伍層級？校名取自中文原文？每筆都附得起 `sources`？"
+                   "查不到的名次留白而非推測？賽事狀態與賽期一致？"),
+    )
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="twdro 資料 pipeline")
     parser.add_argument("--source", required=True, help="來源名稱，如 moe_schools")
@@ -227,6 +263,7 @@ def main(argv: list[str]) -> int:
         "fai_fida_rules": (route_intl_alerts, "規則頁指紋變更"),
         "organizer_articles": (route_organizer_alerts, "主辦單位官網新文章"),
         "county_edu_news": (route_county_edu_alerts, "縣市無人機足球公告"),
+        "news_watch": (route_news_alerts, "新聞與主辦單位公告"),
     }
     alert_route = ALERT_ROUTES.get(args.source)
     if alert_route:
