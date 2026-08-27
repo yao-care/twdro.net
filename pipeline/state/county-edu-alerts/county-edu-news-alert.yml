@@ -1,7 +1,26 @@
-note: 縣市教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進
+note: 縣市政府／教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進
   src/content/events/。本 adapter 只偵測不改寫（站規鐵則 1）。
 matched: []
 matched_count: 0
 results_candidates: []
-fetch_errors: []
+fetch_errors:
+- error: 'HTTPError: 504 Server Error: Gateway Time-out for url: https://www.klcg.gov.tw/tw/klcg1/3168-RSS.html'
+  feed: 基隆市政府市政新聞
+- error: 'ConnectionError: HTTPSConnectionPool(host=''www.pthg.gov.tw'', port=443):
+    Max retries exceeded with url: /Rss_News.aspx?n=EC690F93E81FF22D (Caused by NewConnectionError("HTTPSConnection(host=''www.pthg.gov.tw'',
+    port=443): Failed to establish a new connection: [Errno 111] Connection refused"))'
+  feed: 屏東縣政府屏東新聞
+- error: 'ConnectionError: HTTPSConnectionPool(host=''www.pthg.gov.tw'', port=443):
+    Max retries exceeded with url: /Rss_News.aspx?n=528607F80E455D7F (Caused by NewConnectionError("HTTPSConnection(host=''www.pthg.gov.tw'',
+    port=443): Failed to establish a new connection: [Errno 111] Connection refused"))'
+  feed: 屏東縣政府最新消息
+- error: 'ConnectionError: HTTPSConnectionPool(host=''www.gov.taipei'', port=443):
+    Max retries exceeded with url: /OpenData.aspx?SN=D33B55D537402BAA (Caused by NewConnectionError("HTTPSConnection(host=''www.gov.taipei'',
+    port=443): Failed to establish a new connection: [Errno 101] Network is unreachable"))'
+  feed: 臺北市政府最新消息
+- error: 'ConnectTimeout: HTTPSConnectionPool(host=''www.kcg.gov.tw'', port=443):
+    Max retries exceeded with url: /OpenData.aspx?SN=D33B55D537402BAA (Caused by ConnectTimeoutError(<HTTPSConnection(host=''www.kcg.gov.tw'',
+    port=443) at 0x7effdf51c7d0>, ''Connection to www.kcg.gov.tw timed out. (connect
+    timeout=25)''))'
+  feed: 高雄市政府市政新聞
 known: []
