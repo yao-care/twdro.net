@@ -67,6 +67,20 @@ jobs:
           node-version: '24'
       - run: node scripts/check-source-links.mjs
 
+  # 賽事資料的新鮮度與可追溯性。與 source-links 同一個設計：**不擋部署**，但紅掉看得見。
+  # 擋的是兩種無聲的壞法：(1) 賽期已過但狀態還停在「還沒發生」，畫面就會把它排進
+  # 「即將舉行」；(2) 整頁沒有任何來源，而 verification 只在有來源時才顯示，
+  # 於是最沒有依據的頁面反而最安靜。緣由見 scripts/check-event-status.mjs 開頭。
+  # 不裝依賴：這支只讀 src/content 的 YAML，不連外，所以跑得比 source-links 快得多。
+  event-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - run: node scripts/check-event-status.mjs
+
   # 上線後才推 IndexNow：讀的是線上 sitemap，只推 lastmod 在 3 天內的網址。
   # 失敗不影響部署（deploy 已經完成），所以 continue-on-error。
   # 注意：Google 不參與 IndexNow，Google 端靠 sitemap lastmod 與 GSC 手動要求索引。

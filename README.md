@@ -32,7 +32,7 @@ npm run test     # 單元測試
 push 到 `main` 由 `.github/workflows/deploy.yml` 自動建置並發佈至 GitHub Pages，
 線上網址 `https://twdro.net`（`public/CNAME` + `astro.config.mjs` 的 `site`／`base: '/'`）。
 build → test → 上線 → IndexNow，測試不過不會部署。
-`source-links` job 平行跑來源網址健檢，**不擋部署**但失敗會讓 workflow 標記失敗。
+`source-links` 與 `event-status` 兩個 job 平行跑資料健檢，**不擋部署**但失敗會讓 workflow 標記失敗。
 
 ## 資料來源健檢
 每一筆資料都標了來源網址，但學校公告下架、換網址是常態——2026-07-29 手動抽查就發現
@@ -48,6 +48,20 @@ node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
   頁面會標明「原公告已下架」並保留網址供追溯，健檢降級成提醒但每次執行都印出來。
   標註寫在資料裡而非另一份清單——清單會與資料脫節，而「這個來源掛了」本來就是
   資料的一部分。若該網址日後復活，健檢會提醒把欄位刪掉，避免畫面一直對讀者說謊。
+
+## 賽事資料健檢
+賽事是站上最有時效性的東西，而它會用兩種無聲的方式壞掉：狀態沒跟著日期走（一場 8/8 打完的
+比賽到了 8/27 還掛「已公告」，畫面就把它排進「即將舉行」），以及整頁沒有任何來源——
+而 `verification` 只在有來源時才顯示，於是**最沒有依據的頁面反而最安靜**。兩種都不會讓
+build 失敗、不會讓測試轉紅。
+
+```bash
+node scripts/check-event-status.mjs   # 有問題則 exit 1
+```
+- 狀態仍是 announced／registration_open／ongoing／postponed 但賽期已過 → 列出來要人查證後改 status。
+- `sources` 空的賽事 → 列出來。查不到來源就別讓欄位停在推測值。
+- 刻意不提供豁免清單：要靜音某一筆的方式是把資料修好。
+- 賽事頁本身也會在「無來源或 verification: outdated」時直接對讀者說明，並附回報入口。
 
 ## 搜尋引擎收錄
 - **sitemap `<lastmod>`**：由 `src/lib/lastmod.mjs` 依內容本身的 `updated_at`／`retrieved_at` 產生，

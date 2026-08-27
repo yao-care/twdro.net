@@ -6,10 +6,10 @@ import SourceBlock from '../../components/SourceBlock.astro';
 import { eventJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { url } from '../../lib/url';
-import { hasTeam, teamText, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults } from '../../lib/results';
-import { isPublicEvent } from '../../lib/enums';
+import { hasTeam, teamText, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults, FINISHED_STATUSES } from '../../lib/results';
+import { isPublicEvent, verificationLabel } from '../../lib/enums';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
-import { resultsMailto, resultsUrl } from '../../lib/correction';
+import { resultsMailto, resultsUrl, correctionMailto } from '../../lib/correction';
 export async function getStaticPaths() {
   const events = await getCollection('events');
   // 草稿賽事不產生公開頁（無公開 URL）；人工把 status 升級後才會有頁面。
@@ -29,7 +29,22 @@ const [orgs, venuesList, learnArticles] = await Promise.all([
 ]);
 const orgIdByName = new Map(orgs.map((o) => [o.data.name, o.id]));
 const venueIdByName = new Map(venuesList.map((v) => [v.data.name, v.id]));
-const organizerOrgId = d.organizer ? orgIdByName.get(d.organizer) : undefined;
+// 主辦單位的站內頁：優先用 organizer_slugs（陣列，因為這裡的賽事幾乎都多方合辦），
+// 沒填的賽事才退回舊的「organizer 字串完全等於 organizations.name」比對。
+// 舊做法是全有全無的：「新北市教育局／台北市電腦商業同業公會／奧斯丁國際」比不到任何一家，
+// 於是三個合辦單位一個都連不到——而其中奧斯丁在站上是有頁的（2026-08-27）。
+const organizerOrgs = (d.organizer_slugs ?? []).length
+  ? (d.organizer_slugs ?? []).map((slug) => orgs.find((o) => o.id === slug)).filter((o) => o != null)
+  : (d.organizer && orgIdByName.has(d.organizer)
+      ? [orgs.find((o) => o.id === orgIdByName.get(d.organizer!))!]
+      : []);
+// 我方最後確認日：取各來源 retrieved_at 的最大值，與 sitemap lastmod 同一套語意。
+// 尚未舉行的賽事把它明講出來——這一場已經因颱風延期過一次，而讀者是要決定要不要出門的人。
+const lastChecked = (d.sources ?? [])
+  .map((x) => x.retrieved_at)
+  .filter((x): x is string => !!x)
+  .sort()
+  .at(-1);
 const venueId = d.schedule.venue_name ? venueIdByName.get(d.schedule.venue_name) : undefined;
 // 趨勢文章以 trend-<event id> 命名 trend_id（見 scripts/trend-radar.mjs），配對後在賽事頁反向連回，
 // 否則這類文章只掛在 learn 分類索引，沒有其他頁面連進去。
@@ -89,6 +104,32 @@ const seoDesc = eventPageDescription(d);
     )}
   </section>
 
+  {(!d.sources || d.sources.length === 0 || d.verification === 'outdated') && (
+    <p style="margin:0 0 20px;padding:12px 14px;border-radius:10px;border:1px solid var(--color-warning);background:color-mix(in oklab, var(--color-warning) 14%, var(--color-surface));font-size:1rem">
+      <strong>這一頁的資料狀態是「{verificationLabel(d.verification)}」</strong>
+      {(!d.sources || d.sources.length === 0) && '，而且本站尚未附上可追溯的來源連結'}。
+      內容僅供參考，請以主辦單位公告為準。
+      知道正確資訊或找得到原始公告的話，
+      <a href={correctionMailto({ path: `/events/${event.id}/`, title: d.title })} style="font-weight:650">來信告訴我們</a>，
+      我們會補上來源與查核日期。
+      {/* 2026-08-27 加。原本 verification 只在 SourceBlock 裡顯示，而 SourceBlock 只在「有來源」時才渲染
+          ——於是**最沒有依據的頁面反而完全不出現任何警示**。第三屆教育科技盃新北場就是實例：
+          verification: outdated、零來源，卻是站上曝光第二高的頁（GSC 近 90 天 18 次、pos 6.9）。 */}
+    </p>
+  )}
+
+  {lastChecked && !FINISHED_STATUSES.includes(d.status as any) && (
+    <p
+      class="event-freshness"
+      data-last-checked={lastChecked}
+      style="margin:0 0 20px;padding:12px 14px;border-radius:10px;background:var(--color-surface-muted);font-size:1rem"
+    >
+      本頁資料由本站最後確認於 <strong>{lastChecked}</strong><span class="event-freshness__age"></span>。
+      賽事的時間、地點與報名方式都可能變動——<strong>出發或報名前請向主辦單位再確認一次</strong>。
+      本站不代收報名，來源連結在頁面最下方。
+    </p>
+  )}
+
   <section class="panel">
     <h2>基本資訊</h2>
     <ul class="data-list">
@@ -96,9 +137,14 @@ const seoDesc = eventPageDescription(d);
       {d.event_type && <li><span class="k">賽事類型</span><span class="v">{d.event_type}</span></li>}
       {d.level && <li><span class="k">層級</span><span class="v">{d.level}</span></li>}
       <li><span class="k">主辦</span><span class="v">
-        {d.organizer
-          ? (organizerOrgId ? <a href={url(`/organizations/${organizerOrgId}`)}>{d.organizer}</a> : d.organizer)
-          : '—'}
+        {d.organizer ?? '—'}
+        {organizerOrgs.length > 0 && (
+          <span style="display:block;margin-top:4px;font-size:.95rem;color:var(--color-text-muted)">
+            站內單位頁：{organizerOrgs.map((o, i) => (
+              <>{i > 0 && '、'}<a href={url(`/organizations/${o!.id}/`)}>{o!.data.name}</a></>
+            ))}
+          </span>
+        )}
       </span></li>
       <li><span class="k">規則體系</span><span class="v">{RULE_LABEL[d.rule_system] ?? d.rule_system}</span></li>
       {d.rulebook && <li><span class="k">規則書</span><span class="v"><a href={url(`/rules/${d.rulebook}`)} style="font-weight:650">查看規則書 →</a></span></li>}
@@ -199,4 +245,22 @@ const seoDesc = eventPageDescription(d);
       <SourceBlock sources={d.sources} verification={d.verification} title={d.title} />
     </section>
   ) : null}
+  <script>
+    // 「最後確認於 X」在頁面上是靜態的，但「那是多久以前」只有讀者的瀏覽器知道——
+    // 站台是靜態產生的，建置日不等於閱讀日，把天數算在建置期會愈放愈錯。
+    // 超過三週就把整段轉成警示色：一場已經因颱風延期過一次的比賽，
+    // 讀者是要決定要不要開車出門的人，資料多舊必須讓他自己判斷。
+    const box = document.querySelector<HTMLElement>('.event-freshness');
+    const stamp = box?.dataset.lastChecked;
+    if (box && stamp) {
+      const days = Math.floor((Date.now() - new Date(`${stamp}T00:00:00+08:00`).getTime()) / 86400000);
+      if (Number.isFinite(days) && days >= 0) {
+        box.querySelector('.event-freshness__age')!.textContent = `（${days} 天前）`;
+        if (days >= 21) {
+          box.style.background = 'color-mix(in oklab, var(--color-warning) 14%, var(--color-surface))';
+          box.style.border = '1px solid var(--color-warning)';
+        }
+      }
+    }
+  </script>
 </BaseLayout>
