@@ -60,3 +60,37 @@ describe('/events/results/ 成績總表', () => {
     expect(html.split('來信回報或提供成績').length - 1).toBe(1);
   });
 });
+
+// FAQ 的答案會整段進 FAQPage 結構化資料，Google 可能直接把它顯示在搜尋結果上。
+// 也就是說這裡打錯字不只是難看——是把錯的東西送去被引用。
+// 2026-08-27 補法規題時就把法規名稱誤植成「遙控音人機管理規則」，當場抓到。
+describe('FAQ 送進結構化資料的內容', () => {
+  const faq = readFileSync('src/pages/faq.astro', 'utf8');
+  const built = readFileSync('dist/faq/index.html', 'utf8');
+
+  it('法規名稱與門檻數字寫對', () => {
+    expect(faq).toContain('《遙控無人機管理規則》');
+    expect(faq).not.toContain('音人機');
+    expect(faq).toContain('250 公克');
+  });
+
+  it('新增的四題都連到實際存在的目的地', () => {
+    for (const href of [
+      '/learn/drone-registration-and-licence/',
+      '/equipment/budget/',
+      '/events/results/',
+      '/organizations/#training_provider',
+    ]) expect(faq).toContain(href);
+  });
+
+  it('答案有進 FAQPage 結構化資料（只放在畫面上等於沒接上）', () => {
+    const block = built.match(/<script type="application\/ld\+json">([\s\S]*?FAQPage[\s\S]*?)<\/script>/)?.[1];
+    expect(block).toBeTruthy();
+    const data = JSON.parse(block!);
+    const questions = data.mainEntity.map((x: any) => x.name);
+    expect(questions).toEqual(expect.arrayContaining([
+      '哪裡查得到無人機足球的比賽成績？',
+      '一整隊要花多少錢，不是一台？',
+    ]));
+  });
+});
