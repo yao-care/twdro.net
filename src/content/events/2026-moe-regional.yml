@@ -1,5 +1,5 @@
 title: 2026 教育部全國無人機足球競賽・分區賽
-subtitle: 分組循環賽，各組前 3 名晉級準決賽；冠軍獎金 1 萬元／亞軍 5 千元／季軍 3 千元
+subtitle: 分組循環賽，各分區前 3 名（共九隊）晉級準決賽；冠軍獎金 1 萬元／亞軍 5 千元／季軍 3 千元。高中組南區已於 2026-08-22 在國立高雄科技大學舉行
 event_series: 教育部全國無人機足球競賽
 level: 全國/分區
 status: ongoing
@@ -15,6 +15,12 @@ eligibility:
 competition:
   drone_class: F9A-B
   drone_diameter: 20cm
+results:
+  # 分區賽是多分區、多學層同時進行，目前只查到高中組南區的其中一個名次見報。
+  # 冠軍與季軍未見報 → 留白，不推測（站規鐵則 1）。其餘分區與學層同理，查到再補。
+  divisions:
+    - name: 高中組・南區（2026-08-22 於國立高雄科技大學）
+      runner_up_team: 高雄市立林園高級中學
 verification: source_confirmed
 sources:
   - type: moe_announcement
@@ -23,3 +29,10 @@ sources:
     publisher: 教育部
     retrieved_at: "2026-07-19"
     trust_level: A
+  - type: news_article
+    title: 林園高中無人機足球隊勇奪教育部南區賽亞軍，獲代表權十月決戰全國
+    url: https://g10.village.tw/uninews_view.php?new_sn=140054
+    publisher: 國際環宇時報
+    published_at: "2026-08-23"
+    retrieved_at: "2026-08-27"
+    trust_level: B

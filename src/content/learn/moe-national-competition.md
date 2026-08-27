@@ -3,7 +3,7 @@ title: 教育部全國無人機足球競賽怎麼比？三階段賽制、獎金�
 category: competing
 description: 教育部 115 年首次舉辦全國無人機足球競賽，分區賽、準決賽、總統盃決賽三階段一路打上去，獎金從 3 千到 5 萬。規格採 FAI F9A-B 國際標準，組別分國中小、高中、大專校院。
 order: 20
-updated_at: "2026-07-28"
+updated_at: "2026-08-27"
 embed: event-series
 embed_series: 教育部全國無人機足球競賽
 embed_item_label: 階段
@@ -15,7 +15,7 @@ embed_item_label: 階段
 
 | 階段 | 時間 | 地點 | 賽制與晉級 |
 |---|---|---|---|
-| [分區賽](/events/2026-moe-regional/) | 7/1–8/31 | 各分區 | 分組循環賽，各組**前 3 名**晉級準決賽 |
+| [分區賽](/events/2026-moe-regional/) | 7/1–8/31 | 各分區 | 分組循環賽，各分區**前 3 名**（共九隊）晉級準決賽 |
 | [準決賽](/events/2026-moe-semifinal/) | 10/2–10/3 | 國立臺灣大學綜合體育館 | 積分賽制，各分組**前 2 名**晉級總統盃決賽 |
 | [總統盃全國決賽](/events/2026-moe-final-presidential/) | 待公告 | 大臺南會展中心（臺南市歸仁區） | 準決賽前 2 名對決 |
 

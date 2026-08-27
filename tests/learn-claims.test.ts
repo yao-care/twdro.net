@@ -185,7 +185,9 @@ describe('moe-national-competition 的資料斷言', () => {
   });
 
   it('三階段的晉級門檻與賽事資料一致', () => {
-    expect(eventRaw('2026-moe-regional')).toContain('各組前 3 名晉級準決賽');
+    // 2026-08-27 用字對齊來源：報導寫的是「各分區前三名（共九隊）將晉級決賽」，
+    // 原本站上寫「各組前 3 名」——分區與組別在這套賽制裡不是同一件事。
+    expect(eventRaw('2026-moe-regional')).toContain('各分區前 3 名（共九隊）晉級準決賽');
     expect(eventRaw('2026-moe-semifinal')).toContain('各分組前 2 名晉級總統盃決賽');
   });
 
