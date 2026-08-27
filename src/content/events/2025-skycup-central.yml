@@ -1,0 +1,32 @@
+title: 2025 第一屆天穹盃無人機飛球錦標賽－中區賽
+subtitle: 由弘光科技大學智慧科技學院與台灣無人機競技發展協會共同主辦，在毓麟館舉行
+event_series: 天穹盃
+level: 地方
+status: completed
+event_type: 分站賽
+organizer: 弘光科技大學智慧科技學院／台灣無人機競技發展協會
+organizer_slugs:
+  - tdrupa
+  - hungkuang-university
+rule_system: OTHER
+schedule:
+  event_start: "2025-04-13"
+  event_end: "2025-04-13"
+  registration_end: "2025-04-07"
+  venue_name: 弘光科技大學毓麟館
+  city: 臺中市
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 轉知台灣無人機競技發展協會與弘光科技大學辦理「2025第一屆天穹盃無人機飛球錦標賽」
+    url: https://ptjhs.chc.edu.tw/posts/634
+    publisher: 彰化縣立北斗國民中學
+    published_at: "2025-03-24"
+    retrieved_at: "2026-08-27"
+    trust_level: A
+  - type: organizer_announcement
+    title: 2025 第一屆天穹盃無人機飛球錦標賽 中區報名簡章
+    url: https://www.estu.tc.edu.tw/wp-content/uploads/2025/03/387040000E_11400259771_ATTACH1.pdf
+    publisher: 臺中市立東勢國民中學（轉知簡章）
+    retrieved_at: "2026-08-27"
+    trust_level: A

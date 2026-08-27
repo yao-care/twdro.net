@@ -1,0 +1,24 @@
+title: 114 彰化教育科技盃無人機足球公開賽
+subtitle: 24 支隊伍，分新秀組與菁英組，於彰化女中活動中心舉行
+event_series: 縣市級賽事
+level: 縣市
+status: completed
+event_type: 縣級公開賽
+organizer: 彰化縣（教育科技盃系列）
+rule_system: OTHER
+schedule:
+  event_start: "2025-09-20"
+  event_end: "2025-09-21"
+  venue_name: 國立彰化女子高級中學活動中心
+  city: 彰化縣
+eligibility:
+  education_levels: [國小, 國中, 高中]
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 無人機化身小小足球員 數十位小朋友體驗讓足球飛的樂趣
+    url: https://news.pchome.com.tw/living/thehubnews/20250920/index-75836562911155306009.html
+    publisher: PChome Online 新聞（新頭條）
+    published_at: "2025-09-20"
+    retrieved_at: "2026-08-27"
+    trust_level: B

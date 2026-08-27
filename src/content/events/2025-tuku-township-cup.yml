@@ -1,0 +1,35 @@
+title: 土庫鎮首屆無人機足球賽
+subtitle: 雲林縣首場由公部門主辦的無人機足球賽；鎮公所向縣府爭取經費購置 30 台無人機，分配給轄內 8 所小學
+event_series: 縣市級賽事
+level: 地方
+status: completed
+event_type: 鎮級競賽
+organizer: 雲林縣土庫鎮公所
+rule_system: OTHER
+schedule:
+  event_start: "2025-06-26"
+  event_end: "2025-06-26"
+  venue_name: 雲林縣土庫國民小學
+  city: 雲林縣
+  district: 土庫鎮
+eligibility:
+  education_levels: [國小]
+results:
+  # 報導只寫到冠軍（越港國小），亞季軍未見報 → 留白不推測。
+  champion_team: 越港國小（雲林 土庫鎮）
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 土庫首屆無人機足球賽 上百位學童同場競技
+    url: https://news.st-media.com.tw/news/50217
+    publisher: TDN 台灣生活新聞（鑫傳國際多媒體）
+    published_at: "2025-06-26"
+    retrieved_at: "2026-08-27"
+    trust_level: B
+  - type: news_article
+    title: 土庫鎮公所舉辦無人機足球賽 教育科技實作新典範
+    url: https://newstaiwan.net/2025/06/26/330816/
+    publisher: 台灣好報
+    published_at: "2025-06-26"
+    retrieved_at: "2026-08-27"
+    trust_level: B

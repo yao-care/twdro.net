@@ -1,0 +1,7 @@
+name: 雲林縣土庫國民小學
+venue_type: 學校場館
+city: 雲林縣
+district: 土庫鎮
+indoor: true
+# 由賽事資料反推建立（2026-08-27）：場館名本身就是會被搜的字，佐證與該場賽事同一份來源。
+verification: source_confirmed

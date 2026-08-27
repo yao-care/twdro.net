@@ -1,0 +1,34 @@
+title: 2026 第三屆臺灣教育科技盃無人機足球全國公開賽
+subtitle: 分菁英組（曾獲校際級以上前三名）與新秀組；縣市推薦且通過資格審查的隊伍直接參賽，餘額開放一般隊伍打資格賽晉級
+event_series: 臺灣教育科技盃無人機足球
+level: 全國
+status: announced
+event_type: 全國公開賽
+organizer: 台北市電腦商業同業公會（賽事官網著作權標示：奧斯丁國際・臺灣教育科技展）
+organizer_slugs:
+  - oursteam
+rule_system: OTHER
+registration_url: https://2026tda.netlify.app/apply
+schedule:
+  event_start: "2026-11-12"
+  event_end: "2026-11-15"
+  venue_name: 臺北世界貿易中心展覽一館
+  city: 臺北市
+  district: 信義區
+eligibility:
+  education_levels: [國小, 國中, 高中]
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2026 第三屆臺灣教育科技盃無人機足球全國公開賽（賽事官方網站）
+    url: https://2026tda.netlify.app/
+    publisher: 臺灣教育科技盃無人機足球全國公開賽官方網站
+    retrieved_at: "2026-08-27"
+    trust_level: A
+  - type: gov_announcement
+    title: 2026 第三屆臺灣教育科技盃無人機足球公開賽（學校轉知）
+    url: https://www.mhjh.cyc.edu.tw/modules/tadnews/index.php?nsn=6327
+    publisher: 嘉義縣立民和國民中學
+    published_at: "2026-07-22"
+    retrieved_at: "2026-08-27"
+    trust_level: A

@@ -1,0 +1,6 @@
+name: 高雄市私立大榮中學 文賓禮堂
+venue_type: 學校場館
+city: 高雄市
+indoor: true
+# 由賽事資料反推建立（2026-08-27）：場館名本身就是會被搜的字，佐證與該場賽事同一份來源。
+verification: source_confirmed
