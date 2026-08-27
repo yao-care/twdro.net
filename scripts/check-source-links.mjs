@@ -56,13 +56,30 @@ const isUnverifiable = (url) => {
 //
 // 判準：**DNS 還解析得出來，就不算死**。網域還在對方手上，頁面真的被移除時會回 404／410，
 // 那個才是 link rot 的訊號，仍然是硬失敗。只有連網域都消失（NXDOMAIN）才算確定失效。
+//
+// ⚠️ 2026-08-27 修：原本的 catch 把「查不到」與「查詢失敗」一起吞掉，一律回 false ＝判定失效。
+// 那天 CI 就把新竹縣文興國小（wxes.hcc.edu.tw）判成連結失效——那個網域好好的，
+// A 與 AAAA 都有紀錄，只是 TANet 的權威伺服器對境外／雲端查詢時好時壞
+// （本機實測同一個名字也會 `communications error ... timed out`）。
+// 這種誤判的代價不是多一行紅字：**它會逼人去資料裡加 `unavailable_since`，
+// 而那個欄位會在頁面上對讀者說「原公告已下架」——把一個活著的來源標成死的。**
+// 所以只有明確的「這個名字不存在」（ENOTFOUND／EAI_NONAME）才算網域消失；
+// 其餘（EAI_AGAIN、逾時、暫時性失敗）一律當成「這台機器查不到」，不是證據。
+const GONE_CODES = new Set(['ENOTFOUND', 'EAI_NONAME', 'ENODATA']);
+
 async function domainStillExists(url) {
+  let hostname;
   try {
-    const { hostname } = new URL(url);
+    ({ hostname } = new URL(url));
+  } catch {
+    return false;   // 連網址都解析不了，那是我們自己的資料寫壞了
+  }
+  try {
     await dns.lookup(hostname, { all: true });
     return true;
-  } catch {
-    return false;
+  } catch (e) {
+    // 明確的 NXDOMAIN → 網域真的沒了；其餘是解析不到，不能當成失效的證據。
+    return !GONE_CODES.has(e?.code);
   }
 }
 
