@@ -1,0 +1,98 @@
+title: 2024 UASACT 奧賽特 AI 機器人與無人機國際賽（馬來西亞新山）
+subtitle: 主辦單位公布無人機足球五個組別的完整名單，是站上目前唯一有完整名次的國際賽；少年組冠軍 TCYL 與初階組冠軍「全村的希望」都是南投學生組隊，南投縣長於 12/16 在埔里國中表揚
+event_series: UASACT 奧賽特嘉年華
+level: 國際
+country: 馬來西亞
+status: completed
+event_type: 國際賽
+organizer: 台灣奧賽特國際展會組織（UASACT）與馬來西亞人工智能協會（MyAIRA）聯合主辦；協辦：馬來西亞新山市、柔佛州旅遊局
+# UASACT 2024 的無人機足球是**自訂規則**，不是 FAI 也不是 FIDA——主辦當年發布的
+# 〈UASACT 2024 無人機足球比賽規則（3 對 3）〉V2.0 全文沒有引用任何國際規則體系，
+# 場地 4×6×3 公尺、球門圓形外徑 70 公分、球型無人機直徑 16–22 公分、重量 300 公克以下，
+# 與 FAI F9A 的規格不同。所以這裡的 OTHER 是查證後的結論，不是「查不到」的退路。
+#
+# 但那份規則書是為**臺灣區**那一場發的，官網的馬來西亞頁沒有自己的規則連結
+# （頁上三份辦法的 href 全是 `#`），所以規則書只列為來源、competition 規格留白——
+# 同一年同一主辦不等於同一份規格，那一步要有東西撐才能寫。
+rule_system: OTHER
+schedule:
+  # 主辦單位 4 月的臺灣區企劃書預告國際決賽是「2024 年 11 月・馬來西亞 MITEC」，
+  # 實際辦成 12/7–8 的新山 Educity Sports Complex。以官網賽事頁與 12 月的報導為準，
+  # 企劃書那組日期地點是預告版，不採用。
+  event_start: "2024-12-07"
+  event_end: "2024-12-08"
+  venue_name: Educity Sports Complex（新山）
+  city: 新山
+results:
+  # 這場共有無人機足球、無人機釣魚、無人機任務關卡、AI 機器人等項目，
+  # **本站只收無人機足球那一項**，其餘不記——不是資料不足，是不在收錄範圍內。
+  #
+  # 名次用主辦單位官方名單的原始組別字串（初階組／少年組／青少年組／高階組），
+  # **不採信媒體的「國中組／國小組／社會組」轉譯**。這不是潔癖：高雄市教育局發的稿
+  # 寫「無人機足球國中組冠軍＝林園高中國中部」，但官方名單根本沒有「國中組」這一組，
+  # 而南投縣教育處那邊講的「少年組」對得上官方的 `少年組（Middle School)`。
+  # 兩邊講的是不同組別，硬用本地組別名去對就會把冠軍安錯人。
+  #
+  # 隊名照官方原文，不補所屬學校（同 2026 那場的處理）。只有兩支有可靠出處指得出組成：
+  # TCYL 與「全村的希望」——南投縣教育處經媒體轉述，寫在 subtitle，不塞進隊名欄位。
+  # 官方名單的 `3rd Runner up` ＝第四名，故落在 fourth_place_team，並列兩隊。
+  divisions:
+    - name: 無人機足球・初階組
+      champion_team: 全村的希望
+      runner_up_team: 魔麗飛翔
+      third_place_team: 探險家
+      fourth_place_team:
+        - Fly Surprise
+        - "~值得信賴~"
+    - name: 無人機足球・少年組（Middle School）
+      champion_team: TCYL
+    - name: 無人機足球・青少年組（Junior Highschool）
+      champion_team: 歌唱四人組
+    - name: 無人機足球・青少年組（Senior Highschool）
+      champion_team: 無界星遞
+    - name: 無人機足球・高階組
+      champion_team: 空中鯊客 Air Shark
+      runner_up_team: USC戰隊
+      third_place_team: Cilantro century egg pig's blood cake pizza
+verification: organizer_verified
+sources:
+  - type: organizer_announcement
+    title: UASACT 2024 馬來西亞嘉年華獲獎隊伍及名單
+    url: https://uasact.com/uasact-2024-ma-lai-xi-ya-jia-nian-hua-huo-jiang-dui-wu-ji-ming-dan
+    publisher: UASACT 奧賽特
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: organizer_announcement
+    title: 2024 UASACT International AI robot and drones carnival competition（賽事日期、場地與競賽項目）
+    url: https://uasact.com/2024-malaysia-en
+    publisher: UASACT 奧賽特
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: organizer_announcement
+    title: UASACT 2024 無人機足球比賽規則（3 對 3）V2.0
+    url: https://www.uasact.com/data/files/2-2024uasac2.0_1718777918.pdf
+    publisher: UASACT 奧賽特
+    published_at: "2024-06-15"
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: news_article
+    title: 國際無人機競賽勇奪4冠軍2亞軍 南投縣長表揚獲獎學生
+    url: https://udn.com/news/story/6898/8431374
+    publisher: 聯合新聞網（聚傳媒；內容引南投縣教育處）
+    published_at: "2024-12-17"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  - type: news_article
+    title: 「TEAM NANTOU」南投囝仔飛馬來西亞 組隊參加無人機國際賽 勇奪4冠軍2亞軍
+    url: https://www.yuanfengmedia.tw/detail.php?type=lastest&id=35968
+    publisher: 元丰傳媒
+    published_at: "2024-12-10"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  - type: news_article
+    title: 台灣無人機實力國際發光 馬來西亞決賽奪8金
+    url: https://taronews.tw/2024/12/09/1024506/
+    publisher: 芋傳媒（內容引高雄市政府教育局新聞稿）
+    published_at: "2024-12-09"
+    retrieved_at: "2026-08-28"
+    trust_level: B

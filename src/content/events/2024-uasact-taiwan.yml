@@ -1,0 +1,67 @@
+title: 2024 第二屆奧賽特人工智慧與無人機嘉年華－臺灣區賽（UASACT Taiwan 2024）
+subtitle: 桃園巨蛋舉行，無人機足球為四個競賽項目之一；優勝隊伍取得同年 12 月馬來西亞國際賽代表權，埔里國中拿下國中組無人機足球冠軍
+event_series: UASACT 奧賽特嘉年華
+level: 全國
+status: completed
+event_type: 全國選拔賽
+organizer: 台灣無人機育才發展協會（TDECA）主辦；指導：桃園市政府、IEEE Future Technology Summit；協辦：桃園市政府經濟發展局；承辦：奧賽特國際展會有限公司
+# 自訂規則，不是 FAI 也不是 FIDA：主辦發布的〈UASACT 2024 無人機足球比賽規則（3 對 3）〉
+# V2.0 全文未引用任何國際體系。規格與 FAI F9A 明顯不同（場地 4×6×3 公尺、球門外徑 70 公分），
+# 故 rule_system 記 OTHER 且不掛 rulebook——站上四本規則書沒有這一套。
+rule_system: OTHER
+schedule:
+  # 日期與場地取自主辦單位 4 月發布的臺灣區企劃書（「地點: 桃園巨蛋(桃園市綜合室內體育館)／
+  # 活動日期：2024年7月6日至7月7日」）。自由時報 7/10 的報導寫埔里國中「上週」參賽，
+  # 與這組日期相符，故採用；賽後未見主辦另行公告確切日期。
+  event_start: "2024-07-06"
+  event_end: "2024-07-07"
+  venue_name: 桃園巨蛋（桃園市綜合室內體育館）
+  city: 桃園市
+competition:
+  # 出自 UASACT 2024 規則書 V2.0（同上）。
+  drone_diameter: 16–22cm
+  active_drones_per_team: 3
+results:
+  # 這場同時有無人機足球、無人機技術競賽、機器人技術競賽與無人載具 AI 創新應用競賽，
+  # **本站只收無人機足球那一項**。
+  #
+  # 主辦單位的臺灣區成績頁（uasact.com 站內）欄位是空的，只剩「冠軍／亞軍／季軍」標題，
+  # 所以名次目前只能靠媒體。自由時報兩則都寫埔里國中拿下無人機足球冠軍，8/15 那則由該校
+  # 主任具名說明是**國中組**，故組別以國中組記。亞軍、季軍未見報 → 留白，不推測。
+  #
+  # ⚠️ 隊名記不出來：埔里國中派了 coconut、YU.FPV、TCYL 三隊，但報導只寫「3 支隊伍
+  # 獲得無人機足球賽冠軍」，沒說是哪一隊。硬挑一隊填就是推測，所以這裡記到學校層級。
+  # （同年 12 月馬來西亞國際賽的官方名單才指名 TCYL，見 /events/2024-uasact-malaysia/。）
+  divisions:
+    - name: 無人機足球・國中組
+      champion_team: 南投縣立埔里國中
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2024 第二屆奧賽特人工智慧與無人機嘉年華 UASACT Taiwan 2024 臺灣區預賽活動企劃書
+    url: https://www.uasact.com/data/files/2024uasact-0424.pdf
+    publisher: 台灣無人機育才發展協會／奧賽特國際展會有限公司
+    published_at: "2024-04-24"
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: organizer_announcement
+    title: UASACT 2024 無人機足球比賽規則（3 對 3）V2.0
+    url: https://www.uasact.com/data/files/2-2024uasac2.0_1718777918.pdf
+    publisher: UASACT 奧賽特
+    published_at: "2024-06-15"
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: news_article
+    title: 真實版「魁地奇」！埔里國中無人機足球賽奪冠 年底角逐國際賽
+    url: https://news.ltn.com.tw/news/life/breakingnews/4732619
+    publisher: 自由時報
+    published_at: "2024-07-10"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  - type: news_article
+    title: 埔里國中辦無人機足球夏令營 學童瘋玩今年超夯電競（內含臺灣區賽組別與名次說明）
+    url: https://news.ltn.com.tw/news/Nantou/breakingnews/4769792
+    publisher: 自由時報
+    published_at: "2024-08-15"
+    retrieved_at: "2026-08-28"
+    trust_level: B

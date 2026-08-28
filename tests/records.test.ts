@@ -72,6 +72,50 @@ describe('反查索引', () => {
   });
 });
 
+// 從一份賽事 YAML 抽出所有名次欄位裡的隊名。
+//
+// 為什麼要獨立成一個函式而不是各測試各寫一條正規式（2026-08-28）：原本兩個測試各抄了一份，
+// 而且都只認得 champion／runner_up／third_place。加 fourth_place_team 之後，
+// 「只有殿軍的隊伍」在頁面上印得出來、卻不在測試的允許清單裡，於是被判成來路不明的名字
+// ——**測試反過來誣告正確的資料**。這與當初 divisions 漏加欄位是同一種錯：
+// 同一件事寫兩份就會走鐘，所以只留一份。
+//
+// 三種寫法都要吃得下：單一字串、行內陣列 `[A, B]`、以及區塊列表（`- A` 逐行）。
+// 冒號後只吃同一行的空白：`\s*` 會連換行一起吃掉，於是空值欄位會把下一行的 `- 隊名`
+// 整串當成值，隊名前面多一個「- 」——測試就開始抱怨一個根本不存在的隊伍。
+const PLACE_FIELDS = /^(\s+)(?:champion_team|runner_up_team|third_place_team|fourth_place_team|merit_teams):[ \t]*([^\n]*)$/gm;
+const unquote = (s: string) => s.trim().replace(/^['"]|['"]$/g, '');
+export function placeNames(raw: string): string[] {
+  const out: string[] = [];
+  const lines = raw.split('\n');
+  for (const m of raw.matchAll(PLACE_FIELDS)) {
+    const value = m[2].trim();
+    if (value.startsWith('[')) {
+      out.push(...value.slice(1, -1).split(',').map(unquote).filter(Boolean));
+      continue;
+    }
+    if (value) { out.push(unquote(value)); continue; }
+    // 值是空的 → 區塊列表，往下收到縮排結束為止。
+    // 縮排一定要比欄位本身深：下一個組別的 `- name:` 也長得像列表項，
+    // 只看「是不是 - 開頭」會一路吃進去，把組別名當成隊名。
+    const indent = m[1].length;
+    const start = raw.slice(0, m.index!).split('\n').length;
+    for (let i = start; i < lines.length; i++) {
+      const item = lines[i].match(/^(\s+)-\s+(.+)$/);
+      if (!item || item[1].length <= indent) break;
+      out.push(unquote(item[2]));
+    }
+  }
+  return out.filter(Boolean);
+}
+
+// 頁面是 HTML，隊名裡的撇號會被轉成實體（`pig's` → `pig&#39;s`）。
+// 直接拿原字串去 includes 會找不到，然後被誤判成「這個隊名沒印出來」。
+const esc = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const shown = (html: string, name: string) => html.includes(name) || html.includes(esc(name));
+
 describe('/teams/records/ 產出', () => {
   const html = readFileSync('dist/teams/records/index.html', 'utf8');
 
@@ -79,15 +123,10 @@ describe('/teams/records/ 產出', () => {
     const dir = 'src/content/events';
     const names = new Set<string>();
     for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
-      const raw = readFileSync(`${dir}/${f}`, 'utf8');
-      for (const m of raw.matchAll(/^\s+(?:champion_team|runner_up_team|third_place_team):\s*(.+)$/gm)) {
-        const v = m[1].trim();
-        if (v.startsWith('[') || v === '') continue;
-        names.add(v.replace(/^['"]|['"]$/g, ''));
-      }
+      for (const n of placeNames(readFileSync(`${dir}/${f}`, 'utf8'))) names.add(n);
     }
     expect(names.size).toBeGreaterThan(10);
-    const missing = [...names].filter((n) => !html.includes(parseTeamEntry(n).team));
+    const missing = [...names].filter((n) => !shown(html, parseTeamEntry(n).team));
     expect(missing).toEqual([]);
   });
 
@@ -98,16 +137,9 @@ describe('/teams/records/ 產出', () => {
     const dir = 'src/content/events';
     const allowed = new Set<string>();
     for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
-      const raw = readFileSync(`${dir}/${f}`, 'utf8');
-      // 名次欄位有三種寫法：單一字串、行內陣列 `[A, B]`、以及 merit_teams 的行內陣列。
-      for (const m of raw.matchAll(/^\s+(?:champion_team|runner_up_team|third_place_team|merit_teams):\s*(.+)$/gm)) {
-        const v = m[1].trim().replace(/^['"]|['"]$/g, '');
-        if (!v) continue;
-        const items = v.startsWith('[') ? v.slice(1, -1).split(',') : [v];
-        for (const item of items) {
-          const name = item.trim().replace(/^['"]|['"]$/g, '');
-          if (name) allowed.add(parseTeamEntry(name).team);
-        }
+      for (const n of placeNames(readFileSync(`${dir}/${f}`, 'utf8'))) {
+        allowed.add(parseTeamEntry(n).team);
+        allowed.add(esc(parseTeamEntry(n).team));
       }
     }
     // 隊伍區塊的每個 <h3> 內容都必須來自上面那份清單（學校區塊的標題另有其來源，分開驗）。

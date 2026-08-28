@@ -5,7 +5,11 @@ level: 全國
 status: completed
 event_type: 邀請賽
 organizer: 中華民國飛行運動總會／中華民國航空模型協會（協辦：南投縣議會、埔里鎮公所；場地：埔里鎮寶大飯店）
-rule_system: OTHER
+# 2026-08-28 由 OTHER 改為 FAI：ETtoday 原文引中華民國航空模型協會理事長陳正峯具名說明
+# 「本次地理中心盃採用FAI國際航空聯盟規定的F9A賽制，以利參賽隊伍與世界接軌」。
+# 先前記 OTHER 是因為建檔時沒讀到這一段。不掛 rulebook——站上那本是 FAI F9A-B 2026 版，
+# 拿 2026 年的版本去標 2025 年的賽事就是張冠李戴。
+rule_system: FAI
 schedule:
   event_start: "2025-07-13"
   event_end: "2025-07-13"
