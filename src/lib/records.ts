@@ -98,6 +98,12 @@ export function collectRecords(events: EventLike[]): RecordRow[] {
       for (const raw of block.merit_teams ?? []) {
         rows.push({ ...parseTeamEntry(raw), eventSlug: e.slug, eventTitle: e.title, eventStart: e.eventStart, division, place: '優勝' });
       }
+      // 第 5 名以降／並列名次：place 是來源原文（「並列第 5」），不套 PLACE_LABELS。
+      for (const { place, team } of block.other_places ?? []) {
+        for (const raw of teamList(team)) {
+          rows.push({ ...parseTeamEntry(raw), eventSlug: e.slug, eventTitle: e.title, eventStart: e.eventStart, division, place });
+        }
+      }
     }
   }
   return rows;

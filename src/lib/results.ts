@@ -36,6 +36,8 @@ export interface ResultBlock {
   third_place_team?: TeamPlace;
   fourth_place_team?: TeamPlace;
   merit_teams?: string[];
+  /** 第 5 名以降或並列名次，見 content.config.ts 的 other_places 註解 */
+  other_places?: { place: string; team: TeamPlace }[];
   divisions?: ResultBlock[];
   name?: string;
 }
@@ -45,7 +47,8 @@ export function hasAnyPlace(r?: ResultBlock): boolean {
   if (!r) return false;
   return hasTeam(r.champion_team) || hasTeam(r.runner_up_team)
     || hasTeam(r.third_place_team) || hasTeam(r.fourth_place_team)
-    || (r.merit_teams?.length ?? 0) > 0;
+    || (r.merit_teams?.length ?? 0) > 0
+    || (r.other_places?.length ?? 0) > 0;
 }
 
 /** 真的有名次可列的組別（空組別不算，否則畫面會出現只有標題的空區塊）。 */

@@ -83,7 +83,11 @@ describe('反查索引', () => {
 // 三種寫法都要吃得下：單一字串、行內陣列 `[A, B]`、以及區塊列表（`- A` 逐行）。
 // 冒號後只吃同一行的空白：`\s*` 會連換行一起吃掉，於是空值欄位會把下一行的 `- 隊名`
 // 整串當成值，隊名前面多一個「- 」——測試就開始抱怨一個根本不存在的隊伍。
-const PLACE_FIELDS = /^(\s+)(?:champion_team|runner_up_team|third_place_team|fourth_place_team|merit_teams):[ \t]*([^\n]*)$/gm;
+// `team` 是 other_places 底下那一層的鍵（`- place: 並列第 5` / `  team: TPE-Team 1`）。
+// 2026-08-28 補：加 other_places 當天這裡又漏了一次，症狀一模一樣——頁面印得出隊名、
+// 測試的允許清單裡沒有，於是測試誣告正確的資料。這已經是同一個坑的第二次，
+// 所以欄位名寫成一條 alternation 擺在最前面，加欄位時第一眼就看得到要動這裡。
+const PLACE_FIELDS = /^(\s+)(?:champion_team|runner_up_team|third_place_team|fourth_place_team|merit_teams|team):[ \t]*([^\n]*)$/gm;
 const unquote = (s: string) => s.trim().replace(/^['"]|['"]$/g, '');
 export function placeNames(raw: string): string[] {
   const out: string[] = [];

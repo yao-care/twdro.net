@@ -1,0 +1,67 @@
+title: 2026 FAI 香港無人機足球公開賽
+subtitle: FAI 正式認證，9 個國家及地區 15 支隊伍；中華臺北 APEX TEAM 拿下 F9A-B 組冠軍，是臺灣在該賽事的首面金牌
+event_series: FAI 無人機足球國際系列賽
+level: 國際
+country: 香港
+status: completed
+event_type: 公開賽
+organizer: 中國香港無人機運動總會（Hong Kong China Drone Sports Association, HKDSA）
+organizer_slugs:
+  - fai
+rule_system: FAI
+# 不掛 rulebook：主辦 Bulletin 1 寫「2025 Edition effective 15 June 2025」，
+# 官網可下載的規則檔卻標 Edition 2026 Version 2，兩者對不起來；站上那本是
+# 「FAI F9A-B 2026」，在確認這場實際採用哪一版之前不硬掛。
+schedule:
+  # 官網橫幅寫「21-23 August」，但 Bulletin 與 FAI 賽曆都是 22–23 為競賽日，
+  # 8/21 是報到、器材檢查、練習與領隊會議，8/24 離會。賽期只記競賽日。
+  event_start: "2026-08-22"
+  event_end: "2026-08-23"
+  venue_name: 香港知專設計學院暨李惠利分校（Hong Kong Design Institute & IVE Lee Wai Lee）
+  city: 香港
+  district: 將軍澳
+competition:
+  # 本賽事只設一個組別。F9A-B ＝ 20 公分球型無人機、3×6 公尺場地、場上 3 人（每隊至多 5 名選手）。
+  drone_class: F9A-B（Brushless Class）
+  drone_diameter: 20cm
+  active_drones_per_team: 3
+results:
+  # 只記錄臺灣隊伍的名次。這一場不是「懶得查其他名次」——是**三個官方管道都拿不到**：
+  # 主辦官網的決賽對戰表是一張 Canva 嵌入圖（沒有文字）、官網即時積分後端只到小組賽、
+  # FAI 的 2026 國際系列賽頁面到 2026-08-28 為止仍未張貼香港站成績（德國站、巴黎站都有了）。
+  # 亞軍、季軍查不到就留白，不推測。
+  #
+  # 隊名兩種寫法都是真的：主辦官網分組表登錄的是國別隊名 `Team Chinese Taipei`（A 組 A2），
+  # `APEX TEAM` 是這支隊伍在臺灣的隊名（同一支隊伍 2026-07 也拿下 UASACT 社青組冠軍）。
+  # 這裡用臺灣讀者查得到、且站上其他賽事已在用的 APEX TEAM，官方登錄名寫在括號裡。
+  divisions:
+    - name: F9A-B（20 公分級）
+      champion_team: APEX TEAM（主辦登錄隊名 Team Chinese Taipei）
+verification: source_confirmed
+sources:
+  - type: organizer_announcement
+    title: 2026 FAI Hong Kong Open Drone Soccer Championship 官方賽事網站（日期、場館、15 隊清單、分組與賽制）
+    url: https://2026faihkopendronesoccerchampionship.pages.dev/
+    publisher: 中國香港無人機運動總會（HKDSA）
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: organizer_announcement
+    title: 2026 FAI Drone Soccer International Series（本賽事為系列賽分站，FAI Category 2 認證）
+    url: https://www.fai.org/event/2026-fai-drone-soccer-international-series
+    publisher: FAI 國際航空聯盟
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: news_article
+    title: 台灣小將空中踢進金牌 無人機足球隊香港摘冠
+    url: https://sports.ltn.com.tw/news/breakingnews/5552050
+    publisher: 自由時報（自由體育）
+    published_at: "2026-08-25"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  - type: news_article
+    title: 全港首個獲 FAI 國際認可的無人機足球公開賽開幕
+    url: https://www.i-cable.com/新聞資訊/496993/
+    publisher: 有線新聞 i-CABLE（香港）
+    published_at: "2026-08-22"
+    retrieved_at: "2026-08-28"
+    trust_level: B

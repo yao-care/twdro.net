@@ -33,6 +33,20 @@ const placesSchema = z.object({
   fourth_place_team: teamPlace,
   // 優勝／佳作這類「有獎但不排名次」的名單。新竹縣那場前三名之外還有 6 組優勝。
   merit_teams: z.array(z.string()).optional(),
+  // 第 5 名以降，或採「同一輪淘汰者並列同名次」而放不進固定名次欄位的成績。
+  //
+  // 2026-08-28 加，理由與當初加 fourth_place_team 同一條：**欄位放不下的事實，
+  // 不該被扭曲成放得下的樣子。** 觸發的是 2025 FAI 世界無人機足球錦標賽（上海）——
+  // 臺灣三隊分別是 F9A-A 並列第 5、F9A-B 並列第 9 與並列第 17，一個獎牌都沒有，
+  // 但「打進 18 隊裡的前 5」正是讀者要查的東西。在這個欄位出現之前，這場的選擇只有
+  // 三種：塞進 merit_teams（把名次講成「優勝」，假的）、整場不填成績（讓站上顯示
+  // 「成績待確認」，也是假的——成績早就公布了），或者乾脆不收錄。三種都在說謊。
+  //
+  // place 照來源原文寫（「並列第 5」），不要自己換算成數字——並列與否是事實的一部分。
+  other_places: z.array(z.object({
+    place: z.string(),
+    team: z.union([z.string(), z.array(z.string())]),
+  })).optional(),
 });
 
 const yml = (dir: string) => glob({ pattern: '**/*.yml', base: `./src/content/${dir}` });

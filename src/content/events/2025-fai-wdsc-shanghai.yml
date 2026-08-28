@@ -1,0 +1,73 @@
+title: 2025 FAI 世界無人機足球錦標賽（中國上海）
+subtitle: 首屆 FAI 世界錦標賽，18 國 46 隊 193 名選手；臺灣三支隊伍全部打進最終排名，F9A-A 並列第 5 是我國在 FAI 體系世錦賽的最佳名次
+event_series: FAI 世界錦標賽
+level: 國際
+country: 中國
+status: completed
+event_type: 世界錦標賽
+organizer: 中國航空運動協會（ASFC）與上海市科技體育運動管理中心承辦，FAI 航空模型委員會（CIAM）主辦
+organizer_slugs:
+  - fai
+rule_system: FAI
+# 不掛 rulebook：站上那本是「FAI F9A-B 2026」，用 2026 年的版本去標 2025 年的賽事
+# 就是張冠李戴（同 2025 地理中心盃的處理）。
+schedule:
+  event_start: "2025-11-15"
+  event_end: "2025-11-18"
+  venue_name: 上海體育館（徐家匯體育公園）
+  city: 上海
+eligibility:
+  education_levels: [國小, 國中, 高中, 社會人士]
+results:
+  # 只記錄臺灣隊伍的名次（同世界盃、洲際盃的處理）——本站是臺灣的資料站，
+  # 不宣稱掌握 18 國的完整成績。金銀銅由中國與韓國包辦，那不是本站要複述的東西。
+  #
+  # ⚠️ 三件事寫在這裡，因為看名次表看不出來：
+  # 1. FAI 採「同一輪被淘汰者並列同名次」，所以 5／9／17 都是**並列**，不是唯一的第幾名。
+  #    這是 2026-08-28 為此新增 other_places 欄位的原因——在那之前，這三筆的下場只有
+  #    塞進 merit_teams（把名次講成「優勝」）或整場不填成績（顯示成「成績待確認」），
+  #    兩種都是假的。place 照 FAI 名次表的並列制寫，不換算成唯一名次。
+  # 2. F9A-A 的「TPE-Team 1」與 F9A-B 的「TPE-Team 1」**是不同的兩支隊伍**，
+  #    編號只在各組別內有效，不要合併。
+  # 3. 隊名就是官方成績表上的 TPE-Team N，臺灣媒體從頭到尾只寫「台灣代表隊」，
+  #    查不到專有隊名——這是查證後的結論，不是還沒查。
+  divisions:
+    - name: F9A-A（40 公分級，18 隊 14 國）
+      other_places:
+        - place: 並列第 5
+          team: TPE-Team 1
+    - name: F9A-B（20 公分級，28 隊 17 國）
+      other_places:
+        - place: 並列第 9
+          team: TPE-Team 2
+        - place: 並列第 17
+          team: TPE-Team 1
+verification: official
+sources:
+  - type: organizer_announcement
+    title: 2025 FAI World Drone Soccer Championships – Official Results（完整名次與所有對戰表）
+    url: https://www.fai.org/sites/default/files/document/file/2025%20FAI%20WDSC%20Officials%20Results.pdf
+    publisher: FAI 國際航空聯盟
+    published_at: "2025-11-18"
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: organizer_announcement
+    title: 2025 FAI World Drone Soccer Championships（賽事頁：主辦、場館、F9A-A／F9A-B 組別定義）
+    url: https://www.fai.org/event/2025-fai-world-drone-soccer-championships
+    publisher: FAI 國際航空聯盟
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: news_article
+    title: 台灣無人機足球國家隊出征 跨齡菁英展現科技運動實力
+    url: https://udn.com/news/story/6885/9114940
+    publisher: 聯合報
+    published_at: "2025-11-03"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  - type: gov_announcement
+    title: 46支国际精英队伍齐聚申城 首届世界无人机足球锦标赛在沪启幕
+    url: https://www.chinanews.com.cn/ty/2025/11-16/10516353.shtml
+    publisher: 中新網
+    published_at: "2025-11-16"
+    retrieved_at: "2026-08-28"
+    trust_level: B

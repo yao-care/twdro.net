@@ -1,5 +1,11 @@
 title: 2025 第一屆天穹盃無人機飛球錦標賽－全國總決賽
-subtitle: 近 40 支菁英隊伍角逐，優勝隊伍代表臺灣赴上海世界賽
+# 2026-08-28 刪掉原本 subtitle 後半的「優勝隊伍代表臺灣赴上海世界賽」。
+# 那句話只出現在中時一篇報導的一句敘述裡，而且**與已證實的事實衝突**：上海那場
+# （2025 FAI 世界無人機足球錦標賽，11/15–18）的臺灣代表隊是 2025-07-27 國家隊選拔賽
+# 選出的，代表隊 11/14 就出發——比這場總決賽只差 5 天，選拔早在三個多月前完成。
+# 主辦單位自己的簡章全文沒有出現過「上海」，晉級條款只寫「代表中區參加全國總決賽」。
+# 合理判斷是記者把同一個月的兩件事混寫。來源怎麼寫是一回事，站上不能把它當事實陳述。
+subtitle: 近 40 支菁英隊伍角逐，來自北、中、南、東
 event_series: 天穹盃
 status: archived
 event_type: 全國總決賽
@@ -15,10 +21,20 @@ schedule:
   district: 池上鄉
 verification: source_confirmed
 sources:
+  # 當天的現場報導，是賽期 11-09 與「近 40 支隊伍」的直接依據。
+  - type: news_article
+    title: 前進上海！「天穹盃」無人機飛球錦標賽總決賽 台東熱血引爆
+    url: https://www.chinatimes.com/realtimenews/20251109001452-260403
+    publisher: 中時新聞網
+    published_at: "2025-11-09"
+    retrieved_at: "2026-08-28"
+    trust_level: B
+  # 事後補報導（發布日 2025-11-15，非賽事當天）。原本這筆的 published_at 誤記為 11-09
+  # ——那正是賽期，兩者被混為一談。
   - type: news
     title: 天穹盃無人機飛球錦標賽 總決賽池上開戰
     url: https://news.ipcf.org.tw/187985
     publisher: 原視新聞
-    published_at: "2025-11-09"
-    retrieved_at: "2026-07-19"
+    published_at: "2025-11-15"
+    retrieved_at: "2026-08-28"
     trust_level: C

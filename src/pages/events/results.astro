@@ -7,7 +7,7 @@ import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
 import { dateRangeText } from '../../lib/schedule';
 import {
-  teamText, hasTeam, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults,
+  teamText, teamList, hasTeam, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults,
 } from '../../lib/results';
 import { resultsMailto, resultsUrl } from '../../lib/correction';
 import { collectionPageJsonLd, breadcrumbJsonLd } from '../../lib/jsonld';
@@ -43,6 +43,7 @@ const teamCount = new Set(
       ...(b?.runner_up_team ? [teamText(b.runner_up_team)] : []),
       ...(b?.third_place_team ? [teamText(b.third_place_team)] : []),
       ...(b?.merit_teams ?? []),
+      ...(b?.other_places ?? []).flatMap((o: any) => teamList(o.team)),
     ]);
   }).flatMap((s) => s.split('、')).filter(Boolean),
 ).size;
@@ -115,6 +116,9 @@ const PLACES: [string, (b: any) => any][] = [
             {(r?.merit_teams?.length ?? 0) > 0 && (
               <li><span class="k">優勝</span><span class="v">{r!.merit_teams!.join('、')}</span></li>
             )}
+            {(r?.other_places ?? []).map((o: any) => (
+              <li><span class="k">{o.place}</span><span class="v">{teamText(o.team)}</span></li>
+            ))}
           </ul>
         )}
 
@@ -128,6 +132,9 @@ const PLACES: [string, (b: any) => any][] = [
               {(g.merit_teams?.length ?? 0) > 0 && (
                 <li><span class="k">優勝</span><span class="v">{g.merit_teams!.join('、')}</span></li>
               )}
+              {(g.other_places ?? []).map((o: any) => (
+                <li><span class="k">{o.place}</span><span class="v">{teamText(o.team)}</span></li>
+              ))}
             </ul>
           </div>
         ))}
