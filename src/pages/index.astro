@@ -27,7 +27,11 @@ const news = (await getCollection('news')).sort((a, b) => b.data.date.localeComp
 
 // 賽事系列數算實際資料，不寫死數字（曾經卡在「四個系列」沒跟著新增的系列更新）。
 const seriesCount = new Set(events.map((e) => e.data.event_series).filter(Boolean)).size;
-const eventCityCount = new Set(events.map((e) => e.data.schedule.city).filter(Boolean)).size;
+// 2026-08-28 起站上也收國際賽（country 有值者）。臺灣與國際要分開數：
+// 把國際賽算進「涵蓋 N 個縣市」會直接說謊，而那句話就印在首頁第一段。
+const twEvents = events.filter((e) => !e.data.country);
+const intlEvents = events.filter((e) => e.data.country);
+const eventCityCount = new Set(twEvents.map((e) => e.data.schedule.city).filter(Boolean)).size;
 
 // 新手入門捷徑：把已索引首頁的連結權重導向旗艦教學頁與新教育文。
 const starterLinks = [
@@ -75,7 +79,8 @@ const tools = [
       <h2>台灣無人機足球資料入口</h2>
       <p style="margin:0 0 16px">
         想找台灣的比賽、球隊、練習場地或推廣單位，從這四個入口開始。本站目前整理
-        <strong>{events.length}</strong> 場公開賽事、<strong>{seriesCount}</strong> 個賽事系列，涵蓋 <strong>{eventCityCount}</strong> 個已標明縣市；
+        <strong>{twEvents.length}</strong> 場臺灣公開賽事，涵蓋 <strong>{eventCityCount}</strong> 個已標明縣市，
+        另收錄 <strong>{intlEvents.length}</strong> 場臺灣隊伍出賽的國際賽；合計 <strong>{seriesCount}</strong> 個賽事系列；
         各頁再連到規則、器材與主辦資料。
       </p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:12px">

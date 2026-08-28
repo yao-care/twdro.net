@@ -1,0 +1,44 @@
+title: 首屆 FIDA 無人機足球世界盃（韓國全州）
+subtitle: 32 個國家、逾 2,500 名運動員；臺北市代表隊拿下 Cracing 項目冠軍與 Class20 殿軍
+event_series: FIDA 世界盃
+level: 國際
+country: 韓國
+status: completed
+event_type: 世界盃
+organizer: 韓國國土交通部／全北道／全州市／國際無人機足球協會聯合會（FIDA）
+organizer_slugs:
+  - fida
+rule_system: FIDA
+rulebook: fida-2026
+schedule:
+  event_start: "2025-09-25"
+  event_end: "2025-09-28"
+  venue_name: 全州世界盃體育場及周邊場地
+  city: 全州
+eligibility:
+  education_levels: [國小, 國中, 高中]
+results:
+  # 只記錄臺灣隊伍的名次——本站是臺灣的資料站，不宣稱掌握 32 國的完整成績。
+  # 其他國家的名次查不到就不寫，不推測（站規鐵則 1）。
+  divisions:
+    - name: Cracing（障礙繞圈賽）
+      champion_team: 臺北市無人機足球代表隊
+    - name: 無人機足球 Class20
+      # 來源寫的是「殿軍」＝第四名，不是季軍。2026-08-28 加了 fourth_place_team 才放得下；
+      # 在那之前我一度誤寫成 third_place_team，是渲染出來逐字比對來源才發現的。
+      fourth_place_team: 臺北市無人機足球代表隊
+verification: official
+sources:
+  - type: gov_announcement
+    title: 狂賀！臺北市足球無人機代表隊榮獲首屆FIDA無人機足球世界盃Cracing項目冠軍、無人機足球競賽Class20殿軍及獲頒未來之星獎項！
+    url: https://www.gov.taipei/News_Content.aspx?n=F0DDAF49B89E9413&s=1926761FAA617044
+    publisher: 臺北市政府教育局
+    published_at: "2025-09-28"
+    retrieved_at: "2026-08-28"
+    trust_level: A
+  - type: press_release
+    title: 2025年無人機足球世界盃將在「無人機足球之城」全州舉辦
+    url: https://www.cna.com.tw/postwrite/chi/410774
+    publisher: 中央社訊息平台
+    retrieved_at: "2026-08-28"
+    trust_level: B

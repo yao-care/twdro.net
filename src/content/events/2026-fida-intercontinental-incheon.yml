@@ -1,0 +1,38 @@
+title: 2026 FIDA 無人機足球洲際盃（韓國仁川松島）
+subtitle: 臺灣代表隊 Class 20 亞軍、Class 40 殿軍，是我國參與足球無人機國際賽事的最佳紀錄
+event_series: FIDA 洲際盃
+level: 國際
+country: 韓國
+status: completed
+event_type: 洲際盃
+organizer: 國際無人機足球協會聯合會（FIDA）
+organizer_slugs:
+  - fida
+rule_system: FIDA
+rulebook: fida-2026
+schedule:
+  # 報導日期為 2026-07-19；賽事確切起訖日未見諸報導，故只記到「我方確認賽事已於 7 月舉行」，
+  # 用報導日當賽期。查得到正式賽程再更正——寧可粗一點，不要編一個看起來精確的假日期。
+  event_start: "2026-07-19"
+  event_end: "2026-07-19"
+  city: 仁川
+eligibility:
+  education_levels: [國小, 國中, 高中]
+results:
+  # 只記錄臺灣隊伍的名次，理由同世界盃那一場。
+  # Class 40 是殿軍——2026-08-28 為此加了 fourth_place_team 欄位，
+  # 先前名次只到季軍，這筆成績只能塞進 merit_teams，但「優勝」與「第四名」不是同一件事。
+  divisions:
+    - name: 無人機足球 Class 20
+      runner_up_team: 臺北市足球無人機國家代表隊
+    - name: 無人機足球 Class 40
+      fourth_place_team: 臺北市足球無人機國家代表隊
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 仁川無人機足球賽傳捷報
+    url: https://www.mdnkids.com/content.asp?Link_String_=247J00000UWJDCZ
+    publisher: 國語日報
+    published_at: "2026-07-19"
+    retrieved_at: "2026-08-28"
+    trust_level: B

@@ -19,6 +19,7 @@ export const PLACE_LABELS = [
   ['champion_team', '冠軍'],
   ['runner_up_team', '亞軍'],
   ['third_place_team', '季軍'],
+  ['fourth_place_team', '殿軍'],
 ] as const;
 
 export interface RecordRow {

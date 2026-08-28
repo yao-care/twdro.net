@@ -22,6 +22,19 @@ const sourceSchema = z.object({
 // teamText() 正規化，不要各自 Array.isArray 判斷。
 const teamPlace = z.union([z.string(), z.array(z.string())]).optional();
 
+// 一組名次欄位。頂層成績與各組別成績共用同一份定義——見 events.results 的註解。
+const placesSchema = z.object({
+  champion_team: teamPlace,                 // 隊伍名，不含個資
+  runner_up_team: teamPlace,
+  third_place_team: teamPlace,
+  // 殿軍（第四名）。2026-08-28 加：臺灣的賽事公告常報到殿軍，而 FIDA 仁川洲際盃
+  // 臺灣拿的正是 Class 40 殿軍。先前欄位只到季軍，那筆成績只能塞進 merit_teams
+  // ——但「優勝」和「第四名」是不同的意思。欄位放不下的事實不該被扭曲成放得下的樣子。
+  fourth_place_team: teamPlace,
+  // 優勝／佳作這類「有獎但不排名次」的名單。新竹縣那場前三名之外還有 6 組優勝。
+  merit_teams: z.array(z.string()).optional(),
+});
+
 const yml = (dir: string) => glob({ pattern: '**/*.yml', base: `./src/content/${dir}` });
 
 const events = defineCollection({
@@ -39,6 +52,15 @@ const events = defineCollection({
     // 硬選一個當主辦就是替主辦單位排名次（鐵則：不排名、不推薦）。organizer 那個自由字串
     // 仍是顯示用的原文，這一欄只放本站有收錄條目的參與方，沒收錄的不硬建（2026-08-27）。
     organizer_slugs: z.array(z.string()).optional(),
+    // 賽事所在國家／地區。**臺灣的賽事不填**（省略即代表臺灣），只有國外賽事要填。
+    // 2026-08-28 加，用戶指示收錄範圍不限臺灣：臺灣隊伍打的國際賽本來就是站上讀者要查的
+    // 東西（站上已有一整篇「臺灣在國際賽的成績」），但先前那些賽事一場都沒建檔，
+    // 成績只散在教育文的敘述裡，查不到場次、日期與對手規模。
+    //
+    // 為什麼要有這個欄位而不是只靠 city：縣市彙整頁是用 city 反查的，
+    // 「仁川」「全州」「上海」不在臺灣縣市對照表裡會安靜地不產生頁——那沒問題；
+    // 但賽事索引與統計如果把國外賽事混進「臺灣有幾場」就是說謊。有這個欄位才分得開。
+    country: z.string().optional(),
     rule_system: z.enum(RULE_SYSTEM),
     rulebook: z.string().optional(),        // 對應 rulebooks 的 slug
     registration_url: z.string().url().optional(),
@@ -63,26 +85,24 @@ const events = defineCollection({
       drone_diameter: z.string().optional(),
       active_drones_per_team: z.number().optional(),
     }).default({}),
+    // 名次欄位只定義一次，頂層與各組別共用。
+    // 2026-08-28 抽出來的理由是當場踩到的：加 `fourth_place_team` 時只改了頂層，
+    // divisions 底下那一份忘了加——Zod 會**安靜地把不認得的欄位丟掉**，
+    // 於是「只有殿軍」的組別變成空物件、被 publishedDivisions 過濾掉，
+    // 整個組別從畫面上消失。build 過、測試綠、什麼都沒說。
+    // 同一件事寫兩份就會走鐘，所以只留一份。
     results: z.object({
       // 名次可以並列（2026-08-03 加）。新竹縣第一屆教育科技盃就是實例：第二名 2 隊、
       // 第三名 3 隊，主辦官網明寫「2組」「3組」。原本只收單一字串，硬塞會變成
       // 「A、B」一個假隊名，或者要捨棄一半得獎隊伍——兩種都不誠實。
       // 既有單隊資料仍是字串，10 筆舊賽事完全不受影響。
-      champion_team: teamPlace,                 // 隊伍名，不含個資
-      runner_up_team: teamPlace,
-      third_place_team: teamPlace,
-      // 優勝／佳作這類「有獎但不排名次」的名單。新竹縣那場前三名之外還有 6 組優勝。
-      merit_teams: z.array(z.string()).optional(),
+      ...placesSchema.shape,
       // 分組別成績（2026-08-03 加）。台灣的學校賽事幾乎都分組別——教育部全國賽本身就有
       // 國中小／高中／大專三組，縣市選拔賽則多為國中組／國小組——只給單組冠亞季的話，
       // 第一筆真實成績（嘉義縣 115 年度選拔賽，雙組別）就得捨棄一半資料。頂層欄位保留，
       // 未分組的賽事照舊填頂層即可，既有 10 筆賽事完全不受影響。
-      divisions: z.array(z.object({
+      divisions: z.array(placesSchema.extend({
         name: z.string(),                       // 組別名，如「國中組」
-        champion_team: teamPlace,
-        runner_up_team: teamPlace,
-        third_place_team: teamPlace,
-        merit_teams: z.array(z.string()).optional(),
       })).optional(),
     }).optional(),
     sources: z.array(sourceSchema).min(1).optional(),

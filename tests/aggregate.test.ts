@@ -111,6 +111,9 @@ describe('場館', () => {
         .filter((n): n is string => !!n),
     );
     const missing = events
+      // 國外賽事的場館（全州世界盃體育場…）不建進 venues：那個集合是臺灣場地的名錄，
+      // city 欄位也是臺灣縣市。混進去會讓「臺灣有哪些場地」這個問題答錯（2026-08-28）。
+      .filter((e) => !/^country:\s*\S/m.test(e.raw))
       .map((e) => field(e.raw, 'venue_name', true))
       .filter((v): v is string => !!v)
       // 「A（決賽）／B（初賽）」這種一格兩館的寫法不是單一場館，不該建成一筆。

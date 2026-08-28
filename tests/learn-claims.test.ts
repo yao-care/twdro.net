@@ -366,10 +366,15 @@ describe('taiwan-competitions-overview 的資料斷言', () => {
   };
 
   it('文章宣稱的賽事系列數與實際資料一致，且逐列點名的系列都還在', () => {
+    // 這篇的標題就是「**台灣**無人機足球賽事有哪些」，所以只數臺灣的系列。
+    // 站上 2026-08-28 起也收臺灣隊伍出賽的國際賽（country 有值者），
+    // 把 FIDA 世界盃、洲際盃算進來會讓這句話的範圍與標題對不上。
     const series = new Set(
       readdirSync('src/content/events')
         .filter((f) => f.endsWith('.yml'))
-        .map((f) => eventRaw(f.replace(/\.yml$/, '')).match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
+        .map((f) => eventRaw(f.replace(/\.yml$/, '')))
+        .filter((raw) => !/^country:\s*\S/m.test(raw))
+        .map((raw) => raw.match(/^event_series:\s*(.*)$/m)?.[1]?.trim())
         .filter(Boolean),
     );
     // 文章標題寫「N 個系列一次看懂」，內文寫「本站目前收錄 N 個系列」，兩處都要對得上資料

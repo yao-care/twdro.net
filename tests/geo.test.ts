@@ -21,6 +21,9 @@ describe('縣市 slug', () => {
     for (const f of readdirSync('src/content/events').filter((x) => x.endsWith('.yml'))) {
       const raw = readFileSync(`src/content/events/${f}`, 'utf8');
       if (/^status:\s*draft/m.test(raw)) continue;
+      // 國外賽事的 city 是「全州」「仁川」這種外國城市，本來就不在臺灣縣市對照表裡。
+      // 用 country 欄位判斷（臺灣的賽事不填 country），不是靠猜城市名（2026-08-28）。
+      if (/^country:\s*\S/m.test(raw)) continue;
       const city = raw.match(/^\s+city:\s*(.+)$/m)?.[1]?.trim().replace(/^['"]|['"]$/g, '');
       if (city && !citySlug(city)) missing.add(city);
     }

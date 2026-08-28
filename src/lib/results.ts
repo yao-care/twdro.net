@@ -34,6 +34,7 @@ export interface ResultBlock {
   champion_team?: TeamPlace;
   runner_up_team?: TeamPlace;
   third_place_team?: TeamPlace;
+  fourth_place_team?: TeamPlace;
   merit_teams?: string[];
   divisions?: ResultBlock[];
   name?: string;
@@ -43,7 +44,8 @@ export interface ResultBlock {
 export function hasAnyPlace(r?: ResultBlock): boolean {
   if (!r) return false;
   return hasTeam(r.champion_team) || hasTeam(r.runner_up_team)
-    || hasTeam(r.third_place_team) || (r.merit_teams?.length ?? 0) > 0;
+    || hasTeam(r.third_place_team) || hasTeam(r.fourth_place_team)
+    || (r.merit_teams?.length ?? 0) > 0;
 }
 
 /** 真的有名次可列的組別（空組別不算，否則畫面會出現只有標題的空區塊）。 */

@@ -201,6 +201,7 @@ const seoDesc = eventPageDescription(d);
           {hasTeam(r?.champion_team) && <li><span class="k">冠軍</span><span class="v">{teamText(r?.champion_team)}</span></li>}
           {hasTeam(r?.runner_up_team) && <li><span class="k">亞軍</span><span class="v">{teamText(r?.runner_up_team)}</span></li>}
           {hasTeam(r?.third_place_team) && <li><span class="k">季軍</span><span class="v">{teamText(r?.third_place_team)}</span></li>}
+          {hasTeam(r?.fourth_place_team) && <li><span class="k">殿軍</span><span class="v">{teamText(r?.fourth_place_team)}</span></li>}
             {(r?.merit_teams?.length ?? 0) > 0 && <li><span class="k">優勝</span><span class="v">{r!.merit_teams!.join("、")}</span></li>}
         </ul>
       )}
@@ -211,6 +212,7 @@ const seoDesc = eventPageDescription(d);
             {hasTeam(g.champion_team) && <li><span class="k">冠軍</span><span class="v">{teamText(g.champion_team)}</span></li>}
             {hasTeam(g.runner_up_team) && <li><span class="k">亞軍</span><span class="v">{teamText(g.runner_up_team)}</span></li>}
             {hasTeam(g.third_place_team) && <li><span class="k">季軍</span><span class="v">{teamText(g.third_place_team)}</span></li>}
+            {hasTeam(g.fourth_place_team) && <li><span class="k">殿軍</span><span class="v">{teamText(g.fourth_place_team)}</span></li>}
             {(g.merit_teams?.length ?? 0) > 0 && <li><span class="k">優勝</span><span class="v">{g.merit_teams!.join("、")}</span></li>}
           </ul>
         </div>

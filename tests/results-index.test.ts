@@ -94,3 +94,38 @@ describe('FAQ 送進結構化資料的內容', () => {
     ]));
   });
 });
+
+// 名次欄位曾經被定義兩份（頂層一份、divisions 底下一份），加 fourth_place_team 時只改了
+// 頂層——Zod 會**安靜地把不認得的欄位丟掉**，於是「只有殿軍」的組別變成空物件、
+// 被 publishedDivisions 過濾掉，整個組別從畫面上消失。build 過、測試綠、什麼都沒說。
+// 2026-08-28 抽成共用 schema，這裡把「兩邊支援同一組名次」釘死。
+describe('名次欄位在頂層與組別都吃得到', () => {
+  const html = readFileSync('dist/events/results/index.html', 'utf8');
+
+  it('殿軍（第四名）在組別裡也印得出來', () => {
+    // FIDA 仁川洲際盃臺灣拿的是 Class 40 殿軍，首屆世界盃是 Class20 殿軍。
+    const raw = readFileSync('src/content/events/2026-fida-intercontinental-incheon.yml', 'utf8');
+    expect(raw).toMatch(/^\s+fourth_place_team:/m);
+    expect(html).toContain('殿軍');
+    expect(html).toContain('無人機足球 Class 40');
+  });
+
+  it('每一個在 YAML 裡有名次的組別，組別名都出現在頁面上', () => {
+    // 組別被整個吞掉時，畫面看不出來——只有比對「YAML 有幾組」與「頁面上有幾組」才抓得到。
+    const dir = 'src/content/events';
+    const missing: string[] = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
+      const raw = readFileSync(`${dir}/${f}`, 'utf8');
+      const block = raw.match(/^results:\n([\s\S]*?)^\w/m)?.[1] ?? '';
+      for (const m of block.matchAll(/^\s+- name:\s*(.+)$/gm)) {
+        const name = m[1].trim().replace(/^['"]|['"]$/g, '');
+        // 該組別底下要真的有名次才會渲染；用「下一個 - name 之前有沒有 _team」判斷。
+        const after = block.slice(m.index! + m[0].length);
+        const seg = after.split(/^\s+- name:/m)[0];
+        if (!/_team:/.test(seg)) continue;
+        if (!html.includes(name)) missing.push(`${f}: ${name}`);
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+});

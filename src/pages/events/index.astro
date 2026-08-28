@@ -69,6 +69,10 @@ const cities = [...cityCounts.entries()]
   .map(([slug, count]) => ({ slug, name: all.find((e) => citySlug(e.data.schedule.city) === slug)!.data.schedule.city!, count }))
   .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hant'));
 
+// 臺灣與國際分開數（理由見 pages/index.astro 的註解：混在一起會讓縣市那句話說謊）。
+const twCount = all.filter((e) => !e.data.country).length;
+const intlCount = all.filter((e) => e.data.country).length;
+
 const seriesCounts = new Map<string, number>();
 const yearCounts = new Map<string, number>();
 for (const e of all) {
@@ -102,7 +106,7 @@ const jsonld = collectionPageJsonLd({
 ---
 <BaseLayout
   title="台灣無人機足球比賽：報名、賽程、日期與成績 | twdro.net"
-  description={`台灣（臺灣）無人機足球比賽與賽事資料：目前收錄 ${all.length} 場、${series.length} 個系列，整理報名狀態、比賽日期、地點與成績。`}
+  description={`台灣（臺灣）無人機足球比賽與賽事資料：收錄臺灣 ${twCount} 場與臺灣隊伍出賽的國際賽 ${intlCount} 場、共 ${series.length} 個系列，整理報名狀態、比賽日期、地點與成績。`}
   heroTitle="台灣無人機足球比賽與賽事"
   heroDesc="查台灣（臺灣）無人機足球的報名、賽程、比賽日期、地點與成績。"
 >
@@ -115,8 +119,12 @@ const jsonld = collectionPageJsonLd({
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:12px;margin-bottom:18px">
       <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
-        <strong style="display:block;font-size:1.35rem">{all.length}</strong>
-        <span class="text-muted">收錄賽事</span>
+        <strong style="display:block;font-size:1.35rem">{twCount}</strong>
+        <span class="text-muted">臺灣賽事</span>
+      </div>
+      <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
+        <strong style="display:block;font-size:1.35rem">{intlCount}</strong>
+        <span class="text-muted">臺灣隊伍出賽的國際賽</span>
       </div>
       <div style="padding:14px;background:var(--color-surface-muted);border-radius:10px">
         <strong style="display:block;font-size:1.35rem">{series.length}</strong>
