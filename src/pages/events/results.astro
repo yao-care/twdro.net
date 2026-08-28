@@ -5,6 +5,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import SourceBlock from '../../components/SourceBlock.astro';
 import { url } from '../../lib/url';
 import { isPublicEvent } from '../../lib/enums';
+import { dateRangeText } from '../../lib/schedule';
 import {
   teamText, hasTeam, hasAnyPlace, publishedDivisions, hasPublishedResults, awaitsResults,
 } from '../../lib/results';
@@ -46,11 +47,9 @@ const teamCount = new Set(
   }).flatMap((s) => s.split('、')).filter(Boolean),
 ).size;
 
-const dateText = (e: typeof all[number]) => {
-  const s = e.data.schedule.event_start, t = e.data.schedule.event_end;
-  if (!s) return '日期未定';
-  return t && t !== s ? `${s} ～ ${t}` : s;
-};
+const dateText = (e: typeof all[number]) =>
+  dateRangeText(e.data.schedule.event_start, e.data.schedule.event_end,
+    { sep: ' ～ ', fallback: '日期未定' });
 
 const metaDescription =
   `臺灣無人機足球比賽成績總表：本站已收錄 ${published.length} 場賽事的名次、共 ${teamCount} 支隊伍，`

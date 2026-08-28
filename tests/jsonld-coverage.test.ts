@@ -25,7 +25,16 @@ function walk(dir: string): string[] {
 // 這種缺漏不會讓 build 失敗、不會讓任何既有測試轉紅，只會安靜地讓 Google 少認得幾百個實體。
 // 所以釘死兩件事：每頁至少一個 JSON-LD，且每個區塊都要能 JSON.parse。
 
-const files = walk('dist');
+// 轉址頁（astro.config 的 redirects 產生的 meta-refresh stub）不是內容頁：它沒有正文、
+// 帶 `noindex`、也不進 sitemap，存在的唯一目的是讓已上線的舊網址還到得了新頁。
+// 拿內容頁的標準去要求它會逼出兩種爛結局——替 stub 補一份假的 JSON-LD，或者乾脆別做轉址
+// 直接讓舊網址 404。所以這裡按「有沒有 noindex」把它排除，判準寫在頁面自己身上，
+// 不是維護一份會過期的路徑白名單（2026-08-28 合併重複場館時加）。
+const isRedirectStub = (f: string) => {
+  const html = readFileSync(f, 'utf-8');
+  return /<meta name="robots" content="noindex">/.test(html) && /http-equiv="refresh"/.test(html);
+};
+const files = walk('dist').filter((f) => !isRedirectStub(f));
 
 describe('JSON-LD 覆蓋率', () => {
   it('build 產物存在', () => {
@@ -101,7 +110,10 @@ describe('JSON-LD 覆蓋率', () => {
       const depth = (f: string) => f.slice(target.length).replace(/^\//, '').split('/').length;
       const candidates = target.endsWith('.html')
         ? [target]
-        : walk(target).filter((f) => f !== join(target, 'index.html') && !toolPaths.has(f) && depth(f) === 2);
+        // 轉址 stub 同樣排除（理由見檔頭 isRedirectStub）——這裡是直接 walk()，
+        // 不會經過上面過濾過的 files，漏掉就會要求一個沒有正文的頁附實體節點。
+        : walk(target).filter((f) => f !== join(target, 'index.html') && !toolPaths.has(f)
+            && depth(f) === 2 && !isRedirectStub(f));
       expect(candidates.length, `${target} 找不到明細頁`).toBeGreaterThan(0);
       for (const f of candidates) {
         expect(readFileSync(f, 'utf-8'), `${f} 缺 ${needle}`).toContain(needle);

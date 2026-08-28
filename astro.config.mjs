@@ -11,6 +11,14 @@ const LASTMOD = buildLastmodMap('src/content', TODAY);
 export default defineConfig({
   site: 'https://twdro.net',
   base: '/',
+  // 已上線的網址不當作可以隨手刪的東西。這裡的每一筆都是**內容合併**留下的舊路徑：
+  // 場館名錄裡同一個地點曾因為兩場賽事的 venue_name 寫法不同（「埔里鎮寶大飯店」與
+  // 「埔里鎮寶大飯店 17 樓國際會議廳」）而長成兩頁。合併成一筆是對的，但舊網址已經
+  // 上線、可能被索引，直接消失就是我們自己製造 link rot——而站上有一支 CI 專門在抓
+  // 別人的 link rot。靜態輸出會產出 meta-refresh 頁，舊網址仍然到得了新頁。
+  redirects: {
+    '/venues/puli-chengpao-hall/': '/venues/puli-chengpao/',
+  },
   trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [

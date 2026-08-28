@@ -13,6 +13,7 @@
  * 鐵則 5（不得杜撰）：一律只用 YAML 裡實際存在的欄位，缺就省略，不補泛稱、不編數字。
  */
 import { hasTeam, teamText, type TeamPlace } from './results';
+import { dateRangeText } from './schedule';
 
 /** 賽事狀態 → 該頁當下最該承接的搜尋意圖詞。有成績的已結束賽事優先掛「成績」。 */
 export function eventIntent(status: string, hasResults = false): string {
@@ -83,9 +84,7 @@ export function eventPageDescription(d: EventSeoInput, maxLen = 155): string {
   const s = d.schedule ?? {};
   const parts: string[] = [];
 
-  const dateText = s.event_start
-    ? (s.event_end && s.event_end !== s.event_start ? `${s.event_start}～${s.event_end}` : s.event_start)
-    : null;
+  const dateText = dateRangeText(s.event_start, s.event_end) || null;
   const place = [s.venue_name, [s.city, s.district].filter(Boolean).join('')]
     .filter(Boolean).join('，');
   if (dateText && place) parts.push(`${dateText} 於 ${place} 舉行。`);

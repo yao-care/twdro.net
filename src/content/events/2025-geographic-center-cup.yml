@@ -13,7 +13,10 @@ rule_system: FAI
 schedule:
   event_start: "2025-07-13"
   event_end: "2025-07-13"
-  venue_name: 埔里鎮寶大飯店 17 樓國際會議廳
+  # 場地是寶大飯店 17 樓國際會議廳。venue_name 只寫到飯店層級，是因為 venues 是
+  # 「地點」名錄，同一家飯店不該因為兩場賽事各自寫了不同的樓層而長成兩筆場館
+  # ——2026-08-28 合併，舊網址在 astro.config 留了轉址。
+  venue_name: 埔里鎮寶大飯店
   city: 南投縣
   district: 埔里鎮
 results:

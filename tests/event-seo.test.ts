@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync, readdirSync } from 'node:fs';
 import { eventIntent, eventPageTitle, eventPageDescription } from '../src/lib/eventSeo';
+import { dateRangeText } from '../src/lib/schedule';
 
 describe('eventSeo：賽事頁 title／description', () => {
   it('意圖詞跟著賽事生命週期走', () => {
@@ -149,5 +151,35 @@ describe('並列名次與優勝', () => {
     } as any);
     expect(d).toContain('冠軍：甲隊、乙隊');
     expect(d).not.toContain('甲隊,乙隊');
+  });
+});
+
+
+// 前置：需先執行 `npm run build`（後半段檢查 dist 產物）
+describe('賽期區間', () => {
+  it('有結束日就印區間，同一天或沒有結束日就印單日', () => {
+    expect(dateRangeText('2024-12-07', '2024-12-08')).toBe('2024-12-07～2024-12-08');
+    expect(dateRangeText('2026-07-24', '2026-07-24')).toBe('2026-07-24');
+    expect(dateRangeText('2026-07-24')).toBe('2026-07-24');
+    expect(dateRangeText(undefined, '2026-07-24', { fallback: '未定' })).toBe('未定');
+  });
+
+  // 多日賽事在自己的頁面上只印開始日，是 2026-08-28 修掉的一個無聲缺漏：
+  // meta description 與 JSON-LD 都帶著完整區間，只有讀者看的那一列少了結束日
+  // ——**給爬蟲的資料比給讀者的完整**，而畫面上看不出少了東西。
+  it('每一場多日賽事的明細頁都印得出結束日', () => {
+    const dir = 'src/content/events';
+    const missing: string[] = [];
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
+      const raw = readFileSync(`${dir}/${f}`, 'utf8');
+      const field = (k: string) => raw.match(new RegExp(`^\\s+${k}:\\s*["']?([\\d-]+)`, 'm'))?.[1];
+      const start = field('event_start'), end = field('event_end');
+      if (!start || !end || start === end) continue;
+      const slug = f.replace(/\.yml$/, '');
+      let html: string;
+      try { html = readFileSync(`dist/events/${slug}/index.html`, 'utf8'); } catch { continue; }
+      if (!html.includes(dateRangeText(start, end))) missing.push(`${slug}: ${start}～${end}`);
+    }
+    expect(missing).toEqual([]);
   });
 });

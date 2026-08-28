@@ -11,6 +11,7 @@ import { isPublicEvent, verificationLabel } from '../../lib/enums';
 import { citySlug } from '../../lib/geo.mjs';
 import { aggHref } from '../../lib/aggregate.mjs';
 import { eventPageTitle, eventPageDescription } from '../../lib/eventSeo';
+import { dateRangeText } from '../../lib/schedule';
 import { resultsMailto, resultsUrl, correctionMailto } from '../../lib/correction';
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -154,7 +155,7 @@ const seoDesc = eventPageDescription(d);
       </span></li>
       <li><span class="k">規則體系</span><span class="v">{RULE_LABEL[d.rule_system] ?? d.rule_system}</span></li>
       {d.rulebook && <li><span class="k">規則書</span><span class="v"><a href={url(`/rules/${d.rulebook}`)} style="font-weight:650">查看規則書 →</a></span></li>}
-      <li><span class="k">日期</span><span class="v">{d.schedule.event_start ?? '未定'}</span></li>
+      <li><span class="k">日期</span><span class="v">{dateRangeText(d.schedule.event_start, d.schedule.event_end, { fallback: '未定' })}</span></li>
       <li><span class="k">地點</span><span class="v">
         {hasLocation
           ? <>
