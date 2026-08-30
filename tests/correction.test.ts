@@ -81,9 +81,14 @@ describe('勘誤入口出現在資料明細頁', () => {
       const pageUrl = 'https://twdro.net/' + p.replace(/^dist\//, '').replace(/index\.html$/, '');
       const unescape = (s: string) => s.replace(/&#38;|&amp;/g, '&');
       const mailto = html.match(/href="(mailto:[^"]*)"/)?.[1];
-      const issue = html.match(/href="(https:\/\/github\.com\/yao-care\/twdro\.net\/issues\/new[^"]*)"/)?.[1];
+      // **用 labels 精準挑勘誤那一條，不能拿「頁上第一個 issue 連結」**：已結束但無成績的
+      // 賽事頁還會多一個成績徵稿入口（labels=data-results），它排在前面，
+      // 抓第一個會驗到另一個功能上（2026-08-30 天穹盃臺南戰轉 results_pending 時實際踩到）。
+      const issue = [...html.matchAll(/href="(https:\/\/github\.com\/yao-care\/twdro\.net\/issues\/new[^"]*)"/g)]
+        .map((m) => m[1])
+        .find((href) => unescape(href).includes('labels=data-correction'));
       expect(mailto, '找不到 mailto 入口').toBeTruthy();
-      expect(issue, '找不到 GitHub 入口').toBeTruthy();
+      expect(issue, '找不到勘誤的 GitHub 入口').toBeTruthy();
 
       const mailParams = new URLSearchParams(unescape(mailto!).split('?')[1]);
       expect(mailParams.get('body')).toContain(pageUrl);

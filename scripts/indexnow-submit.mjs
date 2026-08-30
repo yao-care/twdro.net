@@ -8,7 +8,7 @@
 // Google 不參與 IndexNow，所以這支腳本救不了 Google 的收錄——Google 端只能靠 lastmod
 // 與 Search Console 手動「要求建立索引」。別把這支腳本的成功輸出當成 Google 已收到。
 //
-// 只推 lastmod 在 RECENT_DAYS 內的網址：每次 push 都把全站 83 個網址推一次是噪音，
+// 只推 lastmod 在 RECENT_DAYS 內的網址：每次 push 都把整份 sitemap 推一次是噪音，
 // 對方會降低信任。沒有任何近期網址就直接跳過，不發空請求。
 
 import { readFileSync, existsSync } from 'node:fs';
