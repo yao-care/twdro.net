@@ -36,6 +36,19 @@ jobs:
       # 等於 seo-ops reflect/brain 與 pipeline 的自動 commit 一路無守門直接上站。
       # trailingSlash 設定錯誤（2026-07-19～21）就是這樣無聲送到 Google 面前的。
       - run: npm test
+      # 上線之前先把「現在線上的 sitemap」存起來，給 indexnow job 當比較基準。
+      # IndexNow 只該通知真的變了的網址，而判斷「變了」需要上一版——CI 的 runner 沒有跨次
+      # 執行的狀態，但上一版的線上 sitemap 本身就是最準的狀態，抓下來即可。
+      # 必須在 deploy 之前抓，deploy 之後線上就已經是新版了。
+      # 抓不到不擋部署（|| true）：indexnow 端看到空檔案會退回舊的 lastmod 規則。
+      - name: 上線前的 sitemap 快照（給 IndexNow 比對用）
+        run: curl -sS --max-time 30 https://twdro.net/sitemap-0.xml -o previous-sitemap.xml || true
+      - uses: actions/upload-artifact@v5
+        with:
+          name: previous-sitemap
+          path: previous-sitemap.xml
+          if-no-files-found: warn
+          retention-days: 1
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
@@ -98,4 +111,8 @@ jobs:
           # `globSync is not a function` → build 掛 → deploy 被 skip，網站那一版沒上線。
           # 版本要往前對齊受支援的 LTS，不是把程式碼遷就一個已經沒人維護的 runtime。
           node-version: '24'
-      - run: node scripts/indexnow-submit.mjs
+      - uses: actions/download-artifact@v5
+        with:
+          name: previous-sitemap
+        continue-on-error: true
+      - run: node scripts/indexnow-submit.mjs --previous previous-sitemap.xml
