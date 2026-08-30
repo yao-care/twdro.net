@@ -74,15 +74,10 @@ node scripts/check-source-links.mjs   # 全查，有失效則 exit 1
 ```bash
 ls .github/workflows/pipeline-*.yml            # 現在有哪幾支
 grep -H 'cron:' .github/workflows/pipeline-*.yml   # 各自幾點跑（UTC，台北 = +8）
-
-# 縣市 RSS 接上幾個縣市、幾個 feed
-python3 -c "
-import yaml
-f=yaml.safe_load(open('pipeline/sources/county_feeds.yml'))['feeds']
-c=sorted({x['label'][:3] for x in f})
-print(f'{len(c)} 縣市 / {len(f)} feed'); print(' '.join(c))
-"
 ```
+
+來源覆蓋率（接了幾個縣市、幾個 feed、幾個新聞來源）的查詢指令**只放在
+[`CLAUDE.md`](CLAUDE.md) 的「監看來源的覆蓋率」一節**——同一條指令抄兩份，兩份就會各走各的。
 
 ⚠️ **排程時間只是「不早於」**。實測 2026-08-27：GitHub 對這個 repo 的排程平常延遲 24–30 分鐘，
 但那一天四支 pipeline 全部被延遲 **169–299 分鐘**。延遲不要緊（還是同一天），真正的風險是
@@ -120,12 +115,17 @@ node scripts/check-event-status.mjs   # 有問題則 exit 1
   沒有日期欄位的集合（venues／organizations）與靜態 .astro 頁退回該檔的 git commit 日期。
   不蓋建置時間——假訊號會被搜尋引擎學會忽略。
   **CI 的 checkout 必須 `fetch-depth: 0`**，淺層 clone 拿不到 git 歷史，那些頁會無聲失去 lastmod。
-- **IndexNow**：部署後 `scripts/indexnow-submit.mjs` 讀線上 sitemap，只推最近更新的網址
-  （天數見該檔的 `RECENT_DAYS`）。
+- **IndexNow**：部署後 `scripts/indexnow-submit.mjs` 只推**跟上線前相比 lastmod 真的變了、
+  或整個網址是新的**那些。比較基準是 deploy workflow 在上線前抓的 sitemap 快照
+  （artifact `previous-sitemap`）；快照缺席時退回「lastmod 在 `RECENT_DAYS` 內」的舊規則。
+  2026-08-30 改的：舊規則會讓每次部署都把同一批網址重推一次，當天兩次部署各推了 106／105 筆。
   金鑰檔 `public/be644c81fe9010bea60de485d1544bf2.txt` 必須隨站部署，刪掉推送會全部失效。
   本機驗證：`node scripts/indexnow-submit.mjs --local --dry-run`。
 - **Google 不參與 IndexNow**：Google 端只有 sitemap lastmod 與 Search Console 手動「要求建立索引」兩個手段。
 - 守門在 `tests/sitemap-lastmod.test.ts` 與 `tests/trailing-slash.test.ts`——這兩組各對應一次真實的收錄事故。
+- 另有兩支不在 GitHub Actions、由 seo-ops 每日 cron 呼叫的腳本：`scripts/index-watch.mjs`
+  （收錄狀態監測與推送）與 `scripts/trend-radar.mjs`（搜尋趨勢雷達）。它們的門檻常數、
+  已知盲點與動手前該讀的反證寫在 [`CLAUDE.md`](CLAUDE.md)。
 
 ## 訂閱來源（RSS／iCalendar）
 
