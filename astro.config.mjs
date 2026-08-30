@@ -18,6 +18,10 @@ export default defineConfig({
   // 別人的 link rot。靜態輸出會產出 meta-refresh 頁，舊網址仍然到得了新頁。
   redirects: {
     '/venues/puli-chengpao-hall/': '/venues/puli-chengpao/',
+    // 同一所學校因為兩場賽事的名次字串寫法不同（「南投縣立埔里國中」與「（南投 埔里國中）」）
+    // 而長成兩頁，戰績被拆成兩半——而埔里國中正是站上拿最多冠軍的學校。2026-08-30 把資料
+    // 統一成短名合併，舊網址已在線上 sitemap 裡，同樣留轉址（理由見上一條）。
+    '/teams/school/南投縣立埔里國中/': '/teams/school/埔里國中/',
   },
   trailingSlash: 'always',
   build: { format: 'directory' },
