@@ -8,10 +8,26 @@
 // Google 不參與 IndexNow，所以這支腳本救不了 Google 的收錄——Google 端只能靠 lastmod
 // 與 Search Console 手動「要求建立索引」。別把這支腳本的成功輸出當成 Google 已收到。
 //
-// 只推 lastmod 在 RECENT_DAYS 內的網址：每次 push 都把整份 sitemap 推一次是噪音，
-// 對方會降低信任。沒有任何近期網址就直接跳過，不發空請求。
+// 推什麼：**跟上線前相比 lastmod 真的變了、或整個網址是新的**。
+//
+// 2026-08-30 修正。原本的規則是「推 lastmod 在 RECENT_DAYS 內的網址」，實際效果是
+// **每次部署都把同一批網址重推一次**，直到它們自然滑出 3 天窗為止。當天實測：
+// 15:15 那次部署推 106 筆、22:30 那次推 105 筆，相隔 7 小時、幾乎同一批，
+// 而第二次實際只改了一個內容檔。IndexNow 的用意是通知「這幾個網址變了」，
+// 整批重送會稀釋訊號，對方也會降低信任——**送得多不等於送得準**。
+//
+// 為什麼不是改成「只推 lastmod == 今天」：lastmod 來自內容的 updated_at／retrieved_at
+// （見 src/lib/lastmod.mjs），不是檔案的編輯日。2026-08-30 當天改了兩個賽事檔，
+// 但整份 sitemap 沒有任何一筆 lastmod 是當天——那條規則會讓推送永遠是 0 筆，
+// 那是靜音不是修好。
+//
+// 比較基準怎麼來：deploy.yml 在**上線之前**把當時的線上 sitemap 抓成快照當 artifact，
+// 這支腳本在上線之後拿它跟新的線上 sitemap 對比。CI 的 runner 沒有跨次執行的狀態，
+// 而「上一版的線上 sitemap」本身就是最準的狀態，不必另外存。
+// 快照缺席（第一次跑、抓取失敗）時退回舊的 RECENT_DAYS 規則，寧可多推也不要漏推。
 
 import { readFileSync, existsSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 const HOST = 'twdro.net';
 const KEY = 'be644c81fe9010bea60de485d1544bf2';
@@ -36,7 +52,29 @@ async function loadSitemap() {
   return res.text();
 }
 
-function recentUrls(xml, cutoff) {
+// 解析成 loc → lastmod（沒有 lastmod 的記成空字串，照樣參與比較）。
+export function lastmodMap(xml) {
+  const map = new Map();
+  for (const block of xml.match(/<url>[\s\S]*?<\/url>/g) ?? []) {
+    const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
+    if (!loc) continue;
+    map.set(loc, block.match(/<lastmod>(\d{4}-\d{2}-\d{2})/)?.[1] ?? '');
+  }
+  return map;
+}
+
+/** 新出現的網址，加上 lastmod 與上一版不同的網址。消失的網址不推（那要靠轉址與 404）。 */
+export function changedUrls(prevXml, curXml) {
+  const prev = lastmodMap(prevXml);
+  const cur = lastmodMap(curXml);
+  const out = [];
+  for (const [loc, lastmod] of cur) {
+    if (!prev.has(loc) || prev.get(loc) !== lastmod) out.push(loc);
+  }
+  return out;
+}
+
+export function recentUrls(xml, cutoff) {
   const urls = [];
   for (const block of xml.match(/<url>[\s\S]*?<\/url>/g) ?? []) {
     const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
@@ -46,17 +84,39 @@ function recentUrls(xml, cutoff) {
   return urls;
 }
 
-async function main() {
-  const cutoff = new Date(Date.now() - RECENT_DAYS * 86400_000).toISOString().slice(0, 10);
-  const urlList = recentUrls(await loadSitemap(), cutoff);
+// --previous <path>：上線前的 sitemap 快照。有它就走「只推真的變了的」。
+function previousSitemap() {
+  const i = process.argv.indexOf('--previous');
+  if (i === -1) return null;
+  const path = process.argv[i + 1];
+  if (!path || !existsSync(path)) return null;
+  const xml = readFileSync(path, 'utf8').trim();
+  return xml.includes('<loc>') ? xml : null;
+}
 
-  if (urlList.length === 0) {
-    console.log(`IndexNow：${cutoff} 之後沒有更新的網址，略過提交。`);
-    return;
+async function main() {
+  const current = await loadSitemap();
+  const prev = previousSitemap();
+  let urlList;
+  let why;
+
+  if (prev) {
+    urlList = changedUrls(prev, current);
+    why = '與上線前的快照比對';
+  } else {
+    const cutoff = new Date(Date.now() - RECENT_DAYS * 86400_000).toISOString().slice(0, 10);
+    urlList = recentUrls(current, cutoff);
+    why = `沒有可比較的快照，退回 lastmod ≥ ${cutoff}`;
   }
 
+  if (urlList.length === 0) {
+    console.log(`IndexNow：${why} → 沒有需要通知的網址，略過提交。`);
+    return;
+  }
+  console.log(`IndexNow：${why} → 挑出 ${urlList.length} 個網址`);
+
   if (process.argv.includes('--dry-run')) {
-    console.log(`IndexNow（dry-run）：會提交 ${urlList.length} 個網址（cutoff ${cutoff}）`);
+    console.log(`IndexNow（dry-run）：會提交 ${urlList.length} 個網址`);
     for (const u of urlList) console.log(`  ${u}`);
     return;
   }
@@ -73,6 +133,9 @@ async function main() {
   if (!res.ok && res.status !== 202) console.warn(`IndexNow 回應非成功狀態：${res.status} ${await res.text()}`);
 }
 
-main().catch((e) => {
-  console.warn(`IndexNow 提交失敗（不影響部署）：${e.message}`);
-});
+// 被 import 時（測試）不執行主流程。
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.warn(`IndexNow 提交失敗（不影響部署）：${e.message}`);
+  });
+}
