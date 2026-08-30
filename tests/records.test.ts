@@ -120,6 +120,33 @@ const esc = (s: string) =>
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const shown = (html: string, name: string) => html.includes(name) || html.includes(esc(name));
 
+// 2026-08-30：埔里國中——站上拿最多冠軍的學校——的戰績曾被拆成兩頁。
+// 起因是同一所學校在不同賽事的名次字串寫法不同：一場寫「南投縣立埔里國中」（官方全名，
+// 走 parseTeamEntry 的「縣市＋立」分支，整串當校名），其他場寫「（南投 埔里國中）」。
+// 於是 /teams/school/ 長出兩個 key，各收一半戰績，而搜「埔里國中」的人只看得到其中一半。
+// **這種壞法不會讓 build 失敗、不會讓別的測試轉紅**：兩頁都渲染正常、名字也都抄對了，
+// 錯的是它們本來該是同一頁。修法是統一資料寫法（校名以來源的常用名為準），不是改 parser
+// ——「市立／縣立不能被當前綴剝掉」那一條是刻意的決定，見上面那個測試。
+describe('同一所學校不會因為寫法不同而分裂成兩頁', () => {
+  it('沒有任何校名是另一個校名的字尾', () => {
+    const dir = 'src/content/events';
+    const schools = new Set<string>();
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
+      for (const n of placeNames(readFileSync(`${dir}/${f}`, 'utf8'))) {
+        const s = parseTeamEntry(n).school;
+        if (s) schools.add(s);
+      }
+    }
+    expect(schools.size).toBeGreaterThan(5);
+    const list = [...schools];
+    const split = list.flatMap((a) =>
+      list
+        .filter((b) => b !== a && a.length >= 3 && b.endsWith(a))
+        .map((b) => `${b} ／ ${a}`));
+    expect(split, '疑似同一所學校被拆成兩頁——把資料統一成同一種寫法').toEqual([]);
+  });
+});
+
 describe('/teams/records/ 產出', () => {
   const html = readFileSync('dist/teams/records/index.html', 'utf8');
 

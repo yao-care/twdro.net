@@ -34,7 +34,7 @@ results:
   # （同年 12 月馬來西亞國際賽的官方名單才指名 TCYL，見 /events/2024-uasact-malaysia/。）
   divisions:
     - name: 無人機足球・國中組
-      champion_team: 南投縣立埔里國中
+      champion_team: 南投縣埔里國中
 verification: source_confirmed
 sources:
   - type: organizer_announcement
