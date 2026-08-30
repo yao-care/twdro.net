@@ -75,12 +75,18 @@ describe('沒有來源或標為過期的賽事頁', () => {
   });
 });
 
+// 樣本**由狀態挑，不寫死 slug**：2026-08-30 天穹盃臺南戰的賽期一過、狀態改成
+// results_pending，寫死那一筆的測試就整組失準——而失準的是測試，不是網站。
+const UPCOMING = ['announced', 'registration_open', 'registration_closed', 'postponed'];
+
 describe('尚未舉行的賽事會印出我方最後確認日', () => {
-  it('天穹盃臺南戰印得出確認日（那一場已因颱風延期過一次）', () => {
-    const raw = readFileSync(`${EVENT_DIR}/2026-skycup-tainan.yml`, 'utf8');
+  it('印得出確認日（讀者要判斷「這頁多久沒更新了」）', () => {
+    const upcoming = events.find((e) => UPCOMING.includes(e.status) && e.hasSources);
+    expect(upcoming, '站上沒有任何「尚未舉行且有來源」的賽事可當樣本').toBeTruthy();
+    const raw = readFileSync(`${EVENT_DIR}/${upcoming!.slug}.yml`, 'utf8');
     const retrieved = [...raw.matchAll(/retrieved_at:\s*"?([\d-]+)"?/g)].map((m) => m[1]).sort().at(-1);
     expect(retrieved).toBeTruthy();
-    const html = readFileSync('dist/events/2026-skycup-tainan/index.html', 'utf8');
+    const html = readFileSync(`dist/events/${upcoming!.slug}/index.html`, 'utf8');
     expect(html).toContain('event-freshness');
     expect(html).toContain(retrieved!);
     expect(html).toContain('出發或報名前請向主辦單位再確認一次');
