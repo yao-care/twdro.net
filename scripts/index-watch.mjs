@@ -28,7 +28,7 @@
 //   node scripts/index-watch.mjs <url>...    # 只推指定網址
 //
 // 配額：Indexing API 每日 200 筆（MAX_PER_RUN 留餘裕）；URL Inspection 每日 2000 筆、
-// 每分鐘 600 筆（站上 ~83 頁，單次執行約 83 筆）。
+// 每分鐘 600 筆（單次執行約掃 sitemap 全部網址，張數見 `curl -s https://twdro.net/sitemap-0.xml | grep -o '<loc>' | wc -l`）。
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createSign } from 'node:crypto';
@@ -49,7 +49,7 @@ const MAX_PER_RUN = 120;       // 🔴 這是「本站在 GCP 專案 yaocare 裡
                                //    2026-08-21 有人依一段舊敘述以為 folk.tw 還在跟本站搶 yaocare，
                                //    把 folk 掐到 120、本站掐到 40，實際上 folk.tw 08-20 就搬去自己的
                                //    專案 folk-tw 了，兩邊都被過期的文字綁住。
-                               //    要改這個數字，先跑：node /root/seo-ops/bin/gsc-permission-audit.mjs
+                               //    要改這個數字，先跑：node /mnt/customers/seo-ops/bin/gsc-permission-audit.mjs
                                //    它會列出哪些站真的共用同一個專案、各站當日實際用量怎麼查。
                                //    （2026-08-22 實測：yaocare 專案 10 站當日合計 39/200，本站 28 是最大宗。）
 const INSPECT_CONCURRENCY = 4;
