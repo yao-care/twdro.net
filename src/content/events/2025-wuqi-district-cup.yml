@@ -1,0 +1,29 @@
+title: 114 年度梧棲區區長盃無人機足球競賽
+subtitle: 全國 32 支隊伍，分無刷、有刷國小、有刷國中、有刷混齡四組，各組限額 8 隊
+event_series: 縣市級賽事
+level: 地方
+status: completed
+event_type: 邀請賽
+organizer: 臺中市梧棲區公所（協辦：台中市海線觀光發展協會；支持：臺中市政府運動局）
+rule_system: OTHER
+schedule:
+  event_start: "2025-12-21"
+  event_end: "2025-12-21"
+  venue_name: 臺中市梧棲區永寧國民小學活動中心
+  city: 臺中市
+  district: 梧棲區
+eligibility:
+  education_levels: [國小, 國中]
+# 名次留白：市府新聞稿只寫參賽規模與組別，沒有公布任何名次。
+# news_watch 抓到一則蕃新聞標題寫「國立花蓮高工培訓二國中參加⋯勇奪第二名佳績」，
+# 但 2026-08-31 遍尋不著中文原文（Google News 只給轉址、原站搜不到），
+# 而「二國中」究竟是校名還是「兩所國中」的簡寫，光看標題判斷不出來
+# ——站規：查不到就留白，不推測；校名務必看中文原文（2026-08-03 靜山／景山之鑑）。
+verification: source_confirmed
+sources:
+  - type: gov_announcement
+    title: 無人機也能踢足球！中市運動局力挺新興運動 全國 32 支隊伍齊聚梧棲區長盃競技
+    url: https://www.taichung.gov.tw/3170230/post
+    publisher: 臺中市政府
+    retrieved_at: "2026-08-31"
+    trust_level: A
