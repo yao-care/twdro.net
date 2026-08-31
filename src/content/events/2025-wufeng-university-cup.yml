@@ -1,0 +1,30 @@
+title: 114 年新生盃暨雲嘉青年無人機足球賽
+subtitle: 吳鳳科大體育運動組主辦，校內外 6 支隊伍；該校 2024 年成立全國第一個人工智慧無人機科技系
+level: 地方
+status: completed
+event_type: 邀請賽
+organizer: 吳鳳科技大學體育運動組
+rule_system: OTHER
+schedule:
+  event_start: "2025-11-14"
+  event_end: "2025-11-14"
+  city: 嘉義縣
+  district: 民雄鄉
+# 場館留白：兩則報導都只寫「吳鳳科大」，沒寫是哪一個場館。
+# 名次留白：報導只寫參賽隊數與辦理宗旨，沒有公布任何名次。
+verification: source_confirmed
+sources:
+  - type: news_article
+    title: 吳鳳科大無人機足球賽 吸引雲嘉青年空中競技
+    url: https://www.watchmedia01.com/archives/460715
+    publisher: 觀傳媒
+    published_at: "2025-11-14"
+    retrieved_at: "2026-08-31"
+    trust_level: B
+  - type: news_article
+    title: 吳鳳科大舉辦雲嘉青年無人機足球賽 培養飛控人才
+    url: https://news.pchome.com.tw/living/cna/20251114/index-17631044160534618009.html
+    publisher: 中央社（PChome 新聞轉載）
+    published_at: "2025-11-14"
+    retrieved_at: "2026-08-31"
+    trust_level: B
