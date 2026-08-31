@@ -144,15 +144,27 @@ node scripts/check-content-budget.mjs # 內容預算守門
 都會寫 `pipeline/state/manifest.json` 並開 PR，同時跑會互相覆蓋。加新排程前先跑上面
 「監看來源的覆蓋率」那組 `grep cron` 看現有時段。
 
-### `scripts/index-watch.mjs` — 收錄狀態監測與推送
+### `scripts/index-watch.mjs` — 收錄狀態監測
 
-掃全站收錄狀態落盤累積歷史 → 對尚未收錄的送 Google Indexing API → 對卡住超過門檻天數的發 Slack 告警。
-門檻、配額上限、旗艦頁清單等常數見該檔頂部（`STUCK_DAYS`、`MAX_PER_RUN`、`INSPECT_CONCURRENCY`、`FLAGSHIP`）。
+掃全站收錄狀態 → 落盤累積歷史 → 對卡住超過門檻天數的發 Slack 告警。門檻與旗艦頁等常數見該檔頂部
+（`STUCK_DAYS`、`REALERT_DAYS`、`MAX_PER_RUN`、`INSPECT_CONCURRENCY`、`FLAGSHIP`）。
 由 seo-ops 的每日 cron 呼叫（`/mnt/customers/seo-ops/sites/twdro.net.json`），不在 GitHub Actions 裡。
 
-**動它之前先讀檔頭的兩段反證（2026-08-30）**：一是「推送成功」不等於「有效」——有網址連續
-27–33 天天天推送成功、狀態仍是 Google 不知道且從未被爬；二是「卡住清單與上次相同就不重發 Slack」
-的降噪規則，實際效果是問題愈持久愈安靜。兩件都還沒改行為，等人判讀。
+**2026-08-31 起每日自動推送 Indexing API 已停用**，掃描與告警照舊。停用的依據是檔頭那段反證：
+有網址連續 27–33 天天天推送成功、狀態仍是「Google 不知道」且從未被爬——**「成功」不等於「有效」**，
+每天送 100+ 筆換不到可觀測的收穫，卻讓自動化看起來有在做事，掩蓋真正的槓桿（內鏈、外部曝光、時間）。
+要推得顯式加旗標：
+
+```bash
+node scripts/index-watch.mjs            # 掃描 → 落盤 → 告警（每日 cron 走這條，不推送）
+node scripts/index-watch.mjs --push     # 同上，並推送未收錄網址＋旗艦頁
+node scripts/index-watch.mjs --all      # 不查狀態，推 sitemap 全部（人工判斷後才用）
+node scripts/index-watch.mjs <url>...   # 只推指定網址
+```
+
+**告警是「有變化就發，沒變化也每 `REALERT_DAYS` 天重提一次」**。原本只在清單有變化時發，
+實際效果是問題愈持久愈安靜——那 23 筆卡了 13–41 天、清單一直沒變，Slack 從某天起就不再提起。
+每天吵是噪音，永遠不吵是失明。
 
 配額要改先跑 `node /mnt/customers/seo-ops/bin/gsc-permission-audit.mjs`——`MAX_PER_RUN` 是
 「本站在 GCP 專案 yaocare 裡分到多少」，不是全部配額，這個誤解已經害人掐錯一次。
