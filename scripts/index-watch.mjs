@@ -18,6 +18,10 @@
 //   /organizations/us-drone-soccer/（皆 8/03 起）連續 27–33 天天天被推送成功，
 //   狀態仍是 URL is unknown to Google，且 lastCrawlTime 一直是空的（從未被爬）。
 //   當初那個模型是從 /faq/ 一個資料點推出來的，現在有 5 個資料點指向相反方向。
+//   ↳ 2026-08-31 補記（推送已於同日停用）：這 5 筆當天全部由 unknown 轉為
+//     Discovered - currently not indexed，但 lastCrawlTime 仍是空的。所以「推送完全無作用」
+//     講得太滿——它可能真的幫忙讓 Google 認識了網址，只是**花了 27–33 天，而且認識之後
+//     依然沒排到爬**。停用的理由不變：那個代價換來的不是收錄，是換一個未收錄的狀態名。
 //   最可能的解釋：Google Indexing API 正式支援的只有 JobPosting 與 BroadcastEvent，
 //   其他網址它會回 200 收下、然後不處理——「成功」不等於「有效」。
 //   **這一段先不改行為**，只把反證留在這裡：要動之前得有人真的判讀一次，
@@ -38,9 +42,10 @@
 // 在 Search Console 為「擁有者(Owner)」——「完整(Full)」不夠，Indexing API 只認擁有者。
 //
 // 用法：
-//   node scripts/index-watch.mjs             # 掃描 → 落盤 → 推送 → 卡住告警（每日 cron 走這條）
+//   node scripts/index-watch.mjs             # 掃描 → 落盤 → 卡住告警（每日 cron 走這條，**不推送**）
+//   node scripts/index-watch.mjs --push      # 同上，並推送未收錄網址＋旗艦頁（2026-08-31 起需顯式開啟）
 //   node scripts/index-watch.mjs --report    # 只掃描與印報告，不推送、不告警
-//   node scripts/index-watch.mjs --dry-run   # 印出會推送哪些網址，不實際送出
+//   node scripts/index-watch.mjs --dry-run   # 與 --push 併用時印出會推送哪些網址，不實際送出
 //   node scripts/index-watch.mjs --all       # 不查狀態，推 sitemap 全部網址
 //   node scripts/index-watch.mjs <url>...    # 只推指定網址
 //
@@ -71,6 +76,9 @@ const MAX_PER_RUN = 120;       // 🔴 這是「本站在 GCP 專案 yaocare 裡
                                //    （2026-08-22 實測：yaocare 專案 10 站當日合計 39/200，本站 28 是最大宗。）
 const INSPECT_CONCURRENCY = 4;
 const STUCK_DAYS = 7;          // 連續幾天未收錄才算「卡住」值得告警（新頁 2–5 天內收錄屬正常）
+const REALERT_DAYS = 7;        // 清單沒變也要重提的間隔。理由見 maybeAlert：只在「有變化」時告警，
+                               // 會讓問題愈持久愈安靜——2026-08-30 那 23 筆卡了 13–41 天，
+                               // 清單一直沒變，於是 Slack 從某天起就不再提起它們。
 
 const INDEXED = 'Submitted and indexed';
 
@@ -220,20 +228,32 @@ async function slackPost(text) {
 }
 
 /**
- * 只在「卡住清單有變化」時告警——每天重貼同一份清單會被當背景噪音略過，
- * 那等於回到「靠 GSC 寄信才發現」的原點。
+ * 卡住清單有變化就告警；**沒變化也每 REALERT_DAYS 天重提一次**。
+ *
+ * 原本只在「有變化」時告警，理由是每天重貼同一份清單會被當背景噪音略過。那個理由沒錯，
+ * 但 2026-08-30 發現它的實際效果是**問題愈持久就愈安靜**：那 23 筆卡了 13–41 天、
+ * 清單一直沒變，於是 Slack 從某天起就再也沒提過它們——而這正是本檔開頭想根治的
+ * 「悄悄從每天檢查變成有時候檢查」。每天吵是噪音，永遠不吵是失明，所以取中間：週期性重提。
  */
 async function maybeAlert(history, stuck) {
   const urls = stuck.map((s) => s.url).sort();
   const prev = (history.lastAlert?.urls ?? []).slice().sort();
-  if (!urls.length || JSON.stringify(urls) === JSON.stringify(prev)) {
-    if (urls.length) console.log(`[index-watch] 卡住 ${urls.length} 筆，與上次告警相同 → 不重複發 Slack`);
+  const changed = JSON.stringify(urls) !== JSON.stringify(prev);
+  const since = history.lastAlert?.date ? daysBetween(history.lastAlert.date, today()) : Infinity;
+  const overdue = since >= REALERT_DAYS;
+  if (!urls.length || (!changed && !overdue)) {
+    if (urls.length) {
+      console.log(`[index-watch] 卡住 ${urls.length} 筆，與上次告警相同且距上次 ${since} 天（< ${REALERT_DAYS}）→ 暫不重發`);
+    }
     return;
   }
   const lines = stuck.slice(0, 15).map((s) =>
     `• ${s.url.replace(SITE, '')}（${s.days} 天・${s.state ?? '狀態未知'}${s.lastCrawl ? '' : '・從未被爬取'}）`);
   const more = stuck.length > 15 ? `\n…另有 ${stuck.length - 15} 筆` : '';
-  const text = `:mag: *twdro.net 收錄卡關* — ${stuck.length} 個網址已連續 ${STUCK_DAYS} 天以上未編入索引\n${lines.join('\n')}${more}\n\n` +
+  const head = changed
+    ? `:mag: *twdro.net 收錄卡關* — ${stuck.length} 個網址已連續 ${STUCK_DAYS} 天以上未編入索引`
+    : `:repeat: *twdro.net 收錄卡關（清單未變，第 ${since} 天重提）* — ${stuck.length} 個網址仍未編入索引`;
+  const text = `${head}\n${lines.join('\n')}${more}\n\n` +
     `_lastCrawl 為空＝Google 從未爬取，多半是新站爬取預算不足、非站台故障；推送 Indexing API 對這類頁無效（已驗證）。_\n` +
     `_可施力處：從首頁與高流量頁增加指向這些頁的實質內鏈與外部曝光。詳見 scripts/index-watch.mjs 檔頭。_`;
   try {
@@ -274,6 +294,7 @@ async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const reportOnly = args.includes('--report');
+  const pushEnabled = args.includes('--push');
   const explicit = args.filter((a) => !a.startsWith('--')).map(normalizeUrl);
 
   // 指定網址／--all：略過掃描與監測，單純推送
@@ -306,6 +327,19 @@ async function main() {
   if (reportOnly) { saveHistory(history); return; }
 
   const notIndexed = states.filter((s) => s.state !== INDEXED).map((s) => s.url);
+
+  // 2026-08-31：每日自動推送**預設關閉**（用戶指示）。理由是檔頭那段反證——連續 27–33 天
+  // 天天推送成功、狀態仍是「Google 不知道」且從未被爬，5 個資料點都指向「成功不等於有效」。
+  // 每天送 100+ 筆換不到任何可觀測的收穫，卻讓自動化看起來有在做事，掩蓋了真正的槓桿
+  // （內鏈、外部曝光、時間）。掃描、落盤與卡住告警照舊每天跑——**停掉的是無效的動作，
+  // 不是監測本身**。要重新開啟：加 --push；單推某幾個網址或全站仍走 <url>... 與 --all。
+  if (!pushEnabled) {
+    console.log(`[index-watch] 未收錄 ${notIndexed.length} 筆；每日自動推送已停用（見檔頭反證，要推加 --push）`);
+    await maybeAlert(history, stuck);
+    saveHistory(history);
+    return;
+  }
+
   let targets = [...new Set([...notIndexed, ...FLAGSHIP.map((p) => SITE + p)])];
   console.log(`[index-watch] 未收錄 ${notIndexed.length} 筆＋旗艦頁保底 → 推送 ${targets.length} 筆`);
   if (targets.length > MAX_PER_RUN) {
@@ -323,7 +357,8 @@ async function main() {
     await slackPost(
       `:warning: *twdro.net index-watch 撞到 Indexing API 日配額*（成功 ${result.ok}／失敗 ${result.failures.length}）\n` +
       `每日 200 筆是 **GCP 專案 yaocare 跨站共用**，非本站專屬；本站有 ${result.failures.length} 筆未送出。\n` +
-      `_先查當日各站實際用量（日常合計約 171/200）再決定處理方向：調降用量最大的站，或另開 GCP 專案與服務帳號。_`,
+      `_先查當日各站實際用量再決定方向（調降用量最大的站，或另開 GCP 專案與服務帳號）：_\n` +
+      `\`node /mnt/customers/seo-ops/bin/gsc-permission-audit.mjs\`_——數字寫死在告警裡會過期，這裡只給查法。_`,
     ).catch((e) => console.log(`[index-watch] ⚠️ 配額告警發送失敗：${e.message}`));
   }
 

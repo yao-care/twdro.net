@@ -124,8 +124,10 @@ node scripts/check-event-status.mjs   # 有問題則 exit 1
 - **Google 不參與 IndexNow**：Google 端只有 sitemap lastmod 與 Search Console 手動「要求建立索引」兩個手段。
 - 守門在 `tests/sitemap-lastmod.test.ts` 與 `tests/trailing-slash.test.ts`——這兩組各對應一次真實的收錄事故。
 - 另有兩支不在 GitHub Actions、由 seo-ops 每日 cron 呼叫的腳本：`scripts/index-watch.mjs`
-  （收錄狀態監測與推送）與 `scripts/trend-radar.mjs`（搜尋趨勢雷達）。它們的門檻常數、
+  （收錄狀態監測與卡關告警）與 `scripts/trend-radar.mjs`（搜尋趨勢雷達）。它們的門檻常數、
   已知盲點與動手前該讀的反證寫在 [`CLAUDE.md`](CLAUDE.md)。
+  **`index-watch` 的每日自動 Indexing API 推送已於 2026-08-31 停用**（推送成功但無效，
+  依據見該檔檔頭），掃描與告警照舊。
 
 ## 訂閱來源（RSS／iCalendar）
 
