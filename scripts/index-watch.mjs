@@ -57,6 +57,21 @@ import { createSign } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// 🔴 Google Indexing API 政策閘門（2026-09-27 起全面停用）。
+//    政策與實證見 /root/.config/indexing-api-policy.json。這裡內嵌一份檢查而不是 import，
+//    是因為本腳本刻意與 seo-ops 無相依——政策的單一真實來源是那個 JSON，不是程式碼。
+//    本站 2026-08-31 起原本就已停掉每日自動推送（檔頭反證），這道閘門把 --push 也一併關上。
+function indexingAllowed(tag) {
+  const F = '/root/.config/indexing-api-policy.json';
+  try {
+    if (!existsSync(F)) { console.error(`${tag} ⚠️ 找不到政策檔 ${F}，放行`); return true; }
+    const p = JSON.parse(readFileSync(F, 'utf8'));
+    if (p.enabled === true) return true;
+    console.error(`${tag} Google Indexing API 已於 ${p.decidedAt ?? '?'} 停用，不送。決定者：${p.decidedBy ?? '?'}。理由見 ${F}`);
+    return false;
+  } catch (e) { console.error(`${tag} 政策檔讀取失敗（${e.message}），放行`); return true; }
+}
+
 const SA_KEY_FILE = process.env.TWDRO_SA_KEY_FILE || `${process.env.HOME}/.config/twdro/ga4-sa.json`;
 const SLACK_TOKEN_FILE = process.env.TWDRO_SLACK_TOKEN_FILE || `${process.env.HOME}/.config/twdro/slack-bot-token`;
 const SLACK_CHANNEL = 'C0BHZ9QJ37Z';
@@ -340,6 +355,7 @@ async function main() {
     return;
   }
 
+  if (!indexingAllowed('[index-watch]')) { await maybeAlert(history, stuck); saveHistory(history); return; }
   let targets = [...new Set([...notIndexed, ...FLAGSHIP.map((p) => SITE + p)])];
   console.log(`[index-watch] 未收錄 ${notIndexed.length} 筆＋旗艦頁保底 → 推送 ${targets.length} 筆`);
   if (targets.length > MAX_PER_RUN) {
