@@ -1,7 +1,22 @@
 note: 縣市政府／教育網公告監控。命中無人機足球相關關鍵字的公告列在 matched；looks_like_results=true 代表標題同時含成績字樣，請優先人工核實後補進
   src/content/events/。本 adapter 只偵測不改寫（站規鐵則 1）。
-matched: []
-matched_count: 0
+matched:
+- feed: 臺中市政府市政新聞
+  title: 響應九九國民體育日、迎接116原民運！ 台中體育表演會熱力登場 無人機足球、舞空術超吸睛
+  link: https://www.taichung.gov.tw/3363212/post
+  looks_like_results: false
+matched_count: 1
 results_candidates: []
-fetch_errors: []
-known: []
+fetch_errors:
+- error: 'ConnectionError: HTTPSConnectionPool(host=''www.pthg.gov.tw'', port=443):
+    Max retries exceeded with url: /Rss_News.aspx?n=EC690F93E81FF22D (Caused by NewConnectionError("HTTPSConnection(host=''www.pthg.gov.tw'',
+    port=443): Failed to establish a new connection: [Errno 111] Connection refused"))'
+  feed: 屏東縣政府屏東新聞
+- error: 'ConnectionError: HTTPSConnectionPool(host=''www.pthg.gov.tw'', port=443):
+    Max retries exceeded with url: /Rss_News.aspx?n=528607F80E455D7F (Caused by NewConnectionError("HTTPSConnection(host=''www.pthg.gov.tw'',
+    port=443): Failed to establish a new connection: [Errno 111] Connection refused"))'
+  feed: 屏東縣政府最新消息
+known:
+- feed: 臺中市政府市政新聞
+  title: 響應九九國民體育日、迎接116原民運！ 台中體育表演會熱力登場 無人機足球、舞空術超吸睛
+  link: https://www.taichung.gov.tw/3363212/post
