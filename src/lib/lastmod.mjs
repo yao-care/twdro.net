@@ -193,7 +193,9 @@ export function buildLastmodMap(contentDir, today) {
         // 學校頁：名次欄位裡出現的學校。這裡刻意用寬鬆的抽法（括號內或縣市後的校名），
         // 與 lib/records.ts 的 parseTeamEntry 同一套判準；抽不出來就不輸出 lastmod，
         // 不亂猜——lastmod 寧可缺，也不能是假的（假訊號 Google 會學會忽略）。
-        for (const m of text.matchAll(/^\s+(?:champion_team|runner_up_team|third_place_team|merit_teams):\s*(.+)$/gm)) {
+        // 欄位清單要跟 lib/records.ts 產學校頁的欄位一致：殿軍與 other_places 的 team 原本漏抽，
+        // 2026-10-07 準決賽只用 other_places 記名次，實踐大學、高科大的學校頁就在 sitemap 裡缺 lastmod。
+        for (const m of text.matchAll(/^\s+(?:champion_team|runner_up_team|third_place_team|fourth_place_team|merit_teams|team):\s*(.+)$/gm)) {
           const rawValue = m[1].trim();
           const items = rawValue.startsWith('[') ? rawValue.slice(1, -1).split(',') : [rawValue];
           for (const item of items) {

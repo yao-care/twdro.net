@@ -2,7 +2,7 @@ title: 2026 教育部全國無人機足球競賽・準決賽
 subtitle: 積分賽制，各分組前 2 名晉級總統盃決賽；各分組前 3 名各獲獎金 2 萬元
 event_series: 教育部全國無人機足球競賽
 level: 全國
-status: announced
+status: results_pending
 event_type: 準決賽
 organizer: 教育部
 rule_system: MOE
@@ -19,6 +19,23 @@ eligibility:
 competition:
   drone_class: F9A-B
   drone_diameter: 20cm
+results:
+  # 10/2 已在臺大綜合體育館舉行（青年日報當天報導）。目前見報的只有大專校院組前三名
+  # 與高中組季軍；高中組前兩名、國中小組的名次都還沒有來源 → 留白，不推測（站規鐵則 1）。
+  # 查到再補，三組都齊了才改 completed。
+  # 準決賽是積分賽，冠亞要到總統盃決賽才分出來，所以前兩名照來源原文寫「積分第 N 名」，
+  # 不放進 champion_team／runner_up_team（那會在畫面上顯示成「冠軍」「亞軍」）。
+  divisions:
+    - name: 大專校院組
+      other_places:
+        - place: 積分第 1 名（晉級總統盃決賽）
+          team: 實踐大學
+        - place: 積分第 2 名（晉級總統盃決賽）
+          team: 國立高雄科技大學
+        - place: 季軍
+          team: 空軍軍官學校
+    - name: 高中組
+      third_place_team: 高雄市立林園高級中學
 verification: source_confirmed
 sources:
   - type: moe_announcement
@@ -27,3 +44,24 @@ sources:
     publisher: 教育部
     retrieved_at: "2026-07-19"
     trust_level: A
+  - type: news_article
+    title: 空軍官校「神鷹」勇奪全國無人機足球季軍
+    url: https://www.ydn.com.tw/tw/News/ugC_News_Detail.aspx?ID=646880
+    publisher: 青年日報
+    published_at: "2026-10-02"
+    retrieved_at: "2026-10-07"
+    trust_level: B
+  - type: press_release
+    title: 實踐大學無人機足球再傳捷報 準決賽積分第一挺進總統盃總決賽
+    url: https://n.yam.com/Article/20261005810832
+    publisher: 中央社訊息服務（蕃薯藤轉載）
+    published_at: "2026-10-05"
+    retrieved_at: "2026-10-07"
+    trust_level: B
+  - type: news_article
+    title: 技高一籌！林園高中無人機足球勇奪全國季軍 社區高中也能飛出一片天
+    url: https://taiwanpost.net/2026/taidaily/173538/
+    publisher: 很角色時報
+    published_at: "2026-10-05"
+    retrieved_at: "2026-10-07"
+    trust_level: B
