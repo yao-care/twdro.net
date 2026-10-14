@@ -37,6 +37,16 @@ const eventsIndex = readFileSync('dist/events/index.html', 'utf8');
 const humanSitemap = readFileSync('dist/sitemap/index.html', 'utf8');
 const xmlSitemap = readFileSync('dist/sitemap-0.xml', 'utf8');
 
+// 2026-10-14 起稀薄彙整頁改 noindex 並移出 sitemap（見 src/lib/noindex.mjs）。
+// 入口檢查因此改成「二擇一且只能一個」：要嘛在 XML sitemap 裡，要嘛頁面帶 noindex——
+// 兩者都沒有＝頁面掉出了收錄決策；兩者都有＝sitemap 與 noindex 打架。
+function indexDecisionOk(xml: string, href: string): boolean {
+  const inSitemap = xml.includes(`https://twdro.net${href}`);
+  const file = `dist${decodeURIComponent(href)}index.html`;
+  const noindex = existsSync(file) && readFileSync(file, 'utf8').includes('content="noindex');
+  return inSitemap !== noindex;
+}
+
 describe('aggHref', () => {
   it('中文段落一律 encode，HTML 與 sitemap 才對得上', () => {
     expect(aggHref('/events/series/', '天穹盃')).toBe('/events/series/%E5%A4%A9%E7%A9%B9%E7%9B%83/');
@@ -57,7 +67,7 @@ describe('賽事系列頁', () => {
       const href = aggHref('/events/series/', name);
       expect(eventsIndex, `${name} 沒出現在 /events/`).toContain(href);
       expect(humanSitemap, `${name} 沒出現在人類版網站地圖`).toContain(href);
-      expect(xmlSitemap, `${name} 沒進 XML sitemap`).toContain(`https://twdro.net${href}`);
+      expect(indexDecisionOk(xmlSitemap, href), `${name} 的 sitemap／noindex 決策不一致`).toBe(true);
     }
   });
 });
@@ -68,7 +78,7 @@ describe('年度頁', () => {
     for (const y of years) {
       expect(existsSync(`dist/events/year/${y}/index.html`), y).toBe(true);
       expect(eventsIndex).toContain(aggHref('/events/year/', y));
-      expect(xmlSitemap).toContain(`https://twdro.net${aggHref('/events/year/', y)}`);
+      expect(indexDecisionOk(xmlSitemap, aggHref('/events/year/', y)), y).toBe(true);
     }
   });
 });
@@ -81,7 +91,7 @@ describe('學校頁', () => {
     for (const name of schools) {
       expect(existsSync(`dist/teams/school/${name}/index.html`), name).toBe(true);
       expect(recordsPage, `${name} 在成績反查上沒有連結`).toContain(aggHref('/teams/school/', name));
-      expect(xmlSitemap, `${name} 沒進 XML sitemap`).toContain(`https://twdro.net${aggHref('/teams/school/', name)}`);
+      expect(indexDecisionOk(xmlSitemap, aggHref('/teams/school/', name)), `${name} 的 sitemap／noindex 決策不一致`).toBe(true);
     }
   });
 

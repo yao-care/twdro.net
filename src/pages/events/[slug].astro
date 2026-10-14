@@ -25,11 +25,22 @@ const d = event.data;
 
 // 主辦單位／場地是事實型自由文字欄位，不是關聯 slug；只在完全同名時才連結到明細頁，
 // 不做模糊比對——寧可漏連，不可連錯（鐵則 5：不杜撰）。
-const [orgs, venuesList, learnArticles] = await Promise.all([
+const [orgs, venuesList, learnArticles, allEvents] = await Promise.all([
   getCollection('organizations'),
   getCollection('venues'),
   getCollection('learn'),
+  getCollection('events'),
 ]);
+// 2026-10-14 補厚：同系列其他場次＋同縣市其他賽事，全由既有賽事資料交叉產生，不新增事實。
+// 讀完一場的人下一個問題通常是「這個系列還有哪幾場」「附近還有沒有」，
+// 而縣市彙整頁已改 noindex（見 src/lib/noindex.mjs），答案要直接長在賽事頁上。
+const otherPublic = allEvents
+  .filter((e) => isPublicEvent(e.data.status) && e.id !== event.id)
+  .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? ''));
+const sameSeries = d.event_series ? otherPublic.filter((e) => e.data.event_series === d.event_series).slice(0, 6) : [];
+const sameCityEvents = d.schedule.city && !d.country
+  ? otherPublic.filter((e) => e.data.schedule.city === d.schedule.city && !sameSeries.includes(e)).slice(0, 6)
+  : [];
 const orgIdByName = new Map(orgs.map((o) => [o.data.name, o.id]));
 const venueIdByName = new Map(venuesList.map((v) => [v.data.name, v.id]));
 // 主辦單位的站內頁：優先用 organizer_slugs（陣列，因為這裡的賽事幾乎都多方合辦），
@@ -243,6 +254,45 @@ const seoDesc = eventPageDescription(d);
           或<a href={resultsUrl({ path: `/events/${event.id}/`, title: d.title })} rel="noopener" target="_blank">在 GitHub 提交 ↗</a>
         </span>
       </p>
+    </section>
+  )}
+
+  {sameSeries.length > 0 && (
+    <section class="panel">
+      <h2>{d.event_series}的其他場次</h2>
+      <ul class="data-list">
+        {sameSeries.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '日期未定'}</span>
+            <span class="v">
+              <a href={url(`/events/${e.id}/`)}>{e.data.title}</a>
+              {(e.data.schedule.city || e.data.schedule.venue_name) && (
+                <span style="display:block;color:var(--color-text-muted);margin-top:2px">
+                  {[e.data.schedule.city, e.data.schedule.venue_name].filter(Boolean).join(' · ')}
+                </span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p style="margin:12px 0 0"><a href={url(aggHref('/events/series/', d.event_series!))}>{d.event_series}全部場次 →</a></p>
+    </section>
+  )}
+
+  {sameCityEvents.length > 0 && (
+    <section class="panel">
+      <h2>{d.schedule.city}的其他賽事</h2>
+      <ul class="data-list">
+        {sameCityEvents.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '日期未定'}</span>
+            <span class="v">
+              <a href={url(`/events/${e.id}/`)}>{e.data.title}</a>
+              {e.data.event_series && <span style="display:block;color:var(--color-text-muted);margin-top:2px">{e.data.event_series}</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
     </section>
   )}
 

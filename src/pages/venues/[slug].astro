@@ -3,13 +3,33 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { placeJsonLd } from '../../lib/jsonld';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { verificationLabel } from '../../lib/enums';
+import EventCard from '../../components/EventCard.astro';
+import { verificationLabel, isPublicEvent } from '../../lib/enums';
+import { url } from '../../lib/url';
+import { citySlug, normalizeCity } from '../../lib/geo.mjs';
 export async function getStaticPaths() {
   const venues = await getCollection('venues');
   return venues.map((v) => ({ params: { slug: v.id }, props: { venue: v } }));
 }
 const { venue } = Astro.props;
 const d = venue.data;
+
+// 2026-10-14 補厚：場館頁原本只有類型、縣市、室內三行，正文不到百字。
+// 這裡只用站上既有的賽事與規則資料組出關聯內容（在這裡辦過哪幾場、用哪套規則、
+// 同縣市還有哪些賽事），不新增任何事實。賽事與場館的對應沿用賽事頁的做法：
+// venue_name 與場館 name 完全同名才算，不做模糊比對（寧可漏連，不可連錯）。
+const [allEvents, rulebooks] = await Promise.all([getCollection('events'), getCollection('rulebooks')]);
+const publicEvents = allEvents
+  .filter((e) => isPublicEvent(e.data.status))
+  .sort((a, b) => (b.data.schedule.event_start ?? '').localeCompare(a.data.schedule.event_start ?? ''));
+const hereEvents = publicEvents.filter((e) => e.data.schedule.venue_name === d.name);
+const hereBookIds = [...new Set(hereEvents.map((e) => e.data.rulebook).filter((b): b is string => !!b))];
+const hereBooks = rulebooks.filter((b) => hereBookIds.includes(b.id));
+const sameCity = d.city
+  ? publicEvents.filter((e) => normalizeCity(e.data.schedule.city) === normalizeCity(d.city) && !hereEvents.includes(e)).slice(0, 6)
+  : [];
+const cityHref = citySlug(d.city) ? url(`/events/city/${citySlug(d.city)}/`) : null;
+const hereSeries = [...new Set(hereEvents.map((e) => e.data.event_series).filter(Boolean))] as string[];
 // 沒有街道門牌，只有縣市／行政區與經緯度——照實填，不編地址（鐵則 5）。
 const jsonld = placeJsonLd({
   name: d.name, url: `https://twdro.net/venues/${venue.id}/`,
@@ -35,4 +55,69 @@ const metaDescription =
       <li><span class="k">資料狀態</span><span class="v">{verificationLabel(d.verification)}</span></li>
     </ul>
   </section>
+
+  {hereEvents.length > 0 && (
+    <section style="margin-top:32px">
+      <h2 style="margin:0 0 12px">在這裡辦過的賽事（{hereEvents.length}）</h2>
+      <p style="margin:0 0 16px">
+        本站收錄 {hereEvents.length} 場在{d.name}舉行的賽事{hereSeries.length > 0 && `，屬於${hereSeries.join('、')}`}。
+        日期、報名與成績以各場賽事頁為準。
+      </p>
+      <div style="display:grid;gap:18px">
+        {hereEvents.map((e) => (
+          <EventCard
+            id={e.id} title={e.data.title} status={e.data.status}
+            eventStart={e.data.schedule.event_start} eventEnd={e.data.schedule.event_end}
+            city={e.data.schedule.city} venue={e.data.schedule.venue_name}
+            registrationEnd={e.data.schedule.registration_end} registrationUrl={e.data.registration_url}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {hereBooks.length > 0 && (
+    <section class="panel" style="margin-top:32px">
+      <h2 style="margin-top:0">這裡的比賽用哪一套規則</h2>
+      <ul class="data-list">
+        {hereBooks.map((b) => (
+          <li>
+            <span class="k">{b.data.version}</span>
+            <span class="v">
+              <a href={url(`/rules/${b.id}/`)}>{b.data.name}</a>
+              {b.data.competition_spec?.drone_weight_g_max != null && (
+                <span style="display:block;color:var(--color-text-muted);margin-top:2px">
+                  球機重量上限 {b.data.competition_spec.drone_weight_g_max} 公克
+                  {b.data.competition_spec.drone_diameter_mm != null && `・直徑 ${b.data.competition_spec.drone_diameter_mm} mm`}
+                </span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p class="text-muted" style="margin:12px 0 0">
+        各套規則的場地、人數與球機差異見<a href={url('/rules/compare/')}>規則比較器</a>。
+      </p>
+    </section>
+  )}
+
+  {sameCity.length > 0 && (
+    <section class="panel" style="margin-top:32px">
+      <h2 style="margin-top:0">{d.city}的其他賽事</h2>
+      <ul class="data-list">
+        {sameCity.map((e) => (
+          <li>
+            <span class="k">{e.data.schedule.event_start ?? '日期未定'}</span>
+            <span class="v">
+              <a href={url(`/events/${e.id}/`)}>{e.data.title}</a>
+              {e.data.schedule.venue_name && <span style="display:block;color:var(--color-text-muted);margin-top:2px">{e.data.schedule.venue_name}</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {cityHref && <p style="margin:12px 0 0"><a href={cityHref}>{d.city}全部賽事 →</a></p>}
+    </section>
+  )}
+
+  <p style="margin-top:32px"><a href={url('/venues/')}>看全部場地與地圖 →</a></p>
 </BaseLayout>

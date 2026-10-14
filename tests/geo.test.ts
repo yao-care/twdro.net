@@ -35,6 +35,16 @@ describe('縣市 slug', () => {
 //
 // 縣市頁是自動產生的，所以它的壞法是「整層安靜地消失」：某個縣市沒有頁、或有頁但沒有入口，
 // 畫面上都看不出來。/organizations/ 卡在「從未被爬取」38 天就是因為只有頁尾樣板連結。
+// 2026-10-14 起稀薄彙整頁改 noindex 並移出 sitemap（見 src/lib/noindex.mjs）。
+// 入口檢查因此改成「二擇一且只能一個」：要嘛在 XML sitemap 裡，要嘛頁面帶 noindex——
+// 兩者都沒有＝頁面掉出了收錄決策；兩者都有＝sitemap 與 noindex 打架。
+function indexDecisionOk(xml: string, href: string): boolean {
+  const inSitemap = xml.includes(`https://twdro.net${href}`);
+  const file = `dist${decodeURIComponent(href)}index.html`;
+  const noindex = existsSync(file) && readFileSync(file, 'utf8').includes('content="noindex');
+  return inSitemap !== noindex;
+}
+
 describe('縣市彙整頁', () => {
   const eventsIndex = readFileSync('dist/events/index.html', 'utf8');
   const humanSitemap = readFileSync('dist/sitemap/index.html', 'utf8');
@@ -57,12 +67,12 @@ describe('縣市彙整頁', () => {
     }
   });
 
-  it('每一頁都有入口：賽事索引、人類版網站地圖、XML sitemap 三處都在', () => {
+  it('每一頁都有入口：賽事索引、人類版網站地圖，且 XML sitemap／noindex 二擇一', () => {
     for (const slug of citiesInData) {
       const href = `/events/city/${slug}/`;
       expect(eventsIndex, `${slug} 沒出現在 /events/`).toContain(href);
       expect(humanSitemap, `${slug} 沒出現在人類版網站地圖`).toContain(href);
-      expect(xmlSitemap, `${slug} 沒進 XML sitemap`).toContain(`https://twdro.net${href}`);
+      expect(indexDecisionOk(xmlSitemap, href), `${slug} 的 sitemap／noindex 決策不一致`).toBe(true);
     }
   });
 

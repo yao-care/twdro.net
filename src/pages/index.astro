@@ -66,7 +66,11 @@ const tools = [
     <div class="page-hero__inner" style="padding-block:80px 72px">
       <p style="color:var(--color-tech);font-weight:700;letter-spacing:0.12em;margin:0 0 14px;font-size:0.95rem">TAIWAN DRONE SOCCER · 無人機足球 / 無人機飛球</p>
       <h1 style="font-size:clamp(1.75rem,6vw,4.2rem);max-width:18ch">臺灣無人機足球的賽事、規則與器材</h1>
-      <p>無人機足球在臺灣也常被稱作<a href={url('/learn/naming-drone-soccer-vs-flyball')}>無人機飛球</a>，指的是同一項運動。本站整理各地賽事、FAI／FIDA／教育部規則、隊伍、場地與器材規格，每筆標明來源與查核日期。</p>
+      {/* 2026-10-14 用戶拍板：核心字「無人機足球」由首頁承接（Google 已經把這個字配給首頁），
+          首屏直接回答「無人機足球是什麼」；玩法細節交給 /learn/what-is-drone-soccer/。
+          規格數字取自站內 FAI F9A-B 規則，改這段前先對照 /rules/fai-f9a-b-2026/。 */}
+      <p><strong>無人機足球</strong>是兩隊在網籠場地裡對抗的飛行運動：每位選手操控一台包在球形護殼裡的球機，只有該隊指定的前鋒穿過對方球門環才算得分。以 <a href={url('/rules/fai-f9a-b-2026/')}>FAI F9A-B</a> 為例，每隊場上 3–5 人，三局兩勝、每局 3 分鐘。這項運動 2016 年起源於韓國，臺灣有教育部全國賽、天穹盃、教育科技盃等系列；第一次接觸，先看<a href={url('/learn/what-is-drone-soccer/')}>無人機足球怎麼玩</a>。</p>
+      <p>在臺灣它也常被叫作<a href={url('/learn/naming-drone-soccer-vs-flyball')}>無人機飛球</a>，兩個名字指同一項運動；<a href={url('/learn/skycup-explained/')}>天穹盃無人機飛球錦標賽</a>就是用「飛球」當正式名稱的賽事。本站整理各地賽事、FAI／FIDA／教育部規則、隊伍、場地與器材規格，每筆標明來源與查核日期。</p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px">
         <a class="btn-action" href={url('/events')}>查看近期賽事 →</a>
         <a class="btn-outline" href={url('/learn')}>認識無人機足球</a>
@@ -94,7 +98,7 @@ const tools = [
     <section style="margin-bottom:56px">
       <h2 style="margin:0 0 18px">新手從這裡開始</h2>
       <a class="card-link" href={url('/learn/what-is-drone-soccer')} style="background:var(--color-brand-soft);border-color:var(--color-brand)">
-        <span class="name">什麼是無人機足球？該怎麼玩？</span>
+        <span class="name">無人機足球怎麼玩？新手入門</span>
         <span class="meta">第一次接觸無人機足球，一次看懂場地、球機、人數與得分規則</span>
       </a>
       <ul class="card-grid" style="margin-top:16px">

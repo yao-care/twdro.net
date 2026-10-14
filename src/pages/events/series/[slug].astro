@@ -14,7 +14,7 @@ import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
 // 全部場次、規格與成績，而不是某一場。這一層先前只存在於教育文的表格裡，沒有自己的頁。
 // 九個系列全部由既有資料交叉產生，系列多一場賽事，頁就自己長出來。
 export async function getStaticPaths() {
-  const [events, rulebooks] = await Promise.all([getCollection('events'), getCollection('rulebooks')]);
+  const [events, rulebooks, learn] = await Promise.all([getCollection('events'), getCollection('rulebooks'), getCollection('learn')]);
   const publicEvents = events.filter((e) => isPublicEvent(e.data.status));
   const names = [...new Set(publicEvents.map((e) => e.data.event_series).filter((n): n is string => !!n))];
   return names.map((name) => {
@@ -24,12 +24,18 @@ export async function getStaticPaths() {
     const bookIds = [...new Set(list.map((e) => e.data.rulebook).filter((b): b is string => !!b))];
     return {
       params: { slug: name },
-      props: { series: name, events: list, books: rulebooks.filter((b) => bookIds.includes(b.id)) },
+      props: {
+        series: name, events: list, books: rulebooks.filter((b) => bookIds.includes(b.id)),
+        // 以 embed_series 對上這個系列的教育文（例：天穹盃 → /learn/skycup-explained/）。
+        // 2026-10-14 補：系列頁是搜系列名的人最先落地的頁，該系列的完整介紹卻只掛在 learn 索引，
+        // 從系列頁走不過去；而那篇正是站上「無人機飛球」這個詞的落點，長期未被 Google 發現。
+        guides: learn.filter((a) => a.data.embed_series === name),
+      },
     };
   });
 }
 
-const { series, events, books } = Astro.props;
+const { series, events, books, guides } = Astro.props;
 
 const withResults = events.filter((e) => hasPublishedResults(e.data.results));
 const pending = events.filter((e) => awaitsResults(e.data.status, e.data.results));
@@ -66,6 +72,22 @@ const crumbs = breadcrumbJsonLd([
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
   <Breadcrumb items={[{ name: '首頁', href: '/' }, { name: '賽事', href: '/events/' }, { name: series, href: aggHref('/events/series/', series) }]} />
+
+  {guides.length > 0 && (
+    <section class="panel" style="margin-bottom:20px">
+      <h2 style="margin-top:0">先讀這個系列的介紹</h2>
+      <ul class="data-list">
+        {guides.map((a) => (
+          <li>
+            <span class="v">
+              <a href={url(`/learn/${a.id}/`)}>{a.data.title}</a>
+              {a.data.description && <span style="display:block;color:var(--color-text-muted);margin-top:2px">{a.data.description}</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   {books.length > 0 && (
     <section class="panel" style="margin-bottom:20px">
