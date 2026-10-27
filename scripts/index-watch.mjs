@@ -61,7 +61,15 @@ import { fileURLToPath } from 'node:url';
 //    政策與實證見 /root/.config/indexing-api-policy.json。這裡內嵌一份檢查而不是 import，
 //    是因為本腳本刻意與 seo-ops 無相依——政策的單一真實來源是那個 JSON，不是程式碼。
 //    本站 2026-08-31 起原本就已停掉每日自動推送（檔頭反證），這道閘門把 --push 也一併關上。
+// 本站層級的硬開關：Indexing API 已停用（用戶 2026-09-27 決定）。不依賴政策檔——政策檔遺失時
+// 上面的閘門會放行，這行保證 --push 也不會默默恢復推送。監測與卡住告警照跑。要重開只認用戶本人原話。
+const SITE_GOOGLE_INDEXING_ENABLED = false;
+
 function indexingAllowed(tag) {
+  if (!SITE_GOOGLE_INDEXING_ENABLED) {
+    console.error(`${tag} 本站 Google Indexing API 已停用（用戶 2026-09-27 決定），不送`);
+    return false;
+  }
   const F = '/root/.config/indexing-api-policy.json';
   try {
     if (!existsSync(F)) { console.error(`${tag} ⚠️ 找不到政策檔 ${F}，放行`); return true; }
