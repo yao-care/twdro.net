@@ -2,7 +2,7 @@ title: 115 年新竹縣教育科技盃無人機足球公開賽
 subtitle: 初賽在敏實科技大學、決賽移師新竹縣體育館，初賽規模擴增至 72 隊
 event_series: 新竹縣教育科技盃無人機足球公開賽
 level: 地方
-status: announced
+status: completed
 event_type: 縣級公開賽
 organizer: 新竹縣政府教育局／台北市電腦商業同業公會（協辦：敏實科技大學）
 rule_system: FAI
@@ -30,3 +30,9 @@ sources:
     published_at: "2026-05-14"
     retrieved_at: "2026-08-03"
     trust_level: B
+  - type: organizer_announcement
+    title: 115 年新竹縣教育科技盃無人機足球公開賽官網（本屆賽事已圓滿完成、得獎名單）
+    url: https://115hchccsoccer.netlify.app/
+    publisher: 新竹縣教育科技盃大會
+    retrieved_at: "2026-10-28"
+    trust_level: A
