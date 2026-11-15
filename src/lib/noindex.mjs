@@ -17,7 +17,31 @@
  */
 
 /** 這些前綴底下的明細頁一律 noindex（前綴本身若是 hub 頁則不算）。 */
-export const NOINDEX_PREFIXES = ['/venues/', '/teams/school/', '/events/city/', '/events/year/'];
+export const NOINDEX_PREFIXES = ['/venues/', '/teams/school/', '/events/city/'];
+
+/**
+ * 單場賽事頁（/events/<賽事 id>/）一律 noindex——2026-11-15 用戶拍板：
+ * **單場賽事頁不收錄，搜尋集中到年度賽事總表（/events/year/<年>/）。**
+ *
+ * 理由：單場頁九成以上長期零曝光（查法：seo-ops 週報的「頁型 × 90 天零曝光盤點」），
+ * 一場比賽一頁把有限的爬取與評價切成幾十份，而搜尋者實際打的是「無人機足球比賽 2026」
+ * 這類年度／清單型查詢。年度總表把每場的日期、地點、主辦、組別、成績或報名連結攤在同一頁，
+ * 由它承接搜尋；單場頁保留（站內連結、報名按鈕、來源都還在），只是不請搜尋引擎收錄。
+ * 同一次決定把 /events/year/ 從 NOINDEX_PREFIXES 拿掉（2026-10-14 時它是稀薄彙整頁）。
+ *
+ * 認頁用賽事 id 清單（src/content/events/*.yml 的檔名），不用「/events/ 底下單一層」
+ * 這種路徑形狀：/events/calendar/、/events/results/ 也是單一層，日後再加 hub 頁時
+ * 形狀規則會把它安靜地 noindex 掉。
+ */
+export function eventDetailPaths(eventIds) {
+  return new Set([...eventIds].map((id) => `/events/${id}/`));
+}
+
+/** 讀 src/content/events 的檔名當賽事 id（與 Astro glob loader 的 id 一致）。 */
+export async function readEventIds(contentDir = 'src/content/events') {
+  const { readdirSync } = await import('node:fs');
+  return readdirSync(contentDir).filter((n) => n.endsWith('.yml')).map((n) => n.replace(/\.yml$/, ''));
+}
 
 /**
  * 依正文字數決定的前綴：正文（`<main>` 去標籤、去空白後的字元數）達門檻才收錄。
@@ -41,11 +65,13 @@ export function mainTextLength(html) {
 
 /**
  * 判定一頁要不要 noindex。pathname 用解碼前或解碼後皆可（一律先解碼再比對）。
+ * eventPaths：eventDetailPaths() 產生的單場賽事頁路徑集合。
  * 回傳 { noindex: boolean, reason: string }。
  */
-export function decideNoindex(pathname, html) {
+export function decideNoindex(pathname, html, { eventPaths } = {}) {
   let p = pathname;
   try { p = decodeURIComponent(pathname); } catch { /* 保留原樣 */ }
+  if (eventPaths?.has(p)) return { noindex: true, reason: '單場賽事頁（搜尋集中到年度總表）' };
   for (const prefix of NOINDEX_PREFIXES) {
     if (p.startsWith(prefix) && p !== prefix) return { noindex: true, reason: `前綴 ${prefix}` };
   }

@@ -159,7 +159,7 @@ const jsonld = collectionPageJsonLd({
       <h3 style="margin:0 0 8px;font-size:1.02rem">依年度找</h3>
       <p style="margin:0;line-height:2">
         {yearList.map(([y, count]) => (
-          <><a href={url(aggHref('/events/year/', y))} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{y} 年<span class="text-muted" style="font-size:.88rem">　{count}</span></a></>
+          <><a href={url(aggHref('/events/year/', y))} style="display:inline-block;padding:.2rem .7rem;margin:0 .4rem .2rem 0;border:1px solid var(--color-border);border-radius:999px">{y} 年賽事總表<span class="text-muted" style="font-size:.88rem">　{count}</span></a></>
         ))}
       </p>
     </div>

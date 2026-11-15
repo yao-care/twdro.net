@@ -2,17 +2,23 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
-import EventCard from '../../../components/EventCard.astro';
+import StatusBadge from '../../../components/StatusBadge.astro';
 import { url } from '../../../lib/url';
 import { isPublicEvent } from '../../../lib/enums';
 import { yearOf, aggHref } from '../../../lib/aggregate.mjs';
-import { hasPublishedResults } from '../../../lib/results';
+import { hasPublishedResults, awaitsResults, publishedDivisions, teamText, hasTeam, FINISHED_STATUSES, type ResultBlock } from '../../../lib/results';
+import { dateRangeText } from '../../../lib/schedule';
 import { citySlug } from '../../../lib/geo.mjs';
 import { collectionPageJsonLd, breadcrumbJsonLd } from '../../../lib/jsonld';
 
 // 年度頁承接的是「今年有哪些比賽」這種時間軸查詢。它是四個彙整維度裡最弱的一個，
 // 但成本近乎零（同一份資料再切一刀），而且它是唯一能一眼看出「這項運動在臺灣長多快」的頁：
 // 2025 年 4 場、2026 年 15 場。
+//
+// 2026-11-15 用戶拍板：**單場賽事頁不收錄，搜尋集中到這張年度總表**（規則與理由見
+// src/lib/noindex.mjs 的 eventDetailPaths）。所以這一頁不能只是一疊賽事卡——單場頁被
+// noindex 之後，搜尋者落地看到的就是這裡，每一場的日期、地點、主辦、組別、成績或報名連結
+// 都要直接攤在這頁上。全部只取自 src/content/events 既有欄位，沒有的欄位印「—」，不補推測值。
 export async function getStaticPaths() {
   const events = (await getCollection('events')).filter((e) => isPublicEvent(e.data.status));
   const years = [...new Set(events.map((e) => yearOf(e.data.schedule.event_start)).filter((y): y is string => !!y))];
@@ -34,11 +40,56 @@ const cities = [...new Set(events.map((e) => e.data.schedule.city).filter(Boolea
 const withResults = events.filter((e) => hasPublishedResults(e.data.results));
 
 const metaDescription =
-  `${year} 年臺灣的無人機足球賽事：本站收錄 ${events.length} 場，涵蓋 ${seriesNames.length} 個系列、`
-  + `${cities.length} 個縣市，其中 ${withResults.length} 場已公布成績。每一筆都標明來源與查核日期。`;
+  `${year} 年無人機足球比賽總表：本站收錄 ${events.length} 場賽事，涵蓋 ${seriesNames.length} 個系列、`
+  + `${cities.length} 個縣市，逐場列出日期、地點、主辦、組別與成績或報名連結，其中 ${withResults.length} 場已公布成績。`;
+
+/** 組別：教育階段＋成績分組名稱，都是資料裡的原文。 */
+function divisionText(d: (typeof events)[number]['data']): string {
+  const parts = [...(d.eligibility.education_levels ?? [])];
+  for (const g of d.results?.divisions ?? []) if (g.name && !parts.includes(g.name)) parts.push(g.name);
+  return parts.join('、');
+}
+/** 成績摘要：每組冠軍（沒有冠軍就取第一個有資料的名次）。 */
+function resultLines(r?: ResultBlock): string[] {
+  const first = (b: ResultBlock): string => {
+    if (hasTeam(b.champion_team)) return `冠軍 ${teamText(b.champion_team)}`;
+    if (hasTeam(b.runner_up_team)) return `亞軍 ${teamText(b.runner_up_team)}`;
+    if (hasTeam(b.third_place_team)) return `季軍 ${teamText(b.third_place_team)}`;
+    if (hasTeam(b.fourth_place_team)) return `殿軍 ${teamText(b.fourth_place_team)}`;
+    const o = b.other_places?.[0];
+    if (o) return `${o.place} ${teamText(o.team)}`;
+    if (b.merit_teams?.length) return `優勝 ${b.merit_teams.join('、')}`;
+    return '';
+  };
+  const lines: string[] = [];
+  const top = first(r ?? {});
+  if (top) lines.push(top);
+  for (const g of publishedDivisions(r)) {
+    const t = first(g);
+    if (t) lines.push(g.name ? `${g.name}：${t}` : t);
+  }
+  return lines;
+}
+const rows = events.map((e) => {
+  const d = e.data;
+  const finished = (FINISHED_STATUSES as readonly string[]).includes(d.status);
+  return {
+    id: e.id,
+    title: d.title,
+    status: d.status,
+    date: dateRangeText(d.schedule.event_start, d.schedule.event_end, { fallback: '未定' }),
+    place: [d.country, d.schedule.city, d.schedule.venue_name].filter(Boolean).join(' · '),
+    organizer: d.organizer ?? '',
+    division: divisionText(d),
+    results: resultLines(d.results),
+    awaiting: awaitsResults(d.status, d.results),
+    registrationUrl: !finished && d.status !== 'cancelled' ? d.registration_url : undefined,
+    registrationEnd: d.schedule.registration_end,
+  };
+});
 
 const jsonld = collectionPageJsonLd({
-  name: `${year} 年無人機足球賽事`,
+  name: `${year} 年無人機足球比賽總表`,
   url: `https://twdro.net${aggHref('/events/year/', year)}`,
   description: metaDescription,
   items: events.map((e) => ({ name: e.data.title, url: `https://twdro.net/events/${e.id}/` })),
@@ -50,10 +101,10 @@ const crumbs = breadcrumbJsonLd([
 ]);
 ---
 <BaseLayout
-  title={`${year} 年臺灣無人機足球賽事一覽 | twdro.net`}
+  title={`${year} 無人機足球比賽總表：臺灣賽事日期、地點、主辦與成績 | twdro.net`}
   description={metaDescription}
-  heroTitle={`${year} 年的無人機足球賽事`}
-  heroDesc={`${events.length} 場、${seriesNames.length} 個系列、${cities.length} 個縣市。`}
+  heroTitle={`${year} 年無人機足球比賽與賽事總表`}
+  heroDesc={`${year} 年臺灣無人機足球（無人機飛球）比賽 ${events.length} 場、${seriesNames.length} 個系列、${cities.length} 個縣市，逐場列出日期、地點、主辦、組別與成績。`}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonld)} />
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(crumbs)} />
@@ -68,14 +119,39 @@ const crumbs = breadcrumbJsonLd([
   )}
 
   <section style="margin-bottom:32px">
-    <div style="display:grid;gap:18px">
-      {events.map((e) => (
-        <EventCard
-          id={e.id} title={e.data.title} status={e.data.status}
-          eventStart={e.data.schedule.event_start} eventEnd={e.data.schedule.event_end}
-          city={e.data.schedule.city} venue={e.data.schedule.venue_name}
-          registrationEnd={e.data.schedule.registration_end} registrationUrl={e.data.registration_url}
-        />
+    <h2 style="margin:0 0 6px">{year} 年無人機足球賽事一覽</h2>
+    <p style="margin:0 0 16px;color:var(--color-text-muted)">
+      依比賽日期由近到遠排列。資料取自主辦單位公告與新聞，每一場的來源與查核日期在該場的賽事頁；
+      查不到的欄位留「—」，不以推測填補。報名與賽程以主辦單位公告為準。
+    </p>
+    <div style="display:grid;gap:16px">
+      {rows.map((row) => (
+        <article class="panel year-event" id={row.id} style="margin:0">
+          <h3 style="margin:0 0 8px;font-size:1.08rem"><a href={url(`/events/${row.id}/`)}>{row.title}</a></h3>
+          <StatusBadge status={row.status} />
+          <ul class="data-list" style="margin-top:10px">
+            <li><span class="k">日期</span><span class="v">{row.date}</span></li>
+            <li><span class="k">地點</span><span class="v">{row.place || '—'}</span></li>
+            <li><span class="k">主辦</span><span class="v">{row.organizer || '—'}</span></li>
+            <li><span class="k">組別</span><span class="v">{row.division || '—'}</span></li>
+            {row.results.length > 0 ? (
+              <li><span class="k">成績</span><span class="v">
+                {row.results.map((t) => <span style="display:block">{t}</span>)}
+                <a href={url(`/events/${row.id}/`)} style="font-size:.95rem">完整名次與來源 →</a>
+              </span></li>
+            ) : row.registrationUrl ? (
+              <li><span class="k">報名</span><span class="v">
+                <a href={row.registrationUrl} rel="nofollow noopener" target="_blank"
+                  data-ga-event="registration_click" data-ga-event-id={row.id} data-ga-event-title={row.title} data-ga-event-status={row.status}>報名連結 ↗</a>
+                {row.registrationEnd && <span style="display:block;color:var(--color-text-muted)">報名截止 {row.registrationEnd}</span>}
+              </span></li>
+            ) : row.awaiting ? (
+              <li><span class="k">成績</span><span class="v">已結束，主辦尚未公開成績（<a href={url(`/events/${row.id}/`)}>提供成績</a>）</span></li>
+            ) : (
+              <li><span class="k">報名／成績</span><span class="v">尚無公開報名連結，<a href={url(`/events/${row.id}/`)}>看賽事頁 →</a></span></li>
+            )}
+          </ul>
+        </article>
       ))}
     </div>
   </section>

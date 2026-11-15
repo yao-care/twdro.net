@@ -4,7 +4,7 @@
 //       node scripts/apply-noindex.mjs --report [dist]   只列判定結果，不改檔
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
-import { decideNoindex, injectNoindex, pruneSitemap } from '../src/lib/noindex.mjs';
+import { decideNoindex, injectNoindex, pruneSitemap, eventDetailPaths, readEventIds } from '../src/lib/noindex.mjs';
 
 const args = process.argv.slice(2);
 const reportOnly = args.includes('--report');
@@ -19,13 +19,14 @@ function* htmlFiles(dir) {
   }
 }
 
+const eventPaths = eventDetailPaths(await readEventIds());
 const noindexPaths = new Set();
 const kept = [];
 for (const file of htmlFiles(dist)) {
   const rel = relative(dist, file).split(sep).join('/');
   const pathname = `/${rel.replace(/index\.html$/, '')}`;
   const html = readFileSync(file, 'utf8');
-  const { noindex, reason } = decideNoindex(pathname, html);
+  const { noindex, reason } = decideNoindex(pathname, html, { eventPaths });
   if (!reason) continue;
   if (noindex) {
     noindexPaths.add(decodeURIComponent(pathname));

@@ -80,3 +80,75 @@ describe('建置產物', () => {
     expect(html).toContain('href="/learn/skycup-explained/"');
   });
 });
+
+// 2026-11-15 用戶拍板：單場賽事頁不收錄，搜尋集中到年度賽事總表（理由見 src/lib/noindex.mjs）。
+// 要防的退化：①單場頁又回到 sitemap 或掉了 noindex；②年度總表被當成稀薄頁 noindex 掉、
+// 或被拿出 sitemap；③有人在 robots.txt 擋 /events/（擋爬會讓 noindex 本身讀不到）；
+// ④總表退化回一疊卡片，搜尋者落地看不到日期／地點／主辦／組別。
+import { eventDetailPaths, readEventIds } from '../src/lib/noindex.mjs';
+
+describe('單場賽事頁 noindex、年度總表收錄（純函式）', () => {
+  it('賽事 id 清單裡的路徑 noindex；/events/ 其他頁不受影響', async () => {
+    const ids = await readEventIds();
+    expect(ids.length).toBeGreaterThan(0);
+    const eventPaths = eventDetailPaths(ids);
+    expect(decideNoindex(`/events/${ids[0]}/`, '', { eventPaths }).noindex).toBe(true);
+    for (const p of ['/events/', '/events/calendar/', '/events/results/', '/events/year/2026/']) {
+      expect(decideNoindex(p, '<main>短</main>', { eventPaths }).noindex, p).toBe(false);
+    }
+  });
+  it('年度頁不在固定 noindex 前綴裡', () => {
+    expect(NOINDEX_PREFIXES).not.toContain('/events/year/');
+  });
+  it('robots.txt 不擋 /events/', () => {
+    const robots = readFileSync('public/robots.txt', 'utf8');
+    const disallows = [...robots.matchAll(/^\s*Disallow:\s*(\S*)/gim)].map((m) => m[1]);
+    for (const d of disallows) expect('/events/x/'.startsWith(d) && d !== '', `Disallow: ${d}`).toBe(false);
+  });
+});
+
+describe('建置產物：單場賽事頁與年度總表', () => {
+  const eventIds = existsSync('src/content/events')
+    ? readdirSync('src/content/events').filter((n) => n.endsWith('.yml')).map((n) => n.replace(/\.yml$/, ''))
+    : [];
+  const builtEvents = eventIds.filter((id) => existsSync(join(DIST, 'events', id, 'index.html')));
+  const years = hasDist ? readdirSync(join(DIST, 'events', 'year')).filter((y) => /^\d{4}$/.test(y)) : [];
+
+  it.skipIf(!hasDist)('每一個單場賽事頁都帶 noindex,follow，且不在 sitemap', () => {
+    expect(builtEvents.length).toBeGreaterThan(0);
+    for (const id of builtEvents) {
+      const html = readFileSync(join(DIST, 'events', id, 'index.html'), 'utf8');
+      expect(html, id).toContain('<meta name="robots" content="noindex,follow">');
+      expect(locs, id).not.toContain(`/events/${id}/`);
+    }
+  });
+
+  it.skipIf(!hasDist)('賽事 hub 與每個年度總表都在 sitemap、沒有 noindex', () => {
+    expect(years.length).toBeGreaterThan(0);
+    for (const p of ['/events/', ...years.map((y) => `/events/year/${y}/`)]) {
+      expect(locs, p).toContain(p);
+      const html = readFileSync(join(DIST, p.slice(1), 'index.html'), 'utf8');
+      expect(html, p).not.toMatch(/<meta[^>]+name="robots"[^>]+noindex/i);
+    }
+  });
+
+  it.skipIf(!hasDist)('年度總表的標題與 h1 帶搜尋說法，且每場都列出日期／地點／主辦／組別並連到賽事頁', () => {
+    for (const y of years) {
+      const html = readFileSync(join(DIST, 'events', 'year', y, 'index.html'), 'utf8');
+      const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? '';
+      const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? '';
+      for (const t of [title, h1]) {
+        expect(t, y).toContain('無人機足球');
+        expect(t, y).toMatch(/比賽|賽事/);
+        expect(t, y).toContain(y);
+      }
+      const cards = html.match(/<article class="panel year-event[\s\S]*?<\/article>/g) ?? [];
+      expect(cards.length, y).toBeGreaterThan(0);
+      for (const c of cards) {
+        for (const k of ['日期', '地點', '主辦', '組別']) expect(c).toContain(`<span class="k">${k}</span>`);
+        expect(c).toMatch(/<span class="k">(成績|報名|報名／成績)<\/span>/);
+        expect(c).toMatch(/href="\/events\/[^"/]+\/"/);
+      }
+    }
+  });
+});

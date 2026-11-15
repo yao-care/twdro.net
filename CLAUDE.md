@@ -144,6 +144,15 @@ node scripts/check-content-budget.mjs # 內容預算守門
 都會寫 `pipeline/state/manifest.json` 並開 PR，同時跑會互相覆蓋。加新排程前先跑上面
 「監看來源的覆蓋率」那組 `grep cron` 看現有時段。
 
+### 單場賽事頁不收錄，搜尋集中到年度賽事總表（2026-11-15 用戶拍板）
+
+`/events/<賽事 id>/` 一律 `noindex,follow` 並移出 sitemap；頁面、網址、站內連結照留。承接搜尋的是
+年度總表 `/events/year/<年>/`（與 `/events/` hub）：保持收錄，逐場列日期、地點、主辦、組別、成績或報名連結。
+**原因**：單場頁絕大多數長期零曝光，一場一頁把爬取與評價切得太碎，而搜尋者打的是「無人機足球比賽＋年份」
+這類清單型查詢。規則在 `src/lib/noindex.mjs`（`eventDetailPaths`），守門在 `tests/noindex.test.ts`。
+現況用 `node scripts/apply-noindex.mjs --report dist` 看判定、用上面的 sitemap 分區指令看分佈；
+零曝光比例看 seo-ops 週報的「頁型 × 90 天零曝光盤點」。
+
 ### `scripts/index-watch.mjs` — 收錄狀態監測
 
 掃全站收錄狀態 → 落盤累積歷史 → 對卡住超過門檻天數的發 Slack 告警。門檻與旗艦頁等常數見該檔頂部
