@@ -1,4 +1,4 @@
-detected_at: '2026-08-27'
+detected_at: '2026-11-24'
 note: 官方規則頁指紋變更。請人工比對官方頁，必要時**手動**更新 rulebooks/rules——切勿自動改寫官方規則。
 pages:
 - url: https://www.dronesoccer.org/images/dronesoccer/desktop-rule.svg
@@ -9,4 +9,4 @@ pages:
   fetched_ok: true
 - url: https://www.fai.org/sites/default/files/documents/minutes_annex_7j_-_f9a_drone_soccer_rules.pdf
   content_hash: 72bfe5d008318f5dcfb412f5299d1644337e4bd6d5de0ceacefdbf7815d8dd24
-  fetched_ok: true
+  fetched_ok: false
